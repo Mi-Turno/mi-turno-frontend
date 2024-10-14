@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 @Component({
-  imports: [CommonModule,RouterOutlet],
+  imports: [CommonModule,RouterOutlet,NavBarComponent],
   standalone: true,
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,6 +13,6 @@ import { RouterOutlet } from '@angular/router';
 export class AppComponent {
   title = 'Mi Turno';
 
-  
+
 
 }
