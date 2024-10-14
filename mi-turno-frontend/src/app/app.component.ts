@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { HeroComponent } from "./components/hero/hero.component";
 
 @Component({
-  imports: [CommonModule,RouterOutlet],
+  imports: [CommonModule, RouterOutlet, HeroComponent],
   standalone: true,
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,6 +13,6 @@ import { RouterOutlet } from '@angular/router';
 export class AppComponent {
   title = 'Mi Turno';
 
-  
+
 
 }
