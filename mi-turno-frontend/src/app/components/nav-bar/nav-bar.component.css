@@ -1,21 +1,27 @@
 .idNav{
   display: flex;
   justify-content: space-between;
+  align-items: center;
   text-align: center;
   padding-left: 1rem;
   padding-right: 1rem;
   box-shadow: 0 0.2rem rgba(0, 0, 0, 0.1 );
+  position: fixed;
+  background-color: var(--color-background);
+  width: 100vw;
+
 }
+
 .imgNav img{
 padding: 1rem;
 width: 84px;
 height: 84px;
-
 }
 .idNav li{
   display: inline-block;
   list-style: none;
   padding: 1rem;
+  font-size: larger;
 }
 .idNav li :hover{
   color:var(--color-contraste1);
