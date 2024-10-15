@@ -1,0 +1,35 @@
+section h2 {
+  color: var(--color-texto);
+  text-decoration: underline;
+  font-size: 1.5rem;
+  text-align: center;
+  padding-top: 5rem;
+  padding-bottom: 1rem;
+}
+
+section {
+  display: grid;
+  justify-content: center;
+
+}
+
+.contendor {
+  width: 70vw;
+  height: 15vh;
+  border-radius: 4rem;
+  background-color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.descripcion {
+  color: var(--color-texto);
+  font-size: 1.3rem;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+}
+

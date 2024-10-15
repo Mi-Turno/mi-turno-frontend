@@ -1,0 +1,23 @@
+<section>
+  <h2>Sobre nosotros</h2>
+  <div class="contendor">
+    <p class="descripcion">{{descripcionPrincipal}}</p>
+  </div>
+  <h2>Visión</h2>
+  <div class="contendor">
+    <p class="descripcion">{{vision}}</p>
+  </div>
+  <h2>Misión</h2>
+  <div class="contendor">
+    <p class="descripcion">{{mision}}</p>
+  </div>
+  <h2>Valores</h2>
+  <div class="contendor">
+    <ul *ngFor="let valor of valores">
+      <h3 class="descripcion">{{valor.titulo}}</h3>
+      <p class="descripcion">{{valor.descripcion}}</p>
+
+    </ul>
+  </div>
+
+</section>
