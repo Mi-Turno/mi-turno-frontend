@@ -19,4 +19,6 @@ valores = [
   { titulo: 'Accesibilidad', descripcion: 'Herramienta intuitiva y fácil de usar.' },
   { titulo: 'Compromiso', descripcion: 'Brindar un servicio que beneficie a todos los usuarios.' }
 ];
+
+idSobreNosotros:string = "sobreNosotros"
 }

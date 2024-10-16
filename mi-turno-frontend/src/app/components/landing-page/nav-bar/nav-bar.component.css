@@ -1,4 +1,4 @@
-.idNav{
+.nav{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,13 +17,19 @@ padding: 1rem;
 width: 84px;
 height: 84px;
 }
-.idNav li{
+
+.nav li{
   display: inline-block;
   list-style: none;
   padding: 1rem;
   font-size: larger;
 }
-.idNav li :hover{
+
+.nav li :hover{
   color:var(--color-contraste1);
   cursor: pointer;
+}
+
+.nav li a{
+  text-decoration: none;
 }

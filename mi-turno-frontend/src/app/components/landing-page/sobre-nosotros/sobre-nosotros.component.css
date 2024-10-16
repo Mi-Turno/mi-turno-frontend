@@ -15,7 +15,7 @@ section {
 
 .contendor {
   width: 70vw;
-  height: 15vh;
+  height: auto;
   border-radius: 4rem;
   background-color: whitesmoke;
   display: flex;
@@ -24,12 +24,20 @@ section {
   padding: 1rem;
 }
 
+.contendor ul li{
+  list-style: none;
+}
+
+h2{
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
 .descripcion {
   color: var(--color-texto);
   font-size: 1.3rem;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
   text-align: center;
   margin: 0 auto;
   width: 100%;
+  height: fit-content;
 }
 

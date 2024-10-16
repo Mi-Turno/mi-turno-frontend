@@ -1,6 +1,7 @@
 .heroContainer{
-  background-image: url("/heroMiTurno.png");
-  height: 50vh;
+  background-image: url("/hero3.jpeg");
+  background-repeat: round;
+  height: 80vh;
   width: 100vw;
   display: flex;
   flex-direction: column;

@@ -9,4 +9,9 @@ import { Component } from '@angular/core';
 })
 export class NavBarComponent {
 url:string = "icono.png";
+heroHref:string ="#hero"
+sobreNosotrosHref:string = "#sobreNosotros"
+preciosHref:string = "#precio"
+
+
 }

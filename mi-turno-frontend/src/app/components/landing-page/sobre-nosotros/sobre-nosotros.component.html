@@ -1,23 +1,24 @@
-<section>
+<section [id]="idSobreNosotros">
   <h2>Sobre nosotros</h2>
-  <div class="contendor">
+  <article class="contendor">
     <p class="descripcion">{{descripcionPrincipal}}</p>
-  </div>
+  </article>
   <h2>Visión</h2>
-  <div class="contendor">
+  <article class="contendor">
     <p class="descripcion">{{vision}}</p>
-  </div>
+  </article>
   <h2>Misión</h2>
-  <div class="contendor">
+  <article class="contendor">
     <p class="descripcion">{{mision}}</p>
-  </div>
+  </article>
   <h2>Valores</h2>
-  <div class="contendor">
+  <article class="contendor">
     <ul *ngFor="let valor of valores">
-      <h3 class="descripcion">{{valor.titulo}}</h3>
-      <p class="descripcion">{{valor.descripcion}}</p>
-
+      <li>
+        <h3 class="descripcion">{{valor.titulo}}</h3>
+        <p class="descripcion">{{valor.descripcion}}</p>
+      </li>
     </ul>
-  </div>
+  </article>
 
 </section>
