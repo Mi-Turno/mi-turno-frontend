@@ -16,8 +16,8 @@ section {
 .contendor {
   width: 70vw;
   height: auto;
-  border-radius: 4rem;
-  background-color: whitesmoke;
+  border-radius:  3rem;
+  background-color: var(--color-secundario);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,10 +26,6 @@ section {
 
 .contendor ul li{
   list-style: none;
-}
-
-h2{
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
 }
 
 .descripcion {
