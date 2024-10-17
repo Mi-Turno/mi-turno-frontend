@@ -2,7 +2,7 @@
   background-image: url("/heroMiTurno.jpeg");
   background-repeat: round;
   height: 100vh;
-  width: 100vw;
+  width: 99vw;
   display: flex;
   flex-direction: column;
   align-items: center;

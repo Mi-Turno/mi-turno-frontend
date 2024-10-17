@@ -32,4 +32,5 @@ height: 84px;
 
 .nav li a{
   text-decoration: none;
+  color: var(--color-contraste2);
 }
