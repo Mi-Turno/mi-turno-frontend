@@ -7,11 +7,13 @@ import { Component } from '@angular/core';
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.css'
 })
+
 export class NavBarComponent {
+urlBase:string = "landing-page/"
 url:string = "icono.png";
-heroHref:string ="#hero"
-sobreNosotrosHref:string = "#sobreNosotros"
-preciosHref:string = "#precio"
+heroHref:string =`${this.urlBase}#hero`
+sobreNosotrosHref:string = `${this.urlBase}#sobreNosotros`
+preciosHref:string = `${this.urlBase}#precio`
 
 
 }
