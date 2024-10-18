@@ -5,13 +5,16 @@
   <h2 class="loginh2">Iniciar sesion con tu cuenta</h2>
   <p class="parrafoLogin">Bienvenido de vuelta! Selecciona un metodo para ingresar.</p>
   <!--PONER INICIO CON GOOGLE-->
-  <form>
-    <fieldset class="fieldsetLogin">
-      <legend class="legendLogin">Ingrese con su cuenta</legend>
-      <label for=""></label>
+  <fieldset class="fieldsetLogin">
+    <legend class="legendLogin">Ingrese con su cuenta</legend>
+      <form>
       <!--Componente-->
-      <label for="check"></label>
-      <input id="check" type="checkbox" placeholder="recordarme">
+      <div class="inputLogin">
+        <app-input [type]="'--email--'" [placeholder]="'Email'" [class]="'inputEmail'"></app-input><!--Email-->
+        <app-input [type]="'--password--'" [placeholder]="'Password'" [class]="'inputPassword'"></app-input><!--Password-->
+      </div>
+      <button class="botonIngresarLogIn" type="submit">INGRESAR</button>
+    </form>
+    <p class="parrafoRegistrar">¿Todavia no tenes una cuenta? <a href=""><span class="spanLogin">!Creala aqui¡</span></a></p>
     </fieldset>
-  </form>
 </section>
