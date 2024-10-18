@@ -1,0 +1,32 @@
+.imgLogin{
+display: flex;
+margin: 0 auto;
+padding-top: 5rem;
+}
+.loginh2{
+  text-align: center;
+  font-size: 2.1rem;
+
+}
+.parrafoLogin{
+  text-align: center;
+  padding-bottom: 2rem;
+  opacity: 0.5;
+}
+.fieldsetLogin{
+  resize: both;/*Permite redimensionar tanto horizontal como verticalmente */
+  overflow: auto;
+  width: 500px;
+  height: 600px;
+
+
+margin: 0 auto;
+  min-width: 200px;
+  min-height: 100px;
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+.legendLogin{
+  text-align: center;
+  padding: 0 3rem;
+}
