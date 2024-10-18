@@ -4,6 +4,7 @@ margin: 0 auto;
 padding-top: 5rem;
 }
 .loginh2{
+  color:var(--color-texto);
   text-align: center;
   font-size: 2.1rem;
 
@@ -17,10 +18,8 @@ padding-top: 5rem;
   resize: both;/*Permite redimensionar tanto horizontal como verticalmente */
   overflow: auto;
   width: 500px;
-  height: 600px;
-
-
-margin: 0 auto;
+  height: 550px;
+  margin: 0 auto;
   min-width: 200px;
   min-height: 100px;
   padding: 1rem;
@@ -29,4 +28,26 @@ margin: 0 auto;
 .legendLogin{
   text-align: center;
   padding: 0 3rem;
+}
+.inputLogin{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.inputLogin app-input {
+  padding-bottom: 1rem;
+
+}
+.botonIngresarLogIn{
+  display: flex;
+  margin: 0 auto;
+  padding: 0.5rem 5rem 0.5rem 5rem;
+}
+.parrafoRegistrar{
+  color: var(--color-texto);
+  text-align: center;
+}
+.spanLogin{
+  color: blue;
 }
