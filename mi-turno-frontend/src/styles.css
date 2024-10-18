@@ -4,6 +4,7 @@
   box-sizing: border-box;
   margin: 0;
   overflow-x: hidden;
+
 }
 :root{
   --color-background:#FFFFFF;/*F5F5F5 TODO: cambiar el fondo del icono a este tono y luego cambiar el background*/
@@ -12,3 +13,6 @@
   --color-contraste1: #73C21C;
   --color-contraste2: #551A8B;
 }
+html {
+  scroll-padding-top: 70px; /* Ajusta según la altura de tu nav fijo */
+  }
