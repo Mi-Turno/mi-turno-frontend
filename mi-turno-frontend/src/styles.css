@@ -6,7 +6,7 @@
   overflow-x: hidden;
 }
 :root{
-  --color-background:#FFFFFF;
+  --color-background:#FFFFFF;/*F5F5F5 TODO: cambiar el fondo del icono a este tono y luego cambiar el background*/
   --color-secundario:#DDDDDD;
   --color-texto:#4A4A4A;
   --color-contraste1: #73C21C;
