@@ -2,11 +2,12 @@
   background-image: url("/heroMiTurno.jpeg");
   background-repeat: round;
   height: 100vh;
-  width: 99vw;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  
 }
 
 .heroTitulo{
