@@ -12,5 +12,5 @@ import { MatIconModule } from '@angular/material/icon';
 export class LoginComponent {
   typeEmail:string = "email";
   typePassword:string = "password";
-
+  registerHref:string = "register";
 }

@@ -1,0 +1,49 @@
+<section>
+  <a>
+    <img src="icono.png" class="imgLogin">
+  </a>
+
+
+  <h2>Mi Turno</h2>
+  <p>"Digitaliza tu agenda, Maximiza tu tiempo"</p>
+
+
+  <h3>Registrarse</h3>
+
+
+  <div>
+    <hr>
+    <s>Ingrese sus datos</s>
+    <hr>
+  </div>
+
+  <fieldset>
+
+    <form action="">
+      <label for="nombreInput">Nombre</label>
+      <app-input [id]="'nombreInput'" [placeholder]="placeholders.nombre"></app-input>
+
+      <label for="apellidoInput">Apellido</label>
+      <app-input [id]="'apellidoInput'" [placeholder]="placeholders.apellido"></app-input>
+
+      <label for="emailInput">Email</label>
+      <app-input [id]="'emailInput'" type="'email'" [placeholder]="placeholders.email"></app-input>
+
+      <label for="telefonoInput">Telefono</label>
+      <app-input [id]="'telefonoInput'" type="'tel'" [placeholder]="placeholders.telefono"></app-input>
+
+      <label for="contraseniaInput">Contraseña</label>
+      <app-input [type]="'password'" [id]="'contraseniaInput'" [placeholder]="placeholders.contrasenia"></app-input>
+
+      <label for="repetirContraseniaInput">Repetir Contraseña</label>
+      <app-input [type]="'password'" [id]="'repetirContraseniaInput'" [placeholder]="placeholders.repetirContrasenia"></app-input>
+
+      <app-boton></app-boton>
+
+    </form>
+  </fieldset>
+
+
+  <span><p>Si ya tenes una cuenta</p> <a [href]="loginHref">Ingrese aquí</a></span>
+
+</section>

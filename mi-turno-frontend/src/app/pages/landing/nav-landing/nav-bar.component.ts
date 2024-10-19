@@ -1,19 +1,20 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.css'
 })
 
 export class NavBarComponent {
 urlBase:string = "landing-page/"
-url:string = "icono.png";
-heroHref:string =`${this.urlBase}#hero`
-sobreNosotrosHref:string = `${this.urlBase}#sobreNosotros`
-preciosHref:string = `${this.urlBase}#precio`
-
+urlIcono:string = "icono.png";
+heroHref:string =`#hero`
+sobreNosotrosHref:string = `#sobreNosotros`
+preciosHref:string = `#precio`
+loginHref:string = "login"
 
 }
