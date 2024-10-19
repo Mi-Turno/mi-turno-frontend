@@ -16,3 +16,6 @@
 html {
   scroll-padding-top: 70px; /* Ajusta según la altura de tu nav fijo */
   }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

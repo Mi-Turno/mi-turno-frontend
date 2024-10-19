@@ -29,15 +29,7 @@ padding-top: 5rem;
   text-align: center;
   padding: 0 3rem;
 }
-.inputLogin{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.inputLogin app-input {
-  padding-bottom: 1rem;
-}
+
 .botonIngresarLogIn{
   display: flex;
   margin: 0 auto;
@@ -59,9 +51,26 @@ padding-top: 5rem;
 a{
   text-decoration: none;
 }
-.inputEmail{
-  background-color: red;
+.olvidasteContra .spanLogin{
+  display: flex;
+  justify-content: center;
+  padding:0 0 1rem 0 ;
+  font-size: small;
 }
-.inputPassword{
-  background-color: blue;
+.input-container {
+  display: flex;
+  align-items: center; /* Centra verticalmente el ícono y el input */
+  justify-content: center; /* Centra horizontalmente el contenedor */
+  margin: 20px; /* Espacio alrededor del contenedor */
 }
+
+.iconoLogin {
+  margin-right: 8px; /* Espacio entre el ícono y el input */
+  vertical-align: middle;/*Centro el icono al lado del input*/
+}
+
+input {
+  width: 200px; /* Ancho del input, ajústalo según tus necesidades */
+
+}
+

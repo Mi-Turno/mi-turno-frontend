@@ -7,14 +7,22 @@
   <!--PONER INICIO CON GOOGLE-->
   <fieldset class="fieldsetLogin">
     <legend class="legendLogin">Ingrese con su cuenta</legend>
-      <form>
+    <form>
       <!--Componente-->
-      <div class="inputLogin">
-        <app-input [class]="'inputEmail'" [type]="typeEmail" [placeholder]="'Email'" ></app-input><!--Email-->
-        <app-input [class]="'inputPassword'" [type]="typePassword" [placeholder]="'Password'" ></app-input><!--Password-->
+      <div class="input-container">
+        <app-input [type]="typeEmail" [placeholder]="'Email'" >
+          <mat-icon class="iconoLogin">mail</mat-icon> <!-- ícono de email -->
+        </app-input>
       </div>
+      <div class="input-container">
+        <app-input [type]="typePassword" [placeholder]="'Password'" >
+          <mat-icon class="iconoLogin">visibility_off</mat-icon> <!-- ícono de password -->
+        </app-input>
+      </div>
+      <a class="olvidasteContra" href=""><span class="spanLogin">¿Olvidaste tu contraseña?</span></a>
       <button class="botonIngresarLogIn" type="submit">INGRESAR</button>
     </form>
-    <p class="parrafoRegistrar">¿Todavia no tenes una cuenta? <a href=""><span class="spanLogin">!Creala aqui¡</span></a></p>
-    </fieldset>
+    <p class="parrafoRegistrar">¿Todavia no tenes una cuenta? <a href=""><span class="spanLogin">!Creala
+          aqui¡</span></a></p>
+  </fieldset>
 </section>
