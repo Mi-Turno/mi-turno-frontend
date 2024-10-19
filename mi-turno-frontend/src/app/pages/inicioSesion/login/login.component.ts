@@ -10,7 +10,7 @@ import { InputComponent } from "../../../shared/components/input/input.component
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  type:string = "email";
-
+  typeEmail:string = "email";
+  typePassword:string = "password";
 
 }
