@@ -12,13 +12,14 @@
       <div class="input-container">
         <label for="emailLogin">Email</label>
         <app-input [id]="'emailLogin'" [type]="typeEmail" [placeholder]="'Email'">
-          <mat-icon class="iconoLogin">mail</mat-icon> <!-- ícono de email -->
+          <mat-icon class="iconoLogin">{{iconos.email}}</mat-icon> <!-- ícono de email -->
         </app-input>
       </div>
+
       <div class="input-container">
         <label for="passwordLogin">Contraseña</label>
         <app-input [id]="'passwordLogin'" [type]="typePassword" [placeholder]="'Password'">
-          <mat-icon class="iconoLogin">visibility_off</mat-icon> <!-- ícono de password -->
+          <mat-icon class="iconoLogin">{{iconos.iconoContrasenia.cerrado}}</mat-icon> <!-- ícono de password -->
         </app-input>
       </div>
 

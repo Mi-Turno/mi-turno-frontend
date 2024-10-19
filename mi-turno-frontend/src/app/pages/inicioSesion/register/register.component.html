@@ -1,4 +1,4 @@
-<section>
+<section id="seccionRegister">
   <a>
     <img src="icono.png" class="imgLogin">
   </a>
@@ -21,22 +21,35 @@
 
     <form action="">
       <label for="nombreInput">Nombre</label>
-      <app-input [id]="'nombreInput'" [placeholder]="placeholders.nombre"></app-input>
+      <app-input  [id]="'nombreInput'" [placeholder]="placeholders.nombre">
+        <mat-icon>{{iconos.person}}</mat-icon>
+      </app-input>
 
       <label for="apellidoInput">Apellido</label>
-      <app-input [id]="'apellidoInput'" [placeholder]="placeholders.apellido"></app-input>
+      <app-input [id]="'apellidoInput'" [placeholder]="placeholders.apellido">
+        <mat-icon>{{iconos.signature}}</mat-icon>
+      </app-input>
 
       <label for="emailInput">Email</label>
-      <app-input [id]="'emailInput'" type="'email'" [placeholder]="placeholders.email"></app-input>
+      <app-input [id]="'emailInput'" type="'email'" [placeholder]="placeholders.email">
+        <mat-icon>{{iconos.email}}</mat-icon>
+      </app-input>
 
       <label for="telefonoInput">Telefono</label>
-      <app-input [id]="'telefonoInput'" type="'tel'" [placeholder]="placeholders.telefono"></app-input>
+      <app-input [id]="'telefonoInput'" type="'tel'" [placeholder]="placeholders.telefono">
+        <mat-icon>{{iconos.call}}</mat-icon>
+      </app-input>
 
       <label for="contraseniaInput">Contraseña</label>
-      <app-input [type]="'password'" [id]="'contraseniaInput'" [placeholder]="placeholders.contrasenia"></app-input>
+      <app-input [type]="'password'" [id]="'contraseniaInput'" [placeholder]="placeholders.contrasenia">
+        <mat-icon>{{iconos.iconoContrasenia.cerrado}}</mat-icon>
+
+      </app-input>
 
       <label for="repetirContraseniaInput">Repetir Contraseña</label>
-      <app-input [type]="'password'" [id]="'repetirContraseniaInput'" [placeholder]="placeholders.repetirContrasenia"></app-input>
+      <app-input [type]="'password'" [id]="'repetirContraseniaInput'" [placeholder]="placeholders.repetirContrasenia">
+        <mat-icon>{{iconos.iconoContrasenia.cerrado}}</mat-icon>
+      </app-input>
 
       <app-boton></app-boton>
 

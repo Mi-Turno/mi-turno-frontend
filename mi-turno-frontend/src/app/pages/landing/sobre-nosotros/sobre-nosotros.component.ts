@@ -11,7 +11,7 @@ import { Component } from '@angular/core';
 })
 export class SobreNosotrosComponent {
 
-  titulos = {
+  titulosDescripcion = {
     descripcionPrincipal: "Somos un equipo de tres estudiantes de la Universidad Tecnológica Nacional (UTN) en Mar del Plata, desarrollando un gestor de turnos para optimizar la gestión de reservas y asignación de profesionales en negocios.",
     vision: "Ser líderes en la innovación de sistemas de gestión de turnos, mejorando la experiencia de empresas y usuarios.",
     mision: "Desarrollar un gestor de turnos que simplifique y optimice la gestión de reservas y asignación de profesionales para negocios."
