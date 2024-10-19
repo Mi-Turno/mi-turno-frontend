@@ -9,7 +9,8 @@
   position: fixed;
   background-color: var(--color-background);
   width: 100vw;
-
+  top: 0;
+  left: 0;
 }
 
 .imgNav img{
@@ -34,3 +35,5 @@ height: 84px;
   text-decoration: none;
   color: var(--color-contraste2);
 }
+
+

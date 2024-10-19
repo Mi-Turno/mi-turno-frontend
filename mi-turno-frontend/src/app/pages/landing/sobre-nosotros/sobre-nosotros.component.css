@@ -1,39 +1,51 @@
-section h2 {
+#sobreNosotros{
+  background-color: whitesmoke;
+  display: grid;
+  justify-content: center;
+  padding-bottom: 10vh;
+  align-items: center;
+}
+
+#sobreNosotros h2 {
   color: var(--color-texto);
   text-decoration: underline;
-  font-size: 1.5rem;
   text-align: center;
   padding-top: 5rem;
   padding-bottom: 1rem;
 }
 
-section {
-  display: grid;
-  justify-content: center;
-
-}
-
-.contendor {
+.contenedor {
   width: 70vw;
   height: auto;
   border-radius:  3rem;
-  background-color: var(--color-secundario);
+  background-color: var(--color-background);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 2rem;
+  box-shadow: -10px 10px 10px rgba(0, 0, 0, 0.1);
 }
 
-.contendor ul li{
+.contenedor ul{
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.contenedor ul li{
   list-style: none;
+  text-align: center;
 }
 
 .descripcion {
   color: var(--color-texto);
   font-size: 1.3rem;
-  text-align: center;
-  margin: 0 auto;
   width: 100%;
   height: fit-content;
+  text-align: center;
+}
+
+.tituloDescripcion{
+  text-align: center;
 }
 
