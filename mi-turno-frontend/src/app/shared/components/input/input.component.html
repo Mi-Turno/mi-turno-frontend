@@ -1,5 +1,5 @@
 <div class="input-container">
-  <input [ngClass]="{'clase-activa': isActive}" [type]="type" [placeholder]="placeholder" (focus)="manejarFocus()" />
+  <input [id]="id" [ngClass]="{'clase-activa': isActive}" [type]="type" [placeholder]="placeholder" (focus)="manejarFocus()" />
   <span class="input-icon">
     <ng-content></ng-content> <!-- Esto permitirá pasar cualquier contenido como el icono -->
   </span>

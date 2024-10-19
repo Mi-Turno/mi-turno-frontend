@@ -10,15 +10,18 @@
     <form>
       <!--Componente-->
       <div class="input-container">
-        <app-input [type]="typeEmail" [placeholder]="'Email'" >
+        <label for="emailLogin">Email</label>
+        <app-input [id]="'emailLogin'" [type]="typeEmail" [placeholder]="'Email'">
           <mat-icon class="iconoLogin">mail</mat-icon> <!-- ícono de email -->
         </app-input>
       </div>
       <div class="input-container">
-        <app-input [type]="typePassword" [placeholder]="'Password'" >
+        <label for="passwordLogin">Contraseña</label>
+        <app-input [id]="'passwordLogin'" [type]="typePassword" [placeholder]="'Password'">
           <mat-icon class="iconoLogin">visibility_off</mat-icon> <!-- ícono de password -->
         </app-input>
       </div>
+
       <a class="olvidasteContra" href=""><span class="spanLogin">¿Olvidaste tu contraseña?</span></a>
       <button class="botonIngresarLogIn" type="submit">INGRESAR</button>
     </form>
