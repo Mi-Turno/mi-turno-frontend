@@ -37,7 +37,6 @@ padding-top: 5rem;
 }
 .inputLogin app-input {
   padding-bottom: 1rem;
-
 }
 .botonIngresarLogIn{
   display: flex;
@@ -50,4 +49,19 @@ padding-top: 5rem;
 }
 .spanLogin{
   color: blue;
+  text-decoration: none;
+}
+.spanLogin:hover{
+  text-decoration: none;
+  color: var(--color-contraste1);
+
+}
+a{
+  text-decoration: none;
+}
+.inputEmail{
+  background-color: red;
+}
+.inputPassword{
+  background-color: blue;
 }

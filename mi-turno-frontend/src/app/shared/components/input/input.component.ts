@@ -1,9 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-input',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './input.component.html',
   //styleUrl: '../input.component.css'
 })
@@ -13,8 +14,8 @@ type: string = "text";
 @Input()
 placeholder: string= "Ingrese aqui..."
 @Input()
-class: string="inputPredeterminado"
-
+inputPredeterminado:boolean = true;
+isActive: boolean = true;
 
 // Emitir el evento cuando se hace click
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, EventEmitter, ViewChild } from '@angular/core';
 import { InputComponent } from "../../../shared/components/input/input.component";
 
 
@@ -10,5 +10,7 @@ import { InputComponent } from "../../../shared/components/input/input.component
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  type:string = "email";
+
 
 }
