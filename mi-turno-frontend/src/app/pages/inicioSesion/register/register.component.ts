@@ -15,17 +15,21 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
-loginHref:string="login"
-
-placeholders = {
-  nombre:"Nombre",
-  apellido:"Apellido",
-  email:"Email",
-  telefono:"Teléfono móvil",
-  contrasenia:"Contraseña",
-  repetirContrasenia:"Repetir Contraseña",
-}
+  loginHref:string="login";
+  claseAppInput:string="claseAppInput";
+  inputContainer:string="inputContainer";
   iconos=ICONOS;
+
+  placeholders = {
+    nombre:"Nombre",
+    apellido:"Apellido",
+    email:"Email",
+    telefono:"Teléfono móvil",
+    contrasenia:"Contraseña",
+    repetirContrasenia:"Repetir Contraseña",
+  }
+
+
 
 }
 

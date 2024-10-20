@@ -11,7 +11,12 @@
   --color-secundario:#DDDDDD;
   --color-texto:#4A4A4A;
   --color-contraste1: #73C21C;
-  --color-contraste2: #551A8B;
+  --color-contraste2: #2138bb;
+  --color-contraste2-hover: #1a2c96;
+  --titulo-h1: 2.6rem;
+  --titulo-h2: 2rem;
+  --titulo-h3: 1.2rem;
+  --titulo-h4: 0.8rem;
 }
 
 html {
