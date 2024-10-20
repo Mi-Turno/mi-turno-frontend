@@ -1,62 +1,82 @@
 <section id="seccionRegister">
-  <a>
-    <img src="icono.png" class="imgLogin">
+  <a href="/landing-page">
+    <img src="icono.png" class="imgLogin" />
   </a>
 
-
-  <h2>Mi Turno</h2>
-  <p>"Digitaliza tu agenda, Maximiza tu tiempo"</p>
-
+  <div>
+    <h2>Mi Turno</h2>
+    <small>"Digitaliza tu agenda, Maximiza tu tiempo"</small>
+  </div>
 
   <h3>Registrarse</h3>
 
+  <fieldset id="fieldsetRegister">
+    <legend>Ingrese sus datos</legend>
+    <form action="" class="">
 
-  <div>
-    <hr>
-    <s>Ingrese sus datos</s>
-    <hr>
-  </div>
+      <div [className]="inputContainer">
+        <label for="nombreInput">Nombre</label>
 
-  <fieldset>
+        <app-input [id]="'nombreInput'" [placeholder]="placeholders.nombre">
+          <mat-icon>{{ iconos.person }}</mat-icon>
+        </app-input>
 
-    <form action="">
-      <label for="nombreInput">Nombre</label>
-      <app-input  [id]="'nombreInput'" [placeholder]="placeholders.nombre">
-        <mat-icon>{{iconos.person}}</mat-icon>
-      </app-input>
+      </div>
 
-      <label for="apellidoInput">Apellido</label>
-      <app-input [id]="'apellidoInput'" [placeholder]="placeholders.apellido">
-        <mat-icon>{{iconos.signature}}</mat-icon>
-      </app-input>
+      <div [className]="inputContainer">
+        <label for="apellidoInput">Apellido</label>
+        <app-input [id]="'apellidoInput'" [placeholder]="placeholders.apellido">
+          <mat-icon>{{ iconos.person }}</mat-icon>
+        </app-input>
+      </div>
+      <div [className]="inputContainer">
+        <label for="emailInput">Email</label>
+        <app-input
+          [id]="'emailInput'"
+          type="'email'"
+          [placeholder]="placeholders.email"
+        >
+          <mat-icon>{{ iconos.email }}</mat-icon>
+        </app-input>
+      </div>
+      <div [className]="inputContainer">
+        <label for="telefonoInput">Telefono</label>
+        <app-input
+          [id]="'telefonoInput'"
+          type="'tel'"
+          [placeholder]="placeholders.telefono"
+        >
+          <mat-icon>{{ iconos.call }}</mat-icon>
+        </app-input>
+      </div>
+      <div [className]="inputContainer">
+        <label for="contraseniaInput">Contraseña</label>
+        <app-input
+          [type]="'password'"
+          [id]="'contraseniaInput'"
+          [placeholder]="placeholders.contrasenia"
+        >
+          <mat-icon>{{ iconos.iconoContrasenia.cerrado }}</mat-icon>
+        </app-input>
+      </div>
+      <div [className]="inputContainer">
+        <label for="repetirContraseniaInput">Repetir Contraseña</label>
+        <app-input
+          [type]="'password'"
+          [id]="'repetirContraseniaInput'"
+          [placeholder]="placeholders.repetirContrasenia"
+        >
+          <mat-icon>{{ iconos.iconoContrasenia.cerrado }}</mat-icon>
+        </app-input>
+      </div>
 
-      <label for="emailInput">Email</label>
-      <app-input [id]="'emailInput'" type="'email'" [placeholder]="placeholders.email">
-        <mat-icon>{{iconos.email}}</mat-icon>
-      </app-input>
+      <button class="botonRegister">Registrarse</button>
 
-      <label for="telefonoInput">Telefono</label>
-      <app-input [id]="'telefonoInput'" type="'tel'" [placeholder]="placeholders.telefono">
-        <mat-icon>{{iconos.call}}</mat-icon>
-      </app-input>
-
-      <label for="contraseniaInput">Contraseña</label>
-      <app-input [type]="'password'" [id]="'contraseniaInput'" [placeholder]="placeholders.contrasenia">
-        <mat-icon>{{iconos.iconoContrasenia.cerrado}}</mat-icon>
-
-      </app-input>
-
-      <label for="repetirContraseniaInput">Repetir Contraseña</label>
-      <app-input [type]="'password'" [id]="'repetirContraseniaInput'" [placeholder]="placeholders.repetirContrasenia">
-        <mat-icon>{{iconos.iconoContrasenia.cerrado}}</mat-icon>
-      </app-input>
-
-      <app-boton></app-boton>
-
+      <!-- <app-boton [class]="'botonRegister'"></app-boton> -->
     </form>
+    <span id="spanRedirectLogin"
+      ><p>Tenes una cuenta?</p>
+      <a id="redirectLogin" [href]="loginHref"> Ingrese aquí</a></span
+    >
   </fieldset>
-
-
-  <span><p>Si ya tenes una cuenta</p> <a [href]="loginHref">Ingrese aquí</a></span>
-
 </section>
