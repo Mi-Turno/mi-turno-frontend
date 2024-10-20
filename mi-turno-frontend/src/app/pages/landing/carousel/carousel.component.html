@@ -1,0 +1,9 @@
+<div class="carousel">
+  <button (click)="retrocederFoto()" [disabled]="botonRetrocederDisabled">Retroceder</button>
+  <div id="imagen" class="imagen"></div>
+  <button (click)="pasarFoto()" [disabled]="botonAvanzarDisabled">Avanzar</button>
+</div>
+<div class="controles">
+  <button (click)="playIntervalo()" [disabled]="botonPlayDisabled">Play</button>
+  <button (click)="stopIntervalo()" [disabled]="botonStopDisabled">Stop</button>
+</div>
