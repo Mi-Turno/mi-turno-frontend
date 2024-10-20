@@ -76,6 +76,7 @@ a{
 }
 .inputContainer {
   display: flex;
+  flex-direction: column;
   align-items: center; /* Centra verticalmente el ícono y el input */
   justify-content: center; /* Centra horizontalmente el contenedor */
   margin-bottom: 1rem;
