@@ -14,65 +14,26 @@
     <legend>Ingrese sus datos</legend>
     <form action="" class="">
 
-      <div [className]="inputContainer">
-        <label for="nombreInput">Nombre</label>
+      <app-input [icono]="iconos.person" [textoLabel]="'Nombre'" [id]="'nombreInput'" [placeholder]="placeholders.nombre">
+      </app-input>
 
-        <app-input [id]="'nombreInput'" [placeholder]="placeholders.nombre">
-          <mat-icon>{{ iconos.person }}</mat-icon>
-        </app-input>
 
-      </div>
+      <app-input [icono]="iconos.person" [textoLabel]="'Apellido'" [id]="'apellidoInput'" [placeholder]="placeholders.apellido">
+      </app-input>
 
-      <div [className]="inputContainer">
-        <label for="apellidoInput">Apellido</label>
-        <app-input [id]="'apellidoInput'" [placeholder]="placeholders.apellido">
-          <mat-icon>{{ iconos.person }}</mat-icon>
-        </app-input>
-      </div>
-      <div [className]="inputContainer">
-        <label for="emailInput">Email</label>
-        <app-input
-          [id]="'emailInput'"
-          type="'email'"
-          [placeholder]="placeholders.email"
-        >
-          <mat-icon>{{ iconos.email }}</mat-icon>
-        </app-input>
-      </div>
-      <div [className]="inputContainer">
-        <label for="telefonoInput">Telefono</label>
-        <app-input
-          [id]="'telefonoInput'"
-          type="'tel'"
-          [placeholder]="placeholders.telefono"
-        >
-          <mat-icon>{{ iconos.call }}</mat-icon>
-        </app-input>
-      </div>
-      <div [className]="inputContainer">
-        <label for="contraseniaInput">Contraseña</label>
-        <app-input
-          [type]="'password'"
-          [id]="'contraseniaInput'"
-          [placeholder]="placeholders.contrasenia"
-        >
-          <mat-icon>{{ iconos.iconoContrasenia.cerrado }}</mat-icon>
-        </app-input>
-      </div>
-      <div [className]="inputContainer">
-        <label for="repetirContraseniaInput">Repetir Contraseña</label>
-        <app-input
-          [type]="'password'"
-          [id]="'repetirContraseniaInput'"
-          [placeholder]="placeholders.repetirContrasenia"
-        >
-          <mat-icon>{{ iconos.iconoContrasenia.cerrado }}</mat-icon>
-        </app-input>
-      </div>
+      <app-input type="'email'" [icono]="iconos.email" [textoLabel]="'Email'" [id]="'emailInput'" [placeholder]="placeholders.email">
+      </app-input>
 
-      <button class="botonRegister">Registrarse</button>
+      <app-input type="'tel'" [icono]="iconos.call" [textoLabel]="'Telefono'" [id]="'telefonoInput'" [placeholder]="placeholders.telefono">
+      </app-input>
 
-      <!-- <app-boton [class]="'botonRegister'"></app-boton> -->
+      <app-input type="'password'" [icono]="iconos.iconoContrasenia.cerrado" [textoLabel]="'Contraseña'" [id]="'contraseniaInput'" [placeholder]="placeholders.contrasenia">
+      </app-input>
+
+      <app-input type="'password'" [icono]="iconos.iconoContrasenia.cerrado" [textoLabel]="'Repetir Contraseña'" [id]="'repetirContraseniaInput'" [placeholder]="placeholders.repetirContrasenia">
+      </app-input>
+      
+      <app-boton [textoDentroBoton]="'Registrarse'"></app-boton>
     </form>
     <span id="spanRedirectLogin"
       ><p>¿Ya tiene una cuenta?</p>

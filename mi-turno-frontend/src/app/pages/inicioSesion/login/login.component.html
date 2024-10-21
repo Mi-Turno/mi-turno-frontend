@@ -9,27 +9,17 @@
     <legend class="legendLogin">Ingrese con su cuenta</legend>
     <form id="loginForm">
       <!--Componente-->
-      <div class="inputContainer">
-        <label for="emailLogin">Email</label>
 
-        <app-input [id]="'emailLogin'" [type]="typeEmail" [placeholder]="'Email'">
-          <mat-icon>{{iconos.email}}</mat-icon> <!-- ícono de email -->
-        </app-input>
 
-      </div>
+      <app-input [placeholder]="'Email'" [id]="'emailLogin'" [type]="typeEmail" [textoLabel]="'Email'" [icono]="iconos.email"></app-input>
 
-      <div class="inputContainer">
+      <app-input [placeholder]="'Contraseña'" [id]="'passwordLogin'" [type]="typePassword" [textoLabel]="'Contraseña'" [icono]="iconos.iconoContrasenia.cerrado"></app-input>
 
-        <label for="passwordLogin">Contraseña</label>
-        <app-input [id]="'passwordLogin'" [type]="typePassword" [placeholder]="'Contraseña'">
-          <mat-icon>{{iconos.iconoContrasenia.cerrado}}</mat-icon> <!-- ícono de password -->
-        </app-input>
+      <a class="olvidasteContra" href="">¿Olvidaste tu contraseña?</a>
 
-      </div>
+      <app-boton [textoDentroBoton]="'Ingresar'" [type]="'submit'"></app-boton>
 
-      <a class="olvidasteContra" href=""><span class="spanLogin">¿Olvidaste tu contraseña?</span></a>
-      <button class="botonIngresarLogIn" type="submit">Ingresar</button>
     </form>
-    <p class="parrafoRegistrar">¿Todavia no tenes una cuenta? <a [href]="registerHref"><span class="spanLogin">¡Registrate aqui!</span></a></p>
+    <p class="parrafoRegistrar">¿Todavia no tenes una cuenta? <a [href]="registerHref">¡Registrate aqui!</a></p>
   </fieldset>
 </section>

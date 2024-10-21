@@ -1,6 +1,11 @@
 
-  <input [id]="id" [ngClass]="{'clase-activa': isActive}" [type]="type" [placeholder]="placeholder" (focus)="manejarFocus()" />
-  <ng-content></ng-content> <!-- Esto permitirá pasar cualquier contenido como el icono -->
+<label [for]="id">{{textoLabel}}</label>
+<div [className]="claseInputContainer">
+  <input [id]="id" [type]="type" [placeholder]="placeholder"/>
+  <mat-icon>{{ icono }}</mat-icon>
+</div>
+
+<!-- <ng-content></ng-content> Esto permitirá pasar cualquier contenido como el icono -->
 
 
 

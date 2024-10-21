@@ -21,6 +21,6 @@ export class BotonComponent {
   disabled: boolean= false
 
   @Input()
-  class: string="inputPredeterminado"
+  class: string="botonPredeterminado"
 
 }
