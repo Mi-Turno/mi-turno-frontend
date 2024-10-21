@@ -21,19 +21,19 @@
       <app-input [icono]="iconos.person" [textoLabel]="'Apellido'" [id]="'apellidoInput'" [placeholder]="placeholders.apellido">
       </app-input>
 
-      <app-input type="'email'" [icono]="iconos.email" [textoLabel]="'Email'" [id]="'emailInput'" [placeholder]="placeholders.email">
+      <app-input [type]="'email'" [icono]="iconos.email" [textoLabel]="'Email'" [id]="'emailInput'" [placeholder]="placeholders.email">
       </app-input>
 
-      <app-input type="'tel'" [icono]="iconos.call" [textoLabel]="'Telefono'" [id]="'telefonoInput'" [placeholder]="placeholders.telefono">
+      <app-input [type]="'tel'" [icono]="iconos.call" [textoLabel]="'Telefono'" [id]="'telefonoInput'" [placeholder]="placeholders.telefono">
       </app-input>
 
-      <app-input type="'password'" [icono]="iconos.iconoContrasenia.cerrado" [textoLabel]="'Contraseña'" [id]="'contraseniaInput'" [placeholder]="placeholders.contrasenia">
+      <app-input [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado" [textoLabel]="'Contraseña'" [id]="'contraseniaInput'" [placeholder]="placeholders.contrasenia">
       </app-input>
 
-      <app-input type="'password'" [icono]="iconos.iconoContrasenia.cerrado" [textoLabel]="'Repetir Contraseña'" [id]="'repetirContraseniaInput'" [placeholder]="placeholders.repetirContrasenia">
+      <app-input [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado" [textoLabel]="'Repetir Contraseña'" [id]="'repetirContraseniaInput'" [placeholder]="placeholders.repetirContrasenia">
       </app-input>
-      
-      <app-boton [textoDentroBoton]="'Registrarse'"></app-boton>
+
+      <app-boton [textoDentroBoton]="'Registrarse'" [type]="'submit'"></app-boton>
     </form>
     <span id="spanRedirectLogin"
       ><p>¿Ya tiene una cuenta?</p>
