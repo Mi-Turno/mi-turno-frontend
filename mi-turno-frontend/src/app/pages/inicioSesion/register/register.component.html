@@ -12,28 +12,27 @@
 
   <fieldset id="fieldsetRegister">
     <legend>Ingrese sus datos</legend>
-    <form action="" class="">
+    <form [formGroup]="formularioRegister">
 
-      <app-input [icono]="iconos.person" [textoLabel]="'Nombre'" [id]="'nombreInput'" [placeholder]="placeholders.nombre">
+      <app-input formControlName="nombre" [icono]="iconos.person" [textoLabel]="'Nombre'" [id]="'nombreInput'" [placeholder]="placeholders.nombre">
       </app-input>
 
-
-      <app-input [icono]="iconos.person" [textoLabel]="'Apellido'" [id]="'apellidoInput'" [placeholder]="placeholders.apellido">
+      <app-input formControlName="apellido" [icono]="iconos.person" [textoLabel]="'Apellido'" [id]="'apellidoInput'" [placeholder]="placeholders.apellido">
       </app-input>
 
-      <app-input [type]="'email'" [icono]="iconos.email" [textoLabel]="'Email'" [id]="'emailInput'" [placeholder]="placeholders.email">
+      <app-input formControlName="email" [type]="'email'" [icono]="iconos.email" [textoLabel]="'Email'" [id]="'emailInput'" [placeholder]="placeholders.email">
       </app-input>
 
-      <app-input [type]="'tel'" [icono]="iconos.call" [textoLabel]="'Telefono'" [id]="'telefonoInput'" [placeholder]="placeholders.telefono">
+      <app-input formControlName="telefono" [type]="'tel'" [icono]="iconos.call" [textoLabel]="'Telefono'" [id]="'telefonoInput'" [placeholder]="placeholders.telefono">
       </app-input>
 
-      <app-input [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado" [textoLabel]="'Contraseña'" [id]="'contraseniaInput'" [placeholder]="placeholders.contrasenia">
+      <app-input formControlName="password" [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado" [textoLabel]="'Contraseña'" [id]="'contraseniaInput'" [placeholder]="placeholders.contrasenia">
       </app-input>
 
-      <app-input [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado" [textoLabel]="'Repetir Contraseña'" [id]="'repetirContraseniaInput'" [placeholder]="placeholders.repetirContrasenia">
+      <app-input formControlName="passwordRepetida"[type]="'password'" [icono]="iconos.iconoContrasenia.cerrado" [textoLabel]="'Repetir Contraseña'" [id]="'repetirContraseniaInput'" [placeholder]="placeholders.repetirContrasenia">
       </app-input>
 
-      <app-boton [textoDentroBoton]="'Registrarse'" [type]="'submit'"></app-boton>
+      <app-boton [textoDentroBoton]="'Registrarse'" [type]="'submit'" (click)="onSubmit()"></app-boton>
     </form>
     <span id="spanRedirectLogin"
       ><p>¿Ya tiene una cuenta?</p>
