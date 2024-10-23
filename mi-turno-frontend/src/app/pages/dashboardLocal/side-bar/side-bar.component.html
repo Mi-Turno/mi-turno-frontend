@@ -1,0 +1,63 @@
+<nav class="sidebar">
+  <div class="seccion-logo">
+    <img [src]="urlLogo" alt="logo mi-miTurno" />
+  </div>
+  <div class="seccion-img-perfil">
+    <img [src]="urlFotoPerfil" [alt]="altFotoPerfil" />
+    <p>{{nombreNegocio}}</p>
+  </div>
+  <ul>
+
+    <li>
+      <div [ngClass] ="{'seleccionado' : selecionado('/local/recepcion')}" >
+
+        <a class="claseEnlace" [href]="'/local/recepcion'">
+          <mat-icon class = "claseIcono">{{iconos.home}}</mat-icon>
+          Recepción</a>
+      </div>
+    </li>
+    <li>
+      <div [ngClass] ="{'seleccionado' : selecionado('/local/turnos')}" >
+        <a class="claseEnlace" [href]="'/local/turnos'">
+          <mat-icon class = "claseIcono">{{iconos.eventNote}}</mat-icon>
+          Turnos</a>
+      </div>
+    </li>
+    <li>
+      <div [ngClass] ="{'seleccionado' : selecionado('/local/staff')}">
+        <a class="claseEnlace" [href]="'/local/staff'">
+          <mat-icon class = "claseIcono">{{iconos.badge}}</mat-icon>
+          Staff</a>
+      </div>
+    </li>
+    <li>
+      <div [ngClass] ="{'seleccionado' : selecionado('/local/servicios')}">
+        <a class="claseEnlace" [href]="'/local/servicios'">
+          <mat-icon class = "claseIcono">{{iconos.star}}</mat-icon>
+          Servicios</a>
+      </div>
+    </li>
+    <li>
+      <div [ngClass] ="{'seleccionado' : selecionado('/local/clientes')}" >
+        <a class="claseEnlace" [href]="'/local/clientes'">
+          <mat-icon class = "claseIcono">{{iconos.people}}</mat-icon>
+          Clientes</a>
+      </div>
+    </li>
+    <li>
+      <div [ngClass] ="{'seleccionado' : selecionado('/local/configuracion')}">
+        <a class="claseEnlace" [href]="'/local/configuracion'">
+          <mat-icon class = "claseIcono">{{iconos.settings}}</mat-icon>
+          Configuración</a>
+      </div>
+    </li>
+    <li>
+      <div [ngClass] ="{'seleccionado' : selecionado('/local/salir')}">
+        <a class="claseEnlace" [href]="'/local/salir'">
+          <mat-icon class = "claseIcono salir">{{iconos.logout}}</mat-icon>
+          Salir</a>
+      </div>
+    </li>
+  </ul>
+</nav>
+
