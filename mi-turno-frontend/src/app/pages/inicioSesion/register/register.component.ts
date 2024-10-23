@@ -28,6 +28,7 @@ export class RegisterComponent {
     nombre: "Nombre",
     apellido: "Apellido",
     email: "Email",
+    //fechaNacimiento:"Fecha de nacimiento",
     telefono: "Teléfono móvil",
     contrasenia: "Contraseña",
     repetirContrasenia: "Repetir Contraseña",
@@ -37,6 +38,7 @@ export class RegisterComponent {
     nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
+   // fechaNacimiento: new FormControl('',Validators.required),
     telefono: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
     passwordRepetida: new FormControl('', Validators.required),
@@ -48,17 +50,18 @@ export class RegisterComponent {
     const nombreForm = this.formularioRegister.get('nombre')?.value ||'';//||'' esto significa que puede ser null
     const apellidoForm = this.formularioRegister.get('apellido')?.value||'';
     const emailForm = this.formularioRegister.get('email')?.value||'';
+    const fechaNacimientoForm = this.formularioRegister.get('fechaNacimiento')?.value||'';
+    const fechaNacimientoDate: Date = new Date(fechaNacimientoForm);//lo parseo para que me lo reconozca
     const telefonoForm = this.formularioRegister.get('telefono')?.value||'';
     const passwordForm = this.formularioRegister.get('password')?.value||'';
-    const passwordRepetidaForm = this.formularioRegister.get('passwordRepetida')?.value||'';
     const rol = 'CLIENTE';
     return {
       nombre:nombreForm,
       apellido:apellidoForm,
       email:emailForm,
+      fechaNacimiento:fechaNacimientoDate,
       telefono:telefonoForm,
       password:passwordForm,
-      passwordRepetida:passwordRepetidaForm,
       rol:rol
     };
 
@@ -68,15 +71,15 @@ export class RegisterComponent {
       email: this.formularioRegister.get('email')?.value ?? '',
       telefono: this.formularioRegister.get('telefono')?.value ?? '',
       password: this.formularioRegister.get('password')?.value ?? '',
-      passwordRepetida: this.formularioRegister.get('passwordRepetida')?.value ?? ''
     };*/
   }
   //metodo POST
-  private postUsuarioToBackend(usuario:UsuarioInterface): void{
+  private postUsuarioToBackend(usuario:UsuarioInterface):void{
     try {
       this.usuarioService.postUsuario(usuario).subscribe({
-        next:(usuario) =>{
-          usuario
+        next:(usuario:UsuarioInterface) =>{
+
+          console.log(usuario);
         },
         error:(error)=>{
           console.error(error);
@@ -90,8 +93,10 @@ export class RegisterComponent {
   // Método para enviar los valores del formulario al backend
   onSubmit() {
     if (this.formularioRegister.valid) {
+      console.log('Usuario enviado con exito');
       console.log(this.formularioRegister.value);
       const usuario:UsuarioInterface = this.crearUsuarioDesdeFormulario();
+      //console.log(usuario);
       this.postUsuarioToBackend(usuario);
     } else {
       let campoError: string = '';

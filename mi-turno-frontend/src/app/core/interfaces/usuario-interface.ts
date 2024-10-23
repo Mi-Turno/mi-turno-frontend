@@ -4,7 +4,7 @@ export interface UsuarioInterface {
   apellido:string;
   email:string;
   telefono:string;
+  fechaNacimiento?:Date;
   password:string;
-  passwordRepetida:string;
   rol:String;
 }
