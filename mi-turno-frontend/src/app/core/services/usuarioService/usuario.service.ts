@@ -8,12 +8,25 @@ import { UsuarioInterface } from '../../interfaces/usuario-interface';
 })
 export class UsuarioService {
 
-  private urlBase: string = 'http://localhost:3000/usuarios';
-
+  private urlBase: string = 'http://localhost:8080/usuarios';
   private http: HttpClient= inject(HttpClient);
-  constructor() { }
 
+  usuario:UsuarioInterface ={
+    nombre:'',
+    apellido:'',
+    email:'',
+    telefono:'',
+    fechaNacimiento:'',
+    password:'',
+    rol:'',
+  };
   public getUsuarios(): Observable<UsuarioInterface[]>{
     return this.http.get<UsuarioInterface[]>(this.urlBase);
   }
-}
+  public postUsuario(usuario:UsuarioInterface):Observable<UsuarioInterface>{
+    return this.http.post<UsuarioInterface>(this.urlBase,usuario)
+
+    };
+  }
+
+
