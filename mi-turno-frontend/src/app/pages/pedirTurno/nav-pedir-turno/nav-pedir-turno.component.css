@@ -1,0 +1,30 @@
+nav{
+
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 0 2vw;
+}
+
+nav a img{
+  max-width: 10vw;
+  max-height: 10vh;
+}
+
+ul{
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+ul li{
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+}
+
+ul li mat-icon{
+  width: 10vw;
+  height: 10vh;
+  font-size: 10vh
+}
+

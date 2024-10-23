@@ -1,28 +1,27 @@
 <nav>
   <ul>
     <li>
-        <div>
-          <mat-icon>content_cut</mat-icon>
-          <p>Servicios</p>
-        </div>
+      <a href="">
+        <app-texto-con-icono [icono]="iconos.tijera" [texto]="textos.servicios"></app-texto-con-icono>
+      </a>
     </li>
     <li>
-      <div>
-        <mat-icon>sentiment_very_satisfied</mat-icon>
-        <p>¿Con quien?</p>
-      </div>
+      <a href="">
+        <app-texto-con-icono [icono]="iconos.carita_feliz" [texto]="textos.profesional"></app-texto-con-icono>
+      </a>
   </li>
   <li>
-    <div>
-      <mat-icon>event</mat-icon>
-      <p>¿Cuando?</p>
-    </div>
+    <a href="">
+      <app-texto-con-icono [icono]="iconos.calendario" [texto]="textos.cuando"></app-texto-con-icono>
+    </a>
+
+
 </li>
 <li>
-  <div>
-    <mat-icon>payments</mat-icon>
-    <p>Metodos de Pago</p>
-  </div>
+  <a href="">
+    <app-texto-con-icono [icono]="iconos.dinero" [texto]="textos.pago"></app-texto-con-icono>
+  </a>
+   
 </li>
   </ul>
 </nav>

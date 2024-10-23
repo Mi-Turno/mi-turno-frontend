@@ -19,4 +19,6 @@ export class NavPedirTurnoComponent {
 
   @Input()
   imagenUsuario?:string;
+
+  claseBoton:string = "boton-nav";
 }

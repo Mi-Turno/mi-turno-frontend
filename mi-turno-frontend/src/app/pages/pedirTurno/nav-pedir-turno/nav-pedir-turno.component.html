@@ -1,12 +1,14 @@
-<nav style="background-color: black;">
-  <img [src]="imagenIcono" alt="icono mi turno">
+<nav>
+  <a href="/">
+    <img [src]="imagenIcono" alt="icono mi turno">
+  </a>
 
   <ul>
-    <li><app-boton [textoDentroBoton]="'Proximos Turnos'"></app-boton></li>
-    <li><app-boton [textoDentroBoton]="'Historial de Turnos'"></app-boton></li>
+    <li><app-boton [class]="claseBoton" [textoDentroBoton]="'Proximos Turnos'"></app-boton></li>
+    <li><app-boton [class]="claseBoton" [textoDentroBoton]="'Historial de Turnos'"></app-boton></li>
     <li>
       @if (!imagenUsuario) {
-        <mat-icon>iconos.person</mat-icon>
+        <mat-icon>{{iconos.perfil}}</mat-icon>
       }@else {
         <img [src]="imagenUsuario" alt="imagen de usuario">
       }

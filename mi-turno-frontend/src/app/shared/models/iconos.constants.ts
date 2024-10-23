@@ -7,4 +7,10 @@ export const ICONOS =
   cerrado:"visibility_off"
  },
   home: 'home',
+  tijera: 'content_cut',
+  carita_feliz: 'sentiment_very_satisfied',
+  calendario: 'event',
+  dinero: 'payments',
+  tarjeta: 'credit_card',
+  perfil: 'account_circle',
 }
