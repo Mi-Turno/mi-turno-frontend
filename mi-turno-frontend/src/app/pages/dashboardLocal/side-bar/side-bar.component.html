@@ -4,84 +4,60 @@
   </div>
   <div class="seccion-img-perfil">
     <img [src]="urlFotoPerfil" [alt]="altFotoPerfil" />
+    <p>{{nombreNegocio}}</p>
   </div>
   <ul>
+
     <li>
-      <app-link-con-icono
-      [claseContenedor]="'claseContenedor'"
-        [claseEnlace]="'mi-clase-enlace'"
-        [claseIcono]="'mi-clase-icono'"
-        [icono]="iconos.home"
-        [titulo]="'Recepción'"
-        [referencia]="'#'"
-        [seleccionado]="true"
-      ></app-link-con-icono>
+      <div [ngClass] ="{'seleccionado' : selecionado('/local/recepcion')}" >
+
+        <a class="claseEnlace" [href]="'/local/recepcion'">
+          <mat-icon class = "claseIcono">{{iconos.home}}</mat-icon>
+          Recepción</a>
+      </div>
     </li>
     <li>
-      <app-link-con-icono
-      [claseContenedor]="'claseContenedor'"
-        [claseEnlace]="'mi-clase-enlace'"
-        [claseIcono]="'mi-clase-icono'"
-        [icono]="iconos.eventNote"
-        [titulo]="'Turnos'"
-        [referencia]="'#'"
-        [seleccionado]="true"
-      ></app-link-con-icono>
+      <div [ngClass] ="{'seleccionado' : selecionado('/local/turnos')}" >
+        <a class="claseEnlace" [href]="'/local/turnos'">
+          <mat-icon class = "claseIcono">{{iconos.eventNote}}</mat-icon>
+          Turnos</a>
+      </div>
     </li>
     <li>
-      <app-link-con-icono
-      [claseContenedor]="'claseContenedor'"
-        [claseEnlace]="'mi-clase-enlace'"
-        [claseIcono]="'mi-clase-icono'"
-        [icono]="iconos.badge"
-        [titulo]="'Staff'"
-        [referencia]="'#'"
-        [seleccionado]="true"
-      ></app-link-con-icono>
+      <div [ngClass] ="{'seleccionado' : selecionado('/local/staff')}">
+        <a class="claseEnlace" [href]="'/local/staff'">
+          <mat-icon class = "claseIcono">{{iconos.badge}}</mat-icon>
+          Staff</a>
+      </div>
     </li>
     <li>
-      <app-link-con-icono
-      [claseContenedor]="'claseContenedor'"
-        [claseEnlace]="'mi-clase-enlace'"
-        [claseIcono]="'mi-clase-icono'"
-        [icono]="iconos.star"
-        [titulo]="'Servicios'"
-        [referencia]="'#'"
-        [seleccionado]="true"
-      ></app-link-con-icono>
+      <div [ngClass] ="{'seleccionado' : selecionado('/local/servicios')}">
+        <a class="claseEnlace" [href]="'/local/servicios'">
+          <mat-icon class = "claseIcono">{{iconos.star}}</mat-icon>
+          Servicios</a>
+      </div>
     </li>
     <li>
-      <app-link-con-icono
-      [claseContenedor]="'claseContenedor'"
-        [claseEnlace]="'mi-clase-enlace'"
-        [claseIcono]="'mi-clase-icono'"
-        [icono]="iconos.people"
-        [titulo]="'Clientes'"
-        [referencia]="'#'"
-        [seleccionado]="true"
-      ></app-link-con-icono>
+      <div [ngClass] ="{'seleccionado' : selecionado('/local/clientes')}" >
+        <a class="claseEnlace" [href]="'/local/clientes'">
+          <mat-icon class = "claseIcono">{{iconos.people}}</mat-icon>
+          Clientes</a>
+      </div>
     </li>
     <li>
-      <app-link-con-icono
-      [claseContenedor]="'claseContenedor'"
-        [claseEnlace]="'mi-clase-enlace'"
-        [claseIcono]="'mi-clase-icono'"
-        [icono]="iconos.settings"
-        [titulo]="'Configuración'"
-        [referencia]="'#'"
-        [seleccionado]="true"
-      ></app-link-con-icono>
+      <div [ngClass] ="{'seleccionado' : selecionado('/local/configuracion')}">
+        <a class="claseEnlace" [href]="'/local/configuracion'">
+          <mat-icon class = "claseIcono">{{iconos.settings}}</mat-icon>
+          Configuración</a>
+      </div>
     </li>
     <li>
-      <app-link-con-icono
-      [claseContenedor]="'claseContenedor'"
-        [claseEnlace]="'mi-clase-enlace'"
-        [claseIcono]="'mi-clase-icono'"
-        [icono]="iconos.logout"
-        [titulo]="'Salir'"
-        [referencia]="'#'"
-        [seleccionado]="true"
-      ></app-link-con-icono>
+      <div [ngClass] ="{'seleccionado' : selecionado('/local/salir')}">
+        <a class="claseEnlace" [href]="'/local/salir'">
+          <mat-icon class = "claseIcono salir">{{iconos.logout}}</mat-icon>
+          Salir</a>
+      </div>
     </li>
   </ul>
 </nav>
+

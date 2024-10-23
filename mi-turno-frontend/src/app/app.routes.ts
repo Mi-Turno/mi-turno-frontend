@@ -17,9 +17,17 @@ export const routes: Routes = [{
 },
 {
  path:"local",
- component:PanelRecepcionComponent
+ component:PanelRecepcionComponent,
+ children : [
+  {path: 'recepcion', component:PanelRecepcionComponent},
+  {path: 'turnos', component:PanelRecepcionComponent},
+  {path: 'staff', component:PanelRecepcionComponent},
+  {path: 'servicios', component:PanelRecepcionComponent},
+  {path: 'clientes', component:PanelRecepcionComponent},
+  {path: 'configuracion', component:PanelRecepcionComponent},
+  {path: 'salir', component:PanelRecepcionComponent}
+ ]
 },
-
 {
   path:"**",
   component:LandingPageComponent

@@ -4,6 +4,8 @@ import { BotonComponent } from '../../../shared/components/boton/boton.component
 import { MatIcon } from '@angular/material/icon';
 import { LinkConIconoComponent } from '../../../shared/components/link-con-icono/link-con-icono.component';
 import { ICONOS } from '../../../shared/models/iconos.constants';
+import { routes } from '../../../app.routes';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-side-bar',
@@ -14,15 +16,19 @@ import { ICONOS } from '../../../shared/models/iconos.constants';
 })
 export class SideBarComponent {
 
+constructor(private router: Router) {}
+
 urlLogo = "LogoConFrase.png";
 urlFotoPerfil = "icono.png"
 altFotoPerfil = "Nombre del local"
 recepcion = "Recepción"
-
-
 iconos = ICONOS
+titulo = ""
+nombreNegocio = "Nombre Negocio"
 
-claseEnlace = "enlace";
-claseIcono = "icono";
+selecionado(ruta: string) :boolean {
+  return this.router.url === ruta;
+}
+
 
 }

@@ -1,8 +1,5 @@
 
-.sidebar li {
-  list-style: none;
-  margin: 0 auto;
-}
+
 
 .sidebar {
   width: 250px;            /* Ajusta el ancho del sidebar */
@@ -15,8 +12,8 @@
 }
 
 
-.sidebar div {
-  border: 2px solid #000;
+ul div {
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3); /* Sombra abajo y a la izquierda */
  }
 
 
@@ -43,35 +40,78 @@ ul{
   list-style-type:none ;
   padding: 0;
   margin: 0;
+  display: flex;
+flex-direction: column;
+
 }
 
 li {
   width: 100%;
-  border: 2px solid;
-  background-color: red;
 }
 
-
-
-/* Estilo para los enlaces que se aplicará desde el componente padre */
-
-::ng-deep .claseContenedor {
+li div {
+  display: flex;
+  vertical-align: middle;
+  height: 4.5vh;
   display: flex;
   align-items: center;
   justify-content: left;
-  height: 4.5vh;
-  width: 100%;
-  background-color: green;
-
-}
-::ng-deep .mi-clase-enlace {
-  text-decoration: none;
-margin-left: 14px ;
-
 }
 
-::ng-deep .mi-clase-icono {
+.claseEnlace {
+  color: #000;
+}
+
+li div:hover {
+  scale: 1.02;
+  background-color: var(--color-contraste2-hover);
+  color: white;
+}
+
+li div:hover .claseIcono {
+  color:white;
+}
+
+li div:hover .claseEnlace {
+  color: white;
+}
+
+.claseEnlace {
+  display: flex; /* Alineación del contenido dentro del enlace */
+  align-items: center; /* Alinear verticalmente el contenido */
+  justify-content: left; /* Mantener el contenido alineado a la izquierda */
+  width: 100%; /* Hace que el enlace ocupe todo el ancho del div */
+  height: 100%; /* Hace que el enlace ocupe toda la altura del div */
+  text-decoration: none; /* Elimina el subrayado del enlace */
+  font-size: var(--titulo-h3);
+  margin-left: 10px ;
+  height: 30px;
+}
+
+.claseIcono{
   color: #4a90e2;
   font-size: 30px;
   margin-left: 10px;
+  height: 30px;
+  width: 30px;
+  margin-right: 5px;
 }
+
+.salir {
+  color: red;
+}
+
+.seleccionado {
+  background-color: var(--color-contraste2);
+  color: white;
+  scale: 1.02;
+}
+
+.seleccionado .claseEnlace {
+  color: white;
+}
+.seleccionado .claseIcono {
+  color: white;
+}
+
+
