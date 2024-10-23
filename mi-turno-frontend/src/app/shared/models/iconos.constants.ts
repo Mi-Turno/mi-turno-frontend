@@ -7,4 +7,11 @@ export const ICONOS =
   cerrado:"visibility_off"
  },
   home: 'home',
+  badge:'badge',
+  eventNote:'event_note',
+  star: 'star',
+  people: 'people',
+  settings: 'settings',
+  logout: 'logout'
+
 }

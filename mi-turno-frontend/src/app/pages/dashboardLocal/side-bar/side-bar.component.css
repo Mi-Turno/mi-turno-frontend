@@ -1,0 +1,77 @@
+
+.sidebar li {
+  list-style: none;
+  margin: 0 auto;
+}
+
+.sidebar {
+  width: 250px;            /* Ajusta el ancho del sidebar */
+  height: 96vh;           /* Hace que el sidebar ocupe toda la altura de la pantalla */
+  background-color: var();  /* Color de fondo */
+  padding: 20px;           /* Espacio interno */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+  border: 2px solid #000; /* Aquí defines el borde derecho */
+  margin: 2vh 3vh;
+}
+
+
+.sidebar div {
+  border: 2px solid #000;
+ }
+
+
+ .seccion-logo img {
+  max-width: 100%;
+  height: auto;
+  object-fit:contain;
+ }
+
+ .seccion-img-perfil img {
+  max-width: 100%;
+  height: auto;
+  object-fit:contain;
+  display: block;
+  margin: 0 auto;
+ }
+
+ .seccion-img-perfil  {
+  text-align: center;
+ }
+
+
+ul{
+  list-style-type:none ;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  width: 100%;
+  border: 2px solid;
+  background-color: red;
+}
+
+
+
+/* Estilo para los enlaces que se aplicará desde el componente padre */
+
+::ng-deep .claseContenedor {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  height: 4.5vh;
+  width: 100%;
+  background-color: green;
+
+}
+::ng-deep .mi-clase-enlace {
+  text-decoration: none;
+margin-left: 14px ;
+
+}
+
+::ng-deep .mi-clase-icono {
+  color: #4a90e2;
+  font-size: 30px;
+  margin-left: 10px;
+}
