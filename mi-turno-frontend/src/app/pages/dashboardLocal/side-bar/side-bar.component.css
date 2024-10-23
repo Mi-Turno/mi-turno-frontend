@@ -8,7 +8,7 @@
   padding: 20px;           /* Espacio interno */
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra opcional */
   border: 2px solid #000; /* Aquí defines el borde derecho */
-  margin: 2vh 3vh;
+  margin: 2vh 1.5vh 2vh 3vh;
 }
 
 
@@ -83,7 +83,7 @@ li div:hover .claseEnlace {
   width: 100%; /* Hace que el enlace ocupe todo el ancho del div */
   height: 100%; /* Hace que el enlace ocupe toda la altura del div */
   text-decoration: none; /* Elimina el subrayado del enlace */
-  font-size: var(--titulo-h3);
+  font-size: var(--titulo-h5);
   margin-left: 10px ;
   height: 30px;
 }

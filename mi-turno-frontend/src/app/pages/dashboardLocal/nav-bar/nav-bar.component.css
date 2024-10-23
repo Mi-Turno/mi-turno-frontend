@@ -1,0 +1,26 @@
+nav {
+  display: flex;
+  border: 2px solid;
+  margin: 2vh 3vh 2vh 1.5vh;
+  width: 82vw;
+  height: 6vh;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fecha{
+  margin-right: 8px ;
+}
+
+
+
+app-chip{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-contraste2);
+  color: #fff;
+  padding: 5px 14px ;
+  border-radius: 30px;
+  margin: 1vh;
+}

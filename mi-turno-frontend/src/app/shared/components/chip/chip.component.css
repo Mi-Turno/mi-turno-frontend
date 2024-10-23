@@ -1,0 +1,10 @@
+
+a {
+  color: #fff;
+  text-decoration: none;
+  font-size: var(--titulo-h5);
+}
+
+mat-icon {
+  margin: 0 4px 0 0
+}
