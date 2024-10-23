@@ -28,7 +28,7 @@ export class RegisterComponent {
     nombre: "Nombre",
     apellido: "Apellido",
     email: "Email",
-    //fechaNacimiento:"Fecha de nacimiento",
+    fechaNacimiento:"Fecha de nacimiento",
     telefono: "Teléfono móvil",
     contrasenia: "Contraseña",
     repetirContrasenia: "Repetir Contraseña",
@@ -38,7 +38,7 @@ export class RegisterComponent {
     nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-   // fechaNacimiento: new FormControl('',Validators.required),
+    fechaNacimiento: new FormControl('',Validators.required),
     telefono: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
     passwordRepetida: new FormControl('', Validators.required),
@@ -50,8 +50,11 @@ export class RegisterComponent {
     const nombreForm = this.formularioRegister.get('nombre')?.value ||'';//||'' esto significa que puede ser null
     const apellidoForm = this.formularioRegister.get('apellido')?.value||'';
     const emailForm = this.formularioRegister.get('email')?.value||'';
+
     const fechaNacimientoForm = this.formularioRegister.get('fechaNacimiento')?.value||'';
-    const fechaNacimientoDate: Date = new Date(fechaNacimientoForm);//lo parseo para que me lo reconozca
+
+    //const fechaNacimientoDate: Date = new Date(fechaNacimientoForm);//lo parseo para que me lo reconozca
+    //console.log(fechaNacimientoDate);
     const telefonoForm = this.formularioRegister.get('telefono')?.value||'';
     const passwordForm = this.formularioRegister.get('password')?.value||'';
     const rol = 'CLIENTE';
@@ -59,7 +62,7 @@ export class RegisterComponent {
       nombre:nombreForm,
       apellido:apellidoForm,
       email:emailForm,
-      fechaNacimiento:fechaNacimientoDate,
+      fechaNacimiento:fechaNacimientoForm,
       telefono:telefonoForm,
       password:passwordForm,
       rol:rol
