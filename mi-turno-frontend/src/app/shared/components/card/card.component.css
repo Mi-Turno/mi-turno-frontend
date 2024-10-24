@@ -1,0 +1,71 @@
+
+    /* Contenedor principal de la card */
+.claseCard {
+  width: 300px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px 60px;
+}
+
+/* Contenedor de la imagen */
+.contenedorImagen {
+  background-color: #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 230px;
+}
+
+/* Estilos de la imagen */
+.claseImg {
+width: 300px;
+height: 230px;
+aspect-ratio: 3 / 2;
+object-fit: cover;
+}
+
+/* Cuerpo del contenido (texto y botón) */
+.claseCuerpo {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-top: 1px solid #e0e0e0;
+  height: 100px;
+}
+.claseCuerpoTexto {
+  margin: 10px;
+}
+
+.claseCuerpoChip {
+ margin: 40px 10px
+}
+
+/* Estilo del título */
+.claseTitulo {
+  margin: 0;
+  font-size: var(--titulo-h3);
+  font-weight: bold;
+}
+
+/* Estilo del texto descriptivo */
+.claseTexto {
+  margin: 0;
+  font-size: var(--titulo-h5);
+  color: #757575;
+}
+
+/* Botón del app-chip */
+app-chip {
+  justify-content: center;
+  background-color: var(--color-contraste2);
+  color: #fff;
+  padding: 5px 14px;
+  border-radius: 30px;
+  margin-top: 10px;
+  align-self: flex-end;
+}
+
+
