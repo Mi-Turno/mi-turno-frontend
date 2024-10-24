@@ -3,6 +3,8 @@ import { LandingPageComponent } from './pages/landing/landing-page/landing-page.
 import { LoginComponent } from './pages/inicioSesion/login/login.component';
 import { RegisterComponent } from './pages/inicioSesion/register/register.component';
 import { PanelRecepcionComponent } from './pages/dashboardLocal/panel-recepcion/panel-recepcion.component';
+import { ProfesionalesMainComponent } from './pages/dashboardLocal/profesionales-main/profesionales-main.component';
+import { CardComponent } from './shared/components/card/card.component';
 
 export const routes: Routes = [{
   path:"landing-page",
@@ -21,7 +23,7 @@ export const routes: Routes = [{
  children : [
   {path: 'recepcion', component:PanelRecepcionComponent},
   {path: 'turnos', component:PanelRecepcionComponent},
-  {path: 'staff', component:PanelRecepcionComponent},
+  {path: 'staff', component:ProfesionalesMainComponent},
   {path: 'servicios', component:PanelRecepcionComponent},
   {path: 'clientes', component:PanelRecepcionComponent},
   {path: 'configuracion', component:PanelRecepcionComponent},

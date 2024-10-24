@@ -2,10 +2,17 @@
 
 <div class="principal">
   <app-side-bar/>
+
   <div class="secundario">
     <app-nav-bar/>
-    <app-turno-main/>
+    <router-outlet></router-outlet> <!-- Aquí Angular renderizará el componente dinámico según la ruta -->
   </div>
+
+
+  <ng-container *ngIf="estaSobrepuesto">
+    <div class="overlay" (click)="activarSobreposicion()"></div>
+<app-card></app-card>
+  </ng-container>
 </div>
 
 

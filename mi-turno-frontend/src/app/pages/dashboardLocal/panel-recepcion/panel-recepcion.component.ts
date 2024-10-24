@@ -3,16 +3,24 @@ import { Component } from '@angular/core';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { FormsModule } from '@angular/forms';
-import { TurnoMainComponent } from '../turno-main/turno-main.component';
+import { ProfesionalesMainComponent } from '../profesionales-main/profesionales-main.component';
+import { CardComponent } from '../../../shared/components/card/card.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-panel-recepcion',
   standalone: true,
-  imports: [CommonModule, NavBarComponent, SideBarComponent, TurnoMainComponent,FormsModule,],
+  imports: [CommonModule,CardComponent, CardComponent, NavBarComponent, SideBarComponent,ProfesionalesMainComponent, FormsModule, RouterOutlet],
   templateUrl: './panel-recepcion.component.html',
   styleUrl: './panel-recepcion.component.css'
 })
 export class PanelRecepcionComponent {
+
+  estaSobrepuesto: boolean = false;
+
+  activarSobreposicion() {
+    this.estaSobrepuesto = !this.estaSobrepuesto;
+  }
 
 
 }
