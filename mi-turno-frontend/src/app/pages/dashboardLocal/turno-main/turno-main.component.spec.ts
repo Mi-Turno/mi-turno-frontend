@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LinkConIconoComponent } from './link-con-icono.component';
+import { TurnoMainComponent } from './turno-main.component';
 
-describe('LinkConIconoComponent', () => {
-  let component: LinkConIconoComponent;
-  let fixture: ComponentFixture<LinkConIconoComponent>;
+describe('TurnoMainComponent', () => {
+  let component: TurnoMainComponent;
+  let fixture: ComponentFixture<TurnoMainComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LinkConIconoComponent]
+      imports: [TurnoMainComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LinkConIconoComponent);
+    fixture = TestBed.createComponent(TurnoMainComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
