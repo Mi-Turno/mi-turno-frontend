@@ -40,40 +40,46 @@ export class LoginComponent {
       password: passwordForm
     };
   }
-  //con los datos del formulario obtengo el usuario y verifico mediando la sub si es valido el usuario
-  private solicitarUsuario() {
-    const objetoDelForm = this.obtenerDatosForm();
-    this.usuarioService.getUsuariosByEmailAndPassword(objetoDelForm.email, objetoDelForm.password).subscribe({
-      next: (response) => {
-        console.log(response);
-        //return response;//TODO tengo que retornar el usuario
-      },
-      error: (error: HttpErrorResponse) => {
-        if (error.status === 404) {
-          alert('Error 404: Usuario no encontrado');
 
-        } else if (error.status === 500) {
-          alert('Error 500: Error del servidor');
-
-        }else if(error.status===0){
-          alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
-        }else{
-          alert('Error inesperado. Intente otra vez mas tarde.');
-        }
-      }
-
-    })
-  }
 
   //permito o deniego el acceso a la pagina
   onSubmit() {
     if (this.formularioLogin.valid) {
       console.log(this.formularioLogin.value);
-     try {
-       this.solicitarUsuario();
-     } catch (error) {
-      console.log(error);
-     }
+      try {
+        const objetoDelForm = this.obtenerDatosForm();
+        this.usuarioService.getUsuariosByEmailAndPassword(objetoDelForm.email, objetoDelForm.password).subscribe({
+          next: (response) => {
+            console.log(response);
+            if(response.rol ==='CLIENTE'){
+              //lo mando al DASHBOARD DE PEDIR TURNO
+            }else if(response.rol==='PROPIETARIO'){
+              //lo mando al DASHBOARD DE LOCAL
+            }else if(response.rol==='ADMIN'){
+              //lo mando al DASHBOARD DE ADMIN
+            }else{
+              alert('ROL INEXISTENTE');
+            }
+          },
+          error: (error: HttpErrorResponse) => {
+            if (error.status === 404) {
+              alert('Error 404: Usuario no encontrado');
+
+            } else if (error.status === 500) {
+              alert('Error 500: Error del servidor');
+
+            } else if (error.status === 0) {
+              alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
+            } else {
+              alert('Error inesperado. Intente otra vez mas tarde.');
+            }
+          }
+
+        })
+
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       let campoError: string = '';
       Object.keys(this.formularioLogin.controls).forEach(campo => {
