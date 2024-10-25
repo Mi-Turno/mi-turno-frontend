@@ -21,6 +21,7 @@ textoAlternativo = "Img del barbero"
 idCards: number[] = [];
 maxCards = 6;
 
+rutaBotonChip = ""
 
 
 agregarCard() {

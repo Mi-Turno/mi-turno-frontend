@@ -6,11 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { ProfesionalesMainComponent } from '../profesionales-main/profesionales-main.component';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { RouterOutlet } from '@angular/router';
+import { PopUpCrearProfesionalComponent } from '../pop-up-crear-profesional/pop-up-crear-profesional.component';
 
 @Component({
   selector: 'app-panel-recepcion',
   standalone: true,
-  imports: [CommonModule,CardComponent, CardComponent, NavBarComponent, SideBarComponent,ProfesionalesMainComponent, FormsModule, RouterOutlet],
+  imports: [CommonModule,CardComponent, CardComponent, NavBarComponent, SideBarComponent,ProfesionalesMainComponent, FormsModule, RouterOutlet,PopUpCrearProfesionalComponent ],
   templateUrl: './panel-recepcion.component.html',
   styleUrl: './panel-recepcion.component.css'
 })
