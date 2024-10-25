@@ -1,19 +1,26 @@
-<div class="contenedor">
-  <div class ="cruz">
+<form [formGroup]="formularioRegister" class="contenedor">
+  <h5>Modificar Profesional</h5>
+  <div class ="cruz" (click) = "cerrarPopUp()">
     <mat-icon> close</mat-icon>
   </div>
   <div class="contenido">
     <div class="contenedor-imagen">
-      <img src="img-default.png" />
+      <img [src]="fotoProfesional" />
+
     </div>
     <div class="contenedor-formulario">
-      <app-input></app-input>
-      <app-input></app-input>
-      <app-input></app-input>
-      <app-input></app-input>
-      <app-boton></app-boton>
-      <app-boton></app-boton>
+      <app-input  formsControlName = "nombre" [icono] = "icono.person" [textoLabel]="'Nombre'" [id]="'nombreInput'" [placeholder]="placeholder.nombre"></app-input>
+      <app-input  formsControlName = "apellido" [icono] = "icono.person" [textoLabel]="'Apellido'" [id]="'apellidoInput'" [placeholder]="placeholder.apellido"></app-input>
+      <app-input  formsControlName = "mail" [icono] = "icono.email" [textoLabel]="'Email'" [id]="'emailInput'"  [type] = "'email'" [placeholder]="placeholder.email"></app-input>
+      <app-input  formsControlName = "telefono" [icono] = "icono.call" [textoLabel]="'Telefono'" [id]="'telefonoInput'" [type] = "'tel'"[placeholder]="placeholder.telefono"></app-input>
+      <app-input  formsControlName = "fechaNacimiento" [icono] = "icono.calendario" [textoLabel]="'Fecha Nacimiento'" [id]="'fechaInput'" [type]="'date'" [placeholder]="placeholder.fechaNacimiento"></app-input>
+      <app-boton [class]="'botonExtra'"  [textoDentroBoton]="'Servicios que ofrece'" [type]="'submit'" (click) ="abrirServicios()"></app-boton>
+      <app-boton [class]="'botonExtra'"  [textoDentroBoton]="'Días y horarios'" [type]="'submit'" (click) ="abrirDiasYHorarios()"></app-boton>
     </div>
   </div>
-  <app-boton></app-boton>
-</div>
+  <div class=" contenedor-fondo">
+    <app-boton [class]="'botonEliminar'"  [textoDentroBoton]="'Eliminar'" [type]="'submit'" (click) ="eliminarProfesional()"></app-boton>
+    <app-boton [class]="'botonConfirmar'"  [textoDentroBoton]="'Confirmar'" [type]="'submit'" (click) ="crearProfesional()"></app-boton>
+  </div>
+
+</form>
