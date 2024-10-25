@@ -1,13 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CardComponent } from '../../../shared/components/card/card.component';
-import { ServicioServiceService } from '../../../core/services/servicioService/servicio-service.service';
-import { PopUpCrearServicioComponent } from "../pop-up-crear-servicio/pop-up-crear-servicio.component";
+
+import { PopUpCrearProfesionalComponent } from '../pop-up-crear-profesional/pop-up-crear-profesional.component';
+
 
 @Component({
   selector: 'app-profesionales-main',
   standalone: true,
+
   imports: [CommonModule, CardComponent, PopUpCrearServicioComponent],
+
   templateUrl: './profesionales-main.component.html',
   styleUrl: './profesionales-main.component.css'
 })
@@ -25,7 +28,8 @@ maxCards = 6;
 
 rutaBotonChip = ""
 
-@Output() activarOverlay: EventEmitter<void> = new EventEmitter<void>();
+estaSobrepuesto: boolean = false;
+
 
   // Este método emitirá el evento
   abrirPopUp() {
@@ -33,6 +37,9 @@ rutaBotonChip = ""
     this.activarOverlay.emit();
   }
 
+
+
+  // Este método emitirá el evento
 
 agregarCard() {
   console.log(this.idCards);
@@ -43,6 +50,11 @@ agregarCard() {
 
 eliminarCard(idCard: number) {
   this.idCards.splice(this.idCards.lastIndexOf(idCard), 1);
+}
+a
+cambiarSobreposicion() {
+  this.estaSobrepuesto = !this.estaSobrepuesto;
+  console.log(this.estaSobrepuesto);
 }
 
 }
