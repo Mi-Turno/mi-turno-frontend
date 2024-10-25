@@ -19,7 +19,10 @@ export const ICONOS =
   people: 'people',
   settings: 'settings',
   logout: 'logout',
-  lupa: 'search'
-
+  lupa: 'search',
+  reloj: 'schedule',
+  ubicacion:'place',
+  exclamacion:'priority_high',
+  tilde:'check'
 
 }
