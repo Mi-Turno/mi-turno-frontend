@@ -18,7 +18,8 @@ export const ICONOS =
   star: 'star',
   people: 'people',
   settings: 'settings',
-  logout: 'logout'
+  logout: 'logout',
+  lupa: 'search'
 
 
 }

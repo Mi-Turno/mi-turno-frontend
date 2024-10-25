@@ -1,8 +1,16 @@
-<div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>
+
+    <div [className]="claseCard" >
+      <div [className] = "claseContenedorImg">
+        <img [src]="ruta" [className]="claseImg" [alt]="textoAlt">
+
+      </div>
+      <div [className] = "claseCuerpo">
+        <div [className] = "claseCuerpoTexto">
+          <h5 [className]="claseTitulo">{{titulo}}</h5>
+          <p [className]="claseTexto"> {{texto}}</p>
+        </div>
+        <div [className] = claseCuerpoChip>
+          <app-chip [claseEnlace]="'claseEnlaceChip'" [referencia] = "referenciaChip" [texto] = "textoBoton"></app-chip>
+        </div>
+      </div>
+    </div>
