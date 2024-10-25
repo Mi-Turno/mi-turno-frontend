@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { CardComponent } from '../../../shared/components/card/card.component';
-import { ServicioServiceService } from '../../../core/services/servicioService/servicio-service.service';
-import { ServicioInterface } from '../../../core/interfaces/servicio-interface';
+import { CardComponent } from '../../../../shared/components/card/card.component';
+import { ServicioServiceService } from '../../../../core/services/servicioService/servicio-service.service';
+import { ServicioInterface } from '../../../../core/interfaces/servicio-interface';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
