@@ -7,17 +7,17 @@
   <!--PONER INICIO CON GOOGLE-->
   <fieldset class="fieldsetLogin">
     <legend class="legendLogin">Ingrese con su cuenta</legend>
-    <form id="loginForm">
+    <form [formGroup]="formularioLogin">
       <!--Componente-->
 
-
-      <app-input [placeholder]="'Email'" [id]="'emailLogin'" [type]="typeEmail" [textoLabel]="'Email'" [icono]="iconos.email"></app-input>
-
-      <app-input [placeholder]="'Contraseña'" [id]="'passwordLogin'" [type]="typePassword" [textoLabel]="'Contraseña'" [icono]="iconos.iconoContrasenia.cerrado"></app-input>
+      <app-input formControlName="email" [type]="'email'" [icono]="iconos.email" [textoLabel]="'Email'" [id]="'emailInput'" [placeholder]="placeholders.email">
+      </app-input>
+      <app-input formControlName="password" [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado" [textoLabel]="'Contraseña'" [id]="'contraseniaInput'" [placeholder]="placeholders.contrasenia">
+      </app-input>
 
       <a class="olvidasteContra" href="">¿Olvidaste tu contraseña?</a>
 
-      <app-boton [textoDentroBoton]="'Ingresar'" [type]="'submit'"></app-boton>
+      <app-boton [textoDentroBoton]="'Ingresar'" [type]="'submit'" (click)="onSubmit()"></app-boton>
 
     </form>
     <p class="parrafoRegistrar">¿Todavia no tenes una cuenta? <a [href]="registerHref">¡Registrate aqui!</a></p>
