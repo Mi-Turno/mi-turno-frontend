@@ -5,6 +5,8 @@ import { RegisterComponent } from './pages/inicioSesion/register/register.compon
 import { PanelRecepcionComponent } from './pages/dashboardLocal/panel-recepcion/panel-recepcion.component';
 import { ProfesionalesMainComponent } from './pages/dashboardLocal/profesionales-main/profesionales-main.component';
 import { CardComponent } from './shared/components/card/card.component';
+import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno/pedir-turno.component';
+import { ConfirmacionComponent } from './pages/pedirTurno/confirmacion/confirmacion.component';
 
 export const routes: Routes = [{
   path:"landing-page",
@@ -29,6 +31,9 @@ export const routes: Routes = [{
   {path: 'configuracion', component:PanelRecepcionComponent},
   {path: 'salir', component:PanelRecepcionComponent}
  ]
+},{
+  path:"confirmacion",
+  component:ConfirmacionComponent
 },
 {
   path:"**",
