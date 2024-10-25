@@ -1,0 +1,63 @@
+.contenedor {
+  width: 700px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 20px; /* Esquinas redondeadas */
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+  position: relative;
+}
+
+.cruz {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.contenido {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.contenedor-imagen {
+  width:300px;
+  height: 230px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  margin: 0 50px 0 20px;
+}
+
+.contenedor-imagen img {
+  width: 100%; /* Ajusta el tamaño de la imagen */
+  height: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.contenedor-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espacio entre los inputs */
+  width: 100%;
+}
+
+.contenedor-fondo {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 80%;
+  margin-right: 40px;
+}
+
+

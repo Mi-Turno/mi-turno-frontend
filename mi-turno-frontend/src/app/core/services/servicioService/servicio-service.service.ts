@@ -15,6 +15,10 @@ export class ServicioServiceService {
     precio:0,
     duracion:0
   };
+  //me retorna todos los servicios//todo luego habria que filtrar por local etc...
+  public GETservicios():Observable<ServicioInterface[]>{
+      return this.http.get<ServicioInterface[]>(this.urlBase);
+  }
 
   public POSTcrearUnServicio(servicio:ServicioInterface): Observable<ServicioInterface>{
     return this.http.post<ServicioInterface>(this.urlBase,servicio);

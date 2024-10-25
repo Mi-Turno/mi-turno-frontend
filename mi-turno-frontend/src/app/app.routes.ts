@@ -8,6 +8,7 @@ import { CardComponent } from './shared/components/card/card.component';
 import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno/pedir-turno.component';
 import { ConfirmacionComponent } from './pages/pedirTurno/confirmacion/confirmacion.component';
 import { ServicioMainComponent } from './pages/dashboardLocal/servicio-main/servicio-main.component';
+import { PopUpCrearServicioComponent } from './pages/dashboardLocal/pop-up-crear-servicio/pop-up-crear-servicio.component';
 
 export const routes: Routes = [{
   path:"landing-page",
@@ -32,7 +33,8 @@ export const routes: Routes = [{
   {path: 'configuracion', component:PanelRecepcionComponent},
   {path: 'salir', component:PanelRecepcionComponent}
  ]
-},{
+},
+{
   path:"confirmacion",
   component:ConfirmacionComponent
 },

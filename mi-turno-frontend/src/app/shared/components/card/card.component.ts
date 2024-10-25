@@ -20,7 +20,7 @@ export class CardComponent {
 @Input() referencia:string = "";
 
 @Input() titulo:string = "";
-@Input() texto:string = "";
+@Input() texto:any = "";
 @Input() textoBoton: string = ""
 
 

@@ -1,12 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CardComponent } from '../../../shared/components/card/card.component';
+
 import { PopUpCrearProfesionalComponent } from '../pop-up-crear-profesional/pop-up-crear-profesional.component';
+
 
 @Component({
   selector: 'app-profesionales-main',
   standalone: true,
-  imports: [CommonModule, CardComponent, PopUpCrearProfesionalComponent],
+
+  imports: [CommonModule, CardComponent, PopUpCrearServicioComponent],
+
   templateUrl: './profesionales-main.component.html',
   styleUrl: './profesionales-main.component.css'
 })
@@ -27,9 +31,12 @@ rutaBotonChip = ""
 estaSobrepuesto: boolean = false;
 
 
-abrirPopUp() {
-  this.estaSobrepuesto = true;
-}
+  // Este método emitirá el evento
+  abrirPopUp() {
+
+    this.activarOverlay.emit();
+  }
+
 
 
   // Este método emitirá el evento
@@ -44,7 +51,7 @@ agregarCard() {
 eliminarCard(idCard: number) {
   this.idCards.splice(this.idCards.lastIndexOf(idCard), 1);
 }
-
+a
 cambiarSobreposicion() {
   this.estaSobrepuesto = !this.estaSobrepuesto;
   console.log(this.estaSobrepuesto);

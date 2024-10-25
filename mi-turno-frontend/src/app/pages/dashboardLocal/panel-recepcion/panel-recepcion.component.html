@@ -1,12 +1,17 @@
-
-
 <div class="principal">
   <app-side-bar/>
 
   <div class="secundario">
     <app-nav-bar/>
+    <!-- Hay que ver la forma de recibir el evento sin tener que llamarlo aca
+    <app-profesionales-main (activarOverlay)="cambiarSobreposicion()"></app-profesionales-main>-->
     <router-outlet></router-outlet>
   </div>
+
+
+
+  <ng-container *ngIf="estaSobrepuesto">
+    <div class="overlay" (click)="cambiarSobreposicion()"></div>
+   <!-- <app-pop-up-crear-profesional class="posicionPopUp" (desactivarOverlay)="cambiarSobreposicion()" ></app-pop-up-crear-profesional>-->
+  </ng-container>
 </div>
-
-
