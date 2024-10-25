@@ -12,6 +12,23 @@
 
 
 
+ .overlay {
+  position: fixed; /* Fija en toda la pantalla */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Oscurece el fondo */
+  z-index: 2; /* Por encima del contenido principal */
+}
+
+.posicionPopUp{
+  position: fixed; /* Fijo en la pantalla */
+  top: 50%; /* Centrar verticalmente */
+  left: 50%; /* Centrar horizontalmente */
+  transform: translate(-50%, -50%); /* Centrado absoluto */
+  z-index: 3; /* Por encima de la superposición */
+}
 
  .imgMas{
   width: 150px;
