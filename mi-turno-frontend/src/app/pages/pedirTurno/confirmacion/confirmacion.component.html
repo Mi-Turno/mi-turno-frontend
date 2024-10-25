@@ -1,0 +1,75 @@
+<app-nav-pedir-turno></app-nav-pedir-turno>
+<nav>
+  <ul>
+    <li>
+      <a>
+      <app-texto-con-icono
+      [icono]="iconos.tilde"
+      [texto]="titulo"
+      ></app-texto-con-icono>
+    </a>
+    </li>
+  </ul>
+</nav>
+
+<section>
+  <fieldset>
+    <div class="contenedor">
+      <app-texto-con-icono
+      [icono]="iconos.calendario"
+      [texto]="fecha"
+      [claseIcono]="'icono-personalizado'"
+      [claseTexto]="'texto-personalizado'"
+      [href]="'/home'">></app-texto-con-icono>
+    </div>
+    <div class="contenedor">
+      <app-texto-con-icono
+      [icono]="iconos.reloj"
+      [texto]="horario"
+      [claseIcono]="'icono-personalizado'"
+      [claseTexto]="'texto-personalizado'"
+      [href]="'/home'">></app-texto-con-icono>
+    </div>
+    <div class="contenedor">
+      <app-texto-con-icono
+      [icono]="iconos.tijera"
+      [texto]="servicio"
+      [claseIcono]="'icono-personalizado'"
+      [claseTexto]="'texto-personalizado'"
+      [href]="'/home'">></app-texto-con-icono>
+    </div>
+    <div class="contenedor">
+      <app-texto-con-icono
+      [icono]="iconos.person"
+      [texto]="profesional"
+      [claseIcono]="'icono-personalizado'"
+      [claseTexto]="'texto-personalizado'"
+      [href]="'/home'">></app-texto-con-icono>
+    </div>
+    <div class="contenedor">
+      <app-texto-con-icono
+      [icono]="iconos.dinero"
+      [texto]="precio"
+      [claseIcono]="'icono-personalizado'"
+      [claseTexto]="'texto-personalizado'"
+      [href]="'/home'">></app-texto-con-icono>
+    </div>
+    <div class="contenedor">
+      <app-texto-con-icono
+      [icono]="iconos.ubicacion"
+      [texto]="ubicacion"
+      [claseIcono]="'icono-personalizado'"
+      [claseTexto]="'texto-personalizado'"
+      [href]="'/home'">></app-texto-con-icono>
+    </div>
+    <div class="contenedor">
+      <app-texto-con-icono
+      [icono]="iconos.exclamacion"
+      [texto]="detalle"
+      [claseIcono]="'icono-personalizado'"
+      [claseTexto]="'texto-personalizado'"
+      [href]="'/home'">></app-texto-con-icono>
+    </div>
+    <app-boton  [textoDentroBoton]="'Confirmar'" [type]="'button'" (click)="enviarEmailAlCliente()"></app-boton>
+  </fieldset>
+</section>
