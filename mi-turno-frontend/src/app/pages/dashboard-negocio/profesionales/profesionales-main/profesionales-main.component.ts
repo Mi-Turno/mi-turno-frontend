@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CardComponent } from '../../../shared/components/card/card.component';
+import { CardComponent } from '../../../../shared/components/card/card.component';
 import { PopUpCrearProfesionalComponent } from '../pop-up-crear-profesional/pop-up-crear-profesional.component';
 
 @Component({
