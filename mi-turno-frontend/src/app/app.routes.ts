@@ -7,6 +7,7 @@ import { ProfesionalesMainComponent } from './pages/dashboardLocal/profesionales
 import { CardComponent } from './shared/components/card/card.component';
 import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno/pedir-turno.component';
 import { ConfirmacionComponent } from './pages/pedirTurno/confirmacion/confirmacion.component';
+import { ServicioMainComponent } from './pages/dashboardLocal/servicio-main/servicio-main.component';
 
 export const routes: Routes = [{
   path:"landing-page",
@@ -26,7 +27,7 @@ export const routes: Routes = [{
   {path: 'recepcion', component:PanelRecepcionComponent},
   {path: 'turnos', component:PanelRecepcionComponent},
   {path: 'staff', component:ProfesionalesMainComponent},
-  {path: 'servicios', component:PanelRecepcionComponent},
+  {path: 'servicios', component:ServicioMainComponent},
   {path: 'clientes', component:PanelRecepcionComponent},
   {path: 'configuracion', component:PanelRecepcionComponent},
   {path: 'salir', component:PanelRecepcionComponent}
