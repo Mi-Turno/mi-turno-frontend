@@ -1,0 +1,50 @@
+<form [formGroup]="formularioServicio" class="contenedor">
+  <h5>Modificar Servicio</h5>
+  <div class="cruz" (click)="cerrarPopUp()">
+    <mat-icon> close</mat-icon>
+  </div>
+  <div class="contenido">
+    <div class="contenedor-imagen">
+      <img [src]="fotoServicio" />
+    </div>
+    <div class="contenedor-formulario">
+      <app-input
+        formControlName="nombre"
+        [icono]="icono.person"
+        [textoLabel]="'Nombre'"
+        [id]="'nombreInput'"
+        [placeholder]="'Nombre'"
+      ></app-input>
+      <app-input
+        formControlName="precio"
+        [icono]="icono.person"
+        [textoLabel]="'Precio'"
+        [id]="'precioInput'"
+        [placeholder]="'Precio'"
+        type="number"
+      ></app-input>
+      <app-input
+        formControlName="duracion"
+        [icono]="icono.email"
+        [textoLabel]="'Duracion'"
+        [id]="'duracionInput'"
+        [placeholder]="'Duracion'"
+        type="number"
+      ></app-input>
+    </div>
+  </div>
+  <div class="contenedor-fondo">
+    <app-boton
+      [class]="'botonEliminar'"
+      [textoDentroBoton]="'Eliminar'"
+      [type]="'button'"
+      (click)="eliminarServicio()"
+    ></app-boton>
+    <app-boton
+      [class]="'botonConfirmar'"
+      [textoDentroBoton]="'Confirmar'"
+      [type]="'button'"
+      (click)="postServicioToBackend()"
+    ></app-boton>
+  </div>
+</form>

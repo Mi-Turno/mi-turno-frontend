@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CardComponent } from '../../../shared/components/card/card.component';
+import { ServicioServiceService } from '../../../core/services/servicioService/servicio-service.service';
+import { PopUpCrearServicioComponent } from "../pop-up-crear-servicio/pop-up-crear-servicio.component";
 
 @Component({
   selector: 'app-profesionales-main',
   standalone: true,
-  imports: [CommonModule, CardComponent ],
+  imports: [CommonModule, CardComponent, PopUpCrearServicioComponent],
   templateUrl: './profesionales-main.component.html',
   styleUrl: './profesionales-main.component.css'
 })
@@ -27,6 +29,7 @@ rutaBotonChip = ""
 
   // Este método emitirá el evento
   abrirPopUp() {
+
     this.activarOverlay.emit();
   }
 
