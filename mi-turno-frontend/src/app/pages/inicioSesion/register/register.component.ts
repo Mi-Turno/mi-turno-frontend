@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsuarioInterface } from '../../../core/interfaces/usuario-interface';
 import { UsuarioService } from '../../../core/services/usuarioService/usuario.service';
+import { PLACEHOLDERS } from '../../../shared/models/placeholderInicioSesion.constants';
 
 
 
@@ -24,15 +25,7 @@ export class RegisterComponent {
   iconos = ICONOS;
   usuarioService = inject(UsuarioService);
 
-  placeholders = {
-    nombre: "Nombre",
-    apellido: "Apellido",
-    email: "Email",
-    fechaNacimiento:"Fecha de nacimiento",
-    telefono: "Teléfono móvil",
-    contrasenia: "Contraseña",
-    repetirContrasenia: "Repetir Contraseña",
-  }
+  placeholders = PLACEHOLDERS;
   //form reactivo
   formularioRegister = new FormGroup({
     nombre: new FormControl('', Validators.required),
