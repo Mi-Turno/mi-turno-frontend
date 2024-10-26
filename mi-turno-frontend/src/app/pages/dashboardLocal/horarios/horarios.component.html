@@ -1,6 +1,15 @@
-<div class="columna">
-  <div>
-    
+<div class="dia-horario-container">
+  <div class="titulo">
+    <span>Jueves</span>
+    <mat-slide-toggle [(ngModel)]="toggleActivo" (change)="cambiarEstadoToggle()" color="primary"></mat-slide-toggle>
   </div>
 
+  <div class="horario-lista">
+    <div class="horario-item" *ngFor="let horario of horarios; let i = index">
+      <span>{{ horario }}</span>
+      <mat-icon (click)="eliminarHorario(i)" class="delete-icon">delete</mat-icon>
+    </div>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="agregarHorario()">+</button>
 </div>
