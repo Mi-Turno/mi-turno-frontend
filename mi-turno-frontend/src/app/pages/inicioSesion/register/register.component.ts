@@ -25,8 +25,10 @@ export class RegisterComponent {
   iconos = ICONOS;
   usuarioService = inject(UsuarioService);
 
+
   placeholders = PLACEHOLDERS;
   //form reactivo
+
   formularioRegister:FormGroup = new FormGroup({
     nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),

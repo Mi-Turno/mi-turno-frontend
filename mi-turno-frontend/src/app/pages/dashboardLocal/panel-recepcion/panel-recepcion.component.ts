@@ -11,7 +11,7 @@ import { PopUpCrearProfesionalComponent } from '../pop-up-crear-profesional/pop-
 @Component({
   selector: 'app-panel-recepcion',
   standalone: true,
-  imports: [CommonModule,CardComponent, CardComponent, NavBarComponent, SideBarComponent,ProfesionalesMainComponent, FormsModule, RouterOutlet,PopUpCrearProfesionalComponent ],
+  imports: [CommonModule,CardComponent, NavBarComponent, SideBarComponent,ProfesionalesMainComponent, FormsModule, RouterOutlet,PopUpCrearProfesionalComponent ],
   templateUrl: './panel-recepcion.component.html',
   styleUrl: './panel-recepcion.component.css'
 })
@@ -19,9 +19,8 @@ export class PanelRecepcionComponent {
 
   estaSobrepuesto: boolean = false;
 
-  activarSobreposicion() {
+  cambiarSobreposicion() {
     this.estaSobrepuesto = !this.estaSobrepuesto;
+    console.log(this.estaSobrepuesto);
   }
-
-
 }

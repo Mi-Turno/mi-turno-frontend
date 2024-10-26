@@ -1,27 +1,3 @@
-/* div {
-  border: 2px solid
-}
-
-
-.contenedor{
-  width: 50vw;
-  height: 60vh;
-  display: flex;
-  flex-direction: column;
-}
-
-
-.contenido {
-  display: flex;
-  flex-direction: row;
-}
-
-.contenedor-formulario {
-  display: flex;
-  flex-direction: column;
-} */
-
-
 .contenedor {
   width: 700px;
   height: 600px;
@@ -83,4 +59,5 @@
   width: 80%;
   margin-right: 40px;
 }
+
 
