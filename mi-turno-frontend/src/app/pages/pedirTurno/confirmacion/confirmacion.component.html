@@ -1,5 +1,4 @@
-<div>popupAAAAAAAAAAAAAAAAAAAA</div>
-
+<app-pop-up-confirmacion [activar]="activado"></app-pop-up-confirmacion>
 
 <section>
   <fieldset>
@@ -59,6 +58,7 @@
     [disabled]="desactivado"
     [textoDentroBoton]="'Confirmar'"
     [type]="'button'"
-    (click)="enviarEmailAlCliente() "></app-boton>
+    (click)="enviarEmailAlCliente() "
+    ></app-boton>
   </fieldset>
 </section>

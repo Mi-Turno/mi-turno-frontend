@@ -8,6 +8,7 @@ import { ConfirmacionComponent } from './pages/pedirTurno/confirmacion/confirmac
 import { HorariosComponent } from './pages/dashboardLocal/horarios/horarios.component';
 import { ProfesionalesMainComponent } from './pages/dashboardLocal/profesionales/profesionales-main/profesionales-main.component';
 import { ServicioMainComponent } from './pages/dashboardLocal/servicio/servicio-main/servicio-main.component';
+import { PopUpConfirmacionComponent } from './pages/pedirTurno/pop-up-confirmacion/pop-up-confirmacion.component';
 
 export const routes: Routes = [{
   path:"landing-page",
@@ -41,6 +42,9 @@ export const routes: Routes = [{
 {
   path:"prueba",
   component: HorariosComponent,
+},{
+  path:"xd",
+  component:PopUpConfirmacionComponent
 },
 {
   path:"**",

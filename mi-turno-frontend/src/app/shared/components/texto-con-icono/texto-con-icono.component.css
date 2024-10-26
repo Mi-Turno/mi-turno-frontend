@@ -13,4 +13,12 @@ p{
 .seleccionado{
   color: white;
 }
+.iconoVerde {
+  font-size: 80px;
+  color:var(--color-contraste1);
 
+}
+.textoNegrita{
+  font-weight: bold;
+  font-size: 30px;
+}

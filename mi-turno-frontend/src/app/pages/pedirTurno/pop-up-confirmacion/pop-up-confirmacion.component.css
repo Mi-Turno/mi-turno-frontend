@@ -1,0 +1,19 @@
+.claseActiva {
+  background-color: var(--color-gris-claro);
+  position: absolute;
+  width: 100vw;
+  height: 200px;
+  top: -200px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  transition: top 0.5s ease;
+}
+
+/* Estado activo del popup, visible */
+.claseActiva.habilitar {
+  top: 0; /* El popup se desliza hacia abajo */
+  transition: top 0.5s ease;
+}

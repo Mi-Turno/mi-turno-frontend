@@ -8,11 +8,12 @@ import { EmailInterface } from '../../../core/interfaces/email-interface';
 import { EmailService } from '../../../core/services/emailService/email-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NavBarComponent } from "../../landing/nav-landing/nav-bar.component";
+import { PopUpConfirmacionComponent } from "../pop-up-confirmacion/pop-up-confirmacion.component";
 
 @Component({
   selector: 'app-confirmacion',
   standalone: true,
-  imports: [NavPedirTurnoComponent, NavPasosComponent, TextoConIconoComponent, BotonComponent, NavBarComponent],
+  imports: [NavPedirTurnoComponent, NavPasosComponent, TextoConIconoComponent, BotonComponent, NavBarComponent, PopUpConfirmacionComponent],
   templateUrl: './confirmacion.component.html',
   styleUrl: './confirmacion.component.css'
 })
@@ -52,11 +53,15 @@ crearEmail():EmailInterface{
     direccion:direccion
   }
 };
+
+ activado:boolean= false;
+
 enviarEmailAlCliente(){
   this.desactivado=true;
   const email:EmailInterface = this.crearEmail();
   this.emailService.postEnviarEmail(email).subscribe({
     next:(response) =>{
+      this.activado = true;
       console.log(response);
     },
     error:(error:HttpErrorResponse)=>{
