@@ -1,27 +1,79 @@
 <nav>
   <ul>
+    @if (pasoActual !== 5) {
     <li>
-      <a href="">
-        <app-texto-con-icono [icono]="iconos.tijera" [texto]="textos.servicios"></app-texto-con-icono>
-      </a>
+      <button
+        [ngClass]="{
+          'no-seleccionado': pasoActual !== 1,
+          seleccionado: pasoActual === 1
+        }"
+        (click)="irAPaso(1)"
+      >
+        <app-texto-con-icono
+          [seleccionado]="pasoActual === 1"
+          [icono]="iconos.tijera"
+          [texto]="textos.servicio"
+        >
+        </app-texto-con-icono>
+      </button>
     </li>
     <li>
-      <a href="">
-        <app-texto-con-icono [icono]="iconos.carita_feliz" [texto]="textos.profesional"></app-texto-con-icono>
-      </a>
-  </li>
-  <li>
-    <a href="">
-      <app-texto-con-icono [icono]="iconos.calendario" [texto]="textos.cuando"></app-texto-con-icono>
-    </a>
-
-
-</li>
-<li>
-  <a href="">
-    <app-texto-con-icono [icono]="iconos.dinero" [texto]="textos.pago"></app-texto-con-icono>
-  </a>
-   
-</li>
+      <button
+        [ngClass]="{
+          'no-seleccionado': pasoActual !== 2,
+          seleccionado: pasoActual === 2
+        }"
+        (click)="irAPaso(2)"
+      >
+        <app-texto-con-icono
+          [seleccionado]="pasoActual === 2"
+          [icono]="iconos.carita_feliz"
+          [texto]="textos.profesional"
+        ></app-texto-con-icono>
+      </button>
+    </li>
+    <li>
+      <button
+        [ngClass]="{
+          'no-seleccionado': pasoActual !== 3,
+          seleccionado: pasoActual === 3
+        }"
+        (click)="irAPaso(3)"
+      >
+        <app-texto-con-icono
+          [seleccionado]="pasoActual === 3"
+          [icono]="iconos.calendario"
+          [texto]="textos.cuando"
+        ></app-texto-con-icono>
+      </button>
+    </li>
+    <li>
+      <button
+        [ngClass]="{
+          'no-seleccionado': pasoActual !== 4,
+          seleccionado: pasoActual === 4
+        }"
+        (click)="irAPaso(4)"
+      >
+        <app-texto-con-icono
+          [seleccionado]="pasoActual === 4"
+          [icono]="iconos.dinero"
+          [texto]="textos.pago"
+        ></app-texto-con-icono>
+      </button>
+    </li>
+    }
+    @else {
+    <li>
+      <button
+      [id]="'confirmar'"
+      >
+        <app-texto-con-icono
+          [icono]="iconos.tilde"
+          [texto]="titulo"
+        ></app-texto-con-icono>
+      </button>
+    </li>
+    }
   </ul>
 </nav>
