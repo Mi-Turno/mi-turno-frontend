@@ -54,6 +54,7 @@ li button:hover{
   cursor:default;
   background-color: var(--color-contraste2);
   color: white;
+  width: 50%;
 }
 
 app-texto-con-icono{
