@@ -1,17 +1,32 @@
 <main class="main">
   <div *ngFor="let card of idCards">
-    <app-card [ruta] = "rutaImg" [textoAlt] = "textoAlternativo" [titulo] = "nombre" [texto] = "especialidad" [textoBoton] = "textoBoton"  [referenciaChip] = "rutaBotonChip"></app-card>
+    <app-card
+      [ruta]="rutaImg"
+      [textoAlt]="textoAlternativo"
+      [titulo]="card.nombre"
+      [texto]="especialidad"
+      [textoBoton]="textoBoton"
+      [referenciaChip]="rutaBotonChip"
+    ></app-card>
   </div>
-  <button (click)="cambiarSobreposicion()" class="mas-contenedor" *ngIf="idCards.length < 6">
-    <img src="img-mas-card.png" class="imgMas" alt="Agregar Card" style="cursor: pointer;">
+  <button
+    (click)="cambiarSobreposicion()"
+    class="mas-contenedor"
+    *ngIf="idCards.length < 6"
+  >
+    <img
+      src="img-mas-card.png"
+      class="imgMas"
+      alt="Agregar Card"
+      style="cursor: pointer"
+    />
   </button>
-
 
   <ng-container *ngIf="estaSobrepuesto">
     <div class="overlay" (click)="cambiarSobreposicion()"></div>
-    <app-pop-up-crear-profesional class="posicionPopUp" (desactivarOverlay)="cambiarSobreposicion()" ></app-pop-up-crear-profesional>
+    <app-pop-up-crear-profesional
+      class="posicionPopUp"
+      (desactivarOverlay)="cambiarSobreposicion()"
+    ></app-pop-up-crear-profesional>
   </ng-container>
-
 </main>
-
-

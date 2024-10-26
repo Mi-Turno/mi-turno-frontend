@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PopUpCrearProfesionalComponent } from '../pop-up-crear-profesional/pop-up-crear-profesional.component';
+import { UsuarioService } from '../../../core/services/usuarioService/usuario.service';
+import { UsuarioInterface } from '../../../core/interfaces/usuario-interface';
+import { ROLES } from '../../../shared/models/rolesUsuario.constants';
 
 @Component({
   selector: 'app-profesionales-main',
@@ -10,7 +13,8 @@ import { PopUpCrearProfesionalComponent } from '../pop-up-crear-profesional/pop-
   templateUrl: './profesionales-main.component.html',
   styleUrl: './profesionales-main.component.css'
 })
-export class ProfesionalesMainComponent {
+export class ProfesionalesMainComponent  implements OnInit{
+
 
 
 nombre = "Juan"
@@ -19,7 +23,7 @@ textoBoton = "Modificar"
 rutaImg = "img-default.png"
 textoAlternativo = "Img del barbero"
 
-idCards: number[] = [];
+idCards: UsuarioInterface[] = [];
 maxCards = 6;
 
 rutaBotonChip = ""
@@ -31,23 +35,25 @@ abrirPopUp() {
   this.estaSobrepuesto = true;
 }
 
-
-  // Este método emitirá el evento
-
-agregarCard() {
-  console.log(this.idCards);
-  if(this.idCards.length < this.maxCards) {
-    this.idCards.push(this.idCards.length + 1);
-  }
-}
-
-eliminarCard(idCard: number) {
-  this.idCards.splice(this.idCards.lastIndexOf(idCard), 1);
-}
-
 cambiarSobreposicion() {
   this.estaSobrepuesto = !this.estaSobrepuesto;
   console.log(this.estaSobrepuesto);
+}
+
+usuarios: UsuarioService = inject(UsuarioService)
+
+ngOnInit() {
+  this.cargarUsuarios();
+}
+cargarUsuarios() {
+  this.usuarios.getUsuarioByRol(ROLES.profesional).subscribe({
+    next: (response) => {
+      this.idCards = response.slice(0, this.maxCards);
+    },
+    error: (error) => {
+      console.error('Error al obtener usuarios:', error);
+    }
+  });
 }
 
 }
