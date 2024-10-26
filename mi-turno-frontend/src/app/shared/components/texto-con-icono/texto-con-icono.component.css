@@ -1,10 +1,16 @@
-.claseTexto{
-  margin: 0 0 0 10px;
+p{
+  margin: 0;
+}
 
+.claseTexto{
+  font-size: large;
+  margin: 0 0 0 10px;
 }
 
 .claseIcono{
   font-size: 42px;
 }
-
+.seleccionado{
+  color: white;
+}
 
