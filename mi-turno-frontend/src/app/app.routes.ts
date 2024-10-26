@@ -3,13 +3,11 @@ import { LandingPageComponent } from './pages/landing/landing-page/landing-page.
 import { LoginComponent } from './pages/inicioSesion/login/login.component';
 import { RegisterComponent } from './pages/inicioSesion/register/register.component';
 import { PanelRecepcionComponent } from './pages/dashboardLocal/panel-recepcion/panel-recepcion.component';
-import { ProfesionalesMainComponent } from './pages/dashboardLocal/profesionales-main/profesionales-main.component';
-import { CardComponent } from './shared/components/card/card.component';
 import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno/pedir-turno.component';
 import { ConfirmacionComponent } from './pages/pedirTurno/confirmacion/confirmacion.component';
-import { ServicioMainComponent } from './pages/dashboardLocal/servicio-main/servicio-main.component';
-import { PopUpCrearServicioComponent } from './pages/dashboardLocal/pop-up-crear-servicio/pop-up-crear-servicio.component';
 import { HorariosComponent } from './pages/dashboardLocal/horarios/horarios.component';
+import { ProfesionalesMainComponent } from './pages/dashboardLocal/profesionales/profesionales-main/profesionales-main.component';
+import { ServicioMainComponent } from './pages/dashboardLocal/servicio/servicio-main/servicio-main.component';
 
 export const routes: Routes = [{
   path:"landing-page",
@@ -35,10 +33,6 @@ export const routes: Routes = [{
   {path: 'configuracion', component:PanelRecepcionComponent},
   {path: 'salir', component:PanelRecepcionComponent}
  ]
-},
-{
-  path:"confirmacion",
-  component:ConfirmacionComponent
 },
 {
   path:"negocios/:nombreNegocio/pedir-turno",

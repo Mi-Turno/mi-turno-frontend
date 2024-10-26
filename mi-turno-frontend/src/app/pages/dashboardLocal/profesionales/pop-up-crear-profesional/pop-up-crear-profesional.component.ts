@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { BotonComponent } from '../../../shared/components/boton/boton.component';
-import { InputComponent } from '../../../shared/components/input/input.component';
+import { BotonComponent } from '../../../../shared/components/boton/boton.component';
+import { InputComponent } from '../../../../shared/components/input/input.component';
 import { MatIcon } from '@angular/material/icon';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ICONOS } from '../../../shared/models/iconos.constants';
-import { PLACEHOLDERS } from '../../../shared/models/placeholderInicioSesion.constants';
-import { UsuarioInterface } from '../../../core/interfaces/usuario-interface';
-import { ROLES } from '../../../shared/models/rolesUsuario.constants';
-import { UsuarioService } from '../../../core/services/usuarioService/usuario.service';
+import { ICONOS } from '../../../../shared/models/iconos.constants';
+import { PLACEHOLDERS } from '../../../../shared/models/placeholderInicioSesion.constants';
+import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface';
+import { ROLES } from '../../../../shared/models/rolesUsuario.constants';
+import { UsuarioService } from '../../../../core/services/usuarioService/usuario.service';
 
 @Component({
   selector: 'app-pop-up-crear-profesional',

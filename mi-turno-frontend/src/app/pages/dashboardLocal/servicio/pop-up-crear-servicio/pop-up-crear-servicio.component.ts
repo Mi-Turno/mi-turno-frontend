@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { BotonComponent } from '../../../shared/components/boton/boton.component';
-import { InputComponent } from '../../../shared/components/input/input.component';
+import { BotonComponent } from '../../../../shared/components/boton/boton.component';
+import { InputComponent } from '../../../../shared/components/input/input.component';
 import { MatIcon } from '@angular/material/icon';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ICONOS } from '../../../shared/models/iconos.constants';
-import { PLACEHOLDERS } from '../../../shared/models/placeholderInicioSesion.constants';
-import { CardComponent } from '../../../shared/components/card/card.component';
-import { ServicioInterface } from '../../../core/interfaces/servicio-interface';
-import { ServicioServiceService } from '../../../core/services/servicioService/servicio-service.service';
+import { ICONOS } from '../../../../shared/models/iconos.constants';
+import { PLACEHOLDERS } from '../../../../shared/models/placeholderInicioSesion.constants';
+import { CardComponent } from '../../../../shared/components/card/card.component';
+import { ServicioInterface } from '../../../../core/interfaces/servicio-interface';
+import { ServicioServiceService } from '../../../../core/services/servicioService/servicio-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { codigoErrorHttp } from '../../../shared/models/httpError.constants';
+import { codigoErrorHttp } from '../../../../shared/models/httpError.constants';
 
 @Component({
   selector: 'app-pop-up-crear-servicio',

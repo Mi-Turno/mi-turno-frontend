@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { CardComponent } from '../../../shared/components/card/card.component';
+import { CardComponent } from '../../../../shared/components/card/card.component';
 import { PopUpCrearProfesionalComponent } from '../pop-up-crear-profesional/pop-up-crear-profesional.component';
-import { UsuarioService } from '../../../core/services/usuarioService/usuario.service';
-import { UsuarioInterface } from '../../../core/interfaces/usuario-interface';
-import { ROLES } from '../../../shared/models/rolesUsuario.constants';
+import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface';
+import { UsuarioService } from '../../../../core/services/usuarioService/usuario.service';
+import { ROLES } from '../../../../shared/models/rolesUsuario.constants';
 
 @Component({
   selector: 'app-profesionales-main',

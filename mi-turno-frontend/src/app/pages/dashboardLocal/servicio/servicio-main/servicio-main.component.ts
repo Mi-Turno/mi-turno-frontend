@@ -1,15 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
-import { CardComponent } from '../../../shared/components/card/card.component';
-import { ServicioServiceService } from '../../../core/services/servicioService/servicio-service.service';
-import { ServicioInterface } from '../../../core/interfaces/servicio-interface';
-import { HttpErrorResponse } from '@angular/common/http';
-import { PopUpCrearServicioComponent } from "../pop-up-crear-servicio/pop-up-crear-servicio.component";
+import { CardComponent } from '../../../../shared/components/card/card.component';
+import { PopUpCrearProfesionalComponent } from '../../profesionales/pop-up-crear-profesional/pop-up-crear-profesional.component';
+import { ServicioInterface } from '../../../../core/interfaces/servicio-interface';
+import { ServicioServiceService } from '../../../../core/services/servicioService/servicio-service.service';
 
 @Component({
   selector: 'app-servicio-main',
   standalone: true,
-  imports: [CommonModule, CardComponent, PopUpCrearServicioComponent],
+  imports: [CommonModule, CardComponent, PopUpCrearProfesionalComponent],
   templateUrl: './servicio-main.component.html',
   styleUrl: './servicio-main.component.css'
 })
