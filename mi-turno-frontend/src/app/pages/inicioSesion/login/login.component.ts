@@ -9,6 +9,7 @@ import { UsuarioInterface } from '../../../core/interfaces/usuario-interface';
 import { throwError } from 'rxjs';
 import { PLACEHOLDERS } from '../../../shared/models/placeholderInicioSesion.constants';
 import { HttpErrorResponse } from '@angular/common/http';
+import { codigoErrorHttp } from '../../../shared/models/httpError.constants';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,7 @@ export class LoginComponent {
 
   registerHref: string = "register";
   iconos = ICONOS;
+
 
   placeholders = PLACEHOLDERS;
 
@@ -62,13 +64,13 @@ export class LoginComponent {
             }
           },
           error: (error: HttpErrorResponse) => {
-            if (error.status === 404) {
+            if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
               alert('Error 404: Usuario no encontrado');
 
-            } else if (error.status === 500) {
+            } else if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
               alert('Error 500: Error del servidor');
 
-            } else if (error.status === 0) {
+            } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
               alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
             } else {
               alert('Error inesperado. Intente otra vez mas tarde.');
