@@ -20,7 +20,7 @@ export const routes: Routes = [{
   component:RegisterComponent
 },
 {
- path:"local",
+
  path:"negocios/:nombreNegocio",
  component:PanelRecepcionComponent,
  children : [
