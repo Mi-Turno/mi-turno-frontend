@@ -11,6 +11,7 @@ import { ServicioInterface } from '../../../core/interfaces/servicio-interface';
 import { ServicioServiceService } from '../../../core/services/servicioService/servicio-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { codigoErrorHttp } from '../../../shared/models/httpError.constants';
 
 @Component({
   selector: 'app-pop-up-crear-servicio',
@@ -63,7 +64,17 @@ export class PopUpCrearServicioComponent {
             console.log(response);
           },
           error: (error:HttpErrorResponse) =>{
-            console.log(error);
+              if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
+                alert('Error 404: Usuario no encontrado');
+
+              } else if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
+                alert('Error 500: Error del servidor');
+
+              } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
+                alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
+              } else {
+                alert('Error inesperado. Intente otra vez mas tarde.');
+              }
           }
         })
     }else{
