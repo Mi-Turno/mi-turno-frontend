@@ -21,6 +21,7 @@ export const routes: Routes = [{
 },
 {
  path:"local",
+ path:"negocios/:nombreNegocio",
  component:PanelRecepcionComponent,
  children : [
   {path: 'recepcion', component:PanelRecepcionComponent},
@@ -34,6 +35,10 @@ export const routes: Routes = [{
 },{
   path:"confirmacion",
   component:ConfirmacionComponent
+},
+{
+  path:"negocios/:nombreNegocio/pedir-turno",
+  component:PedirTurnoComponent,
 },
 {
   path:"**",
