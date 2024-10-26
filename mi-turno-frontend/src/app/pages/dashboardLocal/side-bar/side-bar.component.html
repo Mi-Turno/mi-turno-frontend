@@ -9,51 +9,51 @@
   <ul>
 
     <li>
-      <div [ngClass] ="{'seleccionado' : selecionado('/local/recepcion')}" >
-        <a class="claseEnlace" [href]="'/local/recepcion'">
+      <div [ngClass] ="{'seleccionado' : selecionado(rutaRecepcion)}" >
+        <a class="claseEnlace" [href]="rutaRecepcion">
           <mat-icon class = "claseIcono">{{iconos.home}}</mat-icon>
           Recepción</a>
       </div>
     </li>
 
     <li>
-      <div [ngClass] ="{'seleccionado' : selecionado('/local/turnos')}" >
-        <a class="claseEnlace" [href]="'/local/turnos'">
+      <div [ngClass] ="{'seleccionado' : selecionado(rutaTurnos)}" >
+        <a class="claseEnlace" [href]="rutaTurnos">
           <mat-icon class = "claseIcono">{{iconos.eventNote}}</mat-icon>
           Turnos</a>
       </div>
     </li>
     <li>
-      <div [ngClass] ="{'seleccionado' : selecionado('/local/staff')}">
-        <a class="claseEnlace" [href]="'/local/staff'">
+      <div [ngClass] ="{'seleccionado' : selecionado(rutaStaff)}">
+        <a class="claseEnlace" [href]="rutaStaff">
           <mat-icon class = "claseIcono">{{iconos.badge}}</mat-icon>
           Staff</a>
       </div>
     </li>
     <li>
-      <div [ngClass] ="{'seleccionado' : selecionado('/local/servicios')}">
-        <a class="claseEnlace" [href]="'/local/servicios'">
+      <div [ngClass] ="{'seleccionado' : selecionado(rutaServicios)}">
+        <a class="claseEnlace" [href]="rutaServicios">
           <mat-icon class = "claseIcono">{{iconos.star}}</mat-icon>
           Servicios</a>
       </div>
     </li>
     <li>
-      <div [ngClass] ="{'seleccionado' : selecionado('/local/clientes')}" >
-        <a class="claseEnlace" [href]="'/local/clientes'">
+      <div [ngClass] ="{'seleccionado' : selecionado(rutaClientes)}" >
+        <a class="claseEnlace" [href]="rutaClientes">
           <mat-icon class = "claseIcono">{{iconos.people}}</mat-icon>
           Clientes</a>
       </div>
     </li>
     <li>
-      <div [ngClass] ="{'seleccionado' : selecionado('/local/configuracion')}">
-        <a class="claseEnlace" [href]="'/local/configuracion'">
+      <div [ngClass] ="{'seleccionado' : selecionado(rutaConfiguracion)}">
+        <a class="claseEnlace" [href]="rutaConfiguracion">
           <mat-icon class = "claseIcono">{{iconos.settings}}</mat-icon>
           Configuración</a>
       </div>
     </li>
     <li>
-      <div [ngClass] ="{'seleccionado' : selecionado('/local/salir')}">
-        <a class="claseEnlace" [href]="'/local/salir'">
+      <div [ngClass] ="{'seleccionado' : selecionado(rutaSalir)}">
+        <a class="claseEnlace" [href]="rutaSalir">
           <mat-icon class = "claseIcono salir">{{iconos.logout}}</mat-icon>
           Salir</a>
       </div>

@@ -9,6 +9,7 @@ import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno/pedir-turno.
 import { ConfirmacionComponent } from './pages/pedirTurno/confirmacion/confirmacion.component';
 import { ServicioMainComponent } from './pages/dashboardLocal/servicio-main/servicio-main.component';
 import { PopUpCrearServicioComponent } from './pages/dashboardLocal/pop-up-crear-servicio/pop-up-crear-servicio.component';
+import { HorariosComponent } from './pages/dashboardLocal/horarios/horarios.component';
 
 export const routes: Routes = [{
   path:"landing-page",
@@ -42,6 +43,10 @@ export const routes: Routes = [{
 {
   path:"negocios/:nombreNegocio/pedir-turno",
   component:PedirTurnoComponent,
+},
+{
+  path:"prueba",
+  component: HorariosComponent,
 },
 {
   path:"**",
