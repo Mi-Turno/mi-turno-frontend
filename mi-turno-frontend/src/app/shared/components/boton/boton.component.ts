@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-boton',
@@ -24,6 +24,9 @@ export class BotonComponent {
 
   @Input()
   backgroundColor: string="var(--color-contraste2: #2138bb)"
+
+  @Output()
+  click = new EventEmitter<void>();
 
   backgroundColorEstilo: string=`background-color:${this.backgroundColor};`
 
