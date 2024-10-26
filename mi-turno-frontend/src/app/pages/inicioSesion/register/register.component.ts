@@ -27,7 +27,7 @@ export class RegisterComponent {
 
   placeholders = PLACEHOLDERS;
   //form reactivo
-  formularioRegister = new FormGroup({
+  formularioRegister:FormGroup = new FormGroup({
     nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),

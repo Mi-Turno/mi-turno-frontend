@@ -1,7 +1,4 @@
-p{
-  margin: 0;
 
-}
 
 nav{
   box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.3);
@@ -27,26 +24,20 @@ nav ul li{
 }
 
 li a{
-  color: var(--color-texto);
   text-decoration: none;
-
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-li a:hover{
   color: white;
   background-color: var(--color-contraste2);
-
 }
 
  app-texto-con-icono{
+  padding-top: 1rem;
   display: flex;
   align-items: center;
-
 }
 
 
@@ -62,10 +53,9 @@ fieldset{
   height: 500px;
 
 }
-.contenedor{
-  padding-top: 0.7rem;
-}
+
+
 app-boton{
   text-align: center;
-  padding-top: 3rem;
+  padding-top: 5rem;
 }
