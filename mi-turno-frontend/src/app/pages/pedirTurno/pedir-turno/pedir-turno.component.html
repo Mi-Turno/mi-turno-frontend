@@ -1,2 +1,24 @@
 <app-nav-pedir-turno></app-nav-pedir-turno>
-<app-nav-pasos></app-nav-pasos>
+
+<app-nav-pasos [pasoActual]="pasoActual" (cambiarPaso)="irAPaso($event)"></app-nav-pasos>
+
+<button (click)="avanzarPaso()">aaaaa</button>
+
+@switch (pasoActual) {
+  @case (1) {
+    <p>hola1</p>
+  }
+  @case (2) {
+    <p>hola2</p>
+  }
+  @case (3) {
+    <p>hola3</p>
+  }
+  @case (4) {
+    <p>hola4</p>
+    <button (click)="confirmarTurno()">Confirmar Turno</button>
+  }
+  @case (5) {
+    <p>Turno Confirmado</p>
+  }
+}

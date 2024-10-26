@@ -7,25 +7,28 @@ import { BotonComponent } from "../../../shared/components/boton/boton.component
 import { EmailInterface } from '../../../core/interfaces/email-interface';
 import { EmailService } from '../../../core/services/emailService/email-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NavBarComponent } from "../../landing/nav-landing/nav-bar.component";
 
 @Component({
   selector: 'app-confirmacion',
   standalone: true,
-  imports: [NavPedirTurnoComponent, NavPasosComponent, TextoConIconoComponent, BotonComponent],
+  imports: [NavPedirTurnoComponent, NavPasosComponent, TextoConIconoComponent, BotonComponent, NavBarComponent],
   templateUrl: './confirmacion.component.html',
   styleUrl: './confirmacion.component.css'
 })
 export class ConfirmacionComponent {
-iconos = ICONOS;
-//todo reemplazar por los valores reales que se van asignando en el turno
-titulo:string='Confirmacion';
-fecha:string='Martes 18 de agosto,2024';
-horario:string='13:00hs';
-servicio:string='corte';
-profesional:string='Tahiel';
-precio:string='11.000';
-ubicacion:string ='Av. Pescadores 6712';
-detalle:string ='Se enviará un mail de aviso 3 horas antes del servicio. En caso de cancelar el turno avisar 2 horas antes';
+
+  desactivado=false;
+  iconos = ICONOS;
+  //todo reemplazar por los valores reales que se van asignando en el turno
+  titulo:string='Confirmacion';
+  fecha:string='Martes 18 de agosto,2024';
+  horario:string='13:00hs';
+  servicio:string='Corte';
+  profesional:string='Tahiel';
+  precio:string='11.000';
+  ubicacion:string ='Av. Pescadores 6712';
+  detalle:string ='Se enviará un mail de aviso 3 horas antes del servicio. En caso de cancelar el turno avisar 2 horas antes';
 
 emailService:EmailService = inject(EmailService)
 crearEmail():EmailInterface{
@@ -50,15 +53,18 @@ crearEmail():EmailInterface{
   }
 };
 enviarEmailAlCliente(){
- const email:EmailInterface = this.crearEmail();
-this.emailService.postEnviarEmail(email).subscribe({
-  next:(response) =>{
-    console.log(response);
-  },
-  error:(error:HttpErrorResponse)=>{
-    console.log(error);
-  }
-})
+  this.desactivado=true;
+  const email:EmailInterface = this.crearEmail();
+  this.emailService.postEnviarEmail(email).subscribe({
+    next:(response) =>{
+      console.log(response);
+    },
+    error:(error:HttpErrorResponse)=>{
+      this.desactivado=false;
+      alert('Error al enviar el mail');
+      console.log(error);
+    }
+  })
 }
 
 }

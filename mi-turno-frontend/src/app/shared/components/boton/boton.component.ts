@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { flatMap } from 'rxjs';
 
 @Component({
   selector: 'app-boton',
@@ -18,9 +17,14 @@ export class BotonComponent {
   type:string="button"
 
   @Input()
-  disabled: boolean= false
+  disabled: boolean= false;
 
   @Input()
   class: string="botonPredeterminado"
+
+  @Input()
+  backgroundColor: string="var(--color-contraste2: #2138bb)"
+
+  backgroundColorEstilo: string=`background-color:${this.backgroundColor};`
 
 }

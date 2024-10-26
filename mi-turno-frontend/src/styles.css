@@ -8,7 +8,7 @@
 :root{
   --color-background:#FFFFFF;/*F5F5F5 TODO: cambiar el fondo del icono a este tono y luego cambiar el background*/
   --color-secundario:#DDDDDD;
-  --color-gris-claro: #d8d8d8;
+  --color-gris-claro: #f0f0f0;
   --color-texto:#4A4A4A;
   --color-contraste1: #73C21C;
   --color-contraste2: #2138bb;

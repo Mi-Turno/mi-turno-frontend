@@ -1,3 +1,12 @@
-<mat-icon [className]="claseIcono">{{icono}}</mat-icon>
-<p [className]="claseTexto">{{texto}}</p>
+
+<!-- [ngClass]="[claseTexto,claseSeleccionado]" TAMBIEN SE PUEDE HACER ASI -->
+@if (seleccionado) {
+  <mat-icon style="color: white;" [className]="claseIcono">{{icono}}</mat-icon>
+  <p [ngClass]="[claseTexto,claseSeleccionado]">{{texto}}</p>
+}
+@else {
+  <mat-icon [className]="claseIcono">{{icono}}</mat-icon>
+  <p [className]="claseTexto">{{texto}}</p>
+}
+
 <!-- <h4>{{texto}}</h4> -->
