@@ -10,6 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NavBarComponent } from "../../landing/nav-landing/nav-bar.component";
 import { PopUpConfirmacionComponent } from "../pop-up-confirmacion/pop-up-confirmacion.component";
 import { CommonModule } from '@angular/common';
+import { codigoErrorHttp } from '../../../shared/models/httpError.constants';
 
 @Component({
   selector: 'app-confirmacion',
@@ -76,8 +77,20 @@ enviarEmailAlCliente(){
       console.log(response);
     },
     error:(error:HttpErrorResponse)=>{
+      if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
+        alert('Error 404: Email no encontrado');
+
+      } else if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
+        alert('Error 500: Error del servidor');
+
+      } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
+        alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
+      } else if(error.status === codigoErrorHttp.ERROR_REPETIDO){
+        alert('Error 409: el Email ya existe en el sistema');
+      } else {
+        alert('Error al enviar el Email');
+      }
       this.botonActivado=false;
-      alert('Error al enviar el mail');
       console.log(error);
     }
   })

@@ -10,6 +10,7 @@ import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface'
 import { ROLES } from '../../../../shared/models/rolesUsuario.constants';
 import { UsuarioService } from '../../../../core/services/usuarioService/usuario.service';
 import { RouterLink } from '@angular/router';
+import { codigoErrorHttp } from '../../../../shared/models/httpError.constants';
 
 @Component({
   selector: 'app-pop-up-crear-profesional',
@@ -84,7 +85,19 @@ private postUsuarioToBackend(usuario:UsuarioInterface):void{
         console.log(usuario);
       },
       error:(error)=>{
-        console.error(error);
+        if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
+          alert('Error 404: Profesional no encontrado');
+
+        } else if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
+          alert('Error 500: Error del servidor');
+
+        } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
+          alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
+        } else if(error.status === codigoErrorHttp.ERROR_REPETIDO){
+          alert('Error 409: Profesional ya existe en el sistema');
+        } else {
+          alert('Error inesperado. Intente otra vez mas tarde.');
+        }
       }
     })
   } catch (error) {

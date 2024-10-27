@@ -2,7 +2,8 @@ export const codigoErrorHttp = {
 NO_ENCONTRADO:404,
 CREADO:201,
 ERROR_SERVIDOR:500,
-ERROR_CONTACTAR_SERVIDOR:0
+ERROR_CONTACTAR_SERVIDOR:0,
+ERROR_REPETIDO:409
 }
 /*error: (error: HttpErrorResponse) => {
   if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
