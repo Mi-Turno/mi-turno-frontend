@@ -1,10 +1,9 @@
 import { MetodosDePago } from "../../shared/models/metodosDePago";
 
 export interface TurnoInterface{
-  id?:number;//id del turno
   idCliente:number;//id del usuario,
   idServicio:number; //id del servicio
-  idProfesional:string; //id del profesional
+  idProfesional:number; //id del profesional
   idNegocio:number; //id del negocio
   fechaInicio:Date;
   horario:Date;

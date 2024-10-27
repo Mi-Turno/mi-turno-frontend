@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { NavPedirTurnoComponent } from "../nav-pedir-turno/nav-pedir-turno.component";
 import { NavPasosComponent } from "../nav-pasos/nav-pasos.component";
@@ -9,22 +10,29 @@ import { ConfirmacionComponent } from '../confirmacion/confirmacion.component';
 @Component({
   selector: 'app-pedir-turno',
   standalone: true,
-  imports: [NavPedirTurnoComponent, NavPasosComponent, CardComponent,ConfirmacionComponent],
+  imports: [CommonModule,NavPedirTurnoComponent, NavPasosComponent, CardComponent,ConfirmacionComponent],
   templateUrl: './pedir-turno.component.html',
   styleUrl: './pedir-turno.component.css'
 })
 export class PedirTurnoComponent {
 
   turno:TurnoInterface = {
-    idUsuario:1, //se obtiene mediante LocalStorage del JWT
+    idCliente:1, //se obtiene mediante LocalStorage del JWT
     idServicio:1, //se obtiene mediante el servicio de servicios
-    idProfesional:"1",
-    fecha:new Date(),
-    horaInicio:new Date(),
+    idProfesional:1,
+    fechaInicio:new Date(),
+    idNegocio:1, //se obtiene mediante el servicio de servicios
+    horario:new Date(),
     metodoPago: MetodosDePago.efectivo
   }
 
   pasoActual: number = 1; // Variable que controla el paso actual
+  activarOscurecer: boolean = false; // Variable que controla si se oscurece el fondo para mostrar el pop-up
+
+  manejadorOscurecer(event: boolean): void {
+    this.activarOscurecer=event;
+  }
+
 
   // Función para avanzar al siguiente paso
   avanzarPaso(): void {

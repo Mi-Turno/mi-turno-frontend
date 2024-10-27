@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { NavPedirTurnoComponent } from "../nav-pedir-turno/nav-pedir-turno.component";
 import { NavPasosComponent } from "../nav-pasos/nav-pasos.component";
 import { ICONOS } from '../../../shared/models/iconos.constants';
@@ -25,7 +25,7 @@ export class ConfirmacionComponent {
   //todo reemplazar por los valores reales que se van asignando en el turno
 
 
-  
+
   titulo:string='Confirmacion';
   fecha:string='Martes 18 de agosto,2024';
   horario:string='13:00hs';
@@ -58,6 +58,12 @@ crearEmail():EmailInterface{
   }
 };
 
+@Output() oscurecerFondo = new EventEmitter<boolean>();
+
+enviarOscurecer(){
+  this.oscurecerFondo.emit(true);
+}
+
 seEnvioBien:boolean= false;
 
 enviarEmailAlCliente(){
@@ -65,6 +71,7 @@ enviarEmailAlCliente(){
   const email:EmailInterface = this.crearEmail();
   this.emailService.postEnviarEmail(email).subscribe({
     next:(response) =>{
+      this.enviarOscurecer();
       this.seEnvioBien = true;
       console.log(response);
     },

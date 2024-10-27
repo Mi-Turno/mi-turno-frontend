@@ -1,28 +1,31 @@
-<app-nav-pedir-turno></app-nav-pedir-turno>
+<div [ngClass]="{'oscurecer': activarOscurecer}">
 
-<app-nav-pasos [pasoActual]="pasoActual" (cambiarPaso)="irAPaso($event)"></app-nav-pasos>
+  <app-nav-pedir-turno></app-nav-pedir-turno>
+
+  <app-nav-pasos [pasoActual]="pasoActual" (cambiarPaso)="irAPaso($event)"></app-nav-pasos>
 
 
-@switch (pasoActual) {
-  @case (1) {
-    <button (click)="avanzarPaso()">seleccionar</button>
+  @switch (pasoActual) {
+    @case (1) {
+      <button (click)="avanzarPaso()">seleccionar</button>
 
-    <!--pegarle al backend y que me muestre los servicios del negocio en el que esta-->
-    <p>hola1</p>
+      <!--pegarle al backend y que me muestre los servicios del negocio en el que esta-->
+      <p>hola1</p>
+    }
+    @case (2) {
+      <button (click)="avanzarPaso()">seleccionar</button>
+      <p>hola2</p>
+    }
+    @case (3) {
+      <button (click)="avanzarPaso()">seleccionar</button>
+      <p>hola3</p>
+    }
+    @case (4) {
+      <p>hola4</p>
+      <button (click)="confirmarTurno()">Confirmar Turno</button>
+    }
+    @case (5) {
+      <app-confirmacion (oscurecerFondo)="manejadorOscurecer($event)"></app-confirmacion>
+    }
   }
-  @case (2) {
-    <button (click)="avanzarPaso()">seleccionar</button>
-    <p>hola2</p>
-  }
-  @case (3) {
-    <button (click)="avanzarPaso()">seleccionar</button>
-    <p>hola3</p>
-  }
-  @case (4) {
-    <p>hola4</p>
-    <button (click)="confirmarTurno()">Confirmar Turno</button>
-  }
-  @case (5) {
-    <app-confirmacion></app-confirmacion>
-  }
-}
+</div>

@@ -1,7 +1,8 @@
 export enum MetodosDePago {
-  tarjeta = 'Tarjeta de crédito',
-  efectivo = 'Efectivo',
-  mercadoPago = 'Mercado Pago',
-  transferencia = 'Transferencia bancaria',
+  credito = 'TARJETA_DE_CREDITO',
+  debito = 'TARJETA_DE_DEBITO',
+  efectivo = 'EFECTIVO',
+  mercadoPago = 'MERCADO_PAGO',
+  transferencia = 'TRANSFERENCIA_BANCARIA',
 }
 
