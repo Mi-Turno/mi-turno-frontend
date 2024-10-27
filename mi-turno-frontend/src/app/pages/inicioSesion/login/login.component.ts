@@ -10,6 +10,7 @@ import { throwError } from 'rxjs';
 import { PLACEHOLDERS } from '../../../shared/models/placeholderInicioSesion.constants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { codigoErrorHttp } from '../../../shared/models/httpError.constants';
+import { ROLES } from '../../../shared/models/rolesUsuario.constants';
 
 @Component({
   selector: 'app-login',
@@ -51,13 +52,13 @@ export class LoginComponent {
       try {
         const objetoDelForm = this.obtenerDatosForm();
         this.usuarioService.getUsuariosByEmailAndPassword(objetoDelForm.email, objetoDelForm.password).subscribe({
-          next: (response) => {
-            console.log(response);
-            if(response.rol ==='CLIENTE'){
+          next: (usuarioResponse) => {
+            console.log(usuarioResponse);
+            if(usuarioResponse.rol ===ROLES.cliente||usuarioResponse.rol ===ROLES.profesional){
               //lo mando al DASHBOARD DE PEDIR TURNO
-            }else if(response.rol==='PROPIETARIO'){
+            }else if(usuarioResponse.rol===ROLES.negocio){
               //lo mando al DASHBOARD DE LOCAL
-            }else if(response.rol==='ADMIN'){
+            }else if(usuarioResponse.rol===ROLES.admin){
               //lo mando al DASHBOARD DE ADMIN
             }else{
               alert('ROL INEXISTENTE');
@@ -72,6 +73,8 @@ export class LoginComponent {
 
             } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
               alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
+            } else if(error.status === codigoErrorHttp.ERROR_REPETIDO){
+              alert('Error 409: Usuario ya existe en el sistema');
             } else {
               alert('Error inesperado. Intente otra vez mas tarde.');
             }

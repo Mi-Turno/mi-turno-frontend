@@ -90,6 +90,8 @@ export class RegisterComponent {
 
           } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
             alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
+          } else if(error.status === codigoErrorHttp.ERROR_REPETIDO){
+            alert('Error 409: el usuario ya existe en el sistema');
           } else {
             alert('Error inesperado. Intente otra vez mas tarde.');
           }
