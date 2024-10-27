@@ -24,11 +24,14 @@ export class UsuarioService {
   public getUsuarios(): Observable<UsuarioInterface[]>{
     return this.http.get<UsuarioInterface[]>(this.urlBase);
   }
-  public getUsuariosByEmailAndPassword(email:string,password:string): Observable<UsuarioInterface>{
-    const params = new HttpParams()
-    .set('email',email)
-    .set('password',password);
-    return this.http.get<UsuarioInterface>(this.urlBase,{params,responseType:"json"});
+
+  public obtenerUsuarioPorId(id:number|undefined):Observable<UsuarioInterface>{
+    return this.http.get<UsuarioInterface>(`${this.urlBase}/${id}`);
+  }
+
+  public obtenerUsuariosByEmailAndPassword(email:string,password:string): Observable<UsuarioInterface>{
+
+    return this.http.post<UsuarioInterface>(`${this.urlBase}/login`,{email,password});
   }
 
   public getUsuarioByRol(rol: string): Observable<UsuarioInterface[]>{
