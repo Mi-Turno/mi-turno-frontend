@@ -16,7 +16,7 @@ export class HorariosComponent {
 
   horarios: string[] = ['10:00', '11:00', '12:00', '13:00', '14:00'];
   toggleActivo: boolean = false;
-
+  dia = "Martes";
   // Función para alternar el estado del toggle
   cambiarEstadoToggle() {
     this.toggleActivo = !this.toggleActivo;

@@ -1,5 +1,5 @@
-<form [formGroup]="formularioRegister" class="contenedor">
-  <h5>Modificar Profesional</h5>
+<div class="contenedor">
+  <h5>{{textoTitulo}} </h5>
   <div class="cruz" (click)="cerrarPopUp()">
     <mat-icon> close</mat-icon>
   </div>
@@ -8,44 +8,47 @@
       <img [src]="fotoProfesional" />
     </div>
     <div class="contenedor-formulario">
-      <app-input
-        formsControlName="nombre"
-        [icono]="icono.person"
-        [textoLabel]="'Nombre'"
-        [id]="'nombreInput'"
-        [placeholder]="placeholder.nombre"
-      ></app-input>
-      <app-input
-        formsControlName="apellido"
-        [icono]="icono.person"
-        [textoLabel]="'Apellido'"
-        [id]="'apellidoInput'"
-        [placeholder]="placeholder.apellido"
-      ></app-input>
-      <app-input
-        formsControlName="email"
-        [icono]="icono.email"
-        [textoLabel]="'Email'"
-        [id]="'emailInput'"
-        [type]="'email'"
-        [placeholder]="placeholder.email"
-      ></app-input>
-      <app-input
-        formsControlName="telefono"
-        [icono]="icono.call"
-        [textoLabel]="'Telefono'"
-        [id]="'telefonoInput'"
-        [type]="'tel'"
-        [placeholder]="placeholder.telefono"
-      ></app-input>
-      <app-input
-        formsControlName="fechaNacimiento"
-        [icono]="icono.calendario"
-        [textoLabel]="'Fecha Nacimiento'"
-        [id]="'fechaInput'"
-        [type]="'date'"
-        [placeholder]="placeholder.fechaNacimiento"
-      ></app-input>
+      <form [formGroup]="formularioRegister">
+        <app-input
+          formControlName="nombre"
+          [icono]="icono.person"
+          [textoLabel]="'Nombre'"
+          [id]="'nombreInput'"
+          [placeholder]="placeholder.nombre"
+        ></app-input>
+        <app-input
+          formControlName="apellido"
+          [icono]="icono.person"
+          [textoLabel]="'Apellido'"
+          [id]="'apellidoInput'"
+          [placeholder]="placeholder.apellido"
+        ></app-input>
+        <app-input
+          formControlName="email"
+          [icono]="icono.email"
+          [textoLabel]="'Email'"
+          [id]="'emailInput'"
+          [type]="'email'"
+          [placeholder]="placeholder.email"
+        ></app-input>
+        <app-input
+          formControlName="telefono"
+          [icono]="icono.call"
+          [textoLabel]="'Telefono'"
+          [id]="'telefonoInput'"
+          [type]="'tel'"
+          [placeholder]="placeholder.telefono"
+        ></app-input>
+        <app-input
+          formControlName="fechaNacimiento"
+          [icono]="icono.calendario"
+          [textoLabel]="'Fecha Nacimiento'"
+          [id]="'fechaInput'"
+          [type]="'date'"
+          [placeholder]="placeholder.fechaNacimiento"
+        ></app-input>
+      </form>
+
       <app-boton
         [class]="'botonExtra'"
         [textoDentroBoton]="'Servicios que ofrece'"
@@ -72,6 +75,7 @@
       [textoDentroBoton]="'Confirmar'"
       [type]="'submit'"
       (click)="onSubmit()"
+      (click)="cerrarPopUp()"
     ></app-boton>
   </div>
-</form>
+</div>

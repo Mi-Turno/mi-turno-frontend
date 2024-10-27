@@ -26,18 +26,16 @@ textoAlternativo = "Img del barbero"
 idCards: UsuarioInterface[] = [];
 maxCards = 6;
 
-rutaBotonChip = ""
-
+rutaBotonChip = "#"
 estaSobrepuesto: boolean = false;
+textoTituloPop = "";
+cardSeleccionada: UsuarioInterface | null = null;
 
-
-abrirPopUp() {
-  this.estaSobrepuesto = true;
-}
-
-cambiarSobreposicion() {
+//Hacemos que cambiar sobreposición reciba lo que quiere hacer y la card, en caso de que sea modificar
+cambiarSobreposicion(titulo:string, card:UsuarioInterface | null) {
   this.estaSobrepuesto = !this.estaSobrepuesto;
-  console.log(this.estaSobrepuesto);
+  this.textoTituloPop = titulo;
+  this.cardSeleccionada = card;
 }
 
 usuarios: UsuarioService = inject(UsuarioService)

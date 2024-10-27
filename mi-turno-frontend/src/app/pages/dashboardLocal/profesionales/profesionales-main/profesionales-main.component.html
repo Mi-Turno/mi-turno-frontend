@@ -7,10 +7,15 @@
       [texto]="especialidad"
       [textoBoton]="textoBoton"
       [referenciaChip]="rutaBotonChip"
+      (click)="
+        $event.preventDefault();
+        cambiarSobreposicion('Modificar profesional', card)
+      "
+      style="cursor: pointer"
     ></app-card>
   </div>
   <button
-    (click)="cambiarSobreposicion()"
+    (click)="cambiarSobreposicion('Crear profesional', null)"
     class="mas-contenedor"
     *ngIf="idCards.length < 6"
   >
@@ -23,10 +28,12 @@
   </button>
 
   <ng-container *ngIf="estaSobrepuesto">
-    <div class="overlay" (click)="cambiarSobreposicion()"></div>
+    <div class="overlay" (click)="cambiarSobreposicion('', null )"></div>
     <app-pop-up-crear-profesional
       class="posicionPopUp"
-      (desactivarOverlay)="cambiarSobreposicion()"
+      [textoTitulo]="textoTituloPop"
+      [cardSeleccionada]="cardSeleccionada"
+      (desactivarOverlay)="cambiarSobreposicion('', null)"
     ></app-pop-up-crear-profesional>
   </ng-container>
 </main>
