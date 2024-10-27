@@ -16,7 +16,7 @@ export class UsuarioService {
     nombre:'',
     apellido:'',
     email:'',
-    celular:'',
+    telefono:'',
     fechaNacimiento:'',
     password:'',
     rol:'',

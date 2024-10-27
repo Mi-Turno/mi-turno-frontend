@@ -60,7 +60,7 @@ export class RegisterComponent {
       apellido:apellidoForm,
       email:emailForm,
       fechaNacimiento:fechaNacimientoForm,
-      celular:telefonoForm,
+      telefono:telefonoForm,
       password:passwordForm,
       rol:rol
     };
