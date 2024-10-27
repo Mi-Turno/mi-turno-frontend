@@ -51,7 +51,7 @@ actualizarValores() {
     apellido: this.cardSeleccionada?.apellido,
     email: this.cardSeleccionada?.email,
     fechaNacimiento: this.cardSeleccionada?.fechaNacimiento,
-    telefono: this.cardSeleccionada?.telefono,
+    telefono: this.cardSeleccionada?.celular,
   });
 }
 
@@ -70,7 +70,7 @@ crearUnProfesional():UsuarioInterface {
     apellido:apellidoForm,
     email:emailForm,
     fechaNacimiento:fechaNacimientoForm,
-    telefono:telefonoForm,
+    celular:telefonoForm,
     password:password,
     rol:rol
   };
