@@ -2,9 +2,9 @@
   background-color: var(--color-gris-claro);
   position: absolute;
   width: 100vw;
-  height: 200px;
-  top: -200px;
-  left: 0;
+  height: 199px;
+  top: 0px;
+  left: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,8 +12,3 @@
   transition: top 0.5s ease;
 }
 
-/* Estado activo del popup, visible */
-.claseActiva.habilitar {
-  top: 0; /* El popup se desliza hacia abajo */
-  transition: top 0.5s ease;
-}
