@@ -12,7 +12,6 @@ export class ServicioServiceService {
   private http:HttpClient = inject(HttpClient);
   servicio:ServicioInterface ={
     nombre:'',
-    precio:0,
     duracion:0
   };
   //me retorna todos los servicios//todo luego habria que filtrar por local etc...

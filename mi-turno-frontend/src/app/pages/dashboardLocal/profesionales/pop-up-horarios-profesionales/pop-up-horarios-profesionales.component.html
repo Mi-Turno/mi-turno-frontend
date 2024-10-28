@@ -1,7 +1,9 @@
 <article class="popUp">
-<div class="contenedor-titulo">
+
   <h5>Dias y horarios de {{nombreProfesional}}</h5>
-</div>
+  <div class="cruz" (click)="cerrarPopUp()">
+    <mat-icon> close</mat-icon>
+  </div>
 <div class="contenedor-horarios">
   <app-horarios [dia]="'Lunes'"></app-horarios>
   <app-horarios [dia] = "'Martes'"></app-horarios>
@@ -12,7 +14,7 @@
   <app-horarios [dia] = "'Domingo'"></app-horarios>
 </div>
 <div  >
-  <app-boton [textoDentroBoton]="'Confirmar'" [class]="'botonConfirmarHorarios'"></app-boton>
+  <app-boton (click)  ="confirmar()" [textoDentroBoton]="'Confirmar'" [class]="'botonConfirmarHorarios'"  ></app-boton>
 </div>
 
 

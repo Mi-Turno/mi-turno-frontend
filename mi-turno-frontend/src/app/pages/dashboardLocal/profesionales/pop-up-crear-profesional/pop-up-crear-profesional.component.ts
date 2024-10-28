@@ -56,8 +56,6 @@ actualizarValores() {
   });
 }
 
-
-
 crearUnProfesional():UsuarioInterface {
   const nombreForm = this.formularioRegister.get('nombre')?.value ||'';//||'' esto significa que puede ser null
   const apellidoForm = this.formularioRegister.get('apellido')?.value||'';
@@ -106,12 +104,10 @@ private postUsuarioToBackend(usuario:UsuarioInterface):void{
 }
 
 onSubmit() {
-console.log(this.formularioRegister.value);
   if (this.formularioRegister.valid) {
-    console.log('Usuario enviado con exito');
-    console.log(this.formularioRegister.value);
+
     const usuario:UsuarioInterface = this.crearUnProfesional();
-    console.log(usuario);
+
     this.postUsuarioToBackend(usuario);
     window.location.reload();
   } else {
@@ -133,6 +129,8 @@ mostrarCard() {
 
 
 @Output() desactivarOverlay: EventEmitter<void> = new EventEmitter<void>();
+@Output() activarHorarios: EventEmitter<void> = new EventEmitter<void>();
+
 
 cerrarPopUp() {
   this.desactivarOverlay.emit();
@@ -142,6 +140,9 @@ abrirServicios() {
   console.log("Abro servicios que ofrece");
 }
 abrirDiasYHorarios() {
+  this.cerrarPopUp();
+  this.activarHorarios.emit();
+
   console.log("Abro días y horarios");
 }
 

@@ -18,9 +18,12 @@ export class ServicioMainComponent implements OnInit {
   textoBoton = "Modificar";
   rutaImg = "img-default.png";
   textoAlternativo = "Img del servicio";
-
+  textoTitulo = "";
   idCards: ServicioInterface[] = [];
   maxCards = 6;
+  cardSeleccionada: ServicioInterface | null = null;
+
+
   ngOnInit() {
     this.cargarServicios();
   }
@@ -40,13 +43,12 @@ export class ServicioMainComponent implements OnInit {
   estaSobrepuesto:boolean=false;
   servicios:ServicioServiceService = inject(ServicioServiceService);
   @Output() activarOverlay: EventEmitter<void> = new EventEmitter<void>();
-  // Este método emitirá el evento
-  abrirPopUp() {
-    this.estaSobrepuesto = true;
-  }
-  cambiarSobreposicion() {
+
+
+  cambiarSobreposicion(texto:string, card: ServicioInterface | null) {
     this.estaSobrepuesto = !this.estaSobrepuesto;
-    console.log(this.estaSobrepuesto);
+    this.textoTitulo = texto;
+    this.cardSeleccionada = card;
   }
 
 }

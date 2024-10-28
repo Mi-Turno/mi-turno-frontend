@@ -1,15 +1,40 @@
 <main class="main">
   <div *ngFor="let card of idCards">
-    <app-card [ruta] = "rutaImg" [textoAlt] = "textoAlternativo" [titulo] = "card.nombre" [texto] = "card.duracion"[textoBoton] = "textoBoton"  [referenciaChip] = "rutaBotonChip"></app-card>
+    <app-card
+      [ruta]="rutaImg"
+      [textoAlt]="textoAlternativo"
+      [titulo]="card.nombre"
+      [texto]="card.duracion"
+      [textoBoton]="textoBoton"
+      [referenciaChip]="rutaBotonChip"
+      (click)="
+        $event.preventDefault();
+        cambiarSobreposicion('Modificar Servicio', card)
+      "
+      style="cursor: pointer"
+    ></app-card>
   </div>
-  <button (click)="abrirPopUp()" class="mas-contenedor" *ngIf="idCards.length < 6">
-    <img src="img-mas-card.png" class="imgMas" alt="Agregar Card" style="cursor: pointer;">
+
+  <button
+    (click)="cambiarSobreposicion('Crear servicio', null)"
+    class="mas-contenedor"
+    *ngIf="idCards.length < 6"
+  >
+    <img
+      src="img-mas-card.png"
+      class="imgMas"
+      alt="Agregar Card"
+      style="cursor: pointer"
+    />
   </button>
 
-
   <ng-container *ngIf="estaSobrepuesto">
-    <div class="overlay" (click)="cambiarSobreposicion()"></div>
-    <app-pop-up-crear-servicio class="posicionPopUp" (desactivarOverlay)="cambiarSobreposicion()" ></app-pop-up-crear-servicio>
+    <div class="overlay" (click)="cambiarSobreposicion('', null)"></div>
+    <app-pop-up-crear-servicio
+      class="posicionPopUp"
+      [textoTitulo]="textoTitulo"
+      [cardSeleccionada]="cardSeleccionada"
+      (desactivarOverlay)="cambiarSobreposicion('', null)"
+    ></app-pop-up-crear-servicio>
   </ng-container>
-
 </main>
