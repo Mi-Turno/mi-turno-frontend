@@ -10,7 +10,7 @@
           <p [className]="claseTexto"> {{texto}}</p>
         </div>
         <div [className] = claseCuerpoChip>
-          <app-chip [claseEnlace]="'claseEnlaceChip'" [referencia] = "referenciaChip" [texto] = "textoBoton"></app-chip>
+          <app-chip [claseEnlace]="'claseEnlaceChip'" [referencia] = "referenciaChip" [texto] = "textoBoton" (click)="emitirInformacionClick()"></app-chip>
         </div>
       </div>
     </article>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ChipComponent } from '../chip/chip.component';
 
 @Component({
@@ -32,7 +32,11 @@ export class CardComponent {
 @Input() claseCuerpoChip ="claseCuerpoChip"
 @Input() claseCuerpoTexto ="claseCuerpoTexto"
 
+@Output() emitirInformacion: EventEmitter<string|number> = new EventEmitter();
+@Input() guardarInformacion?: string|number;
+emitirInformacionClick(){
+  this.emitirInformacion.emit(this.guardarInformacion);
 
-
+}
 
 }

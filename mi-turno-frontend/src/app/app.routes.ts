@@ -9,6 +9,7 @@ import { HorariosComponent } from './pages/dashboardLocal/horarios/horarios.comp
 import { ProfesionalesMainComponent } from './pages/dashboardLocal/profesionales/profesionales-main/profesionales-main.component';
 import { ServicioMainComponent } from './pages/dashboardLocal/servicio/servicio-main/servicio-main.component';
 import { PopUpConfirmacionComponent } from './pages/pedirTurno/pop-up-confirmacion/pop-up-confirmacion.component';
+import { SeleccionUsuarioComponent } from './pages/pedirTurno/seleccion-usuario/seleccion-usuario.component';
 
 export const routes: Routes = [{
   path:"landing-page",
@@ -44,7 +45,7 @@ export const routes: Routes = [{
   component: HorariosComponent,
 },{
   path:"xd",
-  component:PopUpConfirmacionComponent
+  component:SeleccionUsuarioComponent
 },
 {
   path:"**",

@@ -8,6 +8,7 @@ import { CardComponent } from "../../../shared/components/card/card.component";
 import { MetodosDePago } from '../../../shared/models/metodosDePago';
 import { ConfirmacionComponent } from '../confirmacion/confirmacion.component';
 import { SeleccionUsuarioComponent } from "../seleccion-usuario/seleccion-usuario.component";
+import { ParseFlags } from '@angular/compiler';
 
 
 @Component({
@@ -39,18 +40,15 @@ datos: any[] = []; // Datos que se pasan al componente de selección de usuario
   }
 
   turno:TurnoInterface={};
-
+  recibirIdServicio(event:number|string){
+    this.turno.idServicio = parseFloat(event.toString());
+    this.avanzarPaso();
+  }
 
   servicioSeleccionado(idServicioSeleccionado:number){
     this.turno.idServicio= idServicioSeleccionado;
-
-  pasoActual: number = 1; // Variable que controla el paso actual
-  activarOscurecer: boolean = false; // Variable que controla si se oscurece el fondo para mostrar el pop-up
-
-  manejadorOscurecer(event: boolean): void {
-    this.activarOscurecer=event;
   }
-
+  pasoActual: number = 1; // Variable que controla el paso actual
 
   // Función para avanzar al siguiente paso
   avanzarPaso(): void {
@@ -79,4 +77,7 @@ datos: any[] = []; // Datos que se pasan al componente de selección de usuario
   confirmarTurno(): void {
     this.pasoActual=5;
   }
+
+
 }
+

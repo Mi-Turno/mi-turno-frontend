@@ -1,4 +1,6 @@
-<app-card></app-card>
-<app-card></app-card>
-<app-card></app-card>
-<app-card></app-card>
+<main class="main">
+    <div *ngFor="let card of servicios">
+      <app-card [ruta]="'rutaImg'" [textoAlt]="'textoAlternativo'" [titulo]="card.nombre" [texto]="card.duracion"
+        [textoBoton]="'Seleccionar'" [referenciaChip]="'rutaBotonChip'" (emitirInformacion)="recibirInformacion($event)"></app-card>
+    </div>
+</main>

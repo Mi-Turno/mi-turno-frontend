@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { ControlValueAccessor } from '@angular/forms';
 
@@ -18,6 +18,5 @@ export class ChipComponent {
 @Input() icono = "";
 @Input() texto = "";
 @Input() referencia = "";
-
 
 }
