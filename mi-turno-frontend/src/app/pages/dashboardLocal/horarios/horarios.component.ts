@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { ChipComponent } from '../../../shared/components/chip/chip.component';
 import { CommonModule } from '@angular/common';
@@ -16,10 +16,15 @@ export class HorariosComponent {
 
   horarios: string[] = ['10:00', '11:00', '12:00', '13:00', '14:00'];
   toggleActivo: boolean = false;
-  dia = "Martes";
+
+
+  @Input() dia:string = "Martes";
+
+
+
   // Función para alternar el estado del toggle
-  cambiarEstadoToggle() {
-    this.toggleActivo = !this.toggleActivo;
+  cambiarEstadoToggle(event: any) {
+    this.toggleActivo = event.checked; // Obtiene el estado del toggle desde el evento
   }
 
   // Función para añadir un nuevo horario
@@ -33,5 +38,9 @@ export class HorariosComponent {
   // Función para eliminar un horario específico
   eliminarHorario(index: number) {
     this.horarios.splice(index, 1);
+  }
+
+  escribirGola(){
+    console.log("Gola");
   }
 }

@@ -1,15 +1,19 @@
 <div class="dia-horario-container">
   <div class="titulo">
     <span>{{dia}}</span>
-    <mat-slide-toggle [(ngModel)]="toggleActivo" (change)="cambiarEstadoToggle()" color="primary"></mat-slide-toggle>
+
+    <!-- Recibe el evento change y cambia el estilo  -->
+    <mat-slide-toggle (change)="cambiarEstadoToggle($event)" color="primary"></mat-slide-toggle>
+
   </div>
 
-  <div class="horario-lista">
-    <div class="horario-item" *ngFor="let horario of horarios; let i = index">
-      <span>{{ horario }}</span>
-      <mat-icon (click)="eliminarHorario(i)" class="delete-icon">delete</mat-icon>
+  <div class="horarios-boton" [ngClass] = " {'desactivado ' : !toggleActivo}" >
+    <div class="horario-lista">
+      <div class="horario-item" *ngFor="let horario of horarios; let i = index">
+        <span>{{ horario }}</span>
+        <mat-icon (click)="eliminarHorario(i)" class="delete-icon">delete</mat-icon>
+      </div>
     </div>
+    <app-chip [texto]="'+'" (click) = "agregarHorario()"></app-chip>
   </div>
-
-  <button mat-raised-button color="primary" (click)="agregarHorario()">+</button>
 </div>

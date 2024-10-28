@@ -66,3 +66,16 @@
   text-align: center;
   width: 8rem;
 }
+
+
+.botonConfirmarHorarios {
+  background-color: var( --color-contraste1);
+  color: var(--color-background);
+  border: none;
+  border-radius: 0.4rem;
+  height: 2.5rem;
+  font-size: larger;
+  text-align: center;
+  width: 30rem;
+  margin-top:20px;
+}
