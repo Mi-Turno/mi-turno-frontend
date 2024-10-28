@@ -104,12 +104,10 @@ private postUsuarioToBackend(usuario:UsuarioInterface):void{
 }
 
 onSubmit() {
-console.log(this.formularioRegister.value);
   if (this.formularioRegister.valid) {
-    console.log('Usuario enviado con exito');
-    console.log(this.formularioRegister.value);
+
     const usuario:UsuarioInterface = this.crearUnProfesional();
-    console.log(usuario);
+
     this.postUsuarioToBackend(usuario);
     window.location.reload();
   } else {

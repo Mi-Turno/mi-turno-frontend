@@ -1,9 +1,9 @@
 <article class="popUp">
 
-<div class="contenedor-titulo">
   <h5>Dias y horarios de {{nombreProfesional}}</h5>
-    <mat-icon class="cruz" (click)="cerrarPopUp()"> close</mat-icon>
-</div>
+  <div class="cruz" (click)="cerrarPopUp()">
+    <mat-icon> close</mat-icon>
+  </div>
 <div class="contenedor-horarios">
   <app-horarios [dia]="'Lunes'"></app-horarios>
   <app-horarios [dia] = "'Martes'"></app-horarios>

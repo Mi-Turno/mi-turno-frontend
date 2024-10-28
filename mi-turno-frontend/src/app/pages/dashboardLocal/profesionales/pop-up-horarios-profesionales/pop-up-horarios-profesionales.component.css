@@ -16,9 +16,18 @@
   justify-content: center;
   flex-direction: column;
   background-color: #fff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra */
  }
 
 
- .botonConfirmar{
-  color: red;
+ .contenedor-titulo{
+  display: flex;
+  flex-direction:  row;
  }
+
+ .cruz {
+  position: absolute;
+  top: 35px;
+  right: 35px;
+  cursor: pointer;
+}
