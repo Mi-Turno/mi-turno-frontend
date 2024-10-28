@@ -22,6 +22,7 @@ import { SeleccionUsuarioComponent } from "../seleccion-usuario/seleccion-usuari
 
 export class PedirTurnoComponent {
 
+
   //todo verificar desde la url si el negocio existe
   //todo extraer de la url el nombre del negocio y pegarle al backend para obtener el ID
   //todo extraer de LocalStorage el ID del usuario
@@ -42,9 +43,14 @@ datos: any[] = []; // Datos que se pasan al componente de selección de usuario
 
   servicioSeleccionado(idServicioSeleccionado:number){
     this.turno.idServicio= idServicioSeleccionado;
-  }
 
   pasoActual: number = 1; // Variable que controla el paso actual
+  activarOscurecer: boolean = false; // Variable que controla si se oscurece el fondo para mostrar el pop-up
+
+  manejadorOscurecer(event: boolean): void {
+    this.activarOscurecer=event;
+  }
+
 
   // Función para avanzar al siguiente paso
   avanzarPaso(): void {

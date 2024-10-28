@@ -8,6 +8,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { UsuarioInterface } from '../../../core/interfaces/usuario-interface';
 import { UsuarioService } from '../../../core/services/usuarioService/usuario.service';
 import { PLACEHOLDERS } from '../../../shared/models/placeholderInicioSesion.constants';
+import { HttpErrorResponse } from '@angular/common/http';
+import { codigoErrorHttp } from '../../../shared/models/httpError.constants';
 
 
 
@@ -79,9 +81,21 @@ export class RegisterComponent {
 
           console.log(usuario);
         },
-        error:(error)=>{
-          console.error(error);
-        }
+        error: (error:HttpErrorResponse) =>{
+          if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
+            alert('Error 404: Usuario no encontrado');
+
+          } else if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
+            alert('Error 500: Error del servidor');
+
+          } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
+            alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
+          } else if(error.status === codigoErrorHttp.ERROR_REPETIDO){
+            alert('Error 409: el usuario ya existe en el sistema');
+          } else {
+            alert('Error inesperado. Intente otra vez mas tarde.');
+          }
+      }
       })
     } catch (error) {
       console.error(error);

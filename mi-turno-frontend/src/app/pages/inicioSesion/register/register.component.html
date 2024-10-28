@@ -13,27 +13,78 @@
   <fieldset id="fieldsetRegister">
     <legend>Ingrese sus datos</legend>
     <form [formGroup]="formularioRegister">
-
-      <app-input formControlName="nombre" [icono]="iconos.person" [textoLabel]="'Nombre'" [id]="'nombreInput'" [placeholder]="placeholders.nombre">
+      <app-input
+        formControlName="nombre"
+        [icono]="iconos.person"
+        [textoLabel]="'Nombre'"
+        [id]="'nombreInput'"
+        [placeholder]="placeholders.nombre"
+      >
       </app-input>
 
-      <app-input formControlName="apellido" [icono]="iconos.person" [textoLabel]="'Apellido'" [id]="'apellidoInput'" [placeholder]="placeholders.apellido">
+      <app-input
+        formControlName="apellido"
+        [icono]="iconos.person"
+        [textoLabel]="'Apellido'"
+        [id]="'apellidoInput'"
+        [placeholder]="placeholders.apellido"
+      >
       </app-input>
 
-      <app-input formControlName="email" [type]="'email'" [icono]="iconos.email" [textoLabel]="'Email'" [id]="'emailInput'" [placeholder]="placeholders.email">
+      <app-input
+        formControlName="email"
+        [type]="'email'"
+        [icono]="iconos.email"
+        [textoLabel]="'Email'"
+        [id]="'emailInput'"
+        [placeholder]="placeholders.email"
+      >
       </app-input>
-      <app-input formControlName="fechaNacimiento" [type]="'date'" [icono]="iconos.email" [textoLabel]="'fecha de nacimiento'" [id]="'fechaNacimientoInput'" [placeholder]="placeholders.fechaNacimiento">
+      <app-input
+        formControlName="fechaNacimiento"
+        [type]="'date'"
+        [icono]="iconos.email"
+        [textoLabel]="'fecha de nacimiento'"
+        [id]="'fechaNacimientoInput'"
+        [placeholder]="placeholders.fechaNacimiento"
+      >
       </app-input>
-      <app-input formControlName="telefono" [type]="'tel'" [icono]="iconos.call" [textoLabel]="'Telefono'" [id]="'telefonoInput'" [placeholder]="placeholders.telefono">
+      <app-input
+        formControlName="telefono"
+        [type]="'tel'"
+        [icono]="iconos.call"
+        [textoLabel]="'Telefono'"
+        [id]="'telefonoInput'"
+        [placeholder]="placeholders.telefono"
+      >
       </app-input>
 
-      <app-input formControlName="password" [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado" [textoLabel]="'Contraseña'" [id]="'contraseniaInput'" [placeholder]="placeholders.contrasenia">
+      <app-input
+        formControlName="password"
+        [type]="'password'"
+        [icono]="iconos.iconoContrasenia.cerrado"
+        [textoLabel]="'Contraseña'"
+        [id]="'contraseniaInput'"
+        [placeholder]="placeholders.contrasenia"
+      >
       </app-input>
 
-      <app-input formControlName="passwordRepetida"[type]="'password'" [icono]="iconos.iconoContrasenia.cerrado" [textoLabel]="'Repetir Contraseña'" [id]="'repetirContraseniaInput'" [placeholder]="placeholders.repetirContrasenia">
+      <app-input
+        formControlName="passwordRepetida"
+        [type]="'password'"
+        [icono]="iconos.iconoContrasenia.cerrado"
+        [textoLabel]="'Repetir Contraseña'"
+        [id]="'repetirContraseniaInput'"
+        [placeholder]="placeholders.repetirContrasenia"
+      >
       </app-input>
 
-      <app-boton [style]="" [textoDentroBoton]="'Registrarse'" [type]="'submit'" (click)="onSubmit()"></app-boton>
+      <app-boton
+        [style]=""
+        [textoDentroBoton]="'Registrarse'"
+        [type]="'submit'"
+        (click)="onSubmit()"
+      ></app-boton>
     </form>
     <span id="spanRedirectLogin"
       ><p>¿Ya tiene una cuenta?</p>

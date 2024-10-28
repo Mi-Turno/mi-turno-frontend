@@ -25,8 +25,7 @@ export class BotonComponent {
   @Input()
   backgroundColor: string="var(--color-contraste2: #2138bb)"
 
-  @Output()
-  click = new EventEmitter<void>();
+
 
   backgroundColorEstilo: string=`background-color:${this.backgroundColor};`
 

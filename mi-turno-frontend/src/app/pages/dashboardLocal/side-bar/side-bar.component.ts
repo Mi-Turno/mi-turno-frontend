@@ -24,13 +24,21 @@ altFotoPerfil = "Nombre del local"
 recepcion = "Recepción"
 iconos = ICONOS
 titulo = ""
-nombreNegocio = "Nombre Negocio";
+nombreNegocio = "DripBarber";
 claseEnlace = "claseEnlace";
 claseIcono = "claseIcono";
 
 selecionado(ruta: string) :boolean {
   return this.router.url === ruta;
 }
+
+rutaRecepcion = "/negocios/:nombreNegocio/recepcion"
+rutaTurnos ="/negocios/:nombreNegocio/turnos"
+rutaStaff = "/negocios/:nombreNegocio/staff"
+rutaServicios = "/negocios/:nombreNegocio/servicios"
+rutaClientes = "/negocios/:nombreNegocio/clientes"
+rutaConfiguracion = "/negocios/:nombreNegocio/configuracion"
+rutaSalir = "/negocios/:nombreNegocio/salir"
 
 
 }

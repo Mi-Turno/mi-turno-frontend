@@ -1,0 +1,81 @@
+<div class="contenedor">
+  <h5>{{textoTitulo}} </h5>
+  <div class="cruz" (click)="cerrarPopUp()">
+    <mat-icon> close</mat-icon>
+  </div>
+  <div class="contenido">
+    <div class="contenedor-imagen">
+      <img [src]="fotoProfesional" />
+    </div>
+    <div class="contenedor-formulario">
+      <form [formGroup]="formularioRegister">
+        <app-input
+          formControlName="nombre"
+          [icono]="icono.person"
+          [textoLabel]="'Nombre'"
+          [id]="'nombreInput'"
+          [placeholder]="placeholder.nombre"
+        ></app-input>
+        <app-input
+          formControlName="apellido"
+          [icono]="icono.person"
+          [textoLabel]="'Apellido'"
+          [id]="'apellidoInput'"
+          [placeholder]="placeholder.apellido"
+        ></app-input>
+        <app-input
+          formControlName="email"
+          [icono]="icono.email"
+          [textoLabel]="'Email'"
+          [id]="'emailInput'"
+          [type]="'email'"
+          [placeholder]="placeholder.email"
+        ></app-input>
+        <app-input
+          formControlName="telefono"
+          [icono]="icono.call"
+          [textoLabel]="'Telefono'"
+          [id]="'telefonoInput'"
+          [type]="'tel'"
+          [placeholder]="placeholder.telefono"
+        ></app-input>
+        <app-input
+          formControlName="fechaNacimiento"
+          [icono]="icono.calendario"
+          [textoLabel]="'Fecha Nacimiento'"
+          [id]="'fechaInput'"
+          [type]="'date'"
+          [placeholder]="placeholder.fechaNacimiento"
+        ></app-input>
+      </form>
+
+      <app-boton
+        [class]="'botonExtra'"
+        [textoDentroBoton]="'Servicios que ofrece'"
+        [type]="'button'"
+        (click)="abrirServicios()"
+      ></app-boton>
+      <app-boton
+        [class]="'botonExtra'"
+        [textoDentroBoton]="'Días y horarios'"
+        [type]="'button'"
+        (click)="abrirDiasYHorarios()"
+      ></app-boton>
+    </div>
+  </div>
+  <div class="contenedor-fondo">
+    <app-boton
+      [class]="'botonEliminar'"
+      [textoDentroBoton]="'Eliminar'"
+      [type]="'button'"
+      (click)="eliminarProfesional()"
+    ></app-boton>
+    <app-boton
+      [class]="'botonConfirmar'"
+      [textoDentroBoton]="'Confirmar'"
+      [type]="'submit'"
+      (click)="onSubmit()"
+      (click)="cerrarPopUp()"
+    ></app-boton>
+  </div>
+</div>
