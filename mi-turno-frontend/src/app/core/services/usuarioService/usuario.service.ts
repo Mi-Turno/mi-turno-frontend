@@ -20,6 +20,7 @@ export class UsuarioService {
     password:'',
     rol:'',
   };
+
   public getUsuarios(): Observable<UsuarioInterface[]>{
     return this.http.get<UsuarioInterface[]>(this.urlBase);
   }
@@ -33,6 +34,9 @@ export class UsuarioService {
     return this.http.post<UsuarioInterface>(this.urlBase,usuario)
 
     };
+
+
+
   }
 
 

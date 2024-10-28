@@ -3,9 +3,14 @@
 <app-nav-pasos [pasoActual]="pasoActual" (cambiarPaso)="irAPaso($event)"></app-nav-pasos>
 
 
-@switch (pasoActual) {
-  @case (1) {
-    <button (click)="avanzarPaso()">seleccionar</button>
+  @switch (pasoActual) {
+    @case (1) {
+
+
+      <app-seleccion-usuario [datos]="datos" (emitidorSeleccionado)="servicioSeleccionado($event)"></app-seleccion-usuario>
+
+
+      <button (click)="avanzarPaso()">seleccionar</button>
 
     <!--pegarle al backend y que me muestre los servicios del negocio en el que esta-->
     <p>hola1</p>
