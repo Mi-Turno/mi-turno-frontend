@@ -14,6 +14,7 @@
       style="cursor: pointer"
     ></app-card>
   </div>
+
   <button
     (click)="cambiarSobreposicion('Crear profesional', null)"
     class="mas-contenedor"
@@ -27,13 +28,31 @@
     />
   </button>
 
-  <ng-container *ngIf="estaSobrepuesto">
-    <div class="overlay" (click)="cambiarSobreposicion('', null )"></div>
+
+  <!-- !Aca hay lógica de cambiar al nuevo pop up -->
+  @if (estaSobrepuesto) {
+  <ng-container>
+    <div class="overlay" (click)="cambiarSobreposicion('', null)"></div>
     <app-pop-up-crear-profesional
       class="posicionPopUp"
       [textoTitulo]="textoTituloPop"
       [cardSeleccionada]="cardSeleccionada"
       (desactivarOverlay)="cambiarSobreposicion('', null)"
+      (activarHorarios)="cambiar_SobreposicionHorarios()"
     ></app-pop-up-crear-profesional>
   </ng-container>
+  } @if (verHorarios) {
+
+
+
+  <ng-container>
+    <div class="overlay" (click)="cambiar_SobreposicionHorarios()"></div>
+    <app-pop-up-horarios-profesionales
+      class="posicionPopUp"
+      [cardSeleccionada]="cardSeleccionada"
+      (desactivarOverlay)="cambiar_SobreposicionHorarios()"
+      (activarModificacion)="cambiarSobreposicion('Modificar profesional', cardSeleccionada)"
+    ></app-pop-up-horarios-profesionales>
+  </ng-container>
+  }
 </main>

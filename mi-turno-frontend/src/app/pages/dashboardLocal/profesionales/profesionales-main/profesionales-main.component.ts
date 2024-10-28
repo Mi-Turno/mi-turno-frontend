@@ -5,11 +5,12 @@ import { PopUpCrearProfesionalComponent } from '../pop-up-crear-profesional/pop-
 import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface';
 import { UsuarioService } from '../../../../core/services/usuarioService/usuario.service';
 import { ROLES } from '../../../../shared/models/rolesUsuario.constants';
+import { PopUpHorariosProfesionalesComponent } from "../pop-up-horarios-profesionales/pop-up-horarios-profesionales.component";
 
 @Component({
   selector: 'app-profesionales-main',
   standalone: true,
-  imports: [CommonModule, CardComponent, PopUpCrearProfesionalComponent],
+  imports: [CommonModule, CardComponent, PopUpCrearProfesionalComponent, PopUpHorariosProfesionalesComponent],
   templateUrl: './profesionales-main.component.html',
   styleUrl: './profesionales-main.component.css'
 })
@@ -28,6 +29,7 @@ maxCards = 6;
 
 rutaBotonChip = "#"
 estaSobrepuesto: boolean = false;
+verHorarios: boolean = false;
 textoTituloPop = "";
 cardSeleccionada: UsuarioInterface | null = null;
 
@@ -36,6 +38,12 @@ cambiarSobreposicion(titulo:string, card:UsuarioInterface | null) {
   this.estaSobrepuesto = !this.estaSobrepuesto;
   this.textoTituloPop = titulo;
   this.cardSeleccionada = card;
+}
+
+
+//! aca hay logica de cambiar a el nuevo popUp
+cambiar_SobreposicionHorarios() {
+  this.verHorarios = !this.verHorarios;
 }
 
 usuarios: UsuarioService = inject(UsuarioService)
