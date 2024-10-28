@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { BotonComponent } from '../../../../shared/components/boton/boton.component';
 import { InputComponent } from '../../../../shared/components/input/input.component';
 import { MatIcon } from '@angular/material/icon';
@@ -12,6 +12,7 @@ import { ServicioServiceService } from '../../../../core/services/servicioServic
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { codigoErrorHttp } from '../../../../shared/models/httpError.constants';
+import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface';
 
 @Component({
   selector: 'app-pop-up-crear-servicio',
@@ -20,36 +21,56 @@ import { codigoErrorHttp } from '../../../../shared/models/httpError.constants';
   templateUrl: './pop-up-crear-servicio.component.html',
   styleUrl: './pop-up-crear-servicio.component.css'
 })
-export class PopUpCrearServicioComponent {
+export class PopUpCrearServicioComponent implements OnInit {
   icono = ICONOS;
   placeholder = PLACEHOLDERS;
   tipoPopUp = 'servicios'
 
   @Input() fotoServicio = "img-default.png"//poner imagen de un servicio
   servicioService:ServicioServiceService = inject(ServicioServiceService);
+
+
   @Input() estadoPopUp:boolean = true;
+  @Input() textoTitulo: string = "";
+  @Input() cardSeleccionada: ServicioInterface | null = null;
 
 
   @Output() desactivarOverlay: EventEmitter<void> = new EventEmitter<void>();
+
   cerrarPopUp() {
+    console.log(this.cardSeleccionada);
     this.estadoPopUp=false;
     this.desactivarOverlay.emit();
+    window.location.reload();
   }
 
   formularioServicio = new FormGroup ({
     nombre: new FormControl('', Validators.required),
-    precio: new FormControl('', Validators.required),
-    duracion: new FormControl('',Validators.required),
-
+    duracion: new FormControl('',[Validators.required,Validators.min(0)]),
   });
+
+  ngOnInit(): void {
+    this.actualizarValores();
+  }
+
+  
+actualizarValores(){
+  this.formularioServicio.patchValue({
+    nombre:this.cardSeleccionada?.nombre,
+    duracion: this.cardSeleccionada?.duracion?.toString()
+
+  })
+}
+
+
+
+
 
   crearUnServicio():ServicioInterface{
     const nombre: string = this.formularioServicio.get('nombre')?.value || '';
-    const precio = parseFloat(this.formularioServicio.get('precio')?.value || '0');
     const duracion = parseFloat(this.formularioServicio.get('duracion')?.value || '0');
     return {
       nombre,
-      precio,
       duracion,
     };
   }
@@ -62,6 +83,7 @@ export class PopUpCrearServicioComponent {
           next: (response) =>{
             this.cerrarPopUp();
             console.log(response);
+
           },
           error: (error:HttpErrorResponse) =>{
             if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
