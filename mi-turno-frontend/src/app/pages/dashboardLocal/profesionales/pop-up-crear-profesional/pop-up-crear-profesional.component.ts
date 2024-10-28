@@ -21,10 +21,9 @@ import { codigoErrorHttp } from '../../../../shared/models/httpError.constants';
 })
 export class PopUpCrearProfesionalComponent implements OnInit {
 
-  roles = ROLES;
+roles = ROLES;
 icono = ICONOS;
 placeholder = PLACEHOLDERS;
-tipoPopUp = 'profesionales'
 usuarioService = inject(UsuarioService);
 
 @Input() fotoProfesional = "img-default.png";
@@ -130,10 +129,14 @@ mostrarCard() {
 
 @Output() desactivarOverlay: EventEmitter<void> = new EventEmitter<void>();
 @Output() activarHorarios: EventEmitter<void> = new EventEmitter<void>();
-
+@Output() cardActual: EventEmitter<UsuarioInterface> = new EventEmitter<UsuarioInterface>();
 
 cerrarPopUp() {
   this.desactivarOverlay.emit();
+  if(this.cardSeleccionada){
+    console.log(this.cardSeleccionada);
+    this.cardActual.emit(this.cardSeleccionada);
+  }
 }
 
 abrirServicios() {

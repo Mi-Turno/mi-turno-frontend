@@ -20,7 +20,7 @@
 .horario-lista {
   width: 100%;
   margin: 10px 0;
-  max-height: 425px;
+  max-height: 325px;
   overflow-y: auto;
 }
 
@@ -39,12 +39,10 @@
   color: gray;
 }
 
+
+
+
 button {
-  width: 100%;
-}
-
-
-app-chip {
   justify-content: center;
   background-color: var(--color-contraste2);
   color: #fff;
