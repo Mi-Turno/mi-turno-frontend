@@ -38,12 +38,15 @@ cambiarSobreposicion(titulo:string, card:UsuarioInterface | null) {
   this.estaSobrepuesto = !this.estaSobrepuesto;
   this.textoTituloPop = titulo;
   this.cardSeleccionada = card;
+  console.log(this.cardSeleccionada);
 }
 
 
 //! aca hay logica de cambiar a el nuevo popUp
-cambiar_SobreposicionHorarios() {
+cambiar_SobreposicionHorarios(card: UsuarioInterface | null) {
   this.verHorarios = !this.verHorarios;
+  this.cardSeleccionada =card;
+  this.imprimirCardActual(this.cardSeleccionada);
 }
 
 usuarios: UsuarioService = inject(UsuarioService)
@@ -61,6 +64,19 @@ cargarUsuarios() {
     }
   });
 }
+
+
+imprimirCardActual(card: UsuarioInterface | null) {
+  console.log(card);
+}
+
+cardActual: UsuarioInterface | null = null;
+
+recibirCardActual(card: UsuarioInterface) {
+  this.cardActual = card; // Almacena el valor recibido en cardActual
+  console.log('Card recibido desde el hijo:', this.cardActual); // Comprobación
+}
+
 
 }
 
