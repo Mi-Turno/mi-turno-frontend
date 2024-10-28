@@ -21,6 +21,7 @@ export class UsuarioService {
     password:'',
     rol:'',
   };
+
   public getUsuarios(): Observable<UsuarioInterface[]>{
     return this.http.get<UsuarioInterface[]>(this.urlBase);
   }
