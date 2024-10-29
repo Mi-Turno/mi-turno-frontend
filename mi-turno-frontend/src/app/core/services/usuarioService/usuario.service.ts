@@ -52,6 +52,10 @@ export class UsuarioService {
     return this.http.post<UsuarioInterface>(this.urlBase,usuario)
     };
 
+    public putUsuario(id: number, usuario:UsuarioInterface):Observable<UsuarioInterface>{
+      return this.http.put<UsuarioInterface>(`${this.urlBase}/${id}`, usuario)
+    }
+
     public deleteUsuario(id:number): Observable<Boolean> {
       return this.http.delete<Boolean>(`${this.urlBase}/${id}`);
     }

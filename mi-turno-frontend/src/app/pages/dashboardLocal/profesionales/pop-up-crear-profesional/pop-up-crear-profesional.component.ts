@@ -102,12 +102,33 @@ private postUsuarioToBackend(usuario:UsuarioInterface):void{
   }
 }
 
-onSubmit() {
+
+private putUsuarioToBackend(id: number, usuario:UsuarioInterface):void{
+  try{
+    this.usuarioService.putUsuario(id, usuario).subscribe({
+      next:(usuario:UsuarioInterface) => {
+        console.log(usuario);
+      }
+      ,error:(error: Error) => {
+        console.log(error.message)}
+        });
+      } catch(error){
+        console.log(error);
+      }
+  }
+
+
+
+
+
+confirmarUsuario() {
   if (this.formularioRegister.valid) {
-
     const usuario:UsuarioInterface = this.crearUnProfesional();
-
-    this.postUsuarioToBackend(usuario);
+    if(this.cardSeleccionada?.idUsuario){
+      this.putUsuarioToBackend(this.cardSeleccionada.idUsuario, usuario);
+    }else{
+      this.postUsuarioToBackend(usuario);
+    }
     window.location.reload();
   } else {
     let campoError: string = '';
@@ -119,7 +140,10 @@ onSubmit() {
     });
     alert(campoError);
   }
+
 }
+
+
 
 mostrarCard() {
   console.log(this.cardSeleccionada?.nombre);
