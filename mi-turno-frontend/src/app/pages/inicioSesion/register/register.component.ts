@@ -56,7 +56,7 @@ export class RegisterComponent {
     //console.log(fechaNacimientoDate);
     const telefonoForm = this.formularioRegister.get('telefono')?.value||'';
     const passwordForm = this.formularioRegister.get('password')?.value||'';
-    const rol = {rol: this.roles.cliente};
+
     return {
       nombre:nombreForm,
       apellido:apellidoForm,
@@ -64,7 +64,10 @@ export class RegisterComponent {
       fechaNacimiento:fechaNacimientoForm,
       telefono:telefonoForm,
       password:passwordForm,
-      rolEntidad: rol
+      rolEntidad: {
+        id_rol:2,//Es un cliente
+        rol: ROLES.cliente
+      }
     };
 
     /*return { // esto es una forma simplificada, la de arriba es mas legible y con mas ventajas.
@@ -88,7 +91,7 @@ export class RegisterComponent {
             alert('Error 404: Usuario no encontrado');
 
           } else if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
-            alert('Error 500: Error del servidor');
+            alert('Error 500: Error del servidor');//Error 500
 
           } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
             alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
