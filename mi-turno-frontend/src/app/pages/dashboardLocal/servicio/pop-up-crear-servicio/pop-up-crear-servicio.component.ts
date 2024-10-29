@@ -161,10 +161,8 @@ export class PopUpCrearServicioComponent implements OnInit {
 
   manejarServicio() {
     if (this.cardSeleccionada) {
-      alert("Hago put");
       this.putServicio(this.cardSeleccionada.idServicio);
     } else if (!this.cardSeleccionada) {
-      alert("hago post");
       this.postServicioToBackend();
     }
   }
