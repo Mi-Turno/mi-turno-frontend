@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { ServicioInterface } from '../../interfaces/servicio-interface';
 import { Observable } from 'rxjs';
@@ -19,8 +19,30 @@ export class ServicioServiceService {
       return this.http.get<ServicioInterface[]>(this.urlBase);
   }
 
+
+
   public POSTcrearUnServicio(servicio:ServicioInterface): Observable<ServicioInterface>{
     return this.http.post<ServicioInterface>(this.urlBase,servicio);
   }
 
+  public DELETEservicio(id:number): Observable<Boolean> {
+    return this.http.delete<Boolean>(`${this.urlBase}/${id}`);
+  }
+
+
+  public GETserviciosPorCriterio(nombre?: string, estado?: boolean): Observable<ServicioInterface[]> {
+    let params = new HttpParams();
+    if(nombre) {
+      params = params.set('nombre', nombre);
+    }
+    if(estado != undefined) {
+      params = params.set('estado', estado)
+    }
+    return this.http.get<ServicioInterface[]>(this.urlBase, { params });
+  }
+
+  public PUTservicio(id: number, servicio: ServicioInterface): Observable<ServicioInterface> {
+
+    return this.http.put<ServicioInterface>(`${this.urlBase}/${id}`, servicio);
+  }
 }
