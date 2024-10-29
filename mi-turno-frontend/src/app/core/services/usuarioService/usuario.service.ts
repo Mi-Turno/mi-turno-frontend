@@ -19,7 +19,8 @@ export class UsuarioService {
     telefono:'',
     fechaNacimiento:'',
     password:'',
-    rol:'',
+    rolEntidad:{rol:''},
+    estado: true
   };
 
   public getUsuarios(): Observable<UsuarioInterface[]>{
@@ -42,9 +43,21 @@ export class UsuarioService {
   }
 
 
+  public getUsuariosByEstado(estado:boolean): Observable<UsuarioInterface[]>{
+    const params = new HttpParams()
+    .set('estado', estado);
+    return this.http.get<UsuarioInterface[]>(`${this.urlBase}/estado/${estado}`, {params, responseType:"json"});
+  }
+
+
   public postUsuario(usuario:UsuarioInterface):Observable<UsuarioInterface>{
     return this.http.post<UsuarioInterface>(this.urlBase,usuario)
     };
+
+
+    public DELETEusuario(id:number): Observable<Boolean> {
+      return this.http.delete<Boolean>(`${this.urlBase}/${id}`);
+    }
 
 
 

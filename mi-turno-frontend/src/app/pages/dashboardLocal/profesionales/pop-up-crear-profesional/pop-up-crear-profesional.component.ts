@@ -11,6 +11,7 @@ import { ROLES } from '../../../../shared/models/rolesUsuario.constants';
 import { UsuarioService } from '../../../../core/services/usuarioService/usuario.service';
 import { RouterLink } from '@angular/router';
 import { codigoErrorHttp } from '../../../../shared/models/httpError.constants';
+import { convertToObject } from 'typescript';
 
 @Component({
   selector: 'app-pop-up-crear-profesional',
@@ -30,6 +31,7 @@ usuarioService = inject(UsuarioService);
 @Input() textoTitulo:string = "";
 @Input() cardSeleccionada?: UsuarioInterface | null = null;
 
+idUsuario = this.cardSeleccionada?.idUsuario;
 
 formularioRegister = new FormGroup ({
   nombre: new FormControl('', Validators.required),
@@ -52,6 +54,7 @@ actualizarValores() {
     email: this.cardSeleccionada?.email,
     fechaNacimiento: this.cardSeleccionada?.fechaNacimiento,
     telefono: this.cardSeleccionada?.telefono,
+
   });
 }
 
@@ -62,7 +65,8 @@ crearUnProfesional():UsuarioInterface {
   const fechaNacimientoForm = this.formularioRegister.get('fechaNacimiento')?.value||'';
   const telefonoForm = this.formularioRegister.get('telefono')?.value||'';
   const password = "Programador";
-  const rol = this.roles.profesional;
+  const rol = {rol :this.roles.profesional};
+  const estado = true
   return {
     nombre:nombreForm,
     apellido:apellidoForm,
@@ -70,7 +74,8 @@ crearUnProfesional():UsuarioInterface {
     fechaNacimiento:fechaNacimientoForm,
     telefono:telefonoForm,
     password:password,
-    rol:rol
+    rolEntidad:rol,
+    estado:estado
   };
 }
 
@@ -150,7 +155,10 @@ abrirDiasYHorarios() {
 }
 
 eliminarProfesional() {
-  console.log("Elimine el profesional");
+console.log(this.cardSeleccionada?.rolEntidad);
+
+
+
 }
 
 
