@@ -50,7 +50,7 @@ export class LoginComponent {
       alert('Error 404: Usuario no encontrado');
 
     } else if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
-      alert('Error 500: Error del servidor');
+      alert('Campos invalidos. ¡Si aun no tiene una cuenta creesela aqui abajo!');
 
     } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
       alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
@@ -66,42 +66,28 @@ export class LoginComponent {
   onSubmit() {
     if (this.formularioLogin.valid) {
       console.log(this.formularioLogin.value);
-      try {
-        const objetoDelForm = this.obtenerDatosForm();
-        /**PASO 1: CON ESTO VALIDO EL EMAIL Y LA CONTRASEÑA(ES UN POST YA QUE NO PUEDO ENVIAR CONTRASEÑAS POR EL URI) */
-        this.usuarioService.obtenerUsuariosByEmailAndPassword(objetoDelForm.email, objetoDelForm.password).subscribe({
-          next: (usuarioResponse:UsuarioInterface) => {
-            console.log(usuarioResponse);
-            /**PASO 2: OBTENGO EL USUARIO A RAIZ DE LA RESPUESTA Y AHI LO DEJO ENTRAR*/
-            this.usuarioService.obtenerUsuarioPorId(usuarioResponse.idUsuario).subscribe({
-              next: (usuarioFinal:UsuarioInterface) => {
-                console.log(usuarioFinal);
-                if (usuarioFinal.rolEntidad.rol == ROLES.cliente || usuarioFinal.rolEntidad.rol == ROLES.profesional) {
-                  this.router.navigate([`/negocios/mi-turno/pedir-turno`]);//${this.nombreNegocio} //todo va esto para la IDE DINAMICA PERO TENGO QUE AGREGAR UN GET CLIENTEXNEGOCIO PARA SABER A CUAL NEGOCIO MANDARLO
-                  //lo mando al DASHBOARD DE PEDIR TURNO
-                } else if (usuarioFinal.rolEntidad.rol === ROLES.negocio) {
-                  //lo mando al DASHBOARD DE LOCAL
-                } else if (usuarioFinal.rolEntidad.rol === ROLES.admin) {
-                  //lo mando al DASHBOARD DE ADMIN
-                } else {
-                  console.log('ROL INEXISTENTE');
-                }
-              },
-              error: (error) => {
-                this.verificarErrorHttp(error);
-              }
-            })
-
-          },
-          error: (error: HttpErrorResponse) => {
-            this.verificarErrorHttp(error);
+      const objetoDelForm = this.obtenerDatosForm();
+      /**PASO 1: CON ESTO VALIDO EL EMAIL Y LA CONTRASEÑA(ES UN POST YA QUE NO PUEDO ENVIAR CONTRASEÑAS POR EL URI) */
+      this.usuarioService.obtenerUsuariosByEmailAndPassword(objetoDelForm.email, objetoDelForm.password).subscribe({
+        next: (usuarioResponse: UsuarioInterface) => {
+          console.log(usuarioResponse);
+          if (usuarioResponse.rolEntidad.rol == ROLES.cliente || usuarioResponse.rolEntidad.rol == ROLES.profesional) {
+            this.router.navigate([`/negocios/mi-turno/pedir-turno`]);//${this.nombreNegocio} //todo va esto para la IDE DINAMICA PERO TENGO QUE AGREGAR UN GET CLIENTEXNEGOCIO PARA SABER A CUAL NEGOCIO MANDARLO
+            //lo mando al DASHBOARD DE PEDIR TURNO
+          } else if (usuarioResponse.rolEntidad.rol === ROLES.negocio) {
+            //lo mando al DASHBOARD DE LOCAL
+            this.router.navigate([`/negocios/mi-turno`]);
+          } else if (usuarioResponse.rolEntidad.rol === ROLES.admin) {
+            //lo mando al DASHBOARD DE ADMIN
+          } else {
+            console.log('ROL INEXISTENTE');
           }
+        },
+        error: (error: HttpErrorResponse) => {
+          this.verificarErrorHttp(error);
+        }
 
-        })
-
-      } catch (error) {
-        console.log(error);
-      }
+      })
     } else {
       let campoError: string = '';
       Object.keys(this.formularioLogin.controls).forEach(campo => {
