@@ -73,7 +73,7 @@ export class LoginComponent {
           next: (usuarioResponse:UsuarioInterface) => {
             console.log(usuarioResponse);
             /**PASO 2: OBTENGO EL USUARIO A RAIZ DE LA RESPUESTA Y AHI LO DEJO ENTRAR*/
-            this.usuarioService.obtenerUsuarioPorId(usuarioResponse.id).subscribe({
+            this.usuarioService.obtenerUsuarioPorId(usuarioResponse.idUsuario).subscribe({
               next: (usuarioFinal:UsuarioInterface) => {
                 console.log(usuarioFinal);
                 if (usuarioFinal.rol == ROLES.cliente || usuarioFinal.rol == ROLES.profesional) {

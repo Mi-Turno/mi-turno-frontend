@@ -41,11 +41,20 @@ export class UsuarioService {
     return this.http.get<UsuarioInterface[]>(`${this.urlBase}/rol/${rol}?rolUsuarioEnum=${rol}`,{params, responseType:"json"});
   }
 
+  public getUsuarioByRolAndEstado(rol: string, estado: boolean): Observable<UsuarioInterface[]>{
+    const params = new HttpParams()
+    .set('rol', rol)
+    .set('estado', estado)
+    return this.http.get<UsuarioInterface[]>(`${this.urlBase}/rol/${rol}/estado/${estado}`,{params, responseType:"json"});
+  }
 
   public postUsuario(usuario:UsuarioInterface):Observable<UsuarioInterface>{
     return this.http.post<UsuarioInterface>(this.urlBase,usuario)
     };
 
+    public deleteUsuario(id:number): Observable<Boolean> {
+      return this.http.delete<Boolean>(`${this.urlBase}/${id}`);
+    }
 
 
   }

@@ -55,8 +55,7 @@ ngOnInit() {
   this.cargarUsuarios();
 }
 cargarUsuarios() {
-  this.usuarios.getUsuarioByRol(ROLES.profesional).subscribe({
-    next: (response) => {
+  this.usuarios.getUsuarioByRolAndEstado(ROLES.profesional, true).subscribe({    next: (response) => {
       this.idCards = response.slice(0, this.maxCards);
     },
     error: (error) => {
