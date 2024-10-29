@@ -140,18 +140,40 @@ cerrarPopUp() {
 }
 
 abrirServicios() {
-  console.log("Abro servicios que ofrece");
+  if(this.cardSeleccionada?.idUsuario) { //todo: Hay que poner el otro pop up
+    this.cerrarPopUp();
+    this.activarHorarios.emit();
+    }else {
+      alert("Todavía no se creo el usuario");
+    }
 }
 abrirDiasYHorarios() {
+  if(this.cardSeleccionada?.idUsuario) {
   this.cerrarPopUp();
   this.activarHorarios.emit();
+  }else {
+    alert("Todavía no se creo el usuario");
+  }
 
   console.log("Abro días y horarios");
 }
 
 eliminarProfesional() {
-  console.log("Elimine el profesional");
+  console.log(this.cardSeleccionada?.idUsuario);
+  if (this.cardSeleccionada?.idUsuario) {
+    this.usuarioService.deleteUsuario(this.cardSeleccionada.idUsuario).subscribe({
+      next: (response) => {
+        this.cerrarPopUp();
+        console.log(response);
+        window.location.reload();
+      },
+      error(e: Error) {
+        console.log(e.message);
+      },
+    });
+  }
+  else{
+    alert("Todavía no se creo el profesional ");
+  }
 }
-
-
 }
