@@ -10,6 +10,7 @@ import { UsuarioService } from '../../../core/services/usuarioService/usuario.se
 import { PLACEHOLDERS } from '../../../shared/models/placeholderInicioSesion.constants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { codigoErrorHttp } from '../../../shared/models/httpError.constants';
+import { ROLES } from '../../../shared/models/rolesUsuario.constants';
 
 
 
@@ -26,6 +27,7 @@ export class RegisterComponent {
   inputContainer: string = "inputContainer";
   iconos = ICONOS;
   usuarioService = inject(UsuarioService);
+  roles = ROLES;
 
 
   placeholders = PLACEHOLDERS;
@@ -54,7 +56,7 @@ export class RegisterComponent {
     //console.log(fechaNacimientoDate);
     const telefonoForm = this.formularioRegister.get('telefono')?.value||'';
     const passwordForm = this.formularioRegister.get('password')?.value||'';
-    const rol = 'CLIENTE';
+    const rol = {rol: this.roles.cliente};
     return {
       nombre:nombreForm,
       apellido:apellidoForm,
@@ -62,7 +64,7 @@ export class RegisterComponent {
       fechaNacimiento:fechaNacimientoForm,
       telefono:telefonoForm,
       password:passwordForm,
-      rol:rol
+      rolEntidad: rol
     };
 
     /*return { // esto es una forma simplificada, la de arriba es mas legible y con mas ventajas.

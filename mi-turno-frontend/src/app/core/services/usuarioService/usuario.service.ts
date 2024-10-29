@@ -19,7 +19,9 @@ export class UsuarioService {
     telefono:'',
     fechaNacimiento:'',
     password:'',
-    rol:'',
+    rolEntidad:{
+      rol:''
+    },
   };
 
   public getUsuarios(): Observable<UsuarioInterface[]>{

@@ -57,6 +57,7 @@ ngOnInit() {
 cargarUsuarios() {
   this.usuarios.getUsuarioByRolAndEstado(ROLES.profesional, true).subscribe({    next: (response) => {
       this.idCards = response.slice(0, this.maxCards);
+      console.log(this.idCards[0].rolEntidad);
     },
     error: (error) => {
       console.error('Error al obtener usuarios:', error);
