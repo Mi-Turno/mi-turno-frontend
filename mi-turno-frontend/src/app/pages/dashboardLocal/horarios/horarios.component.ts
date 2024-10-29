@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { ChipComponent } from '../../../shared/components/chip/chip.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { HorarioXProfesionalInterface } from '../../../core/interfaces/horarios-x-profesionale-interface';
 
 @Component({
   selector: 'app-horarios',
@@ -12,14 +13,19 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   templateUrl: './horarios.component.html',
   styleUrl: './horarios.component.css'
 })
-export class HorariosComponent {
+export class HorariosComponent  implements OnInit{
 
-  horarios: string[] = ['10:00', '11:00', '12:00', '13:00', '14:00'];
-  toggleActivo: boolean = false;
+  toggleActivo: boolean = true;
+ @Input() horarios: string[] = [];
+ @Input() dia:string = "Martes";
 
 
-  @Input() dia:string = "Martes";
 
+ horariosActuales: string[] = []
+
+ngOnInit(): void {
+   console.log(this.horarios);
+}
 
 
   // Función para alternar el estado del toggle
@@ -29,10 +35,11 @@ export class HorariosComponent {
 
   // Función para añadir un nuevo horario
   agregarHorario() {
-    const nuevoHorario = prompt('Ingresa un nuevo horario (HH:mm):');
-    if (nuevoHorario) {
-      this.horarios.push(nuevoHorario);
-    }
+
+    // const nuevoHorario = prompt('Ingresa un nuevo horario (HH:mm):');
+    // if (nuevoHorario) {
+    //   this.horarios.push(nuevoHorario);
+    // }
   }
 
   // Función para eliminar un horario específico
