@@ -28,7 +28,7 @@ export class ServicioMainComponent implements OnInit {
     this.cargarServicios();
   }
   cargarServicios() {
-    this.servicios.GETservicios().subscribe({
+    this.servicios.GETserviciosPorCriterio(undefined,true).subscribe({
       next: (response) => {
 
         this.idCards = response.slice(0, this.maxCards);  // Limitar la cantidad de tarjetas

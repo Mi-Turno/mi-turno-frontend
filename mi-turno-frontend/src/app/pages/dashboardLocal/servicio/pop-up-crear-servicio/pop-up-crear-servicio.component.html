@@ -30,13 +30,13 @@
       [class]="'botonEliminar'"
       [textoDentroBoton]="'Eliminar'"
       [type]="'button'"
-      (click)="eliminarServicio()"
+      (click)="eliminarServicio(cardSeleccionada?.idServicio)"
     ></app-boton>
     <app-boton
       [class]="'botonConfirmar'"
       [textoDentroBoton]="'Confirmar'"
       [type]="'button'"
-      (click)="postServicioToBackend()"
+      (click)="manejarServicio()"
     ></app-boton>
   </div>
 </form>
