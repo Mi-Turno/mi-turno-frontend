@@ -5,13 +5,13 @@
     <mat-icon> close</mat-icon>
   </div>
 <div class="contenedor-horarios">
-  <app-horarios [dia]="'Lunes'" [horarios]="horariosActuales"></app-horarios>
-  <app-horarios [dia] = "'Martes'"></app-horarios>
-  <app-horarios [dia] = "'Miércoles'"></app-horarios>
-  <app-horarios [dia] = "'Jueves'"></app-horarios>
-  <app-horarios [dia] = "'Viernes'"></app-horarios>
-  <app-horarios [dia] = "'Sabado'"></app-horarios>
-  <app-horarios [dia] = "'Domingo'"></app-horarios>
+  <app-horarios [dia]="'Lunes'" [horarios]="horariosActuales.LUNES"></app-horarios>
+  <app-horarios [dia] = "'Martes'" [horarios]="horariosActuales.MARTES"></app-horarios>
+  <app-horarios [dia] = "'Miércoles'" [horarios]="horariosActuales.MIERCOLES"></app-horarios>
+  <app-horarios [dia] = "'Jueves'" [horarios]="horariosActuales.JUEVES"></app-horarios>
+  <app-horarios [dia] = "'Viernes'" [horarios]="horariosActuales.VIERNES"></app-horarios>
+  <app-horarios [dia] = "'Sabado'" [horarios]="horariosActuales.SABADO"></app-horarios>
+  <app-horarios [dia] = "'Domingo'" [horarios]="horariosActuales.DOMINGO"></app-horarios>
 </div>
 <div  >
   <app-boton (click)  ="confirmar()" [textoDentroBoton]="'Confirmar'" [class]="'botonConfirmarHorarios'"  ></app-boton>

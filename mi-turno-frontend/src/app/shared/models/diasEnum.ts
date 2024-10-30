@@ -1,5 +1,5 @@
 export enum DiasEnum{
-  lunes = "LUNES",
+  LUNES = "LUNES",
   MARTES = "MARTES",
   MIERCOLES = "MIERCOLES",
   JUEVES = "JUEVES",

@@ -13,11 +13,17 @@ export class HorarioXprofesionalService {
   private http: HttpClient= inject(HttpClient);
 
 
-  obtenerHorariosPorProfesionalYDia(idProfesional: number, dia: DiasEnum): Observable<HorarioXProfesionalInterface[]> {
+  public obtenerHorariosPorProfesionalYDia(idProfesional: number, dia: DiasEnum): Observable<HorarioXProfesionalInterface[]> {
     const params = new HttpParams()
       .set('idProfesional', idProfesional.toString())
       .set('dia', dia);
     return this.http.get<HorarioXProfesionalInterface[]>(`${this.urlBase}/profesional/dia`, { params });
   }
+
+  public postHorariosPorProfesional(horario: HorarioXProfesionalInterface):Observable<HorarioXProfesionalInterface> {
+    return this.http.post<HorarioXProfesionalInterface>(this.urlBase, horario)
+  }
+
+
 
 }
