@@ -6,9 +6,6 @@ export interface UsuarioInterface {
   password: string;
   telefono: string;
   fechaNacimiento: string; // O puedes usar Date si prefieres
-  rolEntidad: {
-      id_rol?: number;
-      rol: string;
-  };
+  rolEntidad:string
   estado?: boolean;
 }
