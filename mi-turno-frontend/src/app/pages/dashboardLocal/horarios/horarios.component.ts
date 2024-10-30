@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { ChipComponent } from '../../../shared/components/chip/chip.component';
 import { CommonModule } from '@angular/common';
@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { HorarioXProfesionalInterface } from '../../../core/interfaces/horarios-x-profesionale-interface';
 import { DiasEnum } from '../../../shared/models/diasEnum';
+import { HorarioXprofesionalService } from '../../../core/services/horariosProfesionalService/horario-xprofesional.service';
 
 
 @Component({
@@ -17,10 +18,12 @@ import { DiasEnum } from '../../../shared/models/diasEnum';
 })
 export class HorariosComponent  implements OnInit{
 
+  horarioService = inject(HorarioXprofesionalService);
   toggleActivo: boolean = false;
  @Input() horarios: string[] = [];
- @Input() dia:string= "";
- @Input() idProfesional: number = 0;
+ @Input() dia:DiasEnum= DiasEnum.DOMINGO;
+ @Input() idProfesional: number | undefined = 0;
+
 
  horariosActuales: string[] = []
 
@@ -28,6 +31,24 @@ export class HorariosComponent  implements OnInit{
 ngOnInit(): void {
    console.log(this.horarios);
 }
+
+
+crearHorario(horarioNuevo: string): HorarioXProfesionalInterface {
+  let  id = 0;
+  if(this.idProfesional){
+     id = this.idProfesional;
+  }
+  const dianuevo = this.dia;
+  const horario = this.parsearHora(horarioNuevo);
+  return{
+    horario: horarioNuevo,
+    dia: dianuevo,
+    idProfesional: id
+  }
+}
+
+
+
 
 
   // Función para alternar el estado del toggle
@@ -62,12 +83,29 @@ ngOnInit(): void {
   // Función para añadir un nuevo horario
   agregarHorario() {
 
-    //const nuevoHorario = prompt('Ingresa un nuevo horario (HH:mm):');
-
-    console.log(this.horarios);
-
+    const nuevoHorario = prompt('Ingresa un nuevo horario (HH:mm):');
+    if(nuevoHorario){
+     const horario = this.crearHorario(nuevoHorario)
+     console.log(horario);
+      this.postHorarioToBackend(horario);
+    }
   }
 
+
+  private postHorarioToBackend(horario:HorarioXProfesionalInterface):void{
+    try {
+      this.horarioService.postHorariosPorProfesional(horario).subscribe({
+        next:(horario: HorarioXProfesionalInterface) =>{
+          console.log(horario);
+        },
+        error:(error)=>{
+          console.log(error);
+        }
+      })
+    } catch (error) {
+      console.error(error);
+    }
+  }
   // Función para eliminar un horario específico
   eliminarHorario(index: number) {
     this.horarios.splice(index, 1);

@@ -117,9 +117,6 @@ private putUsuarioToBackend(id: number, usuario:UsuarioInterface):void{
   }
 
 
-
-
-
 confirmarUsuario() {
   if (this.formularioRegister.valid) {
     const usuario:UsuarioInterface = this.crearUnProfesional();

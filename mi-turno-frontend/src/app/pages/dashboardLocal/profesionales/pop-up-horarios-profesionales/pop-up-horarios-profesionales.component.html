@@ -5,13 +5,13 @@
     <mat-icon> close</mat-icon>
   </div>
 <div class="contenedor-horarios">
-  <app-horarios [dia]="'Lunes'" [horarios]="horariosActuales.LUNES"></app-horarios>
-  <app-horarios [dia] = "'Martes'" [horarios]="horariosActuales.MARTES"></app-horarios>
-  <app-horarios [dia] = "'Miércoles'" [horarios]="horariosActuales.MIERCOLES"></app-horarios>
-  <app-horarios [dia] = "'Jueves'" [horarios]="horariosActuales.JUEVES"></app-horarios>
-  <app-horarios [dia] = "'Viernes'" [horarios]="horariosActuales.VIERNES"></app-horarios>
-  <app-horarios [dia] = "'Sabado'" [horarios]="horariosActuales.SABADO"></app-horarios>
-  <app-horarios [dia] = "'Domingo'" [horarios]="horariosActuales.DOMINGO"></app-horarios>
+  <app-horarios [dia]="dia.LUNES" [horarios]="horariosActuales.LUNES" [idProfesional]="cardSeleccionada?.idUsuario"></app-horarios>
+  <app-horarios [dia] = "dia.MARTES" [horarios]="horariosActuales.MARTES" [idProfesional]="cardSeleccionada?.idUsuario"></app-horarios>
+  <app-horarios [dia] = "dia.MIERCOLES" [horarios]="horariosActuales.MIERCOLES" [idProfesional]="cardSeleccionada?.idUsuario"></app-horarios>
+  <app-horarios [dia] = "dia.JUEVES" [horarios]="horariosActuales.JUEVES" [idProfesional]="cardSeleccionada?.idUsuario"></app-horarios>
+  <app-horarios [dia] = "dia.VIERNES" [horarios]="horariosActuales.VIERNES" [idProfesional]="cardSeleccionada?.idUsuario"></app-horarios>
+  <app-horarios [dia] = "dia.SABADO" [horarios]="horariosActuales.SABADO" [idProfesional]="cardSeleccionada?.idUsuario"></app-horarios>
+  <app-horarios [dia] = "dia.DOMINGO" [horarios]="horariosActuales.DOMINGO" [idProfesional]="cardSeleccionada?.idUsuario"></app-horarios>
 </div>
 <div  >
   <app-boton (click)  ="confirmar()" [textoDentroBoton]="'Confirmar'" [class]="'botonConfirmarHorarios'"  ></app-boton>

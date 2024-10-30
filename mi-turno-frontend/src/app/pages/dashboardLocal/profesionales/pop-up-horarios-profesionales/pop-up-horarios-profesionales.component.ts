@@ -20,6 +20,8 @@ export class PopUpHorariosProfesionalesComponent implements OnInit{
 
   nombreProfesional:string  | undefined= "";
 
+dia = DiasEnum;
+
   ngOnInit(): void {
     this.nombreProfesional =  this.cardSeleccionada?.nombre;
     this.cargarHorariosPorSemana();
@@ -86,6 +88,7 @@ pasarHorariosAhoras(dia: DiasEnum) {
   confirmar() {
     console.log(this.horarios);
   }
+
 
 
 cerrarPopUp() {
