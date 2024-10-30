@@ -64,10 +64,8 @@ export class RegisterComponent {
       fechaNacimiento:fechaNacimientoForm,
       telefono:telefonoForm,
       password:passwordForm,
-      rolEntidad: {
-        id_rol:2,//Es un cliente
-        rol: ROLES.cliente
-      }
+      rolEntidad: ROLES.cliente,
+      estado:true
     };
 
     /*return { // esto es una forma simplificada, la de arriba es mas legible y con mas ventajas.
