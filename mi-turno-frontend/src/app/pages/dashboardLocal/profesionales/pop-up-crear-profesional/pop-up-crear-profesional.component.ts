@@ -62,7 +62,7 @@ crearUnProfesional():UsuarioInterface {
   const fechaNacimientoForm = this.formularioRegister.get('fechaNacimiento')?.value||'';
   const telefonoForm = this.formularioRegister.get('telefono')?.value||'';
   const password = "Programador";
-  const rol = {rol: this.roles.profesional}
+
   return {
     nombre:nombreForm,
     apellido:apellidoForm,
@@ -70,7 +70,7 @@ crearUnProfesional():UsuarioInterface {
     fechaNacimiento:fechaNacimientoForm,
     telefono:telefonoForm,
     password:password,
-    rolEntidad:rol
+    rolEntidad:ROLES.profesional
   };
 }
 
