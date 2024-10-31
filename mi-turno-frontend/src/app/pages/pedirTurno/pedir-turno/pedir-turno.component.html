@@ -6,18 +6,17 @@
 
   @switch (pasoActual) {
     @case (1) {
-      <button (click)="avanzarPaso()">seleccionar</button>
-      <app-seleccion-usuario (emitirInformacion)="recibirIdServicio($event)" ></app-seleccion-usuario>
+
       <!--pegarle al backend y que me muestre los servicios del negocio en el que esta-->
-      <p>hola1</p>
+      <app-seleccion-usuario [pasoActualSeleccion]="pasoActual" [arregloServicios]="servicios"  (emitirInformacion)="recibirIdInformacion($event)" ></app-seleccion-usuario>
+
     }
     @case (2) {
-      <button (click)="avanzarPaso()">seleccionar</button>
-      <p>hola2</p>
+      <app-seleccion-usuario [pasoActualSeleccion]="pasoActual" [arregloProfesionales]="profesionales"  (emitirInformacion)="recibirIdInformacion($event)" ></app-seleccion-usuario>
+
     }
     @case (3) {
-      <button (click)="avanzarPaso()">seleccionar</button>
-      <p>hola3</p>
+      <!-- <app-seleccion-usuario [pasoActualSeleccion]="pasoActual" [arregloHorarios]="horarios"  (emitirInformacion)="recibirIdInformacion($event)" ></app-seleccion-usuario> -->
     }
     @case (4) {
       <p>hola4</p>

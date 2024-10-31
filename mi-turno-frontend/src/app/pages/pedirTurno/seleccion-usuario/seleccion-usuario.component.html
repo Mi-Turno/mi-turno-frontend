@@ -1,6 +1,38 @@
 <main class="main">
-    <div *ngFor="let card of servicios">
-      <app-card [ruta]="'rutaImg'" [textoAlt]="'textoAlternativo'" [titulo]="card.nombre" [texto]="card.duracion"
-        [textoBoton]="'Seleccionar'" [referenciaChip]="'rutaBotonChip'" (emitirInformacion)="recibirInformacion($event)"></app-card>
-    </div>
+
+@switch (pasoActualSeleccion) {
+
+  @case (1) {
+    <div *ngFor="let card of arregloServicios">
+      <app-card [ruta]="'rutaImg'" [textoAlt]="'imagen rota'" [titulo]="card.nombre" [texto]="card.duracion + ' minutos'"
+        [textoBoton]="'Seleccionar'" [guardarInformacion]="card.idServicio" (emitirInformacion)="enviarIdInformacion($event)"></app-card>
+      </div>
+  }
+  @case (2) {
+    <div *ngFor="let card of arregloProfesionales">
+      <app-card [ruta]="'rutaImg'" [textoAlt]="'imagen rota'" [titulo]="card.nombre" [texto]="'$'+card.precioServicio"
+        [textoBoton]="'Seleccionar'" [guardarInformacion]="card.idProfesional" (emitirInformacion)="enviarIdInformacion($event)"></app-card>
+      </div>
+  }
+  @case (3) {
+    <app-calendario-horario-profesional></app-calendario-horario-profesional>
+  }
+  @case (4) {
+
+  }
+  @default {
+    <p>No hay datos</p>
+  }
+
+}
+
+  @if (arregloServicios.length > 0) {
+
+  }
+  @else if (arregloProfesionales) {
+
+  }
+  @else {
+
+  }
 </main>

@@ -32,8 +32,9 @@ export class CardComponent {
 @Input() claseCuerpoChip ="claseCuerpoChip"
 @Input() claseCuerpoTexto ="claseCuerpoTexto"
 
-@Output() emitirInformacion: EventEmitter<string|number> = new EventEmitter();
-@Input() guardarInformacion?: string|number;
+
+@Output() emitirInformacion: EventEmitter<number> = new EventEmitter();
+@Input() guardarInformacion?: number; //id de la informacion guardada ej: id profesional o id servicio
 emitirInformacionClick(){
   this.emitirInformacion.emit(this.guardarInformacion);
 

@@ -1,4 +1,5 @@
 import { MetodosDePago } from "../../shared/models/metodosDePago";
+import { HorarioProfesional } from "./horarioProfesional";
 
 export interface TurnoInterface{
   idCliente?:number;//id del usuario,
@@ -6,8 +7,7 @@ export interface TurnoInterface{
   idProfesional?:number; //id del profesional
   idNegocio?:number; //id del negocio
   fechaInicio?:Date;
-  horario?:Date;
-  //hora fin se puede calcular con la duracion del servicio + la hora de inicio
+  horarioProfesional?:HorarioProfesional;
   metodoPago?:MetodosDePago;
 }
 
