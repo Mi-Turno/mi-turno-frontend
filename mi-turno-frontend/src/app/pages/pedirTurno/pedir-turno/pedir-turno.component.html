@@ -1,8 +1,14 @@
+
 <div [ngClass]="{'oscurecer': activarOscurecer}">
 
   <app-nav-pedir-turno></app-nav-pedir-turno>
 
   <app-nav-pasos [pasoActual]="pasoActual" (cambiarPaso)="irAPaso($event)"></app-nav-pasos>
+
+@if (idNegocio === -1) {
+<h1>El negocio no existe</h1>
+}
+@else {
 
   @switch (pasoActual) {
     @case (1) {
@@ -26,4 +32,6 @@
       <app-confirmacion (oscurecerFondo)="manejadorOscurecer($event)"></app-confirmacion>
     }
   }
+
+}
 </div>
