@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { MetodosDePagoServiceService } from '../../../core/services/metodosDePago/metodos-de-pago-service.service';
 import { MetodosDePagoInterface } from '../../../core/interfaces/metodos-de-pagos-interface';
 import { CommonModule } from '@angular/common';
@@ -15,12 +15,13 @@ export class MetodoPagoComponent implements OnInit {
   metodosDePago: MetodosDePagoServiceService = inject(MetodosDePagoServiceService);
 
   textoBoton = "Seleccionar";
-  rutaImg = "img-default.png";
-  textoAlternativo = "Img del metodo de pago";
+  //rutaImg = "img-default.png";
+  //textoAlternativo = "Img del metodo de pago";
   textoTitulo = "Metodo de pago";
   idCards: MetodosDePagoInterface[] = [];
-  maxCards = 6;
   cardSeleccionada: MetodosDePagoInterface | null = null;
+
+
 
   ngOnInit(){
     this.cargarMetodosDePago();
@@ -28,9 +29,12 @@ export class MetodoPagoComponent implements OnInit {
   }
   cargarMetodosDePago() {
     this.metodosDePago.getMetodosDePago().subscribe({
-      next: (response) => {
-        console.log(response);
-        this.idCards = [...response];
+      next: (response:string[]) => {
+
+        this.idCards = response.map((metodo): MetodosDePagoInterface => ({
+          metodoDePago: metodo.replace("_"," "),
+        }));
+
 
       },
       error: (error) => {
@@ -38,5 +42,21 @@ export class MetodoPagoComponent implements OnInit {
       }
     });
 
+  }
+  getRutaImagen(metodoDePago: string): string {
+    switch (metodoDePago) {
+      case 'EFECTIVO':
+        return 'efectivo.png';
+      case 'MERCADO PAGO':
+        return 'mercado-pago.png';
+      case 'TARJETA CREDITO':
+        return 'tarjeta.png';
+      case 'TARJETA DEBITO':
+        return 'tarjeta.png';
+      case 'TRANSFERENCIA':
+        return 'transferencia.png';
+      default:
+        return 'img-default.png'; // Imagen por defecto
+    }
   }
 }
