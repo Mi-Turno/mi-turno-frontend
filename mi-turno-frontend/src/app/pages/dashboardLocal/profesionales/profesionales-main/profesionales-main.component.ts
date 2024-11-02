@@ -66,7 +66,7 @@ cargarUsuarios() {
   this.ruta.parent?.params.subscribe(params => {
     const nombreNegocio = params['nombreNegocio'];
     console.log(nombreNegocio);
-    if (nombreNegocio) {
+
       this.servicioNegocio.getIdNegocioByNombre(nombreNegocio).subscribe(
         {
           next: (idNegocio) => {
@@ -89,9 +89,7 @@ cargarUsuarios() {
           }
         }
       );
-    } else {
-      console.error('Nombre del negocio no encontrado en la URL');
-   }
+
 
 
 });
