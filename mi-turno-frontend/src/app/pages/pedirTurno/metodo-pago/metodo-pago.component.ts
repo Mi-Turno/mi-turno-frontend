@@ -18,10 +18,14 @@ export class MetodoPagoComponent implements OnInit {
   //rutaImg = "img-default.png";
   //textoAlternativo = "Img del metodo de pago";
   textoTitulo = "Metodo de pago";
+  referenciaChip:string = '';
   idCards: MetodosDePagoInterface[] = [];
-  cardSeleccionada: MetodosDePagoInterface | null = null;
 
 
+  @Output() metodoDePagoSeleccionado = new EventEmitter<number>();
+  onMetodoDePagoSeleccionado(metodoDePagoId: number) {
+    this.metodoDePagoSeleccionado.emit(metodoDePagoId);
+  }
 
   ngOnInit(){
     this.cargarMetodosDePago();

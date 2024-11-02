@@ -8,6 +8,6 @@ export interface TurnoInterface{
   idNegocio?:number; //id del negocio
   fechaInicio?:Date;
   horarioProfesional?:HorarioProfesional;
-  metodoPago?:MetodosDePago;
+  metodoPago?:MetodosDePago|string;
 }
 
