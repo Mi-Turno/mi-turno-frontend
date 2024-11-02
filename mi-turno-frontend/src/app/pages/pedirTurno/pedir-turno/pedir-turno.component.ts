@@ -15,6 +15,7 @@ import { ProfesionalInterface } from '../../../core/interfaces/profesional-inter
 import { CalendarioHorarioProfesionalComponent } from "../calendario-horario-profesional/calendario-horario-profesional.component";
 import { NegocioServiceService } from '../../../core/services/negocioService/negocio-service.service';
 import { ProfesionalesServiceService } from '../../../core/services/profesionalService/profesionales-service.service';
+import { E } from '@angular/cdk/keycodes';
 
 
 @Component({
@@ -61,9 +62,9 @@ export class PedirTurnoComponent implements OnInit{
               //obtengo el arreglo de profesionales del negocio y lo guardo en la variable profesionales
               this.servicioProfesional.getProfesionalesPorIdNegocio(this.idNegocio).subscribe({
                 next: (profesionales) => {
-                  this.profesionales = profesionales;
+                  this.profesionales = this.profesionales.slice(0,profesionales.length);
                 },error: (error) => {
-
+                  console.log(error);
                 }
               });
 

@@ -91,7 +91,7 @@ export class PopUpCrearServicioComponent implements OnInit {
   postServicioToBackend() {
     if (this.formularioServicio.valid) {
       const servicioNuevo: ServicioInterface = this.crearUnServicio();
-      this.servicioService.POSTcrearUnServicio(servicioNuevo).subscribe({
+      this.servicioService.POSTcrearUnServicio(servicioNuevo,1).subscribe({//todo deberia tener el id del negocio
         next: (response) => {
           this.cerrarPopUp();
           window.location.reload();

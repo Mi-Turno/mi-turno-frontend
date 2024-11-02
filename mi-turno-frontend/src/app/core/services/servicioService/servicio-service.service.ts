@@ -8,11 +8,12 @@ import { UsuarioInterface } from '../../interfaces/usuario-interface';
   providedIn: 'root'
 })
 export class ServicioServiceService {
-  private urlBase:string ='http://localhost:8080';
+  private urlBase:string ='http://localhost:8080/negocios';//http://localhost:8080/negocios/{idNegocio}/servicio/{idServicio}
   private http:HttpClient = inject(HttpClient);
   servicio:ServicioInterface ={
     nombre:'',
-    duracion:0
+    duracion:0,
+    precio:0
   };
   //me retorna todos los servicios//todo luego habria que filtrar por local etc...
   public GETserviciosPorIdNegocio(idNegocio:number):Observable<ServicioInterface[]>{
@@ -21,8 +22,8 @@ export class ServicioServiceService {
 
 
 
-  public POSTcrearUnServicio(servicio:ServicioInterface): Observable<ServicioInterface>{
-    return this.http.post<ServicioInterface>(this.urlBase,servicio);
+  public POSTcrearUnServicio(servicio:ServicioInterface,idNegocio:number): Observable<ServicioInterface>{
+    return this.http.post<ServicioInterface>(`${this.urlBase}/${idNegocio}/servicios`,servicio);
   }
 
   public DELETEservicio(id:number): Observable<Boolean> {
@@ -30,7 +31,7 @@ export class ServicioServiceService {
   }
 
 
-  public GETserviciosPorCriterio(nombre?: string, estado?: boolean): Observable<ServicioInterface[]> {
+ /* public GETserviciosPorCriterio(nombre?: string, estado?: boolean): Observable<ServicioInterface[]> {
     let params = new HttpParams();
     if(nombre) {
       params = params.set('nombre', nombre);
@@ -39,7 +40,7 @@ export class ServicioServiceService {
       params = params.set('estado', estado)
     }
     return this.http.get<ServicioInterface[]>(this.urlBase, { params });
-  }
+  }*/
 
   public PUTservicio(id: number, servicio: ServicioInterface): Observable<ServicioInterface> {
 
