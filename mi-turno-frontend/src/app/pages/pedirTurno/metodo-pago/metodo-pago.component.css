@@ -1,0 +1,10 @@
+.main {
+  display: flex;
+  border: 2px solid;
+  margin: 2vh 3vh 2vh 1.5vh;
+  width: 82vw;
+  height: 88vh;
+  justify-content: center;
+  align-items: center;
+ flex-wrap: wrap;
+}
