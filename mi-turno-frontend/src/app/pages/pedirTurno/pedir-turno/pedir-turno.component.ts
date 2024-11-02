@@ -16,12 +16,13 @@ import { CalendarioHorarioProfesionalComponent } from "../calendario-horario-pro
 import { NegocioServiceService } from '../../../core/services/negocioService/negocio-service.service';
 import { ProfesionalesServiceService } from '../../../core/services/profesionalService/profesionales-service.service';
 import { E } from '@angular/cdk/keycodes';
+import { MetodoPagoComponent } from "../metodo-pago/metodo-pago.component";
 
 
 @Component({
   selector: 'app-pedir-turno',
   standalone: true,
-  imports: [CommonModule, NavPedirTurnoComponent, NavPasosComponent, CardComponent, ConfirmacionComponent, SeleccionUsuarioComponent, CalendarioHorarioProfesionalComponent],
+  imports: [CommonModule, NavPedirTurnoComponent, NavPasosComponent, CardComponent, ConfirmacionComponent, SeleccionUsuarioComponent, CalendarioHorarioProfesionalComponent, MetodoPagoComponent],
   templateUrl: './pedir-turno.component.html',
   styleUrl: './pedir-turno.component.css'
 })
@@ -129,7 +130,7 @@ export class PedirTurnoComponent implements OnInit{
 
   // Función para avanzar al siguiente paso
   avanzarPaso(): void {
-    if (this.pasoActual < 4) {
+    if (this.pasoActual < 6) {
       this.pasoActual++;
     }
   }
@@ -150,7 +151,7 @@ export class PedirTurnoComponent implements OnInit{
 
   // Función para confirmar el turno
   confirmarTurno(): void {
-    this.pasoActual=5;
+    this.pasoActual=6;
   }
 
 
