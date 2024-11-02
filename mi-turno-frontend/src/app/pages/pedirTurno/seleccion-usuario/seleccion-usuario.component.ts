@@ -6,12 +6,13 @@ import { ServicioInterface } from '../../../core/interfaces/servicio-interface';
 import { ProfesionalInterface } from '../../../core/interfaces/profesional-interface';
 import { I } from '@angular/cdk/keycodes';
 import { CalendarioHorarioProfesionalComponent } from "../calendario-horario-profesional/calendario-horario-profesional.component";
+import { MetodoPagoComponent } from "../metodo-pago/metodo-pago.component";
 
 
 @Component({
   selector: 'app-seleccion-usuario',
   standalone: true,
-  imports: [CommonModule, CardComponent, CalendarioHorarioProfesionalComponent],
+  imports: [CommonModule, CardComponent, CalendarioHorarioProfesionalComponent, MetodoPagoComponent],
   templateUrl: './seleccion-usuario.component.html',
   styleUrl: './seleccion-usuario.component.css'
 })
@@ -23,6 +24,7 @@ export class SeleccionUsuarioComponent {
   @Input() pasoActualSeleccion:number = 1;
 
   @Output() emitirInformacion: EventEmitter<number> = new EventEmitter();
+
 
 
   enviarIdInformacion(e:number) {

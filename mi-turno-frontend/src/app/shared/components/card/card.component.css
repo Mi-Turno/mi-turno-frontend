@@ -16,14 +16,15 @@
   justify-content: center;
   align-items: center;
   height: 230px;
+  overflow: hidden; /* Oculta cualquier desbordamiento de la imagen */
 }
 
 /* Estilos de la imagen */
 .claseImg {
-width: max-content;
-height: 230px;
-aspect-ratio: 3 / 2;
-object-fit: cover;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 /* Cuerpo del contenido (texto y botón) */

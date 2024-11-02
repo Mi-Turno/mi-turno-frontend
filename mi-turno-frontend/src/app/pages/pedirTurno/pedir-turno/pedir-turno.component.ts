@@ -2,7 +2,7 @@ import { ServicioServiceService } from './../../../core/services/servicioService
 import { ActivatedRoute, Router } from '@angular/router';
 import { TurnoInterface } from './../../../core/interfaces/turno-interface';
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { NavPedirTurnoComponent } from "../nav-pedir-turno/nav-pedir-turno.component";
 import { NavPasosComponent } from "../nav-pasos/nav-pasos.component";
 import { CardComponent } from "../../../shared/components/card/card.component";
@@ -17,6 +17,8 @@ import { NegocioServiceService } from '../../../core/services/negocioService/neg
 import { ProfesionalesServiceService } from '../../../core/services/profesionalService/profesionales-service.service';
 import { E } from '@angular/cdk/keycodes';
 import { MetodoPagoComponent } from "../metodo-pago/metodo-pago.component";
+import { MetodosDePagoServiceService } from '../../../core/services/metodosDePago/metodos-de-pago-service.service';
+import { MetodosDePagoInterface } from '../../../core/interfaces/metodos-de-pagos-interface';
 
 
 @Component({
@@ -41,6 +43,7 @@ export class PedirTurnoComponent implements OnInit{
     servicioNegocio :NegocioServiceService= inject(NegocioServiceService)
     servicioServicios: ServicioServiceService = inject(ServicioServiceService);
     servicioProfesional: ProfesionalesServiceService = inject(ProfesionalesServiceService);
+    servicioMetodoDePago: MetodosDePagoServiceService = inject(MetodosDePagoServiceService);
     idNegocio: number = 1;
     ngOnInit(): void {
       const nombreNegocio = this.ruta.snapshot.paramMap.get('nombreNegocio');
@@ -81,6 +84,36 @@ export class PedirTurnoComponent implements OnInit{
         console.error('Nombre del negocio no encontrado en la URL');
       }
     }
+    @Output() emitirInformacion: EventEmitter<number> = new EventEmitter();
+
+    metodoDePagoSeleccionado: number | null = null;
+    onMetodoPagoRecibido(metodoId: number) {
+      this.metodoDePagoSeleccionado = metodoId;
+      console.log('Método de pago seleccionado:', metodoId);
+      this.idMetodoPagoToString();
+    }
+    metodoDePagoString:string = '';
+    idMetodoPagoToString(){
+      this.servicioMetodoDePago.getMetodosDePago().subscribe({
+        next:(response:string[])=> {
+          //obtengo todos los metodos de pago
+         const  metodosDePago =  response.map((metodo): MetodosDePagoInterface => ({
+            metodoDePago: metodo,
+          }));
+          if ( this.metodoDePagoSeleccionado !== null && this.metodoDePagoSeleccionado >= 0 && this.metodoDePagoSeleccionado < metodosDePago.length) {
+            const nombreMetodoDePago = metodosDePago[this.metodoDePagoSeleccionado].metodoDePago;
+            console.log('Nombre del método de pago seleccionado:', nombreMetodoDePago);
+            this.metodoDePagoString = nombreMetodoDePago;
+          } else {
+            console.error('ID de método de pago no válido.');
+          }
+
+
+        },error:(error) =>{
+
+        }
+      })
+    }
 
     servicios: ServicioInterface[] = [];
     profesionales: ProfesionalInterface[]=[];
@@ -101,6 +134,7 @@ export class PedirTurnoComponent implements OnInit{
   turno:TurnoInterface={
     idCliente: this.idCliente,
     idNegocio: this.idNegocio,
+    metodoPago:this.metodoDePagoString
   };
   recibirIdInformacion(event:number){
 

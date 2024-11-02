@@ -1,12 +1,15 @@
 <main class="main">
-  <div *ngFor="let card of idCards">
+  <div *ngFor="let card of idCards; let i = index">
     <app-card
-      [ruta]="rutaImg"
-      [textoAlt]="textoAlternativo"
-      [titulo]="textoTitulo"
-      [texto]="textoAlternativo"
+      [ruta]="getRutaImagen(card.metodoDePago)"
+      [textoAlt]="'textoAlternativo'"
+      [titulo]="card.metodoDePago"
+      [texto]="textoTitulo"
       [textoBoton]="textoBoton"
-      [referenciaChip]="'rutaBotonChip'"
+      [referenciaChip]="referenciaChip"
+      [guardarInformacion]="i"
+      (emitirInformacion)="onMetodoDePagoSeleccionado($event)"
       style="cursor: pointer"
     ></app-card>
   </div>
+</main>
