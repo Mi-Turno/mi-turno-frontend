@@ -5,6 +5,8 @@ import { PopUpCrearProfesionalComponent } from '../../profesionales/pop-up-crear
 import { ServicioInterface } from '../../../../core/interfaces/servicio-interface';
 import { ServicioServiceService } from '../../../../core/services/servicioService/servicio-service.service';
 import { PopUpCrearServicioComponent } from '../pop-up-crear-servicio/pop-up-crear-servicio.component';
+import { NegocioServiceService } from '../../../../core/services/negocioService/negocio-service.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-servicio-main',
@@ -27,16 +29,46 @@ export class ServicioMainComponent implements OnInit {
   ngOnInit() {
     this.cargarServicios();
   }
+  servicioNegocio:NegocioServiceService = inject(NegocioServiceService);
+constructor(private ruta: ActivatedRoute) { }
+idNegocio:number = 0;
   cargarServicios() {
-    this.servicios.GETserviciosPorIdNegocio(1).subscribe({
-      next: (response) => {
+    this.ruta.parent?.params.subscribe(params => {
+      const nombreNegocio = params['nombreNegocio'];
+      console.log(nombreNegocio);
+      if (nombreNegocio) {
+        this.servicioNegocio.getIdNegocioByNombre(nombreNegocio).subscribe(
+          {
+            next: (idNegocio) => {
+              this.idNegocio = idNegocio;
 
-        this.idCards = response.slice(0, this.maxCards);  // Limitar la cantidad de tarjetas
-      },
-      error: (error) => {
-        console.error('Error al obtener servicios:', error);
+              //obtengo el arreglo de servicios del negocio y lo guardo en la variable idCards
+              this.servicios.GETserviciosPorIdNegocio(this.idNegocio).subscribe({
+                next: (response) => {
+
+                  this.idCards = [...response];
+                },
+                error: (error) => {
+                  console.error('Error al obtener servicios:', error);
+                }
+              });
+
+
+            },
+            error: (error) => {
+              this.idNegocio = -1;
+              console.error('Error al obtener el ID del negocio', error);
+            }
+          }
+        );
+     } else {
+        console.error('Nombre del negocio no encontrado en la URL');
       }
     });
+
+
+
+
   }
   rutaBotonChip = ""
 

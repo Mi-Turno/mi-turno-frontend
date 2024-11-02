@@ -6,6 +6,9 @@ import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface'
 import { UsuarioService } from '../../../../core/services/usuarioService/usuario.service';
 import { ROLES } from '../../../../shared/models/rolesUsuario.constants';
 import { PopUpHorariosProfesionalesComponent } from "../pop-up-horarios-profesionales/pop-up-horarios-profesionales.component";
+import { ProfesionalesServiceService } from '../../../../core/services/profesionalService/profesionales-service.service';
+import { NegocioServiceService } from '../../../../core/services/negocioService/negocio-service.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-profesionales-main',
@@ -49,20 +52,62 @@ cambiar_SobreposicionHorarios(card: UsuarioInterface | null) {
   this.imprimirCardActual(this.cardSeleccionada);
 }
 
-usuarios: UsuarioService = inject(UsuarioService)
+profesionales: ProfesionalesServiceService = inject(ProfesionalesServiceService)
 
+constructor(private ruta: ActivatedRoute) { }
 ngOnInit() {
   this.cargarUsuarios();
+
 }
+servicioNegocio:NegocioServiceService = inject(NegocioServiceService);
+idNegocio:number = 0;
 cargarUsuarios() {
-  this.usuarios.getUsuarioByRolAndEstado(ROLES.profesional, true).subscribe({    next: (response) => {
+
+  this.ruta.parent?.params.subscribe(params => {
+    const nombreNegocio = params['nombreNegocio'];
+    console.log(nombreNegocio);
+    if (nombreNegocio) {
+      this.servicioNegocio.getIdNegocioByNombre(nombreNegocio).subscribe(
+        {
+          next: (idNegocio) => {
+            this.idNegocio = idNegocio;
+
+            //obtengo el arreglo de profesionales del negocio y lo guardo en la variable profesionales
+            this.profesionales.getProfesionalesPorIdNegocio(this.idNegocio).subscribe({//todo cambiar el 1 por el idNegocio y hacer metodo personalizado por estado
+              next: (profesionales) => {
+                this.idCards = [...profesionales];
+              },error: (error) => {
+                console.log(error);
+              }
+            });
+
+
+          },
+          error: (error) => {
+            this.idNegocio = -1;
+            console.error('Error al obtener el ID del negocio', error);
+          }
+        }
+      );
+    } else {
+      console.error('Nombre del negocio no encontrado en la URL');
+   }
+
+
+});
+
+
+
+
+  /*this.profesionales.getProfesionalesPorIdNegocio(1).subscribe({
+        next: (response) => {
       this.idCards = response.slice(0, this.maxCards);
-      console.log(this.idCards[0].rolEntidad);
+     // console.log(this.idCards[0].rolEntidad);
     },
     error: (error) => {
       console.error('Error al obtener usuarios:', error);
     }
-  });
+  });*/
 }
 
 

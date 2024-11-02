@@ -11,6 +11,7 @@ import { ROLES } from '../../../../shared/models/rolesUsuario.constants';
 import { UsuarioService } from '../../../../core/services/usuarioService/usuario.service';
 import { RouterLink } from '@angular/router';
 import { codigoErrorHttp } from '../../../../shared/models/httpError.constants';
+import { ProfesionalesServiceService } from '../../../../core/services/profesionalService/profesionales-service.service';
 
 @Component({
   selector: 'app-pop-up-crear-profesional',
@@ -24,7 +25,7 @@ export class PopUpCrearProfesionalComponent implements OnInit {
 roles = ROLES;
 icono = ICONOS;
 placeholder = PLACEHOLDERS;
-usuarioService = inject(UsuarioService);
+usuarioService = inject(ProfesionalesServiceService);
 
 @Input() fotoProfesional = "img-default.png";
 @Input() textoTitulo:string = "";
@@ -70,13 +71,14 @@ crearUnProfesional():UsuarioInterface {
     fechaNacimiento:fechaNacimientoForm,
     telefono:telefonoForm,
     password:password,
-    rolEntidad:ROLES.profesional
+    idRol:3,//profesional
+    idNegocio:1//aca deberia ir el idNegocio pero el que este en la URI
   };
 }
 
 private postUsuarioToBackend(usuario:UsuarioInterface):void{
-  try {
-    this.usuarioService.postUsuario(usuario).subscribe({
+
+    this.usuarioService.postProfesionalPorIdNegocio(1,usuario).subscribe({
       next:(usuario:UsuarioInterface) =>{
         console.log(usuario);
       },
@@ -96,13 +98,11 @@ private postUsuarioToBackend(usuario:UsuarioInterface):void{
         }
       }
     })
-  } catch (error) {
-    console.error(error);
-  }
+
 }
 
 
-private putUsuarioToBackend(id: number, usuario:UsuarioInterface):void{
+/*private putUsuarioToBackend(id: number, usuario:UsuarioInterface):void{
   try{
     this.usuarioService.putUsuario(id, usuario).subscribe({
       next:(usuario:UsuarioInterface) => {
@@ -114,14 +114,15 @@ private putUsuarioToBackend(id: number, usuario:UsuarioInterface):void{
       } catch(error){
         console.log(error);
       }
-  }
+  }*/
 
 
 confirmarUsuario() {
   if (this.formularioRegister.valid) {
     const usuario:UsuarioInterface = this.crearUnProfesional();
     if(this.cardSeleccionada?.idUsuario){
-      this.putUsuarioToBackend(this.cardSeleccionada.idUsuario, usuario);
+      //this.putUsuarioToBackend(this.cardSeleccionada.idUsuario, usuario);
+      this.postUsuarioToBackend(usuario);
     }else{
       this.postUsuarioToBackend(usuario);
     }
@@ -178,7 +179,7 @@ abrirDiasYHorarios() {
   console.log("Abro días y horarios");
 }
 
-eliminarProfesional() {
+/*eliminarProfesional() {
   console.log(this.cardSeleccionada?.idUsuario);
   if (this.cardSeleccionada?.idUsuario) {
     this.usuarioService.deleteUsuario(this.cardSeleccionada.idUsuario).subscribe({
@@ -195,5 +196,5 @@ eliminarProfesional() {
   else{
     alert("Todavía no se creo el profesional ");
   }
-}
+}*/
 }

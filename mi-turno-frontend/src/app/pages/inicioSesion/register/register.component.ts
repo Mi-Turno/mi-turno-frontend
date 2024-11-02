@@ -64,7 +64,7 @@ export class RegisterComponent {
       fechaNacimiento:fechaNacimientoForm,
       telefono:telefonoForm,
       password:passwordForm,
-      rolEntidad: ROLES.cliente,
+      idRol: 2,
       estado:true
     };
 
