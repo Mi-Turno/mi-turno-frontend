@@ -23,12 +23,15 @@ export class ServicioServiceService {
     return this.http.get<ServicioInterface>(`${this.urlBase}/${idNegocio}/servicios/${idServicio}`);
   }
 
+
+
+
   public POSTcrearUnServicio(servicio:ServicioInterface,idNegocio:number): Observable<ServicioInterface>{
     return this.http.post<ServicioInterface>(`${this.urlBase}/${idNegocio}/servicios`,servicio);
   }
 
-  public DELETEservicio(id:number): Observable<Boolean> {
-    return this.http.delete<Boolean>(`${this.urlBase}/${id}`);
+  public DELETEservicio(idServicio:number, idNegocio:number): Observable<Boolean> {
+    return this.http.delete<Boolean>(`${this.urlBase}/${idNegocio}/servicios/${idServicio}`);
   }
 
 
@@ -43,8 +46,8 @@ export class ServicioServiceService {
     return this.http.get<ServicioInterface[]>(this.urlBase, { params });
   }*/
 
-  public PUTservicio(id: number, servicio: ServicioInterface): Observable<ServicioInterface> {
+  public PUTservicio(idServicio: number, idNegocio: number, servicio: ServicioInterface): Observable<ServicioInterface> {
 
-    return this.http.put<ServicioInterface>(`${this.urlBase}/${id}`, servicio);
+    return this.http.put<ServicioInterface>(`${this.urlBase}/${idNegocio}/servicios/${idServicio}`, servicio);
   }
 }

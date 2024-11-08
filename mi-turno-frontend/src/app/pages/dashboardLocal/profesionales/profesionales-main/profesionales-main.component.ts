@@ -67,7 +67,7 @@ cargarUsuarios() {
     const nombreNegocio = params['nombreNegocio'];
     console.log(nombreNegocio);
 
-      this.servicioNegocio.getIdNegocioByNombre(nombreNegocio).subscribe(
+      this.servicioNegocio.getIdNegocioByNombre("Barber").subscribe(
         {
           next: (idNegocio) => {
             this.idNegocio = idNegocio;

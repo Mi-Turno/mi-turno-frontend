@@ -37,7 +37,7 @@ idNegocio:number = 0;
       const nombreNegocio = params['nombreNegocio'];
       console.log(nombreNegocio);
 
-        this.servicioNegocio.getIdNegocioByNombre(nombreNegocio).subscribe(
+        this.servicioNegocio.getIdNegocioByNombre("Juan").subscribe(
           {
             next: (idNegocio) => {
               this.idNegocio = idNegocio;
@@ -76,9 +76,11 @@ idNegocio:number = 0;
 
 
   cambiarSobreposicion(texto:string, card: ServicioInterface | null) {
+
     this.estaSobrepuesto = !this.estaSobrepuesto;
     this.textoTitulo = texto;
     this.cardSeleccionada = card;
+
   }
 
 }

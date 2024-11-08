@@ -14,4 +14,6 @@ export class NegocioServiceService {
   public getIdNegocioByNombre(nombre:string): Observable<number>{
     return this.http.get<number>(`${this.urlBase}/${nombre}`);
   }
+
+  
 }
