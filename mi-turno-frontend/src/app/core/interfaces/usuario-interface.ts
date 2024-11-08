@@ -8,5 +8,5 @@ export interface UsuarioInterface {
   fechaNacimiento: string; // O puedes usar Date si prefieres
   rolUsuario:number|string//4-NEGOCIO |3-PROFESIONAL| 2-CLIENTE | 1-ADMIN
   estado?: boolean;
-  idNegocio?:number;//Me sirve para el profesional
+
 }
