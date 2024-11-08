@@ -14,7 +14,7 @@ export class HorarioXprofesionalService {
 
 
   public obtenerHorariosPorIdProfesionalYDia(idNegocio:number,idProfesional: number, dia: number): Observable<HorarioProfesional[]> {
-    return this.http.get<HorarioProfesional[]>(`${this.urlBase}/${idNegocio}/profesionales/${idProfesional}/horarios/${dia}`);
+    return this.http.get<HorarioProfesional[]>(`${this.urlBase}/${idNegocio}/profesionales/${idProfesional}/horarios/dia?idDia=${dia}`);
   }
 
   public postHorariosPorProfesional(horario: HorarioProfesional):Observable<HorarioProfesional> {

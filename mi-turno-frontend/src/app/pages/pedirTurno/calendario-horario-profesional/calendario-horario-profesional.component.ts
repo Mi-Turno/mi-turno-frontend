@@ -16,11 +16,14 @@ export class CalendarioHorarioProfesionalComponent {
   horarioProfesionalService:HorarioXprofesionalService = inject(HorarioXprofesionalService);
 
   //inputs
+
+  //todo verificar si cuando yo obtengo un profesional obtengo el los horarios que trabaja
   @Input() idNegocio:number = 1;
   @Input() idProfesional:number = 1;
 
   //arreglos
   arregloHorarios:HorarioProfesional[] = [];
+
   //necesito obtener los horarios del profesional que hace HOY
   hoy:number = 1;
 
@@ -29,7 +32,7 @@ export class CalendarioHorarioProfesionalComponent {
   obtenerHorariosProfesionalPorDia(nroDia:number){
     this.horarioProfesionalService.obtenerHorariosPorIdProfesionalYDia(1,2,nroDia).subscribe({
       next: (horarios) => {
-        console.log(horarios);
+        this.arregloHorarios = horarios
       },
       error: (error) => {
         console.log(error);
