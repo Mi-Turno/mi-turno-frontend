@@ -14,15 +14,15 @@
     @case (1) {
 
       <!--pegarle al backend y que me muestre los servicios del negocio en el que esta-->
-      <app-seleccion-usuario [pasoActualSeleccion]="pasoActual" [arregloServicios]="servicios"  (emitirInformacion)="recibirIdInformacion($event)" ></app-seleccion-usuario>
+      <app-seleccion-usuario [pasoActualSeleccion]="pasoActual"  (emitirInformacion)="recibirIdInformacion($event)" ></app-seleccion-usuario>
       <button (click)="avanzarPaso()">avanzarPaso</button>
     }
     @case (2) {
-      <app-seleccion-usuario [pasoActualSeleccion]="pasoActual" [arregloProfesionales]="profesionales"  (emitirInformacion)="recibirIdInformacion($event)" ></app-seleccion-usuario>
+      <app-seleccion-usuario [pasoActualSeleccion]="pasoActual" (emitirInformacion)="recibirIdInformacion($event)" ></app-seleccion-usuario>
       <button (click)="avanzarPaso()">avanzarPaso</button>
     }
     @case (3) {
-      <!-- <app-seleccion-usuario [pasoActualSeleccion]="pasoActual" [arregloHorarios]="horarios"  (emitirInformacion)="recibirIdInformacion($event)" ></app-seleccion-usuario> -->
+      <app-seleccion-usuario [pasoActualSeleccion]="pasoActual" (emitirInformacion)="recibirIdInformacion($event)" ></app-seleccion-usuario>
       <button (click)="avanzarPaso()">avanzarPaso</button>
     }
     @case (4) {
@@ -30,7 +30,6 @@
       <button (click)="avanzarPaso()">avanzarPaso</button>
     }
     @case (5) {
-      <p>hola4</p>
       <button (click)="confirmarTurno()">Confirmar Turno</button>
     }
     @case (6) {

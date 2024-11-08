@@ -5,8 +5,6 @@ import { BotonComponent } from '../../../../shared/components/boton/boton.compon
 import { MatIcon } from '@angular/material/icon';
 import { UsuarioService } from '../../../../core/services/usuarioService/usuario.service';
 import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface';
-import { HorarioXProfesionalInterface } from '../../../../core/interfaces/horarios-x-profesionale-interface';
-import { HorarioXprofesionalService } from '../../../../core/services/horariosProfesionalService/horario-xprofesional.service';
 import { DiasEnum } from '../../../../shared/models/diasEnum';
 
 @Component({
@@ -25,11 +23,11 @@ dia = DiasEnum;
   ngOnInit(): void {
     this.nombreProfesional =  this.cardSeleccionada?.nombre;
     this.cargarHorariosPorSemana();
-    console.log(this.horarios);
+    // console.log(this.horarios);
   }
 
 
-  horariosProfesional:HorarioXprofesionalService = inject(HorarioXprofesionalService)
+  // horariosProfesional:HorarioXprofesionalService = inject(HorarioXprofesionalService)
 
   @Input() cardSeleccionada: UsuarioInterface | null = null;
 
@@ -41,7 +39,7 @@ dia = DiasEnum;
   @Output() desactivarOverlay: EventEmitter<void> = new EventEmitter<void>();
   @Output() activarModificacion: EventEmitter<void> = new EventEmitter<void>();
 
-  horarios:HorarioXProfesionalInterface[] = [];
+  // horarios:HorarioXProfesionalInterface[] = [];
 
   //horariosActuales:string[] = [];
 
@@ -64,29 +62,29 @@ cargarHorariosPorSemana() {
     // Obtener todos los valores del enum para iterar sobre ellos
     const dias = Object.values(DiasEnum);
 
-    dias.forEach((dia) => {
-      if(this.cardSeleccionada?.idUsuario){
-      this.horariosProfesional.obtenerHorariosPorProfesionalYDia(this.cardSeleccionada.idUsuario, dia).subscribe({
-        next: (response) => {
-          this.horarios = response;
-          this.pasarHorariosAhoras(dia);
-        },
-        error: (error) => {
-          console.error(`Error al obtener horarios para el día ${dia}:`, error);
-        }
-      });
-    }});
+    // dias.forEach((dia) => {
+    //   if(this.cardSeleccionada?.idUsuario){
+    //   this.horariosProfesional.obtenerHorariosPorProfesionalYDia(this.cardSeleccionada.idUsuario, dia).subscribe({
+    //     next: (response) => {
+    //       this.horarios = response;
+    //       this.pasarHorariosAhoras(dia);
+    //     },
+    //     error: (error) => {
+    //       console.error(`Error al obtener horarios para el día ${dia}:`, error);
+    //     }
+    //   });
+    // }});
   }
 }
 
 
 pasarHorariosAhoras(dia: DiasEnum) {
-  this.horariosActuales[dia] = this.horarios.map(objeto => objeto.horario.toString());
+  // this.horariosActuales[dia] = this.horarios.map(objeto => objeto.horario.toString());
   console.log(`HorariosActuales para ${dia}:`, this.horariosActuales[dia]);
 }
 
   confirmar() {
-    console.log(this.horarios);
+    // console.log(this.horarios);
   }
 
 

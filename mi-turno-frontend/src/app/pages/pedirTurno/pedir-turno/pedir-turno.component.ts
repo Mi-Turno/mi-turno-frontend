@@ -19,6 +19,7 @@ import { E } from '@angular/cdk/keycodes';
 import { MetodoPagoComponent } from "../metodo-pago/metodo-pago.component";
 import { MetodosDePagoServiceService } from '../../../core/services/metodosDePago/metodos-de-pago-service.service';
 import { MetodosDePagoInterface } from '../../../core/interfaces/metodos-de-pagos-interface';
+import { HorarioXprofesionalService } from '../../../core/services/horariosProfesionalService/horarioProfesional.service';
 
 
 @Component({
@@ -33,18 +34,18 @@ import { MetodosDePagoInterface } from '../../../core/interfaces/metodos-de-pago
 
 export class PedirTurnoComponent implements OnInit{
 
- //todo verificar desde la url si el negocio existe
-  //todo extraer de la url el nombre del negocio y pegarle al backend para obtener el ID
-  //todo extraer de LocalStorage el ID del usuario
-  //todo
+  ruta: ActivatedRoute = inject(ActivatedRoute)
+  servicioNegocio :NegocioServiceService= inject(NegocioServiceService)
+
+  servicioMetodoDePago: MetodosDePagoServiceService = inject(MetodosDePagoServiceService);
+
+  servicioHorarioProfesional: HorarioXprofesionalService = inject(HorarioXprofesionalService);
 
 
-    constructor(private ruta: ActivatedRoute) { }
-    servicioNegocio :NegocioServiceService= inject(NegocioServiceService)
-    servicioServicios: ServicioServiceService = inject(ServicioServiceService);
-    servicioProfesional: ProfesionalesServiceService = inject(ProfesionalesServiceService);
-    servicioMetodoDePago: MetodosDePagoServiceService = inject(MetodosDePagoServiceService);
+    servicios: ServicioInterface[] = [];
+    profesionales: ProfesionalInterface[]=[];
     idNegocio: number = 1;
+
     ngOnInit(): void {
       const nombreNegocio = this.ruta.snapshot.paramMap.get('nombreNegocio');
 
@@ -53,24 +54,6 @@ export class PedirTurnoComponent implements OnInit{
           {
             next: (idNegocio) => {
               this.idNegocio = idNegocio;
-              //obtengo el arreglo de servicios del negocio y lo guardo en la variable servicios
-              this.servicioServicios.GETserviciosPorIdNegocio(this.idNegocio).subscribe({
-                next: (servicios) => {
-                  this.servicios= servicios;
-                },
-                error: (error) => {
-
-                }
-              });
-
-              //obtengo el arreglo de profesionales del negocio y lo guardo en la variable profesionales
-              this.servicioProfesional.getProfesionalesPorIdNegocio(this.idNegocio).subscribe({
-                next: (profesionales) => {
-                  this.profesionales = this.profesionales.slice(0,profesionales.length);
-                },error: (error) => {
-                  console.log(error);
-                }
-              });
 
 
             },
@@ -84,7 +67,7 @@ export class PedirTurnoComponent implements OnInit{
         console.error('Nombre del negocio no encontrado en la URL');
       }
     }
-    @Output() emitirInformacion: EventEmitter<number> = new EventEmitter();
+
 
     metodoDePagoSeleccionado: number | null = null;
     onMetodoPagoRecibido(metodoId: number) {
@@ -92,6 +75,8 @@ export class PedirTurnoComponent implements OnInit{
       console.log('Método de pago seleccionado:', metodoId);
       this.idMetodoPagoToString();
     }
+
+
     metodoDePagoString:string = '';
     idMetodoPagoToString(){
       this.servicioMetodoDePago.getMetodosDePago().subscribe({
@@ -115,14 +100,6 @@ export class PedirTurnoComponent implements OnInit{
       })
     }
 
-    servicios: ServicioInterface[] = [];
-    profesionales: ProfesionalInterface[]=[];
-
-
-
-
-
-  datos: any[] = []; // Datos que se pasan al componente de selección de usuario
 
 
   activarOscurecer: boolean = false; // Variable que controla si se oscurece el fondo para mostrar el pop-up
@@ -136,6 +113,7 @@ export class PedirTurnoComponent implements OnInit{
     idNegocio: this.idNegocio,
     metodoPago:this.metodoDePagoString
   };
+
   recibirIdInformacion(event:number){
 
     if(this.pasoActual == 1){
@@ -149,10 +127,6 @@ export class PedirTurnoComponent implements OnInit{
 
     console.log(this.turno);
     this.avanzarPaso();
-  }
-
-  servicioSeleccionado(idServicioSeleccionado:number){
-    this.turno.idServicio= idServicioSeleccionado;
   }
 
 

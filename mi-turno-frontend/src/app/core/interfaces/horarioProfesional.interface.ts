@@ -2,8 +2,9 @@ import { DiasEnum } from "../../shared/models/diasEnum";
 
 export interface HorarioProfesional {
 idHorario?:number;
-diaEntidad:DiasEnum;
-horaInicio:number;
-estado:boolean;
+idProfesional:number;
+dia:DiasEnum;
+horaInicio:Date;
+estado?:boolean;
 
 }

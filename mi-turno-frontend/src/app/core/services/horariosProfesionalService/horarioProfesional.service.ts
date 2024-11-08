@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { DiasEnum } from '../../../shared/models/diasEnum';
 import { Observable } from 'rxjs';
+import { HorarioProfesional } from '../../interfaces/horarioProfesional.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,12 @@ export class HorarioXprofesionalService {
   private http: HttpClient= inject(HttpClient);
 
 
-  public obtenerHorariosPorIdProfesionalYDia(idNegocio:number,idProfesional: number, dia: number): Observable<HorarioXprofesionalService[]> {
-    return this.http.get<HorarioXprofesionalService[]>(`${this.urlBase}/${idNegocio}/profesionales/${idProfesional}/horarios/${dia}`);
+  public obtenerHorariosPorIdProfesionalYDia(idNegocio:number,idProfesional: number, dia: number): Observable<HorarioProfesional[]> {
+    return this.http.get<HorarioProfesional[]>(`${this.urlBase}/${idNegocio}/profesionales/${idProfesional}/horarios/${dia}`);
   }
 
-  public postHorariosPorProfesional(horario: HorarioXprofesionalService):Observable<HorarioXprofesionalService> {
-    return this.http.post<HorarioXprofesionalService>(this.urlBase, horario)
+  public postHorariosPorProfesional(horario: HorarioProfesional):Observable<HorarioProfesional> {
+    return this.http.post<HorarioProfesional>(this.urlBase, horario)
   }
 
 
