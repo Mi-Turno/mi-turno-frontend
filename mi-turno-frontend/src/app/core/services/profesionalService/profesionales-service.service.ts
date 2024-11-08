@@ -21,5 +21,8 @@ export class ProfesionalesServiceService {
   public postProfesionalPorIdNegocio(idNegocio:number,profesional:UsuarioInterface):Observable<UsuarioInterface>{
     return this.http.post<UsuarioInterface>(`${this.urlBase}/${idNegocio}/profesionales`,profesional);
   }
+  public getProfesionalPorIdNegocio(idNegocio:number,idProfesional:number):Observable<ProfesionalInterface>{
+    return this.http.get<ProfesionalInterface>(`${this.urlBase}/${idNegocio}/profesionales/${idProfesional}`);
+  }
 
 }

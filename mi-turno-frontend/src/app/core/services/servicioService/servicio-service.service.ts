@@ -19,8 +19,9 @@ export class ServicioServiceService {
   public GETserviciosPorIdNegocio(idNegocio:number):Observable<ServicioInterface[]>{
       return this.http.get<ServicioInterface[]>(`${this.urlBase}/${idNegocio}/servicios`);
   }
-
-
+  public GETservicioPorIdNegocio(idNegocio:number,idServicio:number):Observable<ServicioInterface>{
+    return this.http.get<ServicioInterface>(`${this.urlBase}/${idNegocio}/servicios/${idServicio}`);
+  }
 
   public POSTcrearUnServicio(servicio:ServicioInterface,idNegocio:number): Observable<ServicioInterface>{
     return this.http.post<ServicioInterface>(`${this.urlBase}/${idNegocio}/servicios`,servicio);

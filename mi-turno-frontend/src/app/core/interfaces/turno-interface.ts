@@ -1,5 +1,5 @@
 import { MetodosDePago } from "../../shared/models/metodosDePago";
-import { HorarioProfesional } from "./horarioProfesional";
+import { HorarioProfesional } from "./horarioProfesional.interface";
 
 export interface TurnoInterface{
   idCliente?:number;//id del usuario,
