@@ -6,7 +6,6 @@ import { MatIcon } from '@angular/material/icon';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ICONOS } from '../../../../shared/models/iconos.constants';
 import { PLACEHOLDERS } from '../../../../shared/models/placeholderInicioSesion.constants';
-import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface';
 import { ROLES } from '../../../../shared/models/rolesUsuario.constants';
 import { UsuarioService } from '../../../../core/services/usuarioService/usuario.service';
 import { RouterLink } from '@angular/router';
@@ -17,7 +16,7 @@ import { ProfesionalInterface } from '../../../../core/interfaces/profesional-in
 @Component({
   selector: 'app-pop-up-crear-profesional',
   standalone: true,
-  imports: [CommonModule, BotonComponent, InputComponent, MatIcon, ReactiveFormsModule,RouterLink],
+  imports: [CommonModule, BotonComponent, InputComponent, MatIcon, ReactiveFormsModule],
   templateUrl: './pop-up-crear-profesional.component.html',
   styleUrl: './pop-up-crear-profesional.component.css'
 })
@@ -30,7 +29,7 @@ usuarioService = inject(ProfesionalesServiceService);
 
 @Input() fotoProfesional = "img-default.png";
 @Input() textoTitulo:string = "";
-@Input() cardSeleccionada?: UsuarioInterface | null = null;
+@Input() cardSeleccionada?: ProfesionalInterface | null = null;
 
 
 formularioRegister = new FormGroup ({
@@ -80,10 +79,10 @@ crearUnProfesional():ProfesionalInterface {
   };
 }
 
-private postUsuarioToBackend(usuario:UsuarioInterface):void{
+private postUsuarioToBackend(usuario:ProfesionalInterface):void{
 
     this.usuarioService.postProfesionalPorIdNegocio(1,usuario).subscribe({
-      next:(usuario:UsuarioInterface) =>{
+      next:(usuario:ProfesionalInterface) =>{
         console.log(usuario);
       },
       error:(error)=>{
@@ -103,34 +102,39 @@ private postUsuarioToBackend(usuario:UsuarioInterface):void{
       }
     })
 
-}
+  }
 
 
-/*private putUsuarioToBackend(id: number, usuario:UsuarioInterface):void{
-  try{
-    this.usuarioService.putUsuario(id, usuario).subscribe({
-      next:(usuario:UsuarioInterface) => {
-        console.log(usuario);
-      }
-      ,error:(error: Error) => {
-        console.log(error.message)}
+putUsuarioToBackend(idProfesional: number | undefined, idNegocio: number | undefined, ) {
+    if (this.formularioRegister.valid) {
+      const profesionalActualizado: ProfesionalInterface = this.crearUnProfesional();
+      console.log(profesionalActualizado);
+    console.log(idNegocio, idProfesional);
+      if (idProfesional) {
+        this.usuarioService.putUsuarioPorIdNegocio(idNegocio!, idProfesional!, profesionalActualizado).subscribe({
+          next: (response: ProfesionalInterface) => {
+            this.cerrarPopUp();
+            window.location.reload();
+            console.log(response);
+          },
+          error: (e: Error) => {
+            console.log(e.message);
+          },
         });
-      } catch(error){
-        console.log(error);
       }
-  }*/
-
+    }
+  }
 
 confirmarUsuario() {
   if (this.formularioRegister.valid) {
-    const usuario:UsuarioInterface = this.crearUnProfesional();
+    const usuario:ProfesionalInterface = this.crearUnProfesional();
+    console.log(this.cardSeleccionada?.idUsuario);
     if(this.cardSeleccionada?.idUsuario){
-      //this.putUsuarioToBackend(this.cardSeleccionada.idUsuario, usuario);
-      this.postUsuarioToBackend(usuario);
+      this.putUsuarioToBackend(this.cardSeleccionada.idUsuario, this.cardSeleccionada.idNegocio);
     }else{
       this.postUsuarioToBackend(usuario);
     }
-    window.location.reload();
+    //window.location.reload();
   } else {
     let campoError: string = '';
     Object.keys(this.formularioRegister.controls).forEach(campo => {
@@ -154,7 +158,7 @@ mostrarCard() {
 
 @Output() desactivarOverlay: EventEmitter<void> = new EventEmitter<void>();
 @Output() activarHorarios: EventEmitter<void> = new EventEmitter<void>();
-@Output() cardActual: EventEmitter<UsuarioInterface> = new EventEmitter<UsuarioInterface>();
+@Output() cardActual: EventEmitter<ProfesionalInterface> = new EventEmitter<ProfesionalInterface>();
 
 cerrarPopUp() {
   this.desactivarOverlay.emit();
@@ -182,8 +186,8 @@ abrirDiasYHorarios() {
 
   console.log("Abro días y horarios");
 }
-
-/*eliminarProfesional() {
+/*
+eliminarProfesional() {
   console.log(this.cardSeleccionada?.idUsuario);
   if (this.cardSeleccionada?.idUsuario) {
     this.usuarioService.deleteUsuario(this.cardSeleccionada.idUsuario).subscribe({
@@ -200,5 +204,6 @@ abrirDiasYHorarios() {
   else{
     alert("Todavía no se creo el profesional ");
   }
-}*/
+}
+*/
 }
