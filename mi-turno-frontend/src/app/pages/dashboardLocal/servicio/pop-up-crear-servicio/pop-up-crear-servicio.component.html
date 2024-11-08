@@ -23,6 +23,14 @@
         [placeholder]="'Duracion'"
         type="number"
       ></app-input>
+      <app-input
+      formControlName="precio"
+      [icono]="icono.dinero"
+      [textoLabel]="'Precio'"
+      [id]="'precioInput'"
+      [placeholder]="'Precio'"
+      type="number"
+    ></app-input>
     </div>
   </div>
   <div class="contenedor-fondo">
@@ -30,7 +38,7 @@
       [class]="'botonEliminar'"
       [textoDentroBoton]="'Eliminar'"
       [type]="'button'"
-      (click)="eliminarServicio(cardSeleccionada?.idServicio)"
+      (click)="eliminarServicio(cardSeleccionada?.idServicio, cardSeleccionada?.idNegocio)"
     ></app-boton>
     <app-boton
       [class]="'botonConfirmar'"

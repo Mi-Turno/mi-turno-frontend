@@ -63,6 +63,7 @@ export class PopUpCrearServicioComponent implements OnInit {
   formularioServicio = new FormGroup({
     nombre: new FormControl('', Validators.required),
     duracion: new FormControl('', [Validators.required, Validators.min(0)]),
+    precio: new FormControl('', Validators.required ),
   });
 
   ngOnInit(): void {
@@ -73,6 +74,7 @@ export class PopUpCrearServicioComponent implements OnInit {
     this.formularioServicio.patchValue({
       nombre: this.cardSeleccionada?.nombre,
       duracion: this.cardSeleccionada?.duracion?.toString(),
+      precio: this.cardSeleccionada?.precio?.toString(),
     });
     console.log(this.cardSeleccionada?.idServicio);
   }
@@ -82,12 +84,17 @@ export class PopUpCrearServicioComponent implements OnInit {
     const duracion = parseFloat(
       this.formularioServicio.get('duracion')?.value || '0'
     );
+    const precio = parseFloat(
+      this.formularioServicio.get('precio')?.value || '0'
+    );
     return {
       nombre,
       duracion,
+      precio,
     };
   }
   constructor(private router: Router) {}
+
   postServicioToBackend() {
     if (this.formularioServicio.valid) {
       const servicioNuevo: ServicioInterface = this.crearUnServicio();
@@ -126,11 +133,12 @@ export class PopUpCrearServicioComponent implements OnInit {
     }
   }
 
-  putServicio(id: number | undefined) {
+  putServicio(idServicio: number | undefined, idNegocio: number | undefined) {
+
     if (this.formularioServicio.valid) {
       const servicioActualizado: ServicioInterface = this.crearUnServicio();
-      if (id) {
-        this.servicioService.PUTservicio(id, servicioActualizado).subscribe({
+      if (idServicio) {
+        this.servicioService.PUTservicio(idServicio!, idNegocio!, servicioActualizado).subscribe({
           next: (response) => {
             this.cerrarPopUp();
             window.location.reload();
@@ -144,9 +152,9 @@ export class PopUpCrearServicioComponent implements OnInit {
     }
   }
 
-  eliminarServicio(id: number | undefined) {
-    if (id) {
-      this.servicioService.DELETEservicio(id).subscribe({
+  eliminarServicio(idServicio: number | undefined, idNegocio: number | undefined) {
+    if (idServicio) {
+      this.servicioService.DELETEservicio(idServicio!, idNegocio!).subscribe({
         next: (response) => {
           this.cerrarPopUp();
           console.log(response);
@@ -161,7 +169,8 @@ export class PopUpCrearServicioComponent implements OnInit {
 
   manejarServicio() {
     if (this.cardSeleccionada) {
-      this.putServicio(this.cardSeleccionada.idServicio);
+      console.log(this.cardSeleccionada);
+      this.putServicio(this.cardSeleccionada.idServicio, this.cardSeleccionada.idNegocio);
     } else if (!this.cardSeleccionada) {
       this.postServicioToBackend();
     }
