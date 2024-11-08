@@ -34,7 +34,7 @@
       <button (click)="confirmarTurno()">Confirmar Turno</button>
     }
     @case (6) {
-      <app-confirmacion (oscurecerFondo)="manejadorOscurecer($event)"></app-confirmacion>
+      <app-confirmacion [idCliente]="idCliente" [idNegocio]="idNegocio" [idServicio]="turno.idServicio" [idProfesional]="turno.idProfesional" (oscurecerFondo)="manejadorOscurecer($event)"></app-confirmacion>
     }
   }
 
