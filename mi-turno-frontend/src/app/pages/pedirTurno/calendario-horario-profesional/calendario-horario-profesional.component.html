@@ -1,29 +1,39 @@
 <main>
-  <section>
-    <ul>
-      <li>
-        Hoy
-      </li>
-      <li>
-        <button (click)="obtenerHorariosProfesionalPorDia(hoy)">aaaaaaaaaaa</button>
-      </li>
-      <li>
+  <section [className]="'listadoDias'">
 
-      </li>
-    </ul>
-  </section>
-  <section>
-    <p>Horarios de "Juan": </p>
+    <p [className]="'dia'">hoy</p>
+
+    <p [className]="'dia'">{{diaEnumManiana.toLowerCase()}}</p>
+
+    <p [className]="'dia'">otro dia</p>
+
   </section>
 
   <section>
-    <aside>
-      <!--Aca voy a poner todos los horarios del profesional-->
+    <p>Turnos disponibles: </p>
+  </section>
+
+  <section>
+    <aside [className]="'horariosProfesional'">
+
+      @for (unHorario of arregloHorarios; track $index) {
+        <!--Aca voy a poner todos los horarios del profesional-->
+        <div [className]="'filaHorario'">
+          <p>Turno {{unHorario.horaInicio}}|</p>
+
+          @if (unHorario.estado) {
+            <button>Seleccionar</button>
+          }@else {
+            <button>Reservado</button>
+          }
+
+
+        </div>
+      }
+
 
     </aside>
-    <div>
-      <!--Tengo que poner si se puede reservar o no-->
-    </div>
+
 
   </section>
 

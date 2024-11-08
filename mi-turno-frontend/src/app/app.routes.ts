@@ -44,9 +44,6 @@ export const routes: Routes = [{
 {
   path:"prueba",
   component: PopUpHorariosProfesionalesComponent,
-},{
-  path:"xd",
-  component:SeleccionUsuarioComponent
 },
 {
   path:"**",

@@ -1,0 +1,33 @@
+*{
+  border: 1px solid black;
+}
+
+main{
+  width: 75vw;
+}
+
+.listadoDias{
+  display: flex;
+  justify-content: space-evenly;
+
+}
+
+
+.dia{
+  text-align: center;
+  width: 25vw;
+}
+
+.dia:hover{
+  background-color: gray;
+}
+
+.horariosProfesional{
+  display: flex;
+  flex-direction: column;
+}
+
+.filaHorario{
+  display: flex;
+  flex-direction: column;
+}
