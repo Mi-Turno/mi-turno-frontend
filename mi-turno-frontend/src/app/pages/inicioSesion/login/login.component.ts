@@ -71,14 +71,14 @@ export class LoginComponent {
       this.usuarioService.obtenerUsuariosByEmailAndPassword(objetoDelForm.email, objetoDelForm.password).subscribe({
         next: (usuarioResponse: UsuarioInterface) => {
           console.log(usuarioResponse);
-          console.log(usuarioResponse.rolUsuario);
-          if (usuarioResponse.rolUsuario == 2 || usuarioResponse.rolUsuario == ROLES.cliente || usuarioResponse.rolUsuario == 3|| usuarioResponse.rolUsuario == ROLES.profesional) {
+          console.log(usuarioResponse.idRolUsuario);
+          if (usuarioResponse.idRolUsuario == 2 || usuarioResponse.idRolUsuario == ROLES.cliente || usuarioResponse.idRolUsuario == 3|| usuarioResponse.idRolUsuario == ROLES.profesional) {
             this.router.navigate([`/negocios/mi-turno/pedir-turno`]);//${this.nombreNegocio} //todo va esto para la IDE DINAMICA PERO TENGO QUE AGREGAR UN GET CLIENTEXNEGOCIO PARA SABER A CUAL NEGOCIO MANDARLO
             //lo mando al DASHBOARD DE PEDIR TURNO
-          } else if (usuarioResponse.rolUsuario === 4||usuarioResponse.rolUsuario === ROLES.negocio) {
+          } else if (usuarioResponse.idRolUsuario === 4||usuarioResponse.idRolUsuario === ROLES.negocio) {
             //lo mando al DASHBOARD DE LOCAL
             this.router.navigate([`/negocios/mi-turno`]);
-          } else if (usuarioResponse.rolUsuario === 1 || usuarioResponse.rolUsuario === ROLES.admin) {
+          } else if (usuarioResponse.idRolUsuario === 1 || usuarioResponse.idRolUsuario === ROLES.admin) {
             //lo mando al DASHBOARD DE ADMIN
           } else {
             console.log('ROL INEXISTENTE');

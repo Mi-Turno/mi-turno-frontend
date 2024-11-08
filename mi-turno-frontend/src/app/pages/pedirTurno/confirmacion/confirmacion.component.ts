@@ -37,13 +37,13 @@ export class ConfirmacionComponent implements OnInit {
   @Input() idProfesional: number | null | undefined;//Es null|undefined porque en pedir-turno-component se asigna el valor en distintos pasos
 
   UsuarioService: UsuarioService = inject(UsuarioService);
-  usuario: UsuarioInterface = { idUsuario: 0, nombre: '', apellido: '', email: '', telefono: '', fechaNacimiento: '', password: '', rolUsuario: 0, estado: undefined };
+  usuario: UsuarioInterface = { idUsuario: 0, nombre: '', apellido: '', email: '', telefono: '', fechaNacimiento: '', password: '', idRolUsuario: 0, estado: undefined };
 
   ServicioServiceService: ServicioServiceService = inject(ServicioServiceService);
   servicio:ServicioInterface = { nombre:'',duracion: 0, precio: 0};
 
   profesionalService: ProfesionalesServiceService = inject(ProfesionalesServiceService);
-  profesional:  UsuarioInterface = { idUsuario: 0, nombre: '', apellido: '', email: '', telefono: '', fechaNacimiento: '', password: '', rolUsuario: 0, estado: undefined };
+  profesional:  UsuarioInterface = { idUsuario: 0, nombre: '', apellido: '', email: '', telefono: '', fechaNacimiento: '', password: '', idRolUsuario: 0, estado: undefined };
 
 
   ngOnInit(): void {
