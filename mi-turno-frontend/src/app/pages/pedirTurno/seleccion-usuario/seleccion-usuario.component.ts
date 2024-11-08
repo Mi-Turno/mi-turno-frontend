@@ -7,6 +7,9 @@ import { ProfesionalInterface } from '../../../core/interfaces/profesional-inter
 import { I } from '@angular/cdk/keycodes';
 import { CalendarioHorarioProfesionalComponent } from "../calendario-horario-profesional/calendario-horario-profesional.component";
 import { MetodoPagoComponent } from "../metodo-pago/metodo-pago.component";
+import { HorarioProfesional } from '../../../core/interfaces/horarioProfesional.interface';
+import { ServicioServiceService } from '../../../core/services/servicioService/servicio-service.service';
+import { ProfesionalesServiceService } from '../../../core/services/profesionalService/profesionales-service.service';
 
 
 @Component({
@@ -17,14 +20,66 @@ import { MetodoPagoComponent } from "../metodo-pago/metodo-pago.component";
   styleUrl: './seleccion-usuario.component.css'
 })
 
-export class SeleccionUsuarioComponent {
+export class SeleccionUsuarioComponent implements OnInit{
 
-  @Input() arregloServicios:ServicioInterface[] = [];
-  @Input() arregloProfesionales:ProfesionalInterface[] = [];
+  @Input() idNegocio:number = 1;
+
+  ngOnInit(): void {
+    this.obtenerServiciosPorIdNegocio(this.idNegocio);
+    this.obtenerProfesionalesPorIdNegocio(this.idNegocio);
+  }
+
+  //servicios
+  servicioServicios: ServicioServiceService = inject(ServicioServiceService);
+  servicioProfesional: ProfesionalesServiceService = inject(ProfesionalesServiceService);
+
+
+  //arreglos
+  arregloServicios:ServicioInterface[] = [];
+  arregloHorarios:HorarioProfesional[] = [];
+  arregloProfesionales:ProfesionalInterface[] = [];
+
+
+  obtenerServiciosPorIdNegocio(idNegocio:number){
+
+    //obtengo el arreglo de servicios del negocio y lo guardo en la variable servicios
+    this.servicioServicios.GETserviciosPorIdNegocio(this.idNegocio).subscribe({
+     next: (servicios) => {
+       this.arregloServicios= servicios;
+     },
+     error: (error) => {
+
+     }
+   });
+
+  }
+
+
+  obtenerProfesionalesPorIdNegocio(idNegocio:number){
+    //obtengo el arreglo de profesionales del negocio y lo guardo en la variable profesionales
+    this.servicioProfesional.getProfesionalesPorIdNegocio(this.idNegocio).subscribe({
+      next: (profesionales) => {
+        this.arregloProfesionales = this.arregloProfesionales.slice(0,profesionales.length);
+      },error: (error) => {
+        console.log(error);
+      }
+    });
+
+  }
+
+
   @Input() pasoActualSeleccion:number = 1;
 
   @Output() emitirInformacion: EventEmitter<number> = new EventEmitter();
 
+  idProfesional:number=0;
+
+  enviarIdProfesional(e:number){
+
+    this.idProfesional=e;
+
+    this.emitirInformacion.emit(e);
+  }
 
 
   enviarIdInformacion(e:number) {

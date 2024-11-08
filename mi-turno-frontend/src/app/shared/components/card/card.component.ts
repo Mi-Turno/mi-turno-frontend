@@ -18,9 +18,9 @@ export class CardComponent {
 @Input() claseTexto:string = "claseTexto";
 @Input() claseBoton:string = "claseBoton";
 @Input() referencia:string = "";
-
 @Input() titulo:string = "";
 @Input() texto:any = "";
+@Input() textoSecundario ="";
 @Input() textoBoton: string = ""
 
 

@@ -1,7 +1,7 @@
-import { HorarioProfesional } from './../../../core/interfaces/horarioProfesional';
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { DiasEnum, DiasEnumOrdinal, obtenerDiaEnum } from '../../../shared/models/diasEnum';
 import { HorarioXprofesionalService } from '../../../core/services/horariosProfesionalService/horarioProfesional.service';
+import { HorarioProfesional } from '../../../core/interfaces/horarioProfesional.interface';
 
 @Component({
   selector: 'app-calendario-horario-profesional',
@@ -12,8 +12,15 @@ import { HorarioXprofesionalService } from '../../../core/services/horariosProfe
 })
 export class CalendarioHorarioProfesionalComponent {
 
+  //servicios
   horarioProfesionalService:HorarioXprofesionalService = inject(HorarioXprofesionalService);
 
+  //inputs
+  @Input() idNegocio:number = 1;
+  @Input() idProfesional:number = 1;
+
+  //arreglos
+  arregloHorarios:HorarioProfesional[] = [];
   //necesito obtener los horarios del profesional que hace HOY
   hoy:number = 1;
 

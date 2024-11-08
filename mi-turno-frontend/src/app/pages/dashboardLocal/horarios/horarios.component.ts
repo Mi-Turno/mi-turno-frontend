@@ -4,9 +4,9 @@ import { ChipComponent } from '../../../shared/components/chip/chip.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { HorarioXProfesionalInterface } from '../../../core/interfaces/horarios-x-profesionale-interface';
 import { DiasEnum } from '../../../shared/models/diasEnum';
-import { HorarioXprofesionalService } from '../../../core/services/horariosProfesionalService/horario-xprofesional.service';
+import { HorarioXprofesionalService } from '../../../core/services/horariosProfesionalService/horarioProfesional.service';
+import { HorarioProfesional } from '../../../core/interfaces/horarioProfesional.interface';
 
 
 @Component({
@@ -33,7 +33,7 @@ ngOnInit(): void {
 }
 
 
-crearHorario(horarioNuevo: string): HorarioXProfesionalInterface {
+crearHorario(horarioNuevo: string): HorarioProfesional {
   let  id = 0;
   if(this.idProfesional){
      id = this.idProfesional;
@@ -41,7 +41,7 @@ crearHorario(horarioNuevo: string): HorarioXProfesionalInterface {
   const dianuevo = this.dia;
   const horario = this.parsearHora(horarioNuevo);
   return{
-    horario: horarioNuevo,
+    horaInicio: horario,
     dia: dianuevo,
     idProfesional: id
   }
@@ -92,10 +92,10 @@ crearHorario(horarioNuevo: string): HorarioXProfesionalInterface {
   }
 
 
-  private postHorarioToBackend(horario:HorarioXProfesionalInterface):void{
+  private postHorarioToBackend(horario:HorarioProfesional):void{
     try {
       this.horarioService.postHorariosPorProfesional(horario).subscribe({
-        next:(horario: HorarioXProfesionalInterface) =>{
+        next:(horario: HorarioProfesional) =>{
           console.log(horario);
         },
         error:(error)=>{

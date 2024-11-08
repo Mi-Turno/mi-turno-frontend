@@ -8,6 +8,10 @@
         <div [className] = "claseCuerpoTexto">
           <h5 [className]="claseTitulo">{{titulo}}</h5>
           <p [className]="claseTexto"> {{texto}}</p>
+
+          @if (textoSecundario.length > 0) {
+            <p [className]="claseTexto">{{textoSecundario}}</p>
+          }
         </div>
         <div [className] = claseCuerpoChip>
           <app-chip [claseEnlace]="'claseEnlaceChip'" [referencia] = "referenciaChip" [texto] = "textoBoton" (click)="emitirInformacionClick()"></app-chip>

@@ -12,6 +12,7 @@ import { UsuarioService } from '../../../../core/services/usuarioService/usuario
 import { RouterLink } from '@angular/router';
 import { codigoErrorHttp } from '../../../../shared/models/httpError.constants';
 import { ProfesionalesServiceService } from '../../../../core/services/profesionalService/profesionales-service.service';
+import { ProfesionalInterface } from '../../../../core/interfaces/profesional-interface';
 
 @Component({
   selector: 'app-pop-up-crear-profesional',
@@ -41,9 +42,10 @@ formularioRegister = new FormGroup ({
 });
 
 
+
 ngOnInit(): void {
-    this.actualizarValores();
-    console.log(this.cardSeleccionada);
+  this.actualizarValores();
+
 }
 
 actualizarValores() {
@@ -56,7 +58,9 @@ actualizarValores() {
   });
 }
 
-crearUnProfesional():UsuarioInterface {
+@Input() idNegocio:number = 1;
+
+crearUnProfesional():ProfesionalInterface {
   const nombreForm = this.formularioRegister.get('nombre')?.value ||'';//||'' esto significa que puede ser null
   const apellidoForm = this.formularioRegister.get('apellido')?.value||'';
   const emailForm = this.formularioRegister.get('email')?.value||'';
@@ -72,7 +76,7 @@ crearUnProfesional():UsuarioInterface {
     telefono:telefonoForm,
     password:password,
     rolUsuario:3,//profesional
-    idNegocio:1//aca deberia ir el idNegocio pero el que este en la URI
+    idNegocio:this.idNegocio//aca deberia ir el idNegocio pero el que este en la URI
   };
 }
 

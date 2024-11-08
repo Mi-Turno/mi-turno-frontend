@@ -4,18 +4,33 @@
 
   @case (1) {
     <div *ngFor="let card of arregloServicios">
-      <app-card [ruta]="'rutaImg'" [textoAlt]="'imagen rota'" [titulo]="card.nombre" [texto]="card.duracion + ' minutos'"
-        [textoBoton]="'Seleccionar'" [guardarInformacion]="card.idServicio" (emitirInformacion)="enviarIdInformacion($event)"></app-card>
+      <app-card [ruta]="'rutaImg'"
+      [textoAlt]="'imagen rota'"
+      [titulo]="card.nombre"
+      [texto]="card.duracion + ' minutos'"
+      [textoSecundario]="'$'+card.precio"
+      [textoBoton]="'Seleccionar'"
+      [guardarInformacion]="card.idServicio"
+      (emitirInformacion)="enviarIdInformacion($event)"></app-card>
       </div>
   }
   @case (2) {
     <div *ngFor="let card of arregloProfesionales">
-      <app-card [ruta]="'rutaImg'" [textoAlt]="'imagen rota'" [titulo]="card.nombre" [texto]="'$'+card.precioServicio"
-        [textoBoton]="'Seleccionar'" [guardarInformacion]="card.idProfesional" (emitirInformacion)="enviarIdInformacion($event)"></app-card>
+      <app-card [ruta]="'rutaImg'"
+        [textoAlt]="'imagen rota'"
+        [titulo]="card.nombre"
+        [texto]="card.apellido"
+        [textoBoton]="'Seleccionar'"
+        [guardarInformacion]="card.idUsuario"
+        (emitirInformacion)="enviarIdProfesional($event)"></app-card>
       </div>
   }
   @case (3) {
-    <app-calendario-horario-profesional></app-calendario-horario-profesional>
+    <app-calendario-horario-profesional
+    [idNegocio]="idNegocio"
+    [idProfesional]="idProfesional"
+    ></app-calendario-horario-profesional>
+    <!-- (emitirInformacion)="enviarIdInformacion($event)" -->
   }
   @case (4) {
 
@@ -26,13 +41,5 @@
 
 }
 
-  @if (arregloServicios.length > 0) {
 
-  }
-  @else if (arregloProfesionales) {
-
-  }
-  @else {
-
-  }
 </main>
