@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HorarioXprofesionalService } from './horario-xprofesional.service';
+import { HorarioXprofesionalService } from './horarioProfesional.service';
 
 describe('HorarioXprofesionalService', () => {
   let service: HorarioXprofesionalService;
