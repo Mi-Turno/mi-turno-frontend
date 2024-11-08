@@ -71,7 +71,7 @@ crearUnProfesional():UsuarioInterface {
     fechaNacimiento:fechaNacimientoForm,
     telefono:telefonoForm,
     password:password,
-    idRol:3,//profesional
+    rolUsuario:3,//profesional
     idNegocio:1//aca deberia ir el idNegocio pero el que este en la URI
   };
 }

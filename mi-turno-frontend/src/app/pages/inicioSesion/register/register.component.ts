@@ -56,7 +56,7 @@ export class RegisterComponent {
     //console.log(fechaNacimientoDate);
     const telefonoForm = this.formularioRegister.get('telefono')?.value||'';
     const passwordForm = this.formularioRegister.get('password')?.value||'';
-
+    //console.log("HOLA SOY UN FORM: "+passwordForm);
     return {
       nombre:nombreForm,
       apellido:apellidoForm,
@@ -64,7 +64,7 @@ export class RegisterComponent {
       fechaNacimiento:fechaNacimientoForm,
       telefono:telefonoForm,
       password:passwordForm,
-      idRol: 2,
+      rolUsuario: 2,
       estado:true
     };
 
@@ -109,9 +109,9 @@ export class RegisterComponent {
   onSubmit() {
     if (this.formularioRegister.valid) {
       console.log('Usuario enviado con exito');
-      console.log(this.formularioRegister.value);
+      //console.log(this.formularioRegister.value);
       const usuario:UsuarioInterface = this.crearUsuarioDesdeFormulario();
-      //console.log(usuario);
+      //console.log("soy un usuario"+usuario);
       this.postUsuarioToBackend(usuario);
     } else {
       let campoError: string = '';
