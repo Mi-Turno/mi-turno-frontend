@@ -75,9 +75,7 @@ export class LoginComponent {
       this.usuarioService.getUsuarioByEmailAndPassword(objetoDelForm.email, objetoDelForm.password).subscribe({
         next: (usuarioResponse: UsuarioInterface) => {
 
-          this.auth.logIn();
-          localStorage.setItem('idUsuario', usuarioResponse.idUsuario!.toString());
-          localStorage.setItem('idRolUsuario', usuarioResponse.idRolUsuario!.toString());
+          this.auth.logIn(usuarioResponse.idUsuario!.toString(),usuarioResponse.idRolUsuario!.toString());
           if (usuarioResponse.idRolUsuario == 2 || usuarioResponse.idRolUsuario == ROLES.cliente || usuarioResponse.idRolUsuario == 3|| usuarioResponse.idRolUsuario == ROLES.profesional) {
             this.router.navigateByUrl('/dashboard-cliente');
             //lo mando al DASHBOARD DE CLIENTE
