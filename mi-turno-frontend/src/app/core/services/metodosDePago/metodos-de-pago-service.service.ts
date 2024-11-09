@@ -11,8 +11,8 @@ export class MetodosDePagoServiceService {
 
   http:HttpClient = inject(HttpClient);
 
-  getMetodosDePago():Observable<string[]>{
-    return this.http.get<string[]>(this.urlBase);
+  getMetodosDePago():Observable<MetodosDePagoInterface[]>{
+    return this.http.get<MetodosDePagoInterface[]>(this.urlBase);
   }
 
 

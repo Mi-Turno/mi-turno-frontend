@@ -1,40 +1,50 @@
-<main>
-  <section [className]="'listadoDias'">
 
-    <p [className]="'dia'">hoy</p>
 
-    <p [className]="'dia'">{{diaEnumManiana.toLowerCase()}}</p>
+  <main>
+    <section [className]="'listadoDias'">
 
-    <p [className]="'dia'">otro dia</p>
+      <p [className]="'dia'" (click)="obtenerHorariosProfesionalPorDia(hoy)">hoy</p>
 
-  </section>
+      <p [className]="'dia'" (click)="obtenerHorariosProfesionalPorDia(maniana)">{{diaEnumManiana.toLowerCase()}}</p>
 
-  <section>
-    <p>Turnos disponibles: </p>
-  </section>
+      <p [className]="'dia'" (click)="activarInputOtroDia()">otro dia</p>
 
-  <section>
-    <aside [className]="'horariosProfesional'">
+    </section>
 
-      @for (unHorario of arregloHorarios; track $index) {
-        <!--Aca voy a poner todos los horarios del profesional-->
-        <div [className]="'filaHorario'">
-          <p>Turno {{unHorario.horaInicio}}|</p>
+    @if (otroDiaActivo) {
 
-          @if (unHorario.estado) {
-            <button>Seleccionar</button>
-          }@else {
-            <button>Reservado</button>
+      <section [className]="'inputOtroDia'">
+        <label [className]="'labelOtroDia'" for="otroDiaInput">Que dia?</label>
+        <input (input)="obtenerInputOtroDia($event)" type="date" name="otroDiaInput" id="otroDiaInput" [min]="calcularFechaMinima()">
+        <!-- <input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31" /> -->
+      </section>
+
+}
+
+    <section [className]="'horariosProfesional'">
+
+      @if (arregloHorarios.length ===0) {
+        <p [className]="'mensajeHorarios'">No hay horarios disponibles</p>
+      }@else {
+
+        @for (unHorario of arregloHorarios; track $index) {
+          <!--Aca voy a poner todos los horarios del profesional-->
+
+            <div [className]="'filaHorario'">
+              <p [className]="'horarioTexto'">Turno {{unHorario.horaInicio}} |</p>
+
+              @if (unHorario.estado) {
+                <app-boton [class]="'botonHorario'" textoDentroBoton="Seleccionar" [guardarInformacion]="unHorario.idHorario" (clickBoton)="obtenerIdHorario($event)"></app-boton>
+              }@else {
+                <app-boton [class]="'botonHorarioDesactivado'" [disabled]="true" textoDentroBoton="Reservado"></app-boton>
+              }
+
+
+            </div>
           }
+        }
 
+      </section>
 
-        </div>
-      }
+    </main>
 
-
-    </aside>
-
-
-  </section>
-
-</main>

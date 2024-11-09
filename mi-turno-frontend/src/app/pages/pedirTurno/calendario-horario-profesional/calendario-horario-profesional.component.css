@@ -1,33 +1,95 @@
-*{
-  border: 1px solid black;
+p{
+  margin: 0;
+}
+
+
+
+.inputOtroDia{
+
+  border-bottom: 2px solid lightgray;
+  width: auto;
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.labelOtroDia{
+  margin-right: 10px;
+  font-size: larger;
+  font-weight:600;
 }
 
 main{
   width: 75vw;
+  border: 2px solid black;
+  border-radius: 30px;
+  background-color: var(--color-gris-claro);
 }
 
 .listadoDias{
   display: flex;
   justify-content: space-evenly;
-
+  border-bottom: 2px solid lightgray;
 }
 
 
 .dia{
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   width: 25vw;
+  margin: 0;
+  font-size: larger;
+  font-weight:600;
+}
+
+.dia:first-child{
+  border-top-left-radius: 29px;
+}
+
+.dia:last-child{
+  border-top-right-radius: 29px;
 }
 
 .dia:hover{
-  background-color: gray;
+  cursor: pointer;
+  background-color: rgba(0, 0, 139, 0.3);
 }
+
 
 .horariosProfesional{
   display: flex;
   flex-direction: column;
+  margin: 5px 15px 5px 15px;
+  background-color: white;
+  border-radius: 30px;
 }
+
 
 .filaHorario{
   display: flex;
-  flex-direction: column;
+  margin: 0 25px 0 25px;
+  border-bottom: 1px solid lightgray;
+  padding: 10px 0 10px 0;
+}
+
+.filaHorario:last-child{
+  border-bottom: none;
+}
+
+
+.horarioTexto{
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.mensajeHorarios{
+  padding: 50px 0 50px 0;
+  margin: 0 auto;
+  color: red;
+  font-size: larger;
 }

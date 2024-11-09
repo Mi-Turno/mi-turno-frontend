@@ -25,6 +25,19 @@ export class BotonComponent {
   @Input()
   backgroundColor: string="var(--color-contraste2: #2138bb)"
 
+  @Input()
+  guardarInformacion?: number=-1;
+
+  @Output()
+  clickBoton: EventEmitter<number> = new EventEmitter<number>();
+
+  clickBotonEmitir(){
+    //si es -1 no emito nada
+    if(this.guardarInformacion !==-1){
+      this.clickBoton.emit(this.guardarInformacion);
+    }
+
+  }
 
 
   backgroundColorEstilo: string=`background-color:${this.backgroundColor};`

@@ -22,15 +22,15 @@
         [texto]="card.apellido"
         [textoBoton]="'Seleccionar'"
         [guardarInformacion]="card.idUsuario"
-        (emitirInformacion)="enviarIdProfesional($event)"></app-card>
+        (emitirInformacion)="enviarIdInformacion($event)"></app-card>
       </div>
   }
   @case (3) {
     <app-calendario-horario-profesional
     [idNegocio]="idNegocio"
     [idProfesional]="idProfesional"
+    (emitirInformacion)="enviarHorarioProfesional($event)"
     ></app-calendario-horario-profesional>
-    <!-- (emitirInformacion)="enviarIdInformacion($event)" -->
   }
   @case (4) {
 
