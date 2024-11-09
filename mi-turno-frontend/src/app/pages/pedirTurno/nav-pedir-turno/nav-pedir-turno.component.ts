@@ -1,7 +1,9 @@
 import { ICONOS } from './../../../shared/models/iconos.constants';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { BotonComponent } from "../../../shared/components/boton/boton.component";
 import { MatIcon } from '@angular/material/icon';
+import { AuthService } from '../../../auth/service/auth.service';
+
 
 @Component({
   selector: 'app-nav-pedir-turno',
@@ -21,4 +23,10 @@ export class NavPedirTurnoComponent {
   imagenUsuario?:string;
 
   claseBoton:string = "boton-nav";
+
+  auth:AuthService = inject(AuthService);;
+  clearLocalStorage(){
+    console.log("Cerrando sesion");
+   this.auth.logOut();
+  }
 }
