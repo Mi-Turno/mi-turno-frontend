@@ -134,7 +134,7 @@ confirmarUsuario() {
     }else{
       this.postUsuarioToBackend(usuario);
     }
-    //window.location.reload();
+    window.location.reload();
   } else {
     let campoError: string = '';
     Object.keys(this.formularioRegister.controls).forEach(campo => {
