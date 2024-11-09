@@ -1,1 +1,20 @@
-<p>widget-bienvenida works!</p>
+<section [className]="'widgetContainer'">
+  <div [className]="'widgetHoraContainer'">
+    <app-fecha-y-hora></app-fecha-y-hora>
+  </div>
+  <div [className]="'bienvenidaContainer'">
+
+    @if (nombreCliente === "Nombre" && apellidoCliente ==="Apellido") {
+      <p [className]="'textoBienvenida'">Bienvenido Visitante! Es un placer ofrecerte nuestros servicios. Reserva un turno con nostros!</p>
+    }@else {
+      <p [className]="'textoBienvenida'">Bienvenido, {{nombreCliente}} {{apellidoCliente}}, es un placer ofrecerte nuestros servicios. Reserva un turno con nostros!</p>
+    }
+
+    <app-boton
+    [textoDentroBoton]="'(+) Nuevo Turno'"
+
+    ></app-boton>
+<!-- [class]="'botonBienvenida'"  -->
+  </div>
+
+</section>

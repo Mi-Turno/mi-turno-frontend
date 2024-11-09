@@ -31,6 +31,9 @@
   cursor: pointer;
 }
 
+.boton-nav:hover{
+  background-color: var(--color-contraste2-hover);
+}
 
 .botonConfirmar{
   background-color: var( --color-contraste1);

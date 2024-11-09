@@ -27,7 +27,7 @@ export const routes: Routes = [{
   component:RegisterComponent
 },
 {
-  path:"dashboard-usuario",
+  path:"dashboard-cliente",
   component:DashboardClienteComponent
 },
 

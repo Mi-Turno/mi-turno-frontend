@@ -1,14 +1,17 @@
 nav{
-
   display: flex;
   justify-content: space-between;
   padding: 0 0 0 2vw;
+  max-height: 100px;
 }
 
-nav a img{
-  max-width: 10vw;
-  max-height: 10vh;
+.claseImagenIcono{
+  height: 100px;
+  width: 200px;
+  object-fit: contain;
+  overflow: hidden;
 }
+
 
 ul{
   display: flex;
@@ -17,6 +20,7 @@ ul{
 }
 
 ul li{
+
   display: flex;
   align-items: center;
   padding-right: 10px;
