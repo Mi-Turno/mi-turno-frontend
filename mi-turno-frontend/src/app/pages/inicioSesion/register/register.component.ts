@@ -11,13 +11,15 @@ import { PLACEHOLDERS } from '../../../shared/models/placeholderInicioSesion.con
 import { HttpErrorResponse } from '@angular/common/http';
 import { codigoErrorHttp } from '../../../shared/models/httpError.constants';
 import { ROLES } from '../../../shared/models/rolesUsuario.constants';
+import { ClienteInterface } from '../../../core/interfaces/cliente-interface';
+import { ClienteService } from '../../../core/services/clienteService/cliente.service';
 
 
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, InputComponent, RouterLink, BotonComponent, MatIconModule],
+  imports: [ReactiveFormsModule, InputComponent, BotonComponent, MatIconModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -26,7 +28,7 @@ export class RegisterComponent {
   claseAppInput: string = "claseAppInput";
   inputContainer: string = "inputContainer";
   iconos = ICONOS;
-  usuarioService = inject(UsuarioService);
+  clienteService = inject(ClienteService);
   roles = ROLES;
 
 
@@ -45,7 +47,7 @@ export class RegisterComponent {
 
 
   //metodo para crear un usuario
-   crearUsuarioDesdeFormulario():UsuarioInterface {
+   crearClienteDesdeFormulario():ClienteInterface {
     const nombreForm = this.formularioRegister.get('nombre')?.value ||'';//||'' esto significa que puede ser null
     const apellidoForm = this.formularioRegister.get('apellido')?.value||'';
     const emailForm = this.formularioRegister.get('email')?.value||'';
@@ -77,12 +79,12 @@ export class RegisterComponent {
     };*/
   }
   //metodo POST
-  private postUsuarioToBackend(usuario:UsuarioInterface):void{
+  private postClienteToBackend(cliente:ClienteInterface):void{
     try {
-      this.usuarioService.postUsuario(usuario).subscribe({
-        next:(usuario:UsuarioInterface) =>{
+      this.clienteService.postCliente(cliente).subscribe({
+        next:(cliente:ClienteInterface) =>{
 
-          console.log(usuario);
+          console.log(cliente);
         },
         error: (error:HttpErrorResponse) =>{
           if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
@@ -110,9 +112,9 @@ export class RegisterComponent {
     if (this.formularioRegister.valid) {
       console.log('Usuario enviado con exito');
       //console.log(this.formularioRegister.value);
-      const usuario:UsuarioInterface = this.crearUsuarioDesdeFormulario();
+      const cliente:ClienteInterface = this.crearClienteDesdeFormulario();
       //console.log("soy un usuario"+usuario);
-      this.postUsuarioToBackend(usuario);
+      this.postClienteToBackend(cliente);
     } else {
       let campoError: string = '';
       Object.keys(this.formularioRegister.controls).forEach(campo => {
