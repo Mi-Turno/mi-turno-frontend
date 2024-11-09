@@ -1,11 +1,12 @@
 <nav>
   <a routerLink="/">
-    <img [src]="imagenIcono" alt="icono mi turno">
+    <img [className]="'claseImagenIcono'" [src]="imagenIcono" alt="icono mi turno">
   </a>
 
   <ul>
     <li><app-boton [class]="claseBoton" [textoDentroBoton]="'Proximos Turnos'"></app-boton></li>
     <li><app-boton [class]="claseBoton" [textoDentroBoton]="'Historial de Turnos'"></app-boton></li>
+    <li><app-boton [class]="claseBoton" [textoDentroBoton]="'Cerrar sesion'"></app-boton></li>
     <li>
       @if (!imagenUsuario) {
         <mat-icon>{{iconos.perfil}}</mat-icon>

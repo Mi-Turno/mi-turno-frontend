@@ -1,0 +1,33 @@
+.widgetContainer{
+  border: 2px solid black;
+  border-radius: 30px;
+  display: flex;
+
+
+  flex-direction: column;
+  width: 80vw;
+  height: 30vh;
+  margin: 0 auto;
+}
+
+.widgetHoraContainer{
+  width: 100%;
+
+  padding: 15px;
+  display: flex;
+  justify-content: right;
+}
+
+.bienvenidaContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.textoBienvenida{
+  margin: 0 0 60px 0;
+  text-align: center;
+}
