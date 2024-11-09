@@ -30,7 +30,7 @@ export class UsuarioService {
     return this.http.get<UsuarioInterface>(`${this.urlBase}/${id}`);
   }
 
-  public obtenerUsuariosByEmailAndPassword(email:string,password:string): Observable<UsuarioInterface>{
+  public getUsuarioByEmailAndPassword(email:string,password:string): Observable<UsuarioInterface>{
 
     return this.http.post<UsuarioInterface>(`${this.urlBase}/login`,{email,password});
   }

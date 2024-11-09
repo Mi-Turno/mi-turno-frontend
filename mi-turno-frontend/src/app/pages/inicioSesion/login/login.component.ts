@@ -14,6 +14,7 @@ import { ROLES } from '../../../shared/models/rolesUsuario.constants';
 import { routes } from '../../../app.routes';
 import { Router } from '@angular/router';
 import { ClienteService } from '../../../core/services/clienteService/cliente.service';
+import { AuthService } from '../../../auth/service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,7 @@ export class LoginComponent {
 
   placeholders = PLACEHOLDERS;
 
-  clienteService = inject(ClienteService);
+  usuarioService = inject(UsuarioService);
   //form reactivo
   formularioLogin = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -64,21 +65,25 @@ export class LoginComponent {
   constructor(private router: Router) { }
 
   //permito o deniego el acceso a la pagina
-  onSubmit() {
+  auth:AuthService = inject(AuthService);
+
+  onLogin() {
     if (this.formularioLogin.valid) {
-      console.log(this.formularioLogin.value);
+
       const objetoDelForm = this.obtenerDatosForm();
       /**PASO 1: CON ESTO VALIDO EL EMAIL Y LA CONTRASEÑA(ES UN POST YA QUE NO PUEDO ENVIAR CONTRASEÑAS POR EL URI) */
-      this.clienteService.getClienteByEmailAndPassword(objetoDelForm.email, objetoDelForm.password).subscribe({
+      this.usuarioService.getUsuarioByEmailAndPassword(objetoDelForm.email, objetoDelForm.password).subscribe({
         next: (usuarioResponse: UsuarioInterface) => {
-          console.log(usuarioResponse);
-          console.log(usuarioResponse.idRolUsuario);
+
+          this.auth.logIn();
+          localStorage.setItem('idUsuario', usuarioResponse.idUsuario!.toString());
+          localStorage.setItem('idRolUsuario', usuarioResponse.idRolUsuario!.toString());
           if (usuarioResponse.idRolUsuario == 2 || usuarioResponse.idRolUsuario == ROLES.cliente || usuarioResponse.idRolUsuario == 3|| usuarioResponse.idRolUsuario == ROLES.profesional) {
-            this.router.navigate([`/negocios/mi-turno/pedir-turno`]);//${this.nombreNegocio} //todo va esto para la IDE DINAMICA PERO TENGO QUE AGREGAR UN GET CLIENTEXNEGOCIO PARA SABER A CUAL NEGOCIO MANDARLO
-            //lo mando al DASHBOARD DE PEDIR TURNO
+            this.router.navigateByUrl('/dashboard-cliente');
+            //lo mando al DASHBOARD DE CLIENTE
           } else if (usuarioResponse.idRolUsuario === 4||usuarioResponse.idRolUsuario === ROLES.negocio) {
             //lo mando al DASHBOARD DE LOCAL
-            this.router.navigate([`/negocios/mi-turno`]);
+            this.router.navigateByUrl(`/negocios/${usuarioResponse.nombre}`);//es el nombre del negocio
           } else if (usuarioResponse.idRolUsuario === 1 || usuarioResponse.idRolUsuario === ROLES.admin) {
             //lo mando al DASHBOARD DE ADMIN
           } else {
