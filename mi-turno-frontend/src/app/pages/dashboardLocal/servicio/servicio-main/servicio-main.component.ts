@@ -24,58 +24,41 @@ export class ServicioMainComponent implements OnInit {
   idCards: ServicioInterface[] = [];
   maxCards = 6;
   cardSeleccionada: ServicioInterface | null = null;
-  servicios:ServicioServiceService = inject(ServicioServiceService);
-
+  servicios: ServicioServiceService = inject(ServicioServiceService);
+  idNegocio: number = 0;
   ngOnInit() {
+    this.idNegocio = parseFloat(localStorage.getItem('idUsuario')!);
     this.cargarServicios();
   }
-  servicioNegocio:NegocioServiceService = inject(NegocioServiceService);
-constructor(private ruta: ActivatedRoute) { }
-idNegocio:number = 0;
+  servicioNegocio: NegocioServiceService = inject(NegocioServiceService);
+  constructor(private ruta: ActivatedRoute) { }
+
   cargarServicios() {
     this.ruta.parent?.params.subscribe(params => {
       const nombreNegocio = params['nombreNegocio'];
       console.log(nombreNegocio);
 
-        this.servicioNegocio.getIdNegocioByNombre("Juan").subscribe(
-          {
-            next: (idNegocio) => {
-              this.idNegocio = idNegocio;
+      //obtengo el arreglo de servicios del negocio y lo guardo en la variable idCards
+      this.servicios.GETserviciosPorIdNegocioYEstado(this.idNegocio, "true").subscribe({
+        next: (response) => {
 
-              //obtengo el arreglo de servicios del negocio y lo guardo en la variable idCards
-              this.servicios.GETserviciosPorIdNegocioYEstado(this.idNegocio, "true").subscribe({
-                next: (response) => {
-
-                  this.idCards = [...response];
-                },
-                error: (error) => {
-                  console.error('Error al obtener servicios:', error);
-                }
-              });
-
-
-            },
-            error: (error) => {
-              this.idNegocio = -1;
-              console.error('Error al obtener el ID del negocio', error);
-            }
-          }
-        );
+          this.idCards = [...response];
+        },
+        error: (error) => {
+          console.error('Error al obtener servicios:', error);
+        }
+      });
 
     });
-
-
-
-
   }
   rutaBotonChip = ""
 
-  estaSobrepuesto:boolean=false;
+  estaSobrepuesto: boolean = false;
 
   @Output() activarOverlay: EventEmitter<void> = new EventEmitter<void>();
 
 
-  cambiarSobreposicion(texto:string, card: ServicioInterface | null) {
+  cambiarSobreposicion(texto: string, card: ServicioInterface | null) {
 
     this.estaSobrepuesto = !this.estaSobrepuesto;
     this.textoTitulo = texto;

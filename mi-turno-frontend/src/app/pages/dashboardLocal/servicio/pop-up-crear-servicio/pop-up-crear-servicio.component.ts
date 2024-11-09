@@ -63,10 +63,11 @@ export class PopUpCrearServicioComponent implements OnInit {
   formularioServicio = new FormGroup({
     nombre: new FormControl('', Validators.required),
     duracion: new FormControl('', [Validators.required, Validators.min(0)]),
-    precio: new FormControl('', Validators.required ),
+    precio: new FormControl('', Validators.required),
   });
-
+  idNegocio:number=0;
   ngOnInit(): void {
+    this.idNegocio= parseFloat(localStorage.getItem('idUsuario')!);
     this.actualizarValores();
   }
 
@@ -76,7 +77,7 @@ export class PopUpCrearServicioComponent implements OnInit {
       duracion: this.cardSeleccionada?.duracion?.toString(),
       precio: this.cardSeleccionada?.precio?.toString(),
     });
-    console.log(this.cardSeleccionada?.idServicio);
+    //console.log(this.cardSeleccionada?.idServicio);
   }
 
   crearUnServicio(): ServicioInterface {
@@ -93,12 +94,13 @@ export class PopUpCrearServicioComponent implements OnInit {
       precio,
     };
   }
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   postServicioToBackend() {
     if (this.formularioServicio.valid) {
       const servicioNuevo: ServicioInterface = this.crearUnServicio();
-      this.servicioService.POSTcrearUnServicio(servicioNuevo,1).subscribe({//todo deberia tener el id del negocio
+
+      this.servicioService.POSTcrearUnServicio(servicioNuevo, this.idNegocio).subscribe({//todo deberia tener el id del negocio
         next: (response) => {
           this.cerrarPopUp();
           window.location.reload();
