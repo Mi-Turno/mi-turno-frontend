@@ -3,27 +3,40 @@
 @switch (pasoActualSeleccion) {
 
   @case (1) {
-    <div *ngFor="let card of arregloServicios">
-      <app-card [ruta]="'rutaImg'"
-      [textoAlt]="'imagen rota'"
-      [titulo]="card.nombre"
-      [texto]="card.duracion + ' minutos'"
-      [textoSecundario]="'$'+card.precio"
-      [textoBoton]="'Seleccionar'"
-      [guardarInformacion]="card.idServicio"
-      (emitirInformacion)="enviarIdInformacion($event)"></app-card>
-      </div>
+
+    @if (arregloServicios.length ===0) {
+      <p>No hay servicios disponibles</p>
+    }@else {
+
+      @for (card of arregloServicios; track $index) {
+        <app-card [ruta]="'rutaImg'"
+        [textoAlt]="'imagen rota'"
+        [titulo]="card.nombre"
+        [texto]="card.duracion + ' minutos'"
+        [textoSecundario]="'$'+card.precio"
+        [textoBoton]="'Seleccionar'"
+        [guardarInformacion]="card.idServicio"
+        (emitirInformacion)="enviarIdInformacion($event)"></app-card>
+      }
+    }
   }
   @case (2) {
-    <div *ngFor="let card of arregloProfesionales">
-      <app-card [ruta]="'rutaImg'"
+
+    @if (arregloProfesionales.length ===0) {
+      <p>No hay profesionales disponibles</p>
+    }@else {
+
+      @for (card of arregloProfesionales; track $index) {
+        <app-card [ruta]="'rutaImg'"
         [textoAlt]="'imagen rota'"
         [titulo]="card.nombre"
         [texto]="card.apellido"
         [textoBoton]="'Seleccionar'"
         [guardarInformacion]="card.idUsuario"
         (emitirInformacion)="enviarIdInformacion($event)"></app-card>
-      </div>
+      }
+    }
+
   }
   @case (3) {
     <app-calendario-horario-profesional
@@ -31,9 +44,6 @@
     [idProfesional]="idProfesional"
     (emitirInformacion)="enviarHorarioProfesional($event)"
     ></app-calendario-horario-profesional>
-  }
-  @case (4) {
-
   }
   @default {
     <p>No hay datos</p>

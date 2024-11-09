@@ -30,7 +30,7 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
   //dias de la semana
   hoy:number = new Date().getDay();
   maniana:number = this.hoy + 1; //esto me tiene que dar el siguiente dia que tenga horarios no +1
-  otroDia:number = this.hoy + 2; //todo el +5 representa otro dia cualquiera
+  otroDia:number = 0;
 
   //funcionalidades boton horario
   obtenerIdHorario(event:number){
@@ -89,16 +89,17 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
   otroDiaActivo:boolean = false;
 
   activarInputOtroDia(){
-    this.otroDiaActivo = !this.otroDiaActivo;
+    this.otroDiaActivo = true;
   }
 
 
   //obtenemos el dia seleccionado por el input date y mostramos los horarios del profesional
   obtenerInputOtroDia(event:Event){
-    const inputDate = (event.target as HTMLInputElement).value;
-    const fechaInput = new Date(inputDate);
-
-    this.obtenerHorariosProfesionalPorDia(fechaInput.getDay());
+    const inputDate = (event.target as HTMLInputElement).valueAsDate;
+    const fechaInput = inputDate as Date;
+    console.log("Fecha input: ",fechaInput.getDay()+1);
+    console.log("Fecha input: ",fechaInput);
+    this.obtenerHorariosProfesionalPorDia(fechaInput.getDay()+1);
   }
 
   //calculamos la fecha minima para el input date para que no se pueda seleccionar un dia anterior al de hoy
