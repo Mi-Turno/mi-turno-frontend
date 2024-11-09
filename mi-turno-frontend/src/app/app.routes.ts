@@ -28,7 +28,6 @@ export const routes: Routes = [{
   component:DashboardClienteComponent,
   canActivate: [authGuardFn,()=>rolGuardFn(ROLES.cliente)],
 },
-
 {
 
  path:"negocios/:nombreNegocio",
@@ -48,6 +47,10 @@ export const routes: Routes = [{
   path:"negocios/:nombreNegocio/pedir-turno",
   component:PedirTurnoComponent,
   canActivate: [authGuardFn,()=>rolGuardFn(ROLES.cliente)],
+},
+{
+  path:":nombreNegocio/pedir-turno",
+  component:PedirTurnoComponent,
 },
 {
   path:"**",

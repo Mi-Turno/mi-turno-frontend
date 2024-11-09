@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { ServicioInterface } from '../../interfaces/servicio-interface';
 import { Observable } from 'rxjs';
 import { UsuarioInterface } from '../../interfaces/usuario-interface';
+import { ProfesionalInterface } from '../../interfaces/profesional-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,9 @@ export class ServicioServiceService {
     return this.http.get<ServicioInterface>(`${this.urlBase}/${idNegocio}/servicios/${idServicio}`);
   }
 
-
+  public GETlistadoDeProfesionalesPorIdServicioYIdNegocio(idServicio:number,idNegocio:number):Observable<ProfesionalInterface[]>{
+    return this.http.get<ProfesionalInterface[]>(`${this.urlBase}/${idNegocio}/servicios/${idServicio}/listado-profesionales`);
+  }
 
   public GETserviciosPorIdNegocioYEstado(idNegocio:number, estado:string):Observable<ServicioInterface[]>{
     return this.http.get<ServicioInterface[]>(`${this.urlBase}/${idNegocio}/servicios/estado/${estado}`);

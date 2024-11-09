@@ -20,78 +20,68 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
   @Input() idDelProfesional:number = 0;
   @Output() emitirInformacion: EventEmitter<HorarioProfesional> = new EventEmitter<HorarioProfesional>();
   @Output() emitirDiaInicio: EventEmitter<Date> = new EventEmitter<Date>();
-  //variables
 
-  diaSeleccionado:number=0;
+  
+
+  //variables
+  fechaInicio:Date = new Date();
 
   //arreglos
   arregloHorarios:HorarioProfesional[] = [];
 
   //dias de la semana
   hoy:number = new Date().getDay();
-  maniana:number = this.hoy + 1; //esto me tiene que dar el siguiente dia que tenga horarios no +1
-  otroDia:number = 0;
+  diaDeLaSemanaSeleccionado:number=0;
 
-  //funcionalidades boton horario
+  //funcionalidades boton horario para el OUTPUT
   obtenerIdHorario(event:number){
-    const horarioProfesionalSeleccionado: HorarioProfesional = {
-      idHorario: event,
-      idProfesional: this.idDelProfesional,
-      dia: obtenerDiaEnumPorNumero(this.diaSeleccionado),
-      horaInicio: new Date(),
-    }
+    //esto me va a retornar el horario seleccionado
+    const horarioProfesionalSeleccionado = this.arregloHorarios.find(unHorario => unHorario.idHorario === event);
 
-      //esto me va a retornar el horario seleccionado
+    if(horarioProfesionalSeleccionado !== undefined){
       this.emitirInformacion.emit(horarioProfesionalSeleccionado);
-
-      //esto me va a retornar la fecha de inicio del turno
-      this.emitirDiaInicio.emit(this.calcularFechaInicio())
-  }
-
-  calcularFechaInicio():Date{
-    //esto me da el dia de hoy
-    const fechaInicio = new Date();
-    const fechaDiaSeleccionado = new Date();
-
-    if(this.fechaInput){
-      //si es otro dia le paso el dia que yo le pase
-      fechaDiaSeleccionado.setDate(this.fechaInput.getDate());
-    }else{
-      //si es maniana le sumo 1 al dia de hoy
-      fechaDiaSeleccionado.setDate(fechaInicio.getDate()+1);
     }
 
 
+    //calculo la fecha de inicio del turno ESTO VA A SERVIR PARA EL OUTPUT
+    this.calcularFechaInicio();
+    //esto me va a retornar la fecha de inicio del turno
+    this.emitirDiaInicio.emit(this.fechaInicio);
+  }
 
-    //esto me da el dia de hoy + el dia que yo le pase
+  calcularFechaInicio(){
+    //primero obtengo la diferencia de dias que hay entre el dia seleccionado y el dia de hoy. Es entre 0 y 6 porque son dias de la semana
+    const diasASumar = this.diaDeLaSemanaSeleccionado - this.hoy;
 
-
-    fechaInicio.setDate(fechaInicio.getDate() + (fechaDiaSeleccionado.getDate()- fechaInicio.getDate()));
-    return fechaInicio;
-
+    //setteo la fecha de inicio
+    this.fechaInicio.setDate(this.fechaInicio.getDate() + diasASumar);
   }
 
 
-  //esto me va a retornar una lista de horarios del profesional del dia que yo le pase lun,mart,mier,juev,viern,sab,dom
 
   manejarDiaSeleccionado(event:number){
-    this.otroDiaActivo = false;
-    this.fechaInput = undefined;
+    //esto sirve para HOY y para EL DIA SIGUIENTE
+    //saco el input otro dia
+    if(this.otroDiaActivo === true){
+      this.otroDiaActivo = false;
+    }
+
     this.obtenerHorariosProfesionalPorDia(event);
   }
 
   obtenerHorariosProfesionalPorDia(nroDia:number){
+    //obtengo el dia de la semana seleccionado
+    this.diaDeLaSemanaSeleccionado = nroDia;
 
     this.horarioProfesionalService.obtenerHorariosPorIdProfesionalYDia(this.idNegocio,this.idDelProfesional,nroDia).subscribe({
 
       next: (horarios) => {
-        this.diaSeleccionado = nroDia;
         this.arregloHorarios = horarios
         console.log("Nro dia: ",nroDia);
         console.log("Horarios: ",horarios);
       },
       error: (error) => {
-
+        console.error(error);
       }
     });
   }
@@ -102,9 +92,11 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
 
   }
 
+  obtenerDiaEnumPorNumero(nroDia:number):DiasEnum{
+    return obtenerDiaEnumPorNumero(nroDia)
+  }
 
-  diaEnumManiana:DiasEnum = obtenerDiaEnumPorNumero(this.maniana);
-  //diaEnumPasadoManiana:DiasEnum = obtenerDiaEnumPorNumero(this.pasadoManiana);
+
 
 
   //funcionalidad seleccion otro dia INPUT DATE
@@ -115,12 +107,11 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
     if(this.otroDiaActivo === false){
       this.arregloHorarios=[];
       this.otroDiaActivo = true;
-
     }
 
   }
 
-  fechaInput?:Date = new Date();
+
 
   //obtenemos el dia seleccionado por el input date y mostramos los horarios del profesional
   obtenerInputOtroDia(event:Event){
@@ -128,15 +119,16 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
 
     console.log("Fecha input: ",inputDate);
 
-    this.fechaInput = new Date(`${inputDate}T00:00:00`);
+    //aca ya obtengo la fecha de inicio
+    this.fechaInicio = new Date(`${inputDate}T00:00:00`);
 
-    console.log("Fecha input: ",this.fechaInput.getDay());
-    console.log("Fecha input: ",this.fechaInput);
+    console.log("Fecha input: ",this.fechaInicio.getDay());
+    console.log("Fecha input: ",this.fechaInicio);
 
-    this.obtenerHorariosProfesionalPorDia(this.fechaInput.getDay());
+    this.obtenerHorariosProfesionalPorDia(this.fechaInicio.getDay());
   }
 
-  //calculamos la fecha minima para el input date para que no se pueda seleccionar un dia anterior al de hoy
+  //calculamos la fecha minima para el input date para que no se pueda seleccionar un dia anterior al de 2 dias despues de la fecha actual
   calcularFechaMinima():string{
     const fechaMinima = new Date();
     fechaMinima.setDate(fechaMinima.getDate() + 2);

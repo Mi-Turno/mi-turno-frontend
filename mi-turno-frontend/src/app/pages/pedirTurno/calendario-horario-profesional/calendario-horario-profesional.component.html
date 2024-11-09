@@ -3,18 +3,18 @@
   <main>
     <section [className]="'listadoDias'">
 
-      <p [className]="'dia'" (click)="manejarDiaSeleccionado(hoy)">hoy</p>
+      <p [className]="'dia'" (click)="manejarDiaSeleccionado(hoy)">HOY</p>
 
-      <p [className]="'dia'" (click)="manejarDiaSeleccionado(maniana)">{{diaEnumManiana.toLowerCase()}}</p>
+      <p [className]="'dia'" (click)="manejarDiaSeleccionado(hoy+1)">{{obtenerDiaEnumPorNumero(hoy+1).toLocaleUpperCase()}}</p>
 
-      <p [className]="'dia'" (click)="activarInputOtroDia()">otro dia</p>
+      <p [className]="'dia'" (click)="activarInputOtroDia()">OTRO DIA</p>
 
     </section>
 
     @if (otroDiaActivo) {
 
       <section [className]="'inputOtroDia'">
-        <label [className]="'labelOtroDia'" for="otroDiaInput">Ingrese un dia!</label>
+        <label [className]="'labelOtroDia'" for="otroDiaInput">Ingrese un dia:</label>
         <input (input)="obtenerInputOtroDia($event)" type="date" name="otroDiaInput" id="otroDiaInput" [min]="calcularFechaMinima() ">
       </section>
 
@@ -23,7 +23,7 @@
     <section [className]="'horariosProfesional'">
 
       @if (arregloHorarios.length ===0) {
-        <p [className]="'mensajeHorarios'">No hay horarios disponibles</p>
+        <p [className]="'mensajeHorarios'">No hay horarios disponibles para el {{obtenerDiaEnumPorNumero(diaDeLaSemanaSeleccionado).toLocaleLowerCase()}} de este profesional</p>
       }@else {
 
         @for (unHorario of arregloHorarios; track $index) {

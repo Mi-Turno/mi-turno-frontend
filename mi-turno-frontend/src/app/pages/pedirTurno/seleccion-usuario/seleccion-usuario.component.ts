@@ -22,13 +22,13 @@ import { ProfesionalesServiceService } from '../../../core/services/profesionalS
 
 export class SeleccionUsuarioComponent implements OnInit{
 
+  //lo uso para mostrar las diferentes opciones
   @Input() idNegocio:number = 1;
-  @Input() idProfesional:number =1;
-
-  ngOnInit(): void {
-    this.obtenerServiciosPorIdNegocio(this.idNegocio);
-    this.obtenerProfesionalesPorIdNegocio(this.idNegocio);
-  }
+  @Input() idProfesional:number =-1; // para horario profesional
+  @Input() pasoActualSeleccion:number = 1;
+  @Input() idServicio:number=-1;
+  @Output() emitirInformacion: EventEmitter<number> = new EventEmitter();
+  @Output() emitirDiaInicio: EventEmitter<Date> = new EventEmitter();
 
   //servicios
   servicioServicios: ServicioServiceService = inject(ServicioServiceService);
@@ -37,14 +37,21 @@ export class SeleccionUsuarioComponent implements OnInit{
 
   //arreglos
   arregloServicios:ServicioInterface[] = [];
-  arregloHorarios:HorarioProfesional[] = [];
   arregloProfesionales:ProfesionalInterface[] = [];
 
-  //lo uso para mostrar las diferentes opciones
-  @Input() pasoActualSeleccion:number = 1;
-  @Output() emitirInformacion: EventEmitter<number> = new EventEmitter();
+  //init
+  ngOnInit(): void {
+    this.obtenerServiciosPorIdNegocio(this.idNegocio);
 
-@Output() emitirDiaInicio: EventEmitter<Date> = new EventEmitter();
+    //lo verifico asi no hago una peticion de mas y ademas tengo el id del servicio para mostrar los profesionales que lo brindan
+    if(this.idServicio!=-1){
+      this.obtenerProfesionalesPorIdNegocioYIdServicio(this.idNegocio,this.idServicio);
+    }
+
+  }
+
+
+
   enviarDiaInicio(event:Date){
     this.emitirDiaInicio.emit(event);
   }
@@ -57,29 +64,35 @@ export class SeleccionUsuarioComponent implements OnInit{
         this.arregloServicios= servicios;
       },
       error: (error) => {
-
+        console.error(error)
       }
     });
 
   }
 
 
-  obtenerProfesionalesPorIdNegocio(idNegocio:number){
+  obtenerProfesionalesPorIdNegocioYIdServicio(idNegocio:number, idServicio:number){
     //obtengo el arreglo de profesionales del negocio y lo guardo en la variable profesionales
-    this.servicioProfesional.getProfesionalesPorIdNegocio(this.idNegocio).subscribe({
+    this.servicioServicios.GETlistadoDeProfesionalesPorIdServicioYIdNegocio(idServicio,idNegocio).subscribe({
       next: (profesionales) => {
 
         this.arregloProfesionales = profesionales
       },error: (error) => {
         console.log(error);
       }
+
     });
 
   }
   //variables
 
-
   enviarIdInformacion(e:number) {
+    if(this.pasoActualSeleccion==1){
+      //me quedo con el id del servicio para mostrar los profesionales que lo brindan
+      this.idServicio=e;
+      this.obtenerProfesionalesPorIdNegocioYIdServicio(this.idNegocio,e);
+    }
+
    if(this.pasoActualSeleccion==2){
         //me quedo con el id del profesional para mostrar los horarios que tiene
         this.idProfesional=e;
