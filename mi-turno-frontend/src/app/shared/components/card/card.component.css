@@ -2,7 +2,7 @@
     /* Contenedor principal de la card */
 .claseCard {
   width: 370px;
-  border: 1px solid #e0e0e0;
+  /* border: 1px solid #e0e0e0; */
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
@@ -22,17 +22,21 @@
 /* Estilos de la imagen */
 .claseImg {
   width: 100%;
-  height: auto;
-  max-height: 100%;
-  object-fit: contain;
+  max-height: 230px;
+  object-fit: cover;
+}
+
+.metodosDePagoImagen{
+  object-fit: cover;
 }
 
 /* Cuerpo del contenido (texto y botón) */
 .claseCuerpo {
-  padding: 10px;
+  /* padding: 10px; */
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: space-evenly;
   border-top: 1px solid #e0e0e0;
   height: 100px;
 }
@@ -40,15 +44,13 @@
   margin: 10px;
 }
 
-.claseCuerpoChip {
- margin: 40px 10px
-}
 
 /* Estilo del título */
 .claseTitulo {
   margin: 0;
   font-size: var(--titulo-h3);
   font-weight: bold;
+  text-align: left;
 }
 
 /* Estilo del texto descriptivo */
@@ -56,6 +58,7 @@
   margin: 0;
   font-size: var(--titulo-h5);
   color: #757575;
+  text-align: left;
 }
 
 /* Botón del app-chip */
@@ -63,10 +66,8 @@ app-chip {
   justify-content: center;
   background-color: var(--color-contraste2);
   color: #fff;
-  padding: 5px 14px;
+  padding: 5px 15px;
   border-radius: 30px;
-  margin-top: 10px;
-  align-self: flex-end;
   cursor: pointer;
 }
 

@@ -9,8 +9,7 @@
     }@else {
 
       @for (card of arregloServicios; track $index) {
-        <app-card [ruta]="'rutaImg'"
-        [textoAlt]="'imagen rota'"
+        <app-card
         [titulo]="card.nombre"
         [texto]="card.duracion + ' minutos'"
         [textoSecundario]="'$'+card.precio"
@@ -27,8 +26,7 @@
     }@else {
 
       @for (card of arregloProfesionales; track $index) {
-        <app-card [ruta]="'rutaImg'"
-        [textoAlt]="'imagen rota'"
+        <app-card
         [titulo]="card.nombre"
         [texto]="card.apellido"
         [textoBoton]="'Seleccionar'"
@@ -40,10 +38,11 @@
   }
   @case (3) {
     <app-calendario-horario-profesional
+    [idDelProfesional]="idProfesional"
     [idNegocio]="idNegocio"
-    [idProfesional]="idProfesional"
     (emitirInformacion)="enviarHorarioProfesional($event)"
     ></app-calendario-horario-profesional>
+
   }
   @default {
     <p>No hay datos</p>

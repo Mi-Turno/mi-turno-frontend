@@ -3,14 +3,15 @@
   @for (unMetodoDePago of metodosDePago; track $index) {
 
     <app-card
-      [ruta]="getRutaImagen(unMetodoDePago.metodoDePago)"
+      [ruta]="getRutaImagen(unMetodoDePago)"
       [textoAlt]="'textoAlternativo'"
-      [titulo]="unMetodoDePago.metodoDePago"
+      [titulo]="mostrarMetodoDePagoSinGuiones(unMetodoDePago)"
       [texto]="textoTitulo"
       [textoBoton]="textoBoton"
       [referenciaChip]="referenciaChip"
-      [guardarInformacion]="unMetodoDePago.id"
+      [guardarInformacion]="$index"
       (emitirInformacion)="enviarIdMetodoDePago($event)"
+      [claseImg] ="'metodosDePagoImagen'"
     ></app-card>
   }
 

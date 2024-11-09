@@ -3,9 +3,9 @@
   <main>
     <section [className]="'listadoDias'">
 
-      <p [className]="'dia'" (click)="obtenerHorariosProfesionalPorDia(hoy)">hoy</p>
+      <p [className]="'dia'" (click)="manejarDiaSeleccionado(hoy)">hoy</p>
 
-      <p [className]="'dia'" (click)="obtenerHorariosProfesionalPorDia(maniana)">{{diaEnumManiana.toLowerCase()}}</p>
+      <p [className]="'dia'" (click)="manejarDiaSeleccionado(maniana)">{{diaEnumManiana.toLowerCase()}}</p>
 
       <p [className]="'dia'" (click)="activarInputOtroDia()">otro dia</p>
 
@@ -14,9 +14,8 @@
     @if (otroDiaActivo) {
 
       <section [className]="'inputOtroDia'">
-        <label [className]="'labelOtroDia'" for="otroDiaInput">Que dia?</label>
-        <input (input)="obtenerInputOtroDia($event)" type="date" name="otroDiaInput" id="otroDiaInput" [min]="calcularFechaMinima()">
-        <!-- <input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31" /> -->
+        <label [className]="'labelOtroDia'" for="otroDiaInput">Ingrese un dia!</label>
+        <input (input)="obtenerInputOtroDia($event)" type="date" name="otroDiaInput" id="otroDiaInput" [min]="calcularFechaMinima() ">
       </section>
 
 }
