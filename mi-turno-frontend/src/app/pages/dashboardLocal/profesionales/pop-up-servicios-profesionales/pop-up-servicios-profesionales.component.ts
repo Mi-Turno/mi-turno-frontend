@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { ServiciosCheckComponent } from '../servicios-check/servicios-check.component';
 import { BotonComponent } from "../../../../shared/components/boton/boton.component";
@@ -25,12 +25,10 @@ servicioService = inject(ServicioServiceService);
 
 
 
-cerrarPopUp() {
-  console.log("Cierro el pop up");
-}
 
 
 
+nombreProfesional: string | undefined = "";
 
 idCards: ServicioInterface[] = [];
 maxCards = 6;
@@ -39,6 +37,7 @@ servicios:ServicioServiceService = inject(ServicioServiceService);
 
 ngOnInit() {
   this.cargarServicios();
+  this.nombreProfesional = this.profesional?.nombre;
 }
 servicioNegocio:NegocioServiceService = inject(NegocioServiceService);
 constructor(private ruta: ActivatedRoute) { }
@@ -85,10 +84,18 @@ escribirCards(){
 
 
 
+@Output() desactivarOverlay: EventEmitter<void> = new EventEmitter<void>();
+@Output() activarModificacion: EventEmitter<void> = new EventEmitter<void>();
+
+cerrarPopUp() {
+  console.log("cierro el popup");
+  this.desactivarOverlay.emit();
+  this.activarModificacion.emit();
+}
 //Lo que hay que hacer es agarrar los nombres de los servicios y mandarlos a los servicios-chek, para que se personalice
 
 
-nombreProfesional = "'Nashe'";
+
 
 
 

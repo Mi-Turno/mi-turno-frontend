@@ -8,9 +8,9 @@
 </div>
   <div class="contenedor-servicios">
 
-    <div class="horario-lista">
-      <div class="horario-item" *ngFor="let card of idCards; let i = index">
-        <app-servicios-check [toggleActivo]="verificarEstado()" [servicioCompleto]="card" [idProfesional]="profesional?.idUsuario"></app-servicios-check>
+    <div class="servicios-lista">
+      <div class="servicios-item" *ngFor="let card of idCards; let i = index">
+        <app-servicios-check  [toggleActivo]="verificarEstado()" [servicioCompleto]="card" [profesionalCompleto]="profesional"></app-servicios-check>
       </div>
     </div>
 

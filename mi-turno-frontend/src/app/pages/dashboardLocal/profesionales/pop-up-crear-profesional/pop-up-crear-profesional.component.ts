@@ -148,8 +148,6 @@ confirmarUsuario() {
 
 }
 
-
-
 mostrarCard() {
   console.log(this.cardSeleccionada?.nombre);
 }
@@ -159,6 +157,7 @@ mostrarCard() {
 @Output() desactivarOverlay: EventEmitter<void> = new EventEmitter<void>();
 @Output() activarHorarios: EventEmitter<void> = new EventEmitter<void>();
 @Output() cardActual: EventEmitter<ProfesionalInterface> = new EventEmitter<ProfesionalInterface>();
+@Output() activarServicios: EventEmitter<void> = new EventEmitter<void>();
 
 cerrarPopUp() {
   this.desactivarOverlay.emit();
@@ -171,7 +170,7 @@ cerrarPopUp() {
 abrirServicios() {
   if(this.cardSeleccionada?.idUsuario) { //todo: Hay que poner el otro pop up
     this.cerrarPopUp();
-    this.activarHorarios.emit();
+    this.activarServicios.emit();
     }else {
       alert("Todavía no se creo el usuario");
     }
@@ -186,11 +185,11 @@ abrirDiasYHorarios() {
 
   console.log("Abro días y horarios");
 }
-/*
+
 eliminarProfesional() {
   console.log(this.cardSeleccionada?.idUsuario);
   if (this.cardSeleccionada?.idUsuario) {
-    this.usuarioService.deleteUsuario(this.cardSeleccionada.idUsuario).subscribe({
+    this.usuarioService.deleteUsuario(this.cardSeleccionada.idNegocio!, this.cardSeleccionada.idUsuario!).subscribe({
       next: (response) => {
         this.cerrarPopUp();
         console.log(response);
@@ -205,5 +204,5 @@ eliminarProfesional() {
     alert("Todavía no se creo el profesional ");
   }
 }
-*/
+
 }
