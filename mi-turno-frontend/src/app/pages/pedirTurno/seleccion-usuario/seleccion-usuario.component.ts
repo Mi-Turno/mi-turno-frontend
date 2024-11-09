@@ -65,7 +65,8 @@ export class SeleccionUsuarioComponent implements OnInit{
     //obtengo el arreglo de profesionales del negocio y lo guardo en la variable profesionales
     this.servicioProfesional.getProfesionalesPorIdNegocio(this.idNegocio).subscribe({
       next: (profesionales) => {
-        this.arregloProfesionales = this.arregloProfesionales.slice(0,profesionales.length);
+        
+        this.arregloProfesionales = profesionales
       },error: (error) => {
         console.log(error);
       }
