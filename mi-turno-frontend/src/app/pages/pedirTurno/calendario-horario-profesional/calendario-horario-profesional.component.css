@@ -59,6 +59,9 @@ main{
   background-color: rgba(0, 0, 139, 0.3);
 }
 
+/* .diaSeleccionado{
+  background-color: rgba(0, 0, 139, 0.3);
+} */
 
 .horariosProfesional{
   display: flex;
