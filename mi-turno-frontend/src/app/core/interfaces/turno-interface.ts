@@ -5,8 +5,8 @@ export interface TurnoInterface{
   idCliente:number;//id del usuario,
   idServicio:number; //id del servicio
   idNegocio:number; //id del negocio
-  fechaInicio:Date;
-  horarioProfesional:HorarioProfesional;
-  metodoPago:MetodosDePago;
+  fechaInicio:Date; //fecha del turno
+  horarioProfesional:HorarioProfesional;  
+  metodoPago:MetodosDePago; //metodo de pago
 }
 

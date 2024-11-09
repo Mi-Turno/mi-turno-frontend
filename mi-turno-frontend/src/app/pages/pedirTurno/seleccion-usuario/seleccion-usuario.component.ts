@@ -44,6 +44,10 @@ export class SeleccionUsuarioComponent implements OnInit{
   @Input() pasoActualSeleccion:number = 1;
   @Output() emitirInformacion: EventEmitter<number> = new EventEmitter();
 
+@Output() emitirDiaInicio: EventEmitter<Date> = new EventEmitter();
+  enviarDiaInicio(event:Date){
+    this.emitirDiaInicio.emit(event);
+  }
 
   obtenerServiciosPorIdNegocio(idNegocio:number){
 
