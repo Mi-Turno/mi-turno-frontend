@@ -30,7 +30,7 @@ export class BotonComponent {
 
   @Output()
   clickBoton: EventEmitter<number> = new EventEmitter<number>();
-
+  
   clickBotonEmitir(){
     //si es -1 no emito nada
     if(this.guardarInformacion !==-1){
