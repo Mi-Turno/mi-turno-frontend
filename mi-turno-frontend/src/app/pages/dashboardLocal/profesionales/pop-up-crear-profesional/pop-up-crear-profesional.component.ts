@@ -41,8 +41,9 @@ formularioRegister = new FormGroup ({
 });
 
 
-
+idNegocio:number= 0;
 ngOnInit(): void {
+  this.idNegocio = parseFloat(localStorage.getItem('idUsuario')!);
   this.actualizarValores();
 
 }
@@ -57,7 +58,7 @@ actualizarValores() {
   });
 }
 
-@Input() idNegocio:number = 1;
+
 
 crearUnProfesional():ProfesionalInterface {
   const nombreForm = this.formularioRegister.get('nombre')?.value ||'';//||'' esto significa que puede ser null
@@ -75,13 +76,14 @@ crearUnProfesional():ProfesionalInterface {
     telefono:telefonoForm,
     password:password,
     idRolUsuario:3,//profesional
-    idNegocio:this.idNegocio//aca deberia ir el idNegocio pero el que este en la URI
   };
 }
 
 private postUsuarioToBackend(usuario:ProfesionalInterface):void{
 
-    this.usuarioService.postProfesionalPorIdNegocio(1,usuario).subscribe({
+
+
+    this.usuarioService.postProfesionalPorIdNegocio(this.idNegocio,usuario).subscribe({
       next:(usuario:ProfesionalInterface) =>{
         console.log(usuario);
       },
@@ -111,7 +113,7 @@ putUsuarioToBackend(idProfesional: number | undefined, idNegocio: number | undef
       console.log(profesionalActualizado);
     console.log(idNegocio, idProfesional);
       if (idProfesional) {
-        this.usuarioService.putUsuarioPorIdNegocio(idNegocio!, idProfesional!, profesionalActualizado).subscribe({
+        this.usuarioService.putUsuarioPorIdNegocio(this.idNegocio!, idProfesional!, profesionalActualizado).subscribe({
           next: (response: ProfesionalInterface) => {
             this.cerrarPopUp();
             window.location.reload();
