@@ -1,0 +1,30 @@
+.popUp{
+
+  border: 2px solid;
+  margin: 10px;
+  border-radius: 20px;
+  height: 500px;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.titulos {
+  display: flex;
+  border: 2px solid;
+  width: 100%;
+  justify-content: center;
+}
+
+.cruz {
+  top: 35px;
+  right: 35px;
+  cursor: pointer;
+}
+.contenedor-servicios{
+  height: 300px;
+  width: 300px;
+  margin: 20px;
+}

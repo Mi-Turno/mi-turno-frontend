@@ -1,0 +1,22 @@
+<article class="popUp">
+
+  <div class="titulos">
+  <h5>Servicios de {{nombreProfesional}}</h5>
+  <div class="cruz" (click)="cerrarPopUp()">
+    <mat-icon> close</mat-icon>
+  </div>
+</div>
+  <div class="contenedor-servicios">
+
+    <div class="horario-lista">
+      <div class="horario-item" *ngFor="let card of idCards; let i = index">
+        <app-servicios-check [toggleActivo]="verificarEstado()" [servicioCompleto]="card" [idProfesional]="profesional?.idUsuario"></app-servicios-check>
+      </div>
+    </div>
+
+
+  </div>
+
+  <app-boton [class]="'botonConfirmar'" (click) = "escribirCards()" ></app-boton>
+
+</article>
