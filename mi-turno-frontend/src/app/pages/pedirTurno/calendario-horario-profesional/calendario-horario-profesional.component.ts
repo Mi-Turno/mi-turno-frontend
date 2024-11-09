@@ -17,7 +17,7 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
 
   //inputs y outputs
   @Input() idNegocio:number = 1;
-  @Input() idProfesional:number = 1;
+  @Input() idDelProfesional:number = 0;
   @Output() emitirInformacion: EventEmitter<HorarioProfesional> = new EventEmitter<HorarioProfesional>();
   @Output() emitirDiaInicio: EventEmitter<Date> = new EventEmitter<Date>();
   //variables
@@ -36,7 +36,7 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
   obtenerIdHorario(event:number){
     const horarioProfesionalSeleccionado: HorarioProfesional = {
       idHorario: event,
-      idProfesional: this.idProfesional,
+      idProfesional: this.idDelProfesional,
       dia: obtenerDiaEnumPorNumero(this.diaSeleccionado),
       horaInicio: new Date(),
     }
@@ -51,18 +51,39 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
   calcularFechaInicio():Date{
     //esto me da el dia de hoy
     const fechaInicio = new Date();
+    const fechaDiaSeleccionado = new Date();
+
+    if(this.fechaInput){
+      //si es otro dia le paso el dia que yo le pase
+      fechaDiaSeleccionado.setDate(this.fechaInput.getDate());
+    }else{
+      //si es maniana le sumo 1 al dia de hoy
+      fechaDiaSeleccionado.setDate(fechaInicio.getDate()+1);
+    }
+
+
 
     //esto me da el dia de hoy + el dia que yo le pase
-    fechaInicio.setDate(fechaInicio.getDate() + (this.diaSeleccionado - this.hoy));
+
+
+    fechaInicio.setDate(fechaInicio.getDate() + (fechaDiaSeleccionado.getDate()- fechaInicio.getDate()));
     return fechaInicio;
 
   }
 
 
-  //esto me va a retornar una lista de horarios del profesional del dia que yo le pase
-  obtenerHorariosProfesionalPorDia(nroDia:number){
+  //esto me va a retornar una lista de horarios del profesional del dia que yo le pase lun,mart,mier,juev,viern,sab,dom
+
+  manejarDiaSeleccionado(event:number){
     this.otroDiaActivo = false;
-    this.horarioProfesionalService.obtenerHorariosPorIdProfesionalYDia(this.idNegocio,this.idProfesional,nroDia).subscribe({
+    this.fechaInput = undefined;
+    this.obtenerHorariosProfesionalPorDia(event);
+  }
+
+  obtenerHorariosProfesionalPorDia(nroDia:number){
+
+    this.horarioProfesionalService.obtenerHorariosPorIdProfesionalYDia(this.idNegocio,this.idDelProfesional,nroDia).subscribe({
+
       next: (horarios) => {
         this.diaSeleccionado = nroDia;
         this.arregloHorarios = horarios
@@ -70,7 +91,7 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
         console.log("Horarios: ",horarios);
       },
       error: (error) => {
-        console.log(error);
+
       }
     });
   }
@@ -78,6 +99,7 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
   //iniciamos con los horarios del profesional del dia de hoy
   ngOnInit(): void {
     this.obtenerHorariosProfesionalPorDia(this.hoy);
+
   }
 
 
@@ -89,23 +111,35 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
   otroDiaActivo:boolean = false;
 
   activarInputOtroDia(){
-    this.otroDiaActivo = true;
+
+    if(this.otroDiaActivo === false){
+      this.arregloHorarios=[];
+      this.otroDiaActivo = true;
+
+    }
+
   }
 
+  fechaInput?:Date = new Date();
 
   //obtenemos el dia seleccionado por el input date y mostramos los horarios del profesional
   obtenerInputOtroDia(event:Event){
     const inputDate = (event.target as HTMLInputElement).value;
-    const fechaInput = new Date(inputDate + 'T00:00:00Z');
-    console.log("Fecha input: ",fechaInput.getDay());
-    console.log("Fecha input: ",fechaInput);
-    this.obtenerHorariosProfesionalPorDia(fechaInput.getDay());
+
+    console.log("Fecha input: ",inputDate);
+
+    this.fechaInput = new Date(`${inputDate}T00:00:00`);
+
+    console.log("Fecha input: ",this.fechaInput.getDay());
+    console.log("Fecha input: ",this.fechaInput);
+
+    this.obtenerHorariosProfesionalPorDia(this.fechaInput.getDay());
   }
 
   //calculamos la fecha minima para el input date para que no se pueda seleccionar un dia anterior al de hoy
   calcularFechaMinima():string{
     const fechaMinima = new Date();
-    fechaMinima.setDate(fechaMinima.getDate() + 1);
+    fechaMinima.setDate(fechaMinima.getDate() + 2);
     return fechaMinima.toISOString().split('T')[0];
   }
 

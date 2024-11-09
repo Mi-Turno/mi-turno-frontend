@@ -3,6 +3,7 @@ import { MetodosDePagoServiceService } from '../../../core/services/metodosDePag
 import { MetodosDePagoInterface } from '../../../core/interfaces/metodos-de-pagos-interface';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from "../../../shared/components/card/card.component";
+import { MetodosDePago } from '../../../shared/models/metodosDePago';
 
 @Component({
   selector: 'app-metodo-pago',
@@ -17,7 +18,7 @@ export class MetodoPagoComponent implements OnInit {
   textoBoton = "Seleccionar";
   textoTitulo = "Metodo de pago";
   referenciaChip:string = '';
-  metodosDePago:MetodosDePagoInterface[] = [];
+  metodosDePago:string[] = [];
 
 
   @Output() emitirInformacion = new EventEmitter<number>();
@@ -64,15 +65,16 @@ export class MetodoPagoComponent implements OnInit {
 
   ngOnInit(){
     this.cargarMetodosDePago();
+
   }
+
+
+
   cargarMetodosDePago() {
     this.metodosDePagoServicio.getMetodosDePago().subscribe({
       next: (response) => {
-        //logica para que no se muestren los guiones bajos
-        this.metodosDePago = response.map((unMetodoDePago) => ({
-          metodoDePago: unMetodoDePago.metodoDePago.replace("_"," "),
-        }));
 
+        this.metodosDePago = response;
 
       },
       error: (error) => {
@@ -81,6 +83,13 @@ export class MetodoPagoComponent implements OnInit {
     });
 
   }
+
+  mostrarMetodoDePagoSinGuiones(metodoDePago:string):string{
+
+    return metodoDePago.replaceAll('_',' ');
+
+  }
+
   getRutaImagen(metodoDePago: string): string {
     switch (metodoDePago) {
       case 'EFECTIVO':

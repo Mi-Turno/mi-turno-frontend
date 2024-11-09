@@ -8,10 +8,12 @@ import { HorarioProfesional } from '../../interfaces/horarioProfesional.interfac
   providedIn: 'root'
 })
 export class HorarioXprofesionalService {
+  //negocios/{idNegocio}/profesionales/{idProfesional}/horarios/dia ?idDia=1
 //http://localhost:8080/negocios/{idNegocio}/profesionales/{idProfesional}/horarios
   private urlBase: string = 'http://localhost:8080/negocios';
   private http: HttpClient= inject(HttpClient);
 
+///negocios/{idNegocio}/profesionales/{idProfesional}/horarios/dia
 
   public obtenerHorariosPorIdProfesionalYDia(idNegocio:number,idProfesional: number, dia: number): Observable<HorarioProfesional[]> {
     return this.http.get<HorarioProfesional[]>(`${this.urlBase}/${idNegocio}/profesionales/${idProfesional}/horarios/dia?idDia=${dia}`);
@@ -21,7 +23,7 @@ export class HorarioXprofesionalService {
     return this.http.post<HorarioProfesional>(this.urlBase, horario)
   }
 
-  
+
 
 
 }

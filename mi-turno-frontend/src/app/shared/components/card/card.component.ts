@@ -10,9 +10,9 @@ import { ChipComponent } from '../chip/chip.component';
 })
 export class CardComponent {
 
-@Input() ruta:string = "";
+@Input() ruta:string = "img-default.png";
 @Input() claseImg:string = "claseImg";
-@Input() textoAlt:string = "";
+@Input() textoAlt:string = "Sin Imagen";
 @Input() claseCuerpo:string = "claseCuerpo";
 @Input() claseTitulo:string = "claseTitulo";
 @Input() claseTexto:string = "claseTexto";

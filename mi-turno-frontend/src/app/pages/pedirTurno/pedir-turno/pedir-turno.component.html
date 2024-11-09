@@ -16,19 +16,27 @@
       <!--pegarle al backend y que me muestre los servicios del negocio en el que esta-->
       <app-seleccion-usuario
       [pasoActualSeleccion]="pasoActual"
-      (emitirInformacion)="recibirIdInformacion($event)"></app-seleccion-usuario>
+      (emitirInformacion)="recibirIdInformacion($event)"
+      [idNegocio]="idNegocio"
+      ></app-seleccion-usuario>
       <button (click)="avanzarPaso()">avanzarPaso</button>
     }
     @case (2) {
       <app-seleccion-usuario
       [pasoActualSeleccion]="pasoActual"
-      (emitirInformacion)="recibirIdInformacion($event)"></app-seleccion-usuario>
+      (emitirInformacion)="recibirIdInformacion($event)"
+      [idNegocio]="idNegocio"
+
+      ></app-seleccion-usuario>
       <button (click)="avanzarPaso()">avanzarPaso</button>
     }
     @case (3) {
       <app-seleccion-usuario
       [pasoActualSeleccion]="pasoActual"
-      (emitirHorarioProfesionalSeleccionado)="recibirHorarioProfesional($event)"></app-seleccion-usuario>
+      (emitirHorarioProfesionalSeleccionado)="recibirHorarioProfesional($event)"
+      [idNegocio]="idNegocio"
+      [idProfesional]="turno.horarioProfesional.idProfesional"
+      ></app-seleccion-usuario>
       <button (click)="avanzarPaso()">avanzarPaso</button>
     }
     @case (4) {

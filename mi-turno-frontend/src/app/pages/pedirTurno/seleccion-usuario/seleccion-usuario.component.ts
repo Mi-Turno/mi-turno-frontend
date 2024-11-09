@@ -23,6 +23,7 @@ import { ProfesionalesServiceService } from '../../../core/services/profesionalS
 export class SeleccionUsuarioComponent implements OnInit{
 
   @Input() idNegocio:number = 1;
+  @Input() idProfesional:number =1;
 
   ngOnInit(): void {
     this.obtenerServiciosPorIdNegocio(this.idNegocio);
@@ -41,22 +42,20 @@ export class SeleccionUsuarioComponent implements OnInit{
 
   //lo uso para mostrar las diferentes opciones
   @Input() pasoActualSeleccion:number = 1;
-
   @Output() emitirInformacion: EventEmitter<number> = new EventEmitter();
 
-  idProfesional:number=0;
 
   obtenerServiciosPorIdNegocio(idNegocio:number){
 
     //obtengo el arreglo de servicios del negocio y lo guardo en la variable servicios
     this.servicioServicios.GETserviciosPorIdNegocio(this.idNegocio).subscribe({
-     next: (servicios) => {
-       this.arregloServicios= servicios;
-     },
-     error: (error) => {
+      next: (servicios) => {
+        this.arregloServicios= servicios;
+      },
+      error: (error) => {
 
-     }
-   });
+      }
+    });
 
   }
 
@@ -65,7 +64,7 @@ export class SeleccionUsuarioComponent implements OnInit{
     //obtengo el arreglo de profesionales del negocio y lo guardo en la variable profesionales
     this.servicioProfesional.getProfesionalesPorIdNegocio(this.idNegocio).subscribe({
       next: (profesionales) => {
-        
+
         this.arregloProfesionales = profesionales
       },error: (error) => {
         console.log(error);
@@ -73,13 +72,16 @@ export class SeleccionUsuarioComponent implements OnInit{
     });
 
   }
+  //variables
+
 
   enviarIdInformacion(e:number) {
    if(this.pasoActualSeleccion==2){
         //me quedo con el id del profesional para mostrar los horarios que tiene
-
         this.idProfesional=e;
+
       }
+
     this.emitirInformacion.emit(e);
   }
 
