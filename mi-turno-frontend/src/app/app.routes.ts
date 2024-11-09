@@ -11,7 +11,9 @@ import { ServicioMainComponent } from './pages/dashboardLocal/servicio/servicio-
 import { PopUpConfirmacionComponent } from './pages/pedirTurno/pop-up-confirmacion/pop-up-confirmacion.component';
 import { SeleccionUsuarioComponent } from './pages/pedirTurno/seleccion-usuario/seleccion-usuario.component';
 import { PopUpHorariosProfesionalesComponent } from './pages/dashboardLocal/profesionales/pop-up-horarios-profesionales/pop-up-horarios-profesionales.component';
+import { DashboardUsuarioComponent } from './pages/dashboardUsuario/dashboard-usuario/dashboard-usuario.component';
 import { PopUpServiciosProfesionalesComponent } from './pages/dashboardLocal/profesionales/pop-up-servicios-profesionales/pop-up-servicios-profesionales.component';
+
 
 export const routes: Routes = [{
   path:"landing-page",
@@ -24,6 +26,11 @@ export const routes: Routes = [{
   path:"register",
   component:RegisterComponent
 },
+{
+  path:"dashboard-usuario",
+  component:DashboardUsuarioComponent
+},
+
 {
 
  path:"negocios/:nombreNegocio",

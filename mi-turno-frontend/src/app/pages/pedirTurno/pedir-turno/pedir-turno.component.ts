@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { NavPedirTurnoComponent } from "../nav-pedir-turno/nav-pedir-turno.component";
 import { NavPasosComponent } from "../nav-pasos/nav-pasos.component";
-import { MetodosDePago } from '../../../shared/models/metodosDePago';
+import { MetodosDePago, obtenerMetodosDePagoPorNumero } from '../../../shared/models/metodosDePago';
 import { ConfirmacionComponent } from '../confirmacion/confirmacion.component';
 import { SeleccionUsuarioComponent } from "../seleccion-usuario/seleccion-usuario.component";
 import { ServicioInterface } from '../../../core/interfaces/servicio-interface';
@@ -95,18 +95,20 @@ export class PedirTurnoComponent implements OnInit{
     }
   };
 
+  //vamos asignando los valores al turno
 
-
+  //estos dos vienen juntos
   recibirHorarioProfesional(event:HorarioProfesional){
-
     if(this.pasoActual == 3){
       this.turno.horarioProfesional = event;
     }
-
     this.avanzarPaso();
   }
-
-
+  recibirDiaInicio(event:Date){
+    this.turno.fechaInicio = event;
+  }
+  //-----------
+  
   recibirIdInformacion(event:number){
 
     if(this.pasoActual == 1){
@@ -119,13 +121,12 @@ export class PedirTurnoComponent implements OnInit{
     }
 
     if(this.pasoActual == 4){
-      this.turno.idCliente = event;
+      this.turno.metodoPago = obtenerMetodosDePagoPorNumero(event);
     }
 
 
     this.avanzarPaso();
   }
-
 
 
 
