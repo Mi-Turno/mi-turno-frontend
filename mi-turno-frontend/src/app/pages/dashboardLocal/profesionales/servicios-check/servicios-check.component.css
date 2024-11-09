@@ -1,0 +1,22 @@
+div
+{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  vertical-align: middle;
+
+}
+
+h5 {
+  margin-right: 1vh;
+  font-size: 2vh;
+}
+
+.slide{
+  scale: 0.7;
+}
+
+.desactivado{
+  opacity: 0.5;
+  pointer-events: none;
+}
