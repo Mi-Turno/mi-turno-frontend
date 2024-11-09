@@ -24,7 +24,7 @@ export class ServicioMainComponent implements OnInit {
   idCards: ServicioInterface[] = [];
   maxCards = 6;
   cardSeleccionada: ServicioInterface | null = null;
-
+  servicios:ServicioServiceService = inject(ServicioServiceService);
 
   ngOnInit() {
     this.cargarServicios();
@@ -43,7 +43,7 @@ idNegocio:number = 0;
               this.idNegocio = idNegocio;
 
               //obtengo el arreglo de servicios del negocio y lo guardo en la variable idCards
-              this.servicios.GETserviciosPorIdNegocio(this.idNegocio).subscribe({
+              this.servicios.GETserviciosPorIdNegocioYEstado(this.idNegocio, "true").subscribe({
                 next: (response) => {
 
                   this.idCards = [...response];
@@ -71,7 +71,7 @@ idNegocio:number = 0;
   rutaBotonChip = ""
 
   estaSobrepuesto:boolean=false;
-  servicios:ServicioServiceService = inject(ServicioServiceService);
+
   @Output() activarOverlay: EventEmitter<void> = new EventEmitter<void>();
 
 

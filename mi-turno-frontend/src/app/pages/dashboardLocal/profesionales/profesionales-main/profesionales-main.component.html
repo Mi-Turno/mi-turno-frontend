@@ -42,13 +42,12 @@
       (desactivarOverlay)="cambiarSobreposicion('', null)"
       (cardActual)="recibirCardActual($event)"
       (activarHorarios)="cambiar_SobreposicionHorarios(cardActual)"
+      (activarServicios)="cambiar_SobreposicionServicios(cardActual)"
     ></app-pop-up-crear-profesional>
 
 
   </ng-container>
   } @if (verHorarios) {
-
-
 
   <ng-container>
     <div class="overlay" (click)="cambiar_SobreposicionHorarios(cardActual)"></div>
@@ -60,4 +59,16 @@
     ></app-pop-up-horarios-profesionales>
   </ng-container>
   }
+  @if(verServicios) {
+    <ng-container>
+      <div class="overlay" (click)="cambiar_SobreposicionServicios(cardActual)"></div>
+      <app-pop-up-servicios-profesionales
+        class="posicionPopUp"
+        [profesional]="cardActual"
+        (desactivarOverlay)="cambiar_SobreposicionServicios(cardActual)"
+        (activarModificacion)="cambiarSobreposicion('Modificar profesional', cardActual)"
+      ></app-pop-up-servicios-profesionales>
+    </ng-container>
+  }
+
 </main>

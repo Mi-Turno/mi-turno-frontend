@@ -1,0 +1,41 @@
+.popUp {
+  border: 2px solid;
+  margin: 10px;
+  border-radius: 20px;
+  height: 550px;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  position: relative; /* Para posicionar elementos dentro de .popUp */
+  padding-top: 20px; /* Espacio superior */
+}
+
+.titulos {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 10px; /* Ajusta la distancia desde el borde superior */
+}
+
+.cruz {
+  position: absolute;
+  top: 15px; /* Ajusta la posición vertical */
+  right: 15px; /* Ajusta la posición horizontal */
+  cursor: pointer;
+  font-size: 20px; /* Tamaño de la cruz para mejor visibilidad */
+}
+
+.contenedor-servicios {
+  height: 300px;
+  width: 300px;
+  margin: 30px;
+}
+
+.servicios-lista {
+  border-left: 2px solid;
+  border-right: 2px solid;
+  padding: 10px 30px;
+}

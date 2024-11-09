@@ -9,11 +9,12 @@ import { PopUpHorariosProfesionalesComponent } from "../pop-up-horarios-profesio
 import { ProfesionalesServiceService } from '../../../../core/services/profesionalService/profesionales-service.service';
 import { NegocioServiceService } from '../../../../core/services/negocioService/negocio-service.service';
 import { ActivatedRoute } from '@angular/router';
+import { PopUpServiciosProfesionalesComponent } from "../pop-up-servicios-profesionales/pop-up-servicios-profesionales.component";
 
 @Component({
   selector: 'app-profesionales-main',
   standalone: true,
-  imports: [CommonModule, CardComponent, PopUpCrearProfesionalComponent, PopUpHorariosProfesionalesComponent],
+  imports: [CommonModule, CardComponent, PopUpCrearProfesionalComponent, PopUpHorariosProfesionalesComponent, PopUpServiciosProfesionalesComponent],
   templateUrl: './profesionales-main.component.html',
   styleUrl: './profesionales-main.component.css'
 })
@@ -33,6 +34,7 @@ maxCards = 6;
 rutaBotonChip = "#"
 estaSobrepuesto: boolean = false;
 verHorarios: boolean = false;
+verServicios: boolean = false;
 textoTituloPop = "";
 cardSeleccionada: UsuarioInterface | null = null;
 
@@ -52,6 +54,13 @@ cambiar_SobreposicionHorarios(card: UsuarioInterface | null) {
   this.imprimirCardActual(this.cardSeleccionada);
 }
 
+cambiar_SobreposicionServicios(card: UsuarioInterface | null) {
+  this.verServicios = !this.verServicios;
+  this.cardSeleccionada =card;
+  this.imprimirCardActual(this.cardSeleccionada);
+}
+
+
 profesionales: ProfesionalesServiceService = inject(ProfesionalesServiceService)
 
 constructor(private ruta: ActivatedRoute) { }
@@ -67,7 +76,7 @@ cargarUsuarios() {
     const nombreNegocio = params['nombreNegocio'];
     console.log(nombreNegocio);
 
-      this.servicioNegocio.getIdNegocioByNombre("Barber").subscribe(
+      this.servicioNegocio.getIdNegocioByNombre("Juan").subscribe(
         {
           next: (idNegocio) => {
             this.idNegocio = idNegocio;

@@ -12,6 +12,8 @@ import { PopUpConfirmacionComponent } from './pages/pedirTurno/pop-up-confirmaci
 import { SeleccionUsuarioComponent } from './pages/pedirTurno/seleccion-usuario/seleccion-usuario.component';
 import { PopUpHorariosProfesionalesComponent } from './pages/dashboardLocal/profesionales/pop-up-horarios-profesionales/pop-up-horarios-profesionales.component';
 import { DashboardUsuarioComponent } from './pages/dashboardUsuario/dashboard-usuario/dashboard-usuario.component';
+import { PopUpServiciosProfesionalesComponent } from './pages/dashboardLocal/profesionales/pop-up-servicios-profesionales/pop-up-servicios-profesionales.component';
+
 
 export const routes: Routes = [{
   path:"landing-page",
@@ -49,7 +51,7 @@ export const routes: Routes = [{
 },
 {
   path:"prueba",
-  component: PopUpHorariosProfesionalesComponent,
+  component: PopUpServiciosProfesionalesComponent,
 },
 {
   path:"**",

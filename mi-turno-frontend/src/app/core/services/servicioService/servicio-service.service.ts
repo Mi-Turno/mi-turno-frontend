@@ -25,6 +25,10 @@ export class ServicioServiceService {
 
 
 
+  public GETserviciosPorIdNegocioYEstado(idNegocio:number, estado:string):Observable<ServicioInterface[]>{
+    return this.http.get<ServicioInterface[]>(`${this.urlBase}/${idNegocio}/servicios/estado/${estado}`);
+}
+
 
   public POSTcrearUnServicio(servicio:ServicioInterface,idNegocio:number): Observable<ServicioInterface>{
     return this.http.post<ServicioInterface>(`${this.urlBase}/${idNegocio}/servicios`,servicio);

@@ -153,6 +153,7 @@ export class PopUpCrearServicioComponent implements OnInit {
   }
 
   eliminarServicio(idServicio: number | undefined, idNegocio: number | undefined) {
+    console.log(idServicio);
     if (idServicio) {
       this.servicioService.DELETEservicio(idServicio!, idNegocio!).subscribe({
         next: (response) => {
