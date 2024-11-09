@@ -19,7 +19,7 @@ export enum DiasEnumOrdinal{
 }
 
 //parsea un numero a un dia de la semana Enum. Ya que la funcion Date .getDay() devuelve un numero del 0 al 6
-export function obtenerDiaEnum(hoy:number): DiasEnum{
+export function obtenerDiaEnumPorNumero(hoy:number): DiasEnum{
   switch(hoy){
     case 0:
       return DiasEnum.DOMINGO;

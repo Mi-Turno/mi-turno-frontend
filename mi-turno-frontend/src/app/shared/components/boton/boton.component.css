@@ -79,3 +79,30 @@
   width: 30rem;
   margin-top:20px;
 }
+
+.botonHorario{
+  width: 200px;
+  background-color: var(--color-contraste1);
+  color: var(--color-background);
+  font-size: larger;
+  border-radius: 50px;
+  height: 2.5rem;
+  text-align: center;
+  border: none;
+}
+
+.botonHorario:hover{
+  cursor: pointer;
+  background-color: rgb(40, 180, 40)
+}
+
+.botonHorarioDesactivado{
+  width: 200px;
+  background-color: grey;
+  color: var(--color-background);
+  font-size: larger;
+  border-radius: 0.4rem;
+  height: 2.5rem;
+  text-align: center;
+
+}

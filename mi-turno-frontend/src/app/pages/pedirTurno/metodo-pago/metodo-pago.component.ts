@@ -12,31 +12,65 @@ import { CardComponent } from "../../../shared/components/card/card.component";
   styleUrl: './metodo-pago.component.css'
 })
 export class MetodoPagoComponent implements OnInit {
-  metodosDePago: MetodosDePagoServiceService = inject(MetodosDePagoServiceService);
+  metodosDePagoServicio: MetodosDePagoServiceService = inject(MetodosDePagoServiceService);
 
   textoBoton = "Seleccionar";
-  //rutaImg = "img-default.png";
-  //textoAlternativo = "Img del metodo de pago";
   textoTitulo = "Metodo de pago";
   referenciaChip:string = '';
-  idCards: MetodosDePagoInterface[] = [];
+  metodosDePago:MetodosDePagoInterface[] = [];
 
 
-  @Output() metodoDePagoSeleccionado = new EventEmitter<number>();
-  onMetodoDePagoSeleccionado(metodoDePagoId: number) {
-    this.metodoDePagoSeleccionado.emit(metodoDePagoId);
+  @Output() emitirInformacion = new EventEmitter<number>();
+  enviarIdMetodoDePago(metodoDePagoId: number) {
+    this.emitirInformacion.emit(metodoDePagoId);
   }
+
+  //rutaImg = "img-default.png";
+  //textoAlternativo = "Img del metodo de pago";
+  // idCards: MetodosDePagoInterface[] = [];
+//todo pasar a app metodo de pago
+// onMetodoPagoRecibido(metodoId: number) {
+//   this.metodoDePagoSeleccionado = metodoId;
+//   console.log('Método de pago seleccionado:', metodoId);
+//   this.idMetodoPagoToString();
+// }
+
+
+// idMetodoPagoToString(){
+//   this.metodosDePagoServicio.getMetodosDePago().subscribe({
+//     next:(response)=> {
+
+//       obtengo todos los metodos de pago
+//      const  metodosDePago =  response.map((metodo): MetodosDePagoInterface => ({
+//         metodoDePago: metodo,
+//       }));
+
+
+//       if ( this.metodoDePagoSeleccionado !== null && this.metodoDePagoSeleccionado >= 0 && this.metodoDePagoSeleccionado < metodosDePago.length) {
+//         const nombreMetodoDePago = metodosDePago[this.metodoDePagoSeleccionado].metodoDePago;
+//         console.log('Nombre del método de pago seleccionado:', nombreMetodoDePago);
+//         this.metodoDePagoString = nombreMetodoDePago;
+//       } else {
+//         console.error('ID de método de pago no válido.');
+//       }
+
+
+//     },error:(error) =>{
+
+//     }
+//   })
+// }
+
 
   ngOnInit(){
     this.cargarMetodosDePago();
-    console.log("hola");
   }
   cargarMetodosDePago() {
-    this.metodosDePago.getMetodosDePago().subscribe({
-      next: (response:string[]) => {
-
-        this.idCards = response.map((metodo): MetodosDePagoInterface => ({
-          metodoDePago: metodo.replace("_"," "),
+    this.metodosDePagoServicio.getMetodosDePago().subscribe({
+      next: (response) => {
+        //logica para que no se muestren los guiones bajos
+        this.metodosDePago = response.map((unMetodoDePago) => ({
+          metodoDePago: unMetodoDePago.metodoDePago.replace("_"," "),
         }));
 
 
@@ -51,11 +85,11 @@ export class MetodoPagoComponent implements OnInit {
     switch (metodoDePago) {
       case 'EFECTIVO':
         return 'efectivo.png';
-      case 'MERCADO PAGO':
+      case 'MERCADO_PAGO':
         return 'mercado-pago.png';
-      case 'TARJETA CREDITO':
+      case 'TARJETA_CREDITO':
         return 'tarjeta.png';
-      case 'TARJETA DEBITO':
+      case 'TARJETA_DEBITO':
         return 'tarjeta.png';
       case 'TRANSFERENCIA':
         return 'transferencia.png';

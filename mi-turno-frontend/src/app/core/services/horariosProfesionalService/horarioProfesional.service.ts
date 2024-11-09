@@ -21,6 +21,7 @@ export class HorarioXprofesionalService {
     return this.http.post<HorarioProfesional>(this.urlBase, horario)
   }
 
+  
 
 
 }
