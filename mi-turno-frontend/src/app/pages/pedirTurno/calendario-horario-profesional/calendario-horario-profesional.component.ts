@@ -95,11 +95,11 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
 
   //obtenemos el dia seleccionado por el input date y mostramos los horarios del profesional
   obtenerInputOtroDia(event:Event){
-    const inputDate = (event.target as HTMLInputElement).valueAsDate;
-    const fechaInput = inputDate as Date;
-    console.log("Fecha input: ",fechaInput.getDay()+1);
+    const inputDate = (event.target as HTMLInputElement).value;
+    const fechaInput = new Date(inputDate + 'T00:00:00Z');
+    console.log("Fecha input: ",fechaInput.getDay());
     console.log("Fecha input: ",fechaInput);
-    this.obtenerHorariosProfesionalPorDia(fechaInput.getDay()+1);
+    this.obtenerHorariosProfesionalPorDia(fechaInput.getDay());
   }
 
   //calculamos la fecha minima para el input date para que no se pueda seleccionar un dia anterior al de hoy
