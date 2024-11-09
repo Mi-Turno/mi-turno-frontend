@@ -13,6 +13,7 @@ import { codigoErrorHttp } from '../../../shared/models/httpError.constants';
 import { ROLES } from '../../../shared/models/rolesUsuario.constants';
 import { routes } from '../../../app.routes';
 import { Router } from '@angular/router';
+import { ClienteService } from '../../../core/services/clienteService/cliente.service';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +30,7 @@ export class LoginComponent {
 
   placeholders = PLACEHOLDERS;
 
-  usuarioService = inject(UsuarioService);
+  clienteService = inject(ClienteService);
   //form reactivo
   formularioLogin = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -68,7 +69,7 @@ export class LoginComponent {
       console.log(this.formularioLogin.value);
       const objetoDelForm = this.obtenerDatosForm();
       /**PASO 1: CON ESTO VALIDO EL EMAIL Y LA CONTRASEÑA(ES UN POST YA QUE NO PUEDO ENVIAR CONTRASEÑAS POR EL URI) */
-      this.usuarioService.obtenerUsuariosByEmailAndPassword(objetoDelForm.email, objetoDelForm.password).subscribe({
+      this.clienteService.getClienteByEmailAndPassword(objetoDelForm.email, objetoDelForm.password).subscribe({
         next: (usuarioResponse: UsuarioInterface) => {
           console.log(usuarioResponse);
           console.log(usuarioResponse.idRolUsuario);
