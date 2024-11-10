@@ -26,6 +26,11 @@ export class ProfesionalesServiceService {
   public getListadoTurnosPorIdNegocioYIdProfesional(idNegocio:number,idProfesional:number):Observable<TurnoInterface[]>{
     return this.http.get<TurnoInterface[]>(`${this.urlBase}/${idNegocio}/profesionales/${idProfesional}/turnos`);
   }
+
+  public GETserviciosPorIdNegocioYEstado(idNegocio:number, estado:string):Observable<ProfesionalInterface[]>{
+    return this.http.get<ProfesionalInterface[]>(`${this.urlBase}/${idNegocio}/profesionales/estado/${estado}`);
+}
+
   public postProfesionalPorIdNegocio(idNegocio:number,profesional:UsuarioInterface):Observable<UsuarioInterface>{
     return this.http.post<UsuarioInterface>(`${this.urlBase}/${idNegocio}/profesionales`,profesional);
   }
@@ -44,5 +49,7 @@ export class ProfesionalesServiceService {
   public deleteUsuario(idNegocio:number, idProfesional: number): Observable<Boolean> {
     return this.http.delete<Boolean>(`${this.urlBase}/${idNegocio}/profesionales/${idProfesional}`);
   }
+
+
 
 }
