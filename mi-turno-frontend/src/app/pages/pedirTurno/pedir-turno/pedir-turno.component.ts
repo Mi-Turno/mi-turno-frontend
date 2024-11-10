@@ -29,46 +29,36 @@ import { HorarioProfesional } from '../../../core/interfaces/horarioProfesional.
 
 export class PedirTurnoComponent implements OnInit{
 
-    //Servicios y rutas
+  //Servicios y rutas
 
-    ruta: ActivatedRoute = inject(ActivatedRoute)
-    servicioNegocio :NegocioServiceService= inject(NegocioServiceService)
-    servicioMetodoDePago: MetodosDePagoServiceService = inject(MetodosDePagoServiceService);
-    servicioHorarioProfesional: HorarioXprofesionalService = inject(HorarioXprofesionalService);
+  ruta: ActivatedRoute = inject(ActivatedRoute)
+  servicioNegocio :NegocioServiceService= inject(NegocioServiceService)
 
-    // Variables para almacenar los servicios y profesionales
-    servicios: ServicioInterface[] = [];
-    profesionales: ProfesionalInterface[]=[];
-    idNegocio: number = 1;
-    metodoDePagoSeleccionado: number | null = null;
+  // Variables
+  idNegocio: number = 1;
+  idCliente: number = Number(localStorage.getItem('idUsuario')); // ID del cliente que pide el turno
 
+  ngOnInit(): void {
+    const nombreNegocio = this.ruta.snapshot.paramMap.get('nombreNegocio');
 
-    //inputs y outputs
-
-    //todo obtener el id del cliente de local storage
-    @Input() idCliente: number = 1; // ID del cliente que pide el turno
-
-    ngOnInit(): void {
-      const nombreNegocio = this.ruta.snapshot.paramMap.get('nombreNegocio');
-
-      if (nombreNegocio) {
-        this.servicioNegocio.getIdNegocioByNombre(nombreNegocio).subscribe(
-          {
-            next: (idNegocio) => {
-              this.idNegocio = idNegocio;
+    if (nombreNegocio) {
+      this.servicioNegocio.getIdNegocioByNombre(nombreNegocio).subscribe(
+        {
+          next: (idNegocio) => {
+            this.idNegocio = idNegocio;
 
 
-            },
-            error: (error) => {
-              this.idNegocio = -1;
-              console.error('Error al obtener el ID del negocio', error);
-            }
+          },
+          error: (error) => {
+            this.idNegocio = -1;
+            console.error('Error al obtener el ID del negocio', error);
           }
-        );
-      } else {
-        console.error('Nombre del negocio no encontrado en la URL');
-      }
+        }
+      );
+    } else {
+      console.error('Nombre del negocio no encontrado en la URL');
     }
+  }
 
 
 
@@ -95,12 +85,16 @@ export class PedirTurnoComponent implements OnInit{
     }
   };
 
+
+
+
   //vamos asignando los valores al turno
 
   //estos dos vienen juntos
   recibirHorarioProfesional(event:HorarioProfesional){
     if(this.pasoActual == 3){
       this.turno.horarioProfesional = event;
+      console.log("Horario profesional: ",event);
     }
     this.avanzarPaso();
   }
@@ -108,7 +102,7 @@ export class PedirTurnoComponent implements OnInit{
     this.turno.fechaInicio = event;
   }
   //-----------
-  
+
   recibirIdInformacion(event:number){
 
     if(this.pasoActual == 1){
@@ -136,7 +130,7 @@ export class PedirTurnoComponent implements OnInit{
 
   // Función para avanzar al siguiente paso
   avanzarPaso(): void {
-    if (this.pasoActual < 6) {
+    if (this.pasoActual < 5) {
       this.pasoActual++;
     }
   }
@@ -155,10 +149,7 @@ export class PedirTurnoComponent implements OnInit{
     }
   }
 
-  // Función para confirmar el turno
-  confirmarTurno(): void {
-    this.pasoActual=6;
-  }
+
 
 
 }

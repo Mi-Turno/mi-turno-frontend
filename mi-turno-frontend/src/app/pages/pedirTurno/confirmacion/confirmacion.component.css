@@ -41,7 +41,7 @@ li a{
 }
 
 
-fieldset{
+.confirmacionContainer{
   display: flex;
   margin: 0 auto;
   vertical-align: middle;

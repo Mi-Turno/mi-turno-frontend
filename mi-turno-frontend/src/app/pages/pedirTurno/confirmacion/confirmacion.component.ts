@@ -1,3 +1,5 @@
+import { NegocioServiceService } from './../../../core/services/negocioService/negocio-service.service';
+import { HorarioProfesional } from './../../../core/interfaces/horarioProfesional.interface';
 import { Component, EventEmitter, inject, Input, Output, OnInit } from '@angular/core';
 import { NavPedirTurnoComponent } from "../nav-pedir-turno/nav-pedir-turno.component";
 import { NavPasosComponent } from "../nav-pasos/nav-pasos.component";
@@ -14,10 +16,12 @@ import { codigoErrorHttp } from '../../../shared/models/httpError.constants';
 import { UsuarioService } from '../../../core/services/usuarioService/usuario.service';
 import { UsuarioInterface } from '../../../core/interfaces/usuario-interface';
 import { ProfesionalesServiceService } from '../../../core/services/profesionalService/profesionales-service.service';
-import { ProfesionalInterface } from '../../../core/interfaces/profesional-interface';
 import { ServicioServiceService } from '../../../core/services/servicioService/servicio-service.service';
 import { ServicioInterface } from '../../../core/interfaces/servicio-interface';
-import { ROLES } from '../../../shared/models/rolesUsuario.constants';
+import { TurnoInterface } from '../../../core/interfaces/turno-interface';
+import { obtenerDiaEnumPorNumero } from '../../../shared/models/diasEnum';
+import { MetodosDePago, obtenerMetodosDePagoPorNumero } from '../../../shared/models/metodosDePago';
+import { NegocioInterface } from '../../../core/interfaces/negocio-interface';
 
 @Component({
   selector: 'app-confirmacion',
@@ -31,29 +35,74 @@ export class ConfirmacionComponent implements OnInit {
   botonActivado = false;
   iconos = ICONOS;
   //todo reemplazar por los valores reales que se van asignando en el turno
-  @Input() idCliente!: number;
-  @Input() idNegocio!: number;
-  @Input() idServicio!: number | null | undefined;//Es null|undefined porque en pedir-turno-component se asigna el valor en distintos pasos
-  @Input() idProfesional: number | null | undefined;//Es null|undefined porque en pedir-turno-component se asigna el valor en distintos pasos
+
+  @Input() turnoCreado:TurnoInterface ={
+    idCliente: 0,
+    idNegocio:0,
+    horarioProfesional: {
+      idProfesional: 0,
+      dia: obtenerDiaEnumPorNumero(0),
+      horaInicio: new Date(),
+    },
+    metodoPago: obtenerMetodosDePagoPorNumero(0),
+    idServicio: 0,
+    fechaInicio: new Date(),
+    estado: true
+  }
+
+
 
   UsuarioService: UsuarioService = inject(UsuarioService);
-  usuario: UsuarioInterface = { idUsuario: 0, nombre: '', apellido: '', email: '', telefono: '', fechaNacimiento: '', password: '', idRolUsuario: 0, estado: undefined };
+  usuario: UsuarioInterface = { idUsuario: 0, nombre: '', apellido: '', email: '', telefono: '', fechaNacimiento: '', password: '', idRolUsuario: 0 };
 
   ServicioServiceService: ServicioServiceService = inject(ServicioServiceService);
   servicio:ServicioInterface = { nombre:'',duracion: 0, precio: 0};
 
   profesionalService: ProfesionalesServiceService = inject(ProfesionalesServiceService);
-  profesional:  UsuarioInterface = { idUsuario: 0, nombre: '', apellido: '', email: '', telefono: '', fechaNacimiento: '', password: '', idRolUsuario: 0, estado: undefined };
+  profesional:  UsuarioInterface = { idUsuario: 0, nombre: '', apellido: '', email: '', telefono: '', fechaNacimiento: '', password: '', idRolUsuario: 0 };
+
+  NegocioServiceService: NegocioServiceService = inject(NegocioServiceService);
+  negocio: NegocioInterface = {
+    rubro:'',
+    calle:'',
+    altura:'',
+    detalle:''
+  };
 
 
-  ngOnInit(): void {
-    this.obtenerCliente();
-    this.obtenerProfesional();
+
+
+
+
+servicioTexto:string='';
+profesionalTexto:string='';
+precioTexto:string='';
+ubicacionTexto:string='';
+metodoDePagoTexto:string='';
+detalleTexto:string='';
+
+settearMostrarInfo(){
+  this.servicioTexto = this.servicio.nombre;
+  this.profesionalTexto= this.profesional.nombre;
+  this.precioTexto= String(this.servicio.precio);
+  this.ubicacionTexto = this.negocio.calle + ' ' + this.negocio.altura;
+  this.metodoDePagoTexto = this.turnoCreado.metodoPago.toString().replaceAll('_', ' ');
+  this.detalleTexto = 'Se enviará un mail de aviso 3 horas antes del servicio. En caso de cancelar el turno avisar 2 horas antes';
+}
+
+ngOnInit(): void {
+  this.obtenerCliente(this.turnoCreado.idCliente);
+  this.obtenerProfesional(this.turnoCreado.horarioProfesional.idProfesional);
+  this.obtenerServicio(this.turnoCreado.idNegocio, this.turnoCreado.idServicio);
+  this.obtenerNegocio(this.turnoCreado.idNegocio);
+
+  this.settearMostrarInfo();
 
   }
 
-  obtenerCliente() {
-    this.UsuarioService.obtenerUsuarioPorId(this.idCliente).subscribe({
+
+  obtenerCliente(idCliente:number) {
+    this.UsuarioService.obtenerUsuarioPorId(idCliente).subscribe({
       next: (usuario) => {
         this.usuario = usuario;
       },
@@ -62,59 +111,72 @@ export class ConfirmacionComponent implements OnInit {
       }
     })
   }
-  obtenerProfesional() {
-    if (this.idProfesional !== undefined && this.idProfesional !== null) {
-      this.UsuarioService.obtenerUsuarioPorId(this.idCliente).subscribe({
-        next: (profesional) => {
-          this.profesional = profesional;
-        },
-        error: (error) => {
-          console.log(error);
-        }
-      })
-    }
+  obtenerProfesional(idProfesional:number) {
+    this.UsuarioService.obtenerUsuarioPorId(idProfesional).subscribe({
+      next: (nuevoProfesional) => {
+        this.profesional = nuevoProfesional;
+        console.log(nuevoProfesional);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
   }
-  obtenerServicio() {
-    if (this.idServicio !== undefined && this.idServicio !== null) {
-      this.ServicioServiceService.GETservicioPorIdNegocio(this.idNegocio, this.idServicio).subscribe({
-        next: (servicio) => {
-          this.servicio = servicio;
-        },
-        error: (error) => {
-          console.log(error);
-        }
-      })
-    }
+
+  obtenerServicio(idNegocio:number,idServicio:number) {
+
+    this.ServicioServiceService.GETservicioPorIdNegocio(idNegocio,idServicio).subscribe({
+      next: (servicio) => {
+
+        this.servicio = servicio;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+
   }
-  titulo: string = 'Confirmacion';
-  fecha: string = 'Martes 18 de agosto,2024';
-  horario: string = '13:00hs';
-  //servicio: string = 'Corte';
-  // profesional:string='Tahiel';
-  //precio:string='11.000';
-  ubicacion: string = 'Av. Pescadores 6712';
-  detalle: string = 'Se enviará un mail de aviso 3 horas antes del servicio. En caso de cancelar el turno avisar 2 horas antes';
+  obtenerNegocio(idNegocio:number) {
+    this.NegocioServiceService.getNegocioById(idNegocio).subscribe({
+      next: (negocio) => {
+        this.negocio = negocio;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+
+
+  // titulo: string = 'Confirmacion';
+  fecha: string = "Fecha de turno: "+ this.turnoCreado.fechaInicio.toDateString();
+
+  settearHorario():string{
+    return `Hora de inicio: ${this.turnoCreado.horarioProfesional.horaInicio}`;
+  }
+
+
 
   emailService: EmailService = inject(EmailService)
   crearEmail(): EmailInterface {
-    //todo agregar lo que esta comentado en el back para generar el mail con todos los datos
-    //este seria el formato para enviarlo
+    //formato para enviarlo
     const emailNegocio = "miturno.flf@gmail.com";//negocio
     const emailCliente = this.usuario.email;//cliente
     const mensajeEnviar = "Tu turno ha sido confirmado";
-    //fecha
-    //horario
-    this.servicio;
-    //profesional
-    //this.precio;
-    const direccion = this.ubicacion;
+
+
     return {
       email: emailCliente,
       emailNegocio: emailNegocio,
       mensaje: mensajeEnviar,
+      fecha: this.turnoCreado.fechaInicio,
+      horario: this.turnoCreado.horarioProfesional.horaInicio,
+      direccion: this.negocio.calle + ' ' + this.negocio.altura,
       servicio: this.servicio.nombre,
-      precio: /*this.profesional.precioServicio.toString()*/'0',//todo hacer metodo de getProfesionalPorIdNegocio
-      direccion: direccion
+      precio: String(this.servicio.precio),
+      nombreProfesional: this.profesional.nombre,
+      ubicacion: "Argentina, Buenos Aires, Mar del Plata"
     }
   };
 

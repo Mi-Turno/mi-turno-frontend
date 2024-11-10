@@ -17,7 +17,11 @@ export class EmailService {
     emailNegocio:'',
     servicio:'',
     precio:'',
-    direccion:''
+    direccion:'',
+    nombreProfesional:'',
+    fecha:new Date(),
+    horario:new Date(),
+    ubicacion:'',
   };
   public postEnviarEmail(email:EmailInterface): Observable<EmailInterface>{
     return this.http.post<EmailInterface>(this.urlBase,email)

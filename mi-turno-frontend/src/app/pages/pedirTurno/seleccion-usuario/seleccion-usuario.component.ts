@@ -105,7 +105,6 @@ export class SeleccionUsuarioComponent implements OnInit{
   @Output() emitirHorarioProfesionalSeleccionado: EventEmitter<HorarioProfesional> = new EventEmitter<HorarioProfesional>();
   enviarHorarioProfesional(e:HorarioProfesional){
     this.emitirHorarioProfesionalSeleccionado.emit(e);
-
   }
 
 
