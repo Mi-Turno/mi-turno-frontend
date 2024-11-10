@@ -22,6 +22,7 @@ import { TurnoInterface } from '../../../core/interfaces/turno-interface';
 import { obtenerDiaEnumPorNumero } from '../../../shared/models/diasEnum';
 import { MetodosDePago, obtenerMetodosDePagoPorNumero } from '../../../shared/models/metodosDePago';
 import { NegocioInterface } from '../../../core/interfaces/negocio-interface';
+import { TurnoService } from '../../../core/services/turnoService/turno.service';
 
 @Component({
   selector: 'app-confirmacion',
@@ -40,6 +41,7 @@ export class ConfirmacionComponent implements OnInit {
     idCliente: 0,
     idNegocio:0,
     horarioProfesional: {
+      idHorario: 0,
       idProfesional: 0,
       dia: obtenerDiaEnumPorNumero(0),
       horaInicio: new Date(),
@@ -70,7 +72,7 @@ export class ConfirmacionComponent implements OnInit {
   };
 
 
-
+  turnoService: TurnoService = inject(TurnoService);
 
 
 
@@ -85,7 +87,7 @@ settearMostrarInfo(){
   this.servicioTexto = this.servicio.nombre;
   this.profesionalTexto= this.profesional.nombre;
   this.precioTexto= String(this.servicio.precio);
-  this.ubicacionTexto = this.negocio.calle + ' ' + this.negocio.altura;
+  this.ubicacionTexto = `${this.negocio.calle} ${this.negocio.altura}`;
   this.metodoDePagoTexto = this.turnoCreado.metodoPago.toString().replaceAll('_', ' ');
   this.detalleTexto = 'Se enviará un mail de aviso 3 horas antes del servicio. En caso de cancelar el turno avisar 2 horas antes';
 }
@@ -97,7 +99,7 @@ ngOnInit(): void {
   this.obtenerNegocio(this.turnoCreado.idNegocio);
 
   this.settearMostrarInfo();
-
+  console.log(this.turnoCreado);
   }
 
 
@@ -137,9 +139,11 @@ ngOnInit(): void {
 
   }
   obtenerNegocio(idNegocio:number) {
+
     this.NegocioServiceService.getNegocioById(idNegocio).subscribe({
       next: (negocio) => {
         this.negocio = negocio;
+
       },
       error: (error) => {
         console.log(error);
@@ -187,6 +191,25 @@ ngOnInit(): void {
   }
 
   seEnvioBien: boolean = false;
+
+
+  confirmarTurno() {
+
+
+    this.turnoService.postTurno(this.turnoCreado).subscribe({
+        next: (respuesta)=>{
+          console.log(respuesta);
+          //si hay exito envio el mail
+          this.enviarEmailAlCliente();
+        },
+        error: (error)=>{
+          console.error(error,"Error al confirmar el turno");
+        }
+    });
+
+  }
+
+
 
   enviarEmailAlCliente() {
     this.botonActivado = true;

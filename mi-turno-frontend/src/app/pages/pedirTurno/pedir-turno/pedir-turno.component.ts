@@ -36,6 +36,7 @@ export class PedirTurnoComponent implements OnInit{
 
   // Variables
   idNegocio: number = 1;
+  //todo CAMBIAR ID CLIENTE A LOCAL STORAGE
   idCliente: number = Number(localStorage.getItem('idUsuario')); // ID del cliente que pide el turno
 
   ngOnInit(): void {
@@ -77,7 +78,7 @@ export class PedirTurnoComponent implements OnInit{
     idServicio: 0,
     fechaInicio: new Date(),
     horarioProfesional:{
-
+      idHorario:0,
       idProfesional: 0,
       dia: DiasEnum.LUNES,
       horaInicio: new Date(),
@@ -94,7 +95,7 @@ export class PedirTurnoComponent implements OnInit{
   recibirHorarioProfesional(event:HorarioProfesional){
     if(this.pasoActual == 3){
       this.turno.horarioProfesional = event;
-      console.log("Horario profesional: ",event);
+      console.log("Horario profesional pedir-turnooo: ",event);
     }
     this.avanzarPaso();
   }
@@ -115,6 +116,7 @@ export class PedirTurnoComponent implements OnInit{
     }
 
     if(this.pasoActual == 4){
+      console.log(obtenerMetodosDePagoPorNumero(event));
       this.turno.metodoPago = obtenerMetodosDePagoPorNumero(event);
     }
 

@@ -3,9 +3,9 @@
   <main>
     <section [className]="'listadoDias'">
 
-      <p [className]="'dia'" (click)="manejarDiaSeleccionado(hoy)">HOY</p>
+      <p [className]="'dia'" (click)="manejarDiaSeleccionado(hoy.getDay())">HOY</p>
 
-      <p [className]="'dia'" (click)="manejarDiaSeleccionado(hoy+1)">{{obtenerDiaEnumPorNumero(hoy+1).toLocaleUpperCase()}}</p>
+      <p [className]="'dia'" (click)="manejarDiaSeleccionado(diaSiguiente)">{{obtenerDiaEnumPorNumero(diaSiguiente).toLocaleUpperCase()}}</p>
 
       <p [className]="'dia'" (click)="activarInputOtroDia()">OTRO DIA</p>
 

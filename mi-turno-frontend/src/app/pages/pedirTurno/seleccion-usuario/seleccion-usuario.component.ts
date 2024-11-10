@@ -53,6 +53,7 @@ export class SeleccionUsuarioComponent implements OnInit{
 
 
   enviarDiaInicio(event:Date){
+    console.log("DIA INICIOOO",event);
     this.emitirDiaInicio.emit(event);
   }
 
@@ -104,6 +105,7 @@ export class SeleccionUsuarioComponent implements OnInit{
 
   @Output() emitirHorarioProfesionalSeleccionado: EventEmitter<HorarioProfesional> = new EventEmitter<HorarioProfesional>();
   enviarHorarioProfesional(e:HorarioProfesional){
+    console.log("HORARIO PROFESIONALLL",e);
     this.emitirHorarioProfesionalSeleccionado.emit(e);
   }
 
