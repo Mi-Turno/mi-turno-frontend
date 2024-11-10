@@ -8,6 +8,8 @@ import { ProfesionalesMainComponent } from './pages/dashboardLocal/profesionales
 import { ServicioMainComponent } from './pages/dashboardLocal/servicio/servicio-main/servicio-main.component';
 import { DashboardClienteComponent } from './pages/dashboardCliente/dashboard-cliente/dashboard-cliente.component';
 import { authGuardFn } from './auth/guard/auth.guard-fn';
+import { rolGuardFn } from './auth/guard/rol.guard-fn';
+import { ROLES } from './shared/models/rolesUsuario.constants';
 
 
 export const routes: Routes = [{
@@ -24,13 +26,13 @@ export const routes: Routes = [{
 {
   path:"dashboard-cliente",
   component:DashboardClienteComponent,
-  canActivate: [authGuardFn]
+  canActivate: [authGuardFn,()=>rolGuardFn(ROLES.cliente)],
 },
 {
 
  path:"negocios/:nombreNegocio",
  component:PanelRecepcionComponent,
- canActivate: [authGuardFn],
+ canActivate: [authGuardFn,()=>rolGuardFn(ROLES.negocio)],
  children : [
   {path: 'recepcion', component:PanelRecepcionComponent},
   {path: 'turnos', component:PanelRecepcionComponent},
@@ -44,7 +46,7 @@ export const routes: Routes = [{
 {
   path:"negocios/:nombreNegocio/pedir-turno",
   component:PedirTurnoComponent,
-  canActivate: [authGuardFn],
+  canActivate: [authGuardFn,()=>rolGuardFn(ROLES.cliente)],
 },
 {
   path:"**",

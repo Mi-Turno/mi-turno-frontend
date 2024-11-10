@@ -1,44 +1,42 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BotonComponent } from '../../../shared/components/boton/boton.component';
 import { MatIcon } from '@angular/material/icon';
 import { ICONOS } from '../../../shared/models/iconos.constants';
 import { routes } from '../../../app.routes';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TextoConIconoComponent } from '../../../shared/components/texto-con-icono/texto-con-icono.component';
 
 @Component({
   selector: 'app-side-bar',
   standalone: true,
-  imports: [CommonModule, BotonComponent, MatIcon, TextoConIconoComponent],
+  imports: [CommonModule, BotonComponent, MatIcon, TextoConIconoComponent,RouterModule],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.css'
 })
 export class SideBarComponent {
 
-constructor(private router: Router) {}
+  constructor(private router: Router) {}
 
-urlLogo = "LogoConFrase.png";
-urlFotoPerfil = "icono.png"
-altFotoPerfil = "Nombre del local"
-recepcion = "Recepción"
-iconos = ICONOS
-titulo = ""
-nombreNegocio = "DripBarber";
-claseEnlace = "claseEnlace";
-claseIcono = "claseIcono";
+  urlLogo = "LogoConFrase.png";
+  urlFotoPerfil = "icono.png";
+  altFotoPerfil = "Nombre del local";
+  iconos = ICONOS;
 
-selecionado(ruta: string) :boolean {
-  return this.router.url === ruta;
-}
+  @Input() nombreNegocio = "";
+  urlBaseNegocio = '/negocios/';
+  rutaRecepcion = 'recepcion';
+  rutaTurnos = 'turnos';
+  rutaStaff = 'staff';
+  rutaServicios = 'servicios';
+  rutaClientes = 'clientes';
+  rutaConfiguracion = 'configuracion';
+  rutaSalir = 'salir';
 
-rutaRecepcion = "/negocios/:nombreNegocio/recepcion"
-rutaTurnos ="/negocios/:nombreNegocio/turnos"
-rutaStaff = "/negocios/:nombreNegocio/staff"
-rutaServicios = "/negocios/:nombreNegocio/servicios"
-rutaClientes = "/negocios/:nombreNegocio/clientes"
-rutaConfiguracion = "/negocios/:nombreNegocio/configuracion"
-rutaSalir = "/negocios/:nombreNegocio/salir"
+  claseEnlace = "claseEnlace";
+  claseIcono = "claseIcono";
 
-
+  selecionado(ruta: string): boolean {
+   return this.router.url.includes(`${this.urlBaseNegocio}${this.nombreNegocio}/${ruta}`);
+  }
 }

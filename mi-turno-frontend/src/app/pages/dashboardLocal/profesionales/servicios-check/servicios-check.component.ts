@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnInit, importProvidersFrom } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnInit,
+  importProvidersFrom,
+} from '@angular/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ServicioInterface } from '../../../../core/interfaces/servicio-interface';
 import { ServicioServiceService } from '../../../../core/services/servicioService/servicio-service.service';
@@ -20,27 +26,34 @@ export class ServiciosCheckComponent implements OnInit {
     this.nombreServicio = this.servicioCompleto?.nombre;
   }
 
-
   @Input() servicioCompleto: ServicioInterface | null = null;
-  @Input() toggleActivo: boolean = false;
+  @Input() toggleActivo: boolean | null = null;
   @Input() profesionalCompleto: ProfesionalInterface | null = null;
   nombreServicio = this.servicioCompleto?.nombre;
 
   // Función para alternar el estado del toggle
   cambiarEstadoToggle(event: any) {
+    console.log(event.checked);
     this.toggleActivo = event.checked; // Obtiene el estado del toggle desde el evento
     this.modificarServicioProfesional();
   }
 
   modificarServicioProfesional() {
-    if (this.toggleActivo ) {
-      this.putServiciosEnProfesionalEnNegocio(this.servicioCompleto?.idNegocio!, this.profesionalCompleto?.idUsuario!, this.servicioCompleto?.idServicio!)
+    if (this.toggleActivo) {
+      this.putServiciosEnProfesionalEnNegocio(
+        this.servicioCompleto?.idNegocio!,
+        this.profesionalCompleto?.idUsuario!,
+        this.servicioCompleto?.idServicio!
+      );
 
-      console.log("hago el put");
+      console.log('hago el put');
     } else if (!this.toggleActivo) {
-      this.deleteServiciosDeProfecionalDeNegocio(this.servicioCompleto?.idNegocio!, this.profesionalCompleto?.idUsuario!, this.servicioCompleto?.idServicio!)
-
-      //!Aca hay que hacer el famoso put que le paso el id del negocio, el id del profesional y el id del servicio
+      //todo: Hay que hacer esta función 
+      this.deleteServiciosDeProfecionalDeNegocio(
+        this.servicioCompleto?.idNegocio!,
+        this.profesionalCompleto?.idUsuario!,
+        this.servicioCompleto?.idServicio!
+      );
     }
   }
 
@@ -51,11 +64,17 @@ export class ServiciosCheckComponent implements OnInit {
     idProfesional: number,
     idServicio: number
   ) {
-    console.log("entroAca");
+    console.log('entroAca');
     console.log(idNegocio, idProfesional, idServicio, this.profesionalCompleto);
 
     if (idNegocio && idProfesional && idServicio && this.profesionalCompleto) {
-      this.profesionalService .putServicioEnProfecionalEnNegocio(idNegocio, idProfesional, idServicio, this.profesionalCompleto)
+      this.profesionalService
+        .putServicioEnProfecionalEnNegocio(
+          idNegocio,
+          idProfesional,
+          idServicio,
+          this.profesionalCompleto
+        )
         .subscribe({
           next: (response: ProfesionalInterface) => {
             console.log(response);
@@ -65,20 +84,24 @@ export class ServiciosCheckComponent implements OnInit {
           },
         });
     }
-
   }
-
 
   deleteServiciosDeProfecionalDeNegocio(
     idNegocio: number,
     idProfesional: number,
     idServicio: number
   ) {
-    console.log("entroAca");
+    console.log('entroAca');
     console.log(idNegocio, idProfesional, idServicio, this.profesionalCompleto);
 
     if (idNegocio && idProfesional && idServicio && this.profesionalCompleto) {
-      this.profesionalService.deleteServicioDeProfesionalDeNegocio(idNegocio, idProfesional, idServicio, this.profesionalCompleto)
+      this.profesionalService
+        .deleteServicioDeProfesionalDeNegocio(
+          idNegocio,
+          idProfesional,
+          idServicio,
+          this.profesionalCompleto
+        )
         .subscribe({
           next: (response: ProfesionalInterface) => {
             console.log(response);
@@ -88,11 +111,5 @@ export class ServiciosCheckComponent implements OnInit {
           },
         });
     }
-
-
-
-
   }
-
-
 }
