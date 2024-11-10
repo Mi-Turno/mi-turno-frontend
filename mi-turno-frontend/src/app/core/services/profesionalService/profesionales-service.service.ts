@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { ProfesionalInterface } from '../../interfaces/profesional-interface';
 import { Observable } from 'rxjs';
 import { UsuarioInterface } from '../../interfaces/usuario-interface';
+import { TurnoInterface } from '../../interfaces/turno-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +19,15 @@ export class ProfesionalesServiceService {
   public getProfesionalesPorIdNegocio(idNegocio:number):Observable<UsuarioInterface[]>{
     return this.http.get<UsuarioInterface[]>(`${this.urlBase}/${idNegocio}/profesionales`);
   }
-  public postProfesionalPorIdNegocio(idNegocio:number,profesional:UsuarioInterface):Observable<UsuarioInterface>{
-    return this.http.post<UsuarioInterface>(`${this.urlBase}/${idNegocio}/profesionales`,profesional);
-  }
   public getProfesionalPorIdNegocio(idNegocio:number,idProfesional:number):Observable<ProfesionalInterface>{
     return this.http.get<ProfesionalInterface>(`${this.urlBase}/${idNegocio}/profesionales/${idProfesional}`);
+  }
+
+  public getListadoTurnosPorIdNegocioYIdProfesional(idNegocio:number,idProfesional:number):Observable<TurnoInterface[]>{
+    return this.http.get<TurnoInterface[]>(`${this.urlBase}/${idNegocio}/profesionales/${idProfesional}/turnos`);
+  }
+  public postProfesionalPorIdNegocio(idNegocio:number,profesional:UsuarioInterface):Observable<UsuarioInterface>{
+    return this.http.post<UsuarioInterface>(`${this.urlBase}/${idNegocio}/profesionales`,profesional);
   }
   public putUsuarioPorIdNegocio(idNegocio: number, idProfesional: number, profesional:UsuarioInterface):Observable<UsuarioInterface>{
     return this.http.put<UsuarioInterface>(`${this.urlBase}/${idNegocio}/profesionales/${idProfesional}`, profesional)

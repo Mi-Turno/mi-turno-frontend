@@ -1,55 +1,54 @@
-
 <section>
-  <fieldset>
+  <div [className]="'confirmacionContainer'">
     <app-texto-con-icono
     [icono]="iconos.calendario"
     [texto]="fecha"
     [claseIcono]="'icono-personalizado'"
     [claseTexto]="'texto-personalizado'"
-    [href]="'/home'">></app-texto-con-icono>
+    ></app-texto-con-icono>
 
     <app-texto-con-icono
     [icono]="iconos.reloj"
-    [texto]="horario"
+    [texto]="settearHorario()"
     [claseIcono]="'icono-personalizado'"
     [claseTexto]="'texto-personalizado'"
-    [href]="'/home'">></app-texto-con-icono>
+    ></app-texto-con-icono>
 
     <app-texto-con-icono
     [icono]="iconos.tijera"
     [texto]="servicio.nombre"
     [claseIcono]="'icono-personalizado'"
     [claseTexto]="'texto-personalizado'"
-    [href]="'/home'">></app-texto-con-icono>
+    ></app-texto-con-icono>
 
     <app-texto-con-icono
     [icono]="iconos.person"
     [texto]="profesional.nombre"
     [claseIcono]="'icono-personalizado'"
     [claseTexto]="'texto-personalizado'"
-    [href]="'/home'">></app-texto-con-icono>
+    ></app-texto-con-icono>
 
     <app-texto-con-icono
     [icono]="iconos.dinero"
-    [texto]="'0'"
+    [texto]="metodoDePagoTexto"
     [claseIcono]="'icono-personalizado'"
     [claseTexto]="'texto-personalizado'"
-    [href]="'/home'">></app-texto-con-icono>
+    ></app-texto-con-icono>
 
     <app-texto-con-icono
     [icono]="iconos.ubicacion"
-    [texto]="ubicacion"
+    [texto]="ubicacionTexto"
     [claseIcono]="'icono-personalizado'"
     [claseTexto]="'texto-personalizado'"
-    [href]="'/home'">></app-texto-con-icono>
+    ></app-texto-con-icono>
 
 
     <app-texto-con-icono
     [icono]="iconos.exclamacion"
-      [texto]="detalle"
-      [claseIcono]="'icono-personalizado'"
-      [claseTexto]="'texto-personalizado'"
-      [href]="'/home'">></app-texto-con-icono>
+    [texto]="detalleTexto"
+    [claseIcono]="'icono-personalizado'"
+    [claseTexto]="'texto-personalizado'"
+    ></app-texto-con-icono>
 
 
       <app-boton
@@ -59,7 +58,7 @@
       [type]="'button'"
       (click)="enviarEmailAlCliente() "
       ></app-boton>
-    </fieldset>
+    </div>
   </section>
 
 

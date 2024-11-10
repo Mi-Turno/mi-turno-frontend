@@ -43,13 +43,10 @@
     @case (4) {
       <app-metodo-pago
       (emitirInformacion)="recibirIdInformacion($event)"></app-metodo-pago>
-      <button (click)="avanzarPaso()">avanzarPaso</button>
     }
     @case (5) {
-      <button (click)="confirmarTurno()">Confirmar Turno</button>
-    }
-    @case (6) {
-      <app-confirmacion [idCliente]="idCliente" [idNegocio]="idNegocio" [idServicio]="turno.idServicio" [idProfesional]="turno.horarioProfesional.idProfesional" (oscurecerFondo)="manejadorOscurecer($event)"></app-confirmacion>
+      <app-confirmacion [turnoCreado]="turno" (oscurecerFondo)="manejadorOscurecer($event)"></app-confirmacion>
+      <!-- [idCliente]="idCliente" [idNegocio]="idNegocio" [idServicio]="turno.idServicio" [idProfesional]="turno.horarioProfesional.idProfesional" -->
     }
   }
 
