@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ClienteInterface } from '../../interfaces/cliente-interface';
+import { TurnoInterface } from '../../interfaces/turno-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,10 @@ export class ClienteService {
     }
     public getClienteByEmailAndPassword(email:string,password:string):Observable<ClienteInterface>{
         return this.http.post<ClienteInterface>(`${this.urlBase}/login`,{email,password});
+    }
+
+    public getListadoDeTurnosPorIdCliente(idCliente:number):Observable<TurnoInterface[]>{
+      return this.http.get<TurnoInterface[]>(`${this.urlBase}/${idCliente}/turnos`);
     }
 
 }

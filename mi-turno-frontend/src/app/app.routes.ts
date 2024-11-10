@@ -51,7 +51,6 @@ export const routes: Routes = [{
   canActivate: [authGuardFn,()=>rolGuardFn(ROLES.cliente)],
 },
 {
-
   path:"admin/:idAdmin",
   component:PanelComponent,
   canActivate: [authGuardFn,()=>rolGuardFn(ROLES.admin)],
@@ -62,10 +61,6 @@ export const routes: Routes = [{
    {path: 'configuracion', component:PanelComponent},
    {path: 'salir', component:PanelComponent}
   ]
- },
-{
-  path:"admin",
-  component:PanelComponent,
 },
 {
   path:"**",

@@ -11,10 +11,10 @@
     <div class="servicios-lista">
       <div class="servicios-item" *ngFor="let card of idCards; let i = index">
         <app-servicios-check
-        [toggleActivo]="verificarEstado(card)"
-        [servicioCompleto]="card"
-        [profesionalCompleto]="profesional">
-      </app-servicios-check>
+          [toggleActivo]="verificarEstado(card)"
+          [servicioCompleto]="card"
+          [profesionalCompleto]="profesional">
+        </app-servicios-check>
       </div>
     </div>
 

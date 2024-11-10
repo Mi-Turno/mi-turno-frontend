@@ -41,7 +41,7 @@ export class ServicioServiceService {
     return this.http.delete<Boolean>(`${this.urlBase}/${idNegocio}/servicios/${idServicio}`);
   }
 
-
+  
  /* public GETserviciosPorCriterio(nombre?: string, estado?: boolean): Observable<ServicioInterface[]> {
     let params = new HttpParams();
     if(nombre) {

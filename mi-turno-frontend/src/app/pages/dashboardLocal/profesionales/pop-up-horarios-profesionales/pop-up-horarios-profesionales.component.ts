@@ -6,6 +6,7 @@ import { MatIcon } from '@angular/material/icon';
 import { UsuarioService } from '../../../../core/services/usuarioService/usuario.service';
 import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface';
 import { DiasEnum } from '../../../../shared/models/diasEnum';
+import { HorarioProfesional } from '../../../../core/interfaces/horarioProfesional.interface';
 
 @Component({
   selector: 'app-pop-up-horarios-profesionales',
@@ -47,13 +48,13 @@ dia = DiasEnum;
 
 
  horariosActuales = {
-  [DiasEnum.LUNES]: [] as string[],
-  [DiasEnum.MARTES]: [] as string[],
-  [DiasEnum.MIERCOLES]: [] as string[],
-  [DiasEnum.JUEVES]: [] as string[],
-  [DiasEnum.VIERNES]: [] as string[],
-  [DiasEnum.SABADO]: [] as string[],
-  [DiasEnum.DOMINGO]: [] as string[]
+  [DiasEnum.LUNES]: [] as HorarioProfesional[],
+  [DiasEnum.MARTES]: [] as HorarioProfesional[],
+  [DiasEnum.MIERCOLES]: [] as HorarioProfesional[],
+  [DiasEnum.JUEVES]: [] as HorarioProfesional[],
+  [DiasEnum.VIERNES]: [] as HorarioProfesional[],
+  [DiasEnum.SABADO]: [] as HorarioProfesional[],
+  [DiasEnum.DOMINGO]: [] as HorarioProfesional[]
 };
 
 

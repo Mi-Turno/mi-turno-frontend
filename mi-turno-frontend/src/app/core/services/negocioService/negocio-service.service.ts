@@ -23,4 +23,7 @@ export class NegocioServiceService {
     return this.http.post<NegocioInterface>(this.urlBase, negocio);
   }
 
+  public getTodosLosNegocios():Observable<NegocioInterface[]>{
+    return this.http.get<NegocioInterface[]>(this.urlBase);
+  }
 }

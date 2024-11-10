@@ -1,10 +1,10 @@
 import { ICONOS } from './../../../shared/models/iconos.constants';
 import { Component, inject, OnInit } from '@angular/core';
 import { InputComponent } from "../../../shared/components/input/input.component";
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { BotonComponent } from "../../../shared/components/boton/boton.component";
 import { MatIconModule } from '@angular/material/icon';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsuarioInterface } from '../../../core/interfaces/usuario-interface';
 import { UsuarioService } from '../../../core/services/usuarioService/usuario.service';
 import { PLACEHOLDERS } from '../../../shared/models/placeholderInicioSesion.constants';
@@ -30,12 +30,12 @@ export class RegisterComponent {
   iconos = ICONOS;
   clienteService = inject(ClienteService);
   roles = ROLES;
-
+  fb:FormBuilder = inject(FormBuilder)
 
   placeholders = PLACEHOLDERS;
   //form reactivo
 
-  formularioRegister:FormGroup = new FormGroup({
+  formularioRegister:FormGroup = this.fb.nonNullable.group({
     nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -79,12 +79,21 @@ export class RegisterComponent {
     };*/
   }
   //metodo POST
+  router: Router = inject(Router);
+  exito:boolean = false;
+
   private postClienteToBackend(cliente:ClienteInterface):void{
     try {
       this.clienteService.postCliente(cliente).subscribe({
         next:(cliente:ClienteInterface) =>{
+          this.exito = true;
 
-          console.log(cliente);
+          setTimeout(() => {
+            this.router.navigateByUrl('/login');
+          }, 2000);
+
+
+
         },
         error: (error:HttpErrorResponse) =>{
           if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
@@ -110,12 +119,16 @@ export class RegisterComponent {
   // Método para enviar los valores del formulario al backend
   onSubmit() {
     if (this.formularioRegister.valid) {
+
       console.log('Usuario enviado con exito');
-      //console.log(this.formularioRegister.value);
+
       const cliente:ClienteInterface = this.crearClienteDesdeFormulario();
-      //console.log("soy un usuario"+usuario);
+
       this.postClienteToBackend(cliente);
-    } else {
+
+
+    }
+    else {
       let campoError: string = '';
       Object.keys(this.formularioRegister.controls).forEach(campo => {
         const control = this.formularioRegister.get(campo);
@@ -127,6 +140,9 @@ export class RegisterComponent {
     }
   }
 
+  tieneError(nombreControl:string,tipoError:string):boolean{
+    return this.formularioRegister.controls[nombreControl].hasError(tipoError) && this.formularioRegister.controls[nombreControl].touched;
+  }
 
 }
 
