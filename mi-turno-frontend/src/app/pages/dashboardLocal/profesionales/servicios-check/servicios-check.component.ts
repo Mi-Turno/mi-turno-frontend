@@ -48,8 +48,8 @@ export class ServiciosCheckComponent implements OnInit {
 
       console.log('hago el put');
     } else if (!this.toggleActivo) {
-      //todo: Hay que hacer esta función 
-      this.deleteServiciosDeProfecionalDeNegocio(
+      //todo: Hay que hacer esta función
+      this.putServiciosEnProfesionalEnNegocio(
         this.servicioCompleto?.idNegocio!,
         this.profesionalCompleto?.idUsuario!,
         this.servicioCompleto?.idServicio!
