@@ -1,0 +1,11 @@
+.principal{
+  display: flex;
+  flex-direction: row;
+  z-index: 1; /* Asegúrate de que el contenido principal esté por debajo */
+  position: relative;
+
+
+}
+
+
+

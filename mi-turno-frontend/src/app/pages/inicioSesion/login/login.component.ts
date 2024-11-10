@@ -84,6 +84,7 @@ export class LoginComponent {
             this.router.navigateByUrl(`/negocios/${usuarioResponse.nombre}`);//es el nombre del negocio
           } else if (usuarioResponse.idRolUsuario === 1 || usuarioResponse.idRolUsuario === ROLES.admin) {
             //lo mando al DASHBOARD DE ADMIN
+            this.router.navigateByUrl(`/admin/${usuarioResponse.idUsuario}`);
           } else {
             console.log('ROL INEXISTENTE');
           }

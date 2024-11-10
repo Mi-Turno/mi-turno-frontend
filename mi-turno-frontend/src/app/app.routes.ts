@@ -10,6 +10,8 @@ import { DashboardClienteComponent } from './pages/dashboardCliente/dashboard-cl
 import { authGuardFn } from './auth/guard/auth.guard-fn';
 import { rolGuardFn } from './auth/guard/rol.guard-fn';
 import { ROLES } from './shared/models/rolesUsuario.constants';
+import { PanelComponent } from './pages/dashboardAdmin/panel/panel.component';
+import { RegistrarNegocioComponent } from './pages/dashboardAdmin/registrar-negocio/registrar-negocio.component';
 
 
 export const routes: Routes = [{
@@ -47,6 +49,18 @@ export const routes: Routes = [{
   path:"negocios/:nombreNegocio/pedir-turno",
   component:PedirTurnoComponent,
   canActivate: [authGuardFn,()=>rolGuardFn(ROLES.cliente)],
+},
+{
+  path:"admin/:idAdmin",
+  component:PanelComponent,
+  canActivate: [authGuardFn,()=>rolGuardFn(ROLES.admin)],
+  children : [
+   {path: 'inicio', component:RegistrarNegocioComponent},
+   {path: 'negocios', component:PanelComponent},
+   {path: 'usuarios', component:PanelComponent},
+   {path: 'configuracion', component:PanelComponent},
+   {path: 'salir', component:PanelComponent}
+  ]
 },
 {
   path:"**",
