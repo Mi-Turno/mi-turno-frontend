@@ -1,0 +1,12 @@
+<div class="principal">
+  <app-side-bar-admin [idAdmin]="idAdmin.toString()"></app-side-bar-admin>
+
+  <div class="secundario">
+    <app-navbar-admin></app-navbar-admin>
+    <router-outlet></router-outlet>
+  </div>
+
+  <ng-container *ngIf="estaSobrepuesto">
+    <div class="overlay" (click)="cambiarSobreposicion()"></div>
+  </ng-container>
+</div>
