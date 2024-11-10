@@ -65,6 +65,13 @@ export class ConfirmacionComponent implements OnInit {
 
   NegocioServiceService: NegocioServiceService = inject(NegocioServiceService);
   negocio: NegocioInterface = {
+    nombre:'',
+    apellido:'',
+    email:'',
+    password:'',
+    telefono:'',
+    fechaNacimiento:'',
+    idRolUsuario:'',
     rubro:'',
     calle:'',
     altura:'',
