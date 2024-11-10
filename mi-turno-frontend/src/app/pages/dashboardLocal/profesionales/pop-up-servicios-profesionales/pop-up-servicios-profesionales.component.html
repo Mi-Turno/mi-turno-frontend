@@ -10,13 +10,17 @@
 
     <div class="servicios-lista">
       <div class="servicios-item" *ngFor="let card of idCards; let i = index">
-        <app-servicios-check  [toggleActivo]="verificarEstado()" [servicioCompleto]="card" [profesionalCompleto]="profesional"></app-servicios-check>
+        <app-servicios-check
+        [toggleActivo]="verificarEstado(card)"
+        [servicioCompleto]="card"
+        [profesionalCompleto]="profesional">
+      </app-servicios-check>
       </div>
     </div>
 
 
   </div>
 
-  <app-boton [class]="'botonConfirmar'" (click) = "escribirCards()" ></app-boton>
+  <app-boton [class]="'botonConfirmar'" (click) = "cerrarPopUp()"  [textoDentroBoton]="'Confirmar'"></app-boton>
 
 </article>
