@@ -37,8 +37,7 @@ export class SideBarComponent {
   claseIcono = "claseIcono";
 
   selecionado(ruta: string): boolean {
-   // console.log(this.nombreNegocio);
-    return this.router.url === `${this.urlBaseNegocio}/${this.nombreNegocio}/${ruta}`;
+   console.log(this.nombreNegocio + " Ete es el nombre del negocio");
+   return this.router.url.includes(`${this.urlBaseNegocio}${this.nombreNegocio}/${ruta}`);
   }
-
 }
