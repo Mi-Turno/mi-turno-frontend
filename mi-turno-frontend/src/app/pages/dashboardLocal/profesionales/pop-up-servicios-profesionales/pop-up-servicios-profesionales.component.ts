@@ -8,6 +8,7 @@ import { ProfesionalInterface } from '../../../../core/interfaces/profesional-in
 import { ServicioServiceService } from '../../../../core/services/servicioService/servicio-service.service';
 import { NegocioServiceService } from '../../../../core/services/negocioService/negocio-service.service';
 import { ActivatedRoute } from '@angular/router';
+import { normalizePassiveListenerOptions } from '@angular/cdk/platform';
 
 @Component({
   selector: 'app-pop-up-servicios-profesionales',
@@ -47,7 +48,7 @@ idNegocio:number = 0;
 cargarServicios() {
   this.ruta.parent?.params.subscribe(params => {
     const nombreNegocio = params['nombreNegocio'];
-      this.servicioNegocio.getIdNegocioByNombre("Juan").subscribe(
+      this.servicioNegocio.getIdNegocioByNombre(nombreNegocio).subscribe(
         {
           next: (idNegocio) => {
             this.idNegocio = idNegocio;
