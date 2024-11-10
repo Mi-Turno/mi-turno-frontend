@@ -23,9 +23,9 @@ import { ProfesionalesServiceService } from '../../../core/services/profesionalS
 export class SeleccionUsuarioComponent implements OnInit{
 
   //lo uso para mostrar las diferentes opciones
-  @Input() idNegocio:number = 1;
+  @Input() idNegocio:number = -1;
   @Input() idProfesional:number =-1; // para horario profesional
-  @Input() pasoActualSeleccion:number = 1;
+  @Input() pasoActualSeleccion:number = -1;
   @Input() idServicio:number=-1;
   @Output() emitirInformacion: EventEmitter<number> = new EventEmitter();
   @Output() emitirDiaInicio: EventEmitter<Date> = new EventEmitter();
@@ -41,6 +41,7 @@ export class SeleccionUsuarioComponent implements OnInit{
 
   //init
   ngOnInit(): void {
+    console.log("ID NEGOCIO",this.idNegocio);
     this.obtenerServiciosPorIdNegocio(this.idNegocio);
 
     //lo verifico asi no hago una peticion de mas y ademas tengo el id del servicio para mostrar los profesionales que lo brindan
@@ -50,18 +51,18 @@ export class SeleccionUsuarioComponent implements OnInit{
 
   }
 
-
-
   enviarDiaInicio(event:Date){
-    console.log("DIA INICIOOO",event);
+
     this.emitirDiaInicio.emit(event);
   }
 
   obtenerServiciosPorIdNegocio(idNegocio:number){
 
     //obtengo el arreglo de servicios del negocio y lo guardo en la variable servicios
-    this.servicioServicios.GETserviciosPorIdNegocio(this.idNegocio).subscribe({
+    this.servicioServicios.GETserviciosPorIdNegocio(idNegocio).subscribe({
       next: (servicios) => {
+        console.log("id negocio",idNegocio);
+        console.log("Servicios",servicios);
         this.arregloServicios= servicios;
       },
       error: (error) => {

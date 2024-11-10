@@ -35,20 +35,20 @@ export class PedirTurnoComponent implements OnInit{
   servicioNegocio :NegocioServiceService= inject(NegocioServiceService)
 
   // Variables
-  idNegocio: number = 1;
-  //todo CAMBIAR ID CLIENTE A LOCAL STORAGE
+  idNegocio: number = -1;
+
   idCliente: number = Number(localStorage.getItem('idUsuario')); // ID del cliente que pide el turno
 
   ngOnInit(): void {
     const nombreNegocio = this.ruta.snapshot.paramMap.get('nombreNegocio');
-
+    console.log(this.idCliente,"ID CLIENTE");
     if (nombreNegocio) {
       this.servicioNegocio.getIdNegocioByNombre(nombreNegocio).subscribe(
         {
-          next: (idNegocio) => {
-            this.idNegocio = idNegocio;
+          next: (idNegocioObtenido) => {
 
-
+            this.idNegocio = idNegocioObtenido;
+            this.turno.idNegocio = this.idNegocio;
           },
           error: (error) => {
             this.idNegocio = -1;
@@ -59,6 +59,9 @@ export class PedirTurnoComponent implements OnInit{
     } else {
       console.error('Nombre del negocio no encontrado en la URL');
     }
+
+
+
   }
 
 
@@ -95,12 +98,13 @@ export class PedirTurnoComponent implements OnInit{
   recibirHorarioProfesional(event:HorarioProfesional){
     if(this.pasoActual == 3){
       this.turno.horarioProfesional = event;
-      console.log("Horario profesional pedir-turnooo: ",event);
+
     }
     this.avanzarPaso();
   }
   recibirDiaInicio(event:Date){
     this.turno.fechaInicio = event;
+
   }
   //-----------
 

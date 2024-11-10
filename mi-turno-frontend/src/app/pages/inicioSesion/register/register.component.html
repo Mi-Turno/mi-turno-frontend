@@ -13,6 +13,8 @@
   <fieldset id="fieldsetRegister">
     <legend>Ingrese sus datos</legend>
     <form [formGroup]="formularioRegister">
+
+
       <app-input
         formControlName="nombre"
         [icono]="iconos.person"
@@ -21,6 +23,11 @@
         [placeholder]="placeholders.nombre"
       >
       </app-input>
+      @if (tieneError("nombre","required")) {
+        <p [className]="'error'">Este campo es obligatorio completar</p>
+      }
+
+
 
       <app-input
         formControlName="apellido"
@@ -30,6 +37,10 @@
         [placeholder]="placeholders.apellido"
       >
       </app-input>
+      @if (tieneError("apellido","required")) {
+        <p [className]="'error'">Este campo es obligatorio completar</p>
+      }
+
 
       <app-input
         formControlName="email"
@@ -40,6 +51,13 @@
         [placeholder]="placeholders.email"
       >
       </app-input>
+      @if (tieneError("email","required")) {
+        <p [className]="'error'">Este campo es obligatorio completar</p>
+      }@else if(tieneError("email","email")){
+        <p [className]="'error'">El email ingresado no es valido</p>
+      }
+
+
       <app-input
         formControlName="fechaNacimiento"
         [type]="'date'"
@@ -49,6 +67,9 @@
         [placeholder]="placeholders.fechaNacimiento"
       >
       </app-input>
+      @if (tieneError("fechaNacimiento","required")) {
+        <p [className]="'error'">Este campo es obligatorio completar</p>
+      }
       <app-input
         formControlName="telefono"
         [type]="'tel'"
@@ -58,7 +79,9 @@
         [placeholder]="placeholders.telefono"
       >
       </app-input>
-
+      @if (tieneError("telefono","required")) {
+        <p [className]="'error'">Este campo es obligatorio completar</p>
+      }
       <app-input
         formControlName="password"
         [type]="'password'"
@@ -68,7 +91,9 @@
         [placeholder]="placeholders.contrasenia"
       >
       </app-input>
-
+      @if (tieneError("password","required")) {
+        <p [className]="'error'">Este campo es obligatorio completar</p>
+      }
       <app-input
         formControlName="passwordRepetida"
         [type]="'password'"
@@ -78,9 +103,10 @@
         [placeholder]="placeholders.repetirContrasenia"
       >
       </app-input>
-
+      @if (tieneError("passwordRepetida","required")) {
+        <p [className]="'error'">Este campo es obligatorio completar</p>
+      }
       <app-boton
-        [style]=""
         [textoDentroBoton]="'Registrarse'"
         [type]="'submit'"
         (click)="onSubmit()"
@@ -91,4 +117,10 @@
       <a id="redirectLogin" [href]="loginHref">Ingrese aquí</a></span
     >
   </fieldset>
+
+  @if(exito){
+    <p [className]="'exito'">Usuario creado con exito! Redirigiendolo al login...</p>
+
+  }
+
 </section>

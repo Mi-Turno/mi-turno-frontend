@@ -7,7 +7,7 @@ export const authGuardFn = () => {
   const authService = inject(AuthService);
 
   if (authService.estoyLogueado||(localStorage.getItem('idUsuario')&&localStorage.getItem('rolUsuario'))) {
-
+    
     return true;
   } else {
 

@@ -73,7 +73,7 @@ inputFocus:EventEmitter<void> = new EventEmitter();
 
 manejarFocus() {
   this.inputFocus.emit();  // Emitir el evento personalizado
-  console.log("OYE HERMANO ME ACABAS DE CLCIKEAR")
+ 
 }
 
 // @Output()

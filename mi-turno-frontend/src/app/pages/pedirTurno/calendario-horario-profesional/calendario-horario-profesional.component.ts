@@ -51,11 +51,6 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
     }
 
 
-
-
-    console.log("Horario seleccionado: ",horarioProfesionalSeleccionado);
-
-    console.log("fecha inicio: ",this.fechaInicio);
     this.emitirDiaInicio.emit(this.fechaInicio);
   }
 
@@ -77,9 +72,6 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
         this.fechaInicio.setDate(this.fechaInicio.getDate() + 1);
       }
 
-
-
-      console.log("Fecha inicio DEL MANEJAR DIA SELECCIONADO: ",this.fechaInicio);
       this.obtenerHorariosProfesionalPorDia(event);
     }
 
@@ -103,7 +95,7 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
   parsearHorarios(horaRecibida:Date):string{
 
     const [hora,minutos]:string[] = horaRecibida.toString().split(':');
-    console.log("HORA RECIBIDA: ",horaRecibida);
+
 
     const horaParseada:string = `${hora}:${minutos}`;
 
@@ -120,7 +112,7 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
 
       next: (horarios) => {
         //mapeo todos los turnos
-        console.log("Turnos: ",this.arregloTurnos);
+
         this.arregloTurnos.map(unTurno=>{
           let fechaAux:Date= this.parsearFechas(unTurno.fechaInicio.toString());
 
@@ -147,8 +139,7 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
         })
 
         this.arregloHorarios = horarios
-        console.log("Nro dia: ",nroDia);
-        console.log("Horarios: ",horarios);
+
       },
       error: (error) => {
         console.error(error);
@@ -205,14 +196,8 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
   obtenerInputOtroDia(event:Event){
     const inputDate = (event.target as HTMLInputElement).value;
 
-    console.log("Fecha input: ",inputDate);
-
     //aca ya obtengo la fecha de inicio
     this.fechaInicio = new Date(`${inputDate}T00:00:00`);
-
-    console.log("Fecha input: ",this.fechaInicio.getDay());
-    console.log("Fecha input: ",this.fechaInicio);
-
 
     this.obtenerHorariosProfesionalPorDia(this.fechaInicio.getDay());
   }

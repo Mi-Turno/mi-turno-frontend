@@ -18,7 +18,7 @@ h3{
 #fieldsetRegister{
   border: 1px solid #ccc;
   width: 500px;
-  height: 500px;
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,8 +36,17 @@ form{
   width: 100%;
 }
 
+.error{
+  color: red;
+  font-size: 0.8rem;
+  margin: 0;
+}
 
-
+.exito{
+  color: green;
+  font-size: 1rem;
+  margin: 0;
+}
 app-input{
   display: flex;
   align-items: center;
@@ -52,6 +61,8 @@ app-input{
   align-items: center;
   justify-content: center;
 }
+
+
 
 #spanRedirectLogin p{
   text-align: center;
