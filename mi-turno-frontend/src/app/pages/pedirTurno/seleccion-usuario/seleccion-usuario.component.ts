@@ -60,7 +60,7 @@ export class SeleccionUsuarioComponent implements OnInit{
   obtenerServiciosPorIdNegocio(idNegocio:number){
 
     //obtengo el arreglo de servicios del negocio y lo guardo en la variable servicios
-    this.servicioServicios.GETserviciosPorIdNegocio(this.idNegocio).subscribe({
+    this.servicioServicios.GETserviciosPorIdNegocioYEstado(idNegocio, "true").subscribe({
       next: (servicios) => {
         this.arregloServicios= servicios;
       },

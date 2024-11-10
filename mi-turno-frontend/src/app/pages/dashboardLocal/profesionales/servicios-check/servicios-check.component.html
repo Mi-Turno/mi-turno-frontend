@@ -1,12 +1,10 @@
-<div [ngClass]="{ 'desactivado ': !toggleActivo }" >
+<div [ngClass]="{ 'desactivado ': !toggleActivo }">
+  <h5>{{ nombreServicio }}</h5>
 
-    <h5>{{nombreServicio}}</h5>
-
-        <mat-slide-toggle
-        class="slide"
-      (change)="cambiarEstadoToggle($event)"
-      color="primary"
-    ></mat-slide-toggle>
-
-
+  <mat-slide-toggle
+    class="slide"
+    [checked]="toggleActivo"
+    (change)="cambiarEstadoToggle($event)"
+    color="primary"
+  ></mat-slide-toggle>
 </div>
