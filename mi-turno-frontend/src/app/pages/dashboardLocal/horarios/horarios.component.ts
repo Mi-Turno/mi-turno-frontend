@@ -7,6 +7,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { DiasEnum } from '../../../shared/models/diasEnum';
 import { HorarioXprofesionalService } from '../../../core/services/horariosProfesionalService/horarioProfesional.service';
 import { HorarioProfesional } from '../../../core/interfaces/horarioProfesional.interface';
+import { ProfesionalInterface } from '../../../core/interfaces/profesional-interface';
 
 
 @Component({
@@ -20,12 +21,9 @@ export class HorariosComponent  implements OnInit{
 
   horarioService = inject(HorarioXprofesionalService);
   toggleActivo: boolean = false;
- @Input() horarios: string[] = [];
+ @Input() horarios: HorarioProfesional [] = [];
  @Input() dia:DiasEnum= DiasEnum.DOMINGO;
- @Input() idProfesional: number | undefined = 0;
-
-
- horariosActuales: string[] = []
+ @Input() profesional: ProfesionalInterface | null = null;
 
 
 ngOnInit(): void {
@@ -35,15 +33,15 @@ ngOnInit(): void {
 
 crearHorario(horarioNuevo: string): HorarioProfesional {
   let  id = 0;
-  if(this.idProfesional){
-     id = this.idProfesional;
+  if(this.profesional?.idUsuario){
+     id = this.profesional.idUsuario;
   }
   const dianuevo = this.dia;
   const horario = this.parsearHora(horarioNuevo);
   return{
     horaInicio: horario,
     dia: dianuevo,
-    idProfesional: id
+    idProfesional: id,
   }
 }
 
@@ -80,6 +78,8 @@ crearHorario(horarioNuevo: string): HorarioProfesional {
     return horario;
   }
 
+  
+
   // Función para añadir un nuevo horario
   agregarHorario() {
 
@@ -92,9 +92,12 @@ crearHorario(horarioNuevo: string): HorarioProfesional {
   }
 
 
-  private postHorarioToBackend(horario:HorarioProfesional):void{
+  private postHorarioToBackend(horario:any):void{
     try {
-      this.horarioService.postHorariosPorProfesional(horario).subscribe({
+
+      console.log(this.profesional);
+      console.log(horario);
+      this.horarioService.postHorariosPorProfesional(this.profesional?.idNegocio!, this.profesional?.idUsuario!, horario).subscribe({
         next:(horario: HorarioProfesional) =>{
           console.log(horario);
         },

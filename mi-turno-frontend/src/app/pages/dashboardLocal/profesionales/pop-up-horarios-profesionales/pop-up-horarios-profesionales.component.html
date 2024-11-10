@@ -5,16 +5,16 @@
     <mat-icon> close</mat-icon>
   </div>
 <div class="contenedor-horarios">
-  <app-horarios [dia]="dia.LUNES" [horarios]="horariosActuales.LUNES" [idProfesional]="cardSeleccionada?.idUsuario"></app-horarios>
-  <app-horarios [dia] = "dia.MARTES" [horarios]="horariosActuales.MARTES" [idProfesional]="cardSeleccionada?.idUsuario"></app-horarios>
-  <app-horarios [dia] = "dia.MIERCOLES" [horarios]="horariosActuales.MIERCOLES" [idProfesional]="cardSeleccionada?.idUsuario"></app-horarios>
-  <app-horarios [dia] = "dia.JUEVES" [horarios]="horariosActuales.JUEVES" [idProfesional]="cardSeleccionada?.idUsuario"></app-horarios>
-  <app-horarios [dia] = "dia.VIERNES" [horarios]="horariosActuales.VIERNES" [idProfesional]="cardSeleccionada?.idUsuario"></app-horarios>
-  <app-horarios [dia] = "dia.SABADO" [horarios]="horariosActuales.SABADO" [idProfesional]="cardSeleccionada?.idUsuario"></app-horarios>
-  <app-horarios [dia] = "dia.DOMINGO" [horarios]="horariosActuales.DOMINGO" [idProfesional]="cardSeleccionada?.idUsuario"></app-horarios>
+  <app-horarios [dia]="dia.LUNES" [horarios]="horariosActuales.LUNES" [profesional]="cardSeleccionada"></app-horarios>
+  <app-horarios [dia] = "dia.MARTES" [horarios]="horariosActuales.MARTES" [profesional]="cardSeleccionada"></app-horarios>
+  <app-horarios [dia] = "dia.MIERCOLES" [horarios]="horariosActuales.MIERCOLES" [profesional]="cardSeleccionada"></app-horarios>
+  <app-horarios [dia] = "dia.JUEVES" [horarios]="horariosActuales.JUEVES" [profesional]="cardSeleccionada"></app-horarios>
+  <app-horarios [dia] = "dia.VIERNES" [horarios]="horariosActuales.VIERNES" [profesional]="cardSeleccionada"></app-horarios>
+  <app-horarios [dia] = "dia.SABADO" [horarios]="horariosActuales.SABADO" [profesional]="cardSeleccionada"></app-horarios>
+  <app-horarios [dia] = "dia.DOMINGO" [horarios]="horariosActuales.DOMINGO" [profesional]="cardSeleccionada"></app-horarios>
 </div>
 <div  >
-  <app-boton (click)  ="confirmar()" [textoDentroBoton]="'Confirmar'" [class]="'botonConfirmarHorarios'"  ></app-boton>
+  <app-boton (click)  ="cerrarPopUp()" [textoDentroBoton]="'Confirmar'" [class]="'botonConfirmarHorarios'"  ></app-boton>
 </div>
 
 
