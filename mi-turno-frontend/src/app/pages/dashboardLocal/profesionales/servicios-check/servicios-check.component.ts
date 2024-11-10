@@ -24,6 +24,7 @@ export class ServiciosCheckComponent implements OnInit {
 
   ngOnInit(): void {
     this.nombreServicio = this.servicioCompleto?.nombre;
+
   }
 
   @Input() servicioCompleto: ServicioInterface | null = null;
@@ -48,7 +49,6 @@ export class ServiciosCheckComponent implements OnInit {
 
       console.log('hago el put');
     } else if (!this.toggleActivo) {
-      //todo: Hay que hacer esta función
       this.putServiciosEnProfesionalEnNegocio(
         this.servicioCompleto?.idNegocio!,
         this.profesionalCompleto?.idUsuario!,

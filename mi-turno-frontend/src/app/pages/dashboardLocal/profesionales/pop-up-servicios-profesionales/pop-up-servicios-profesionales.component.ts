@@ -93,14 +93,12 @@ export class PopUpServiciosProfesionalesComponent implements OnInit {
       });
   }
 
-  // Método verificarEstado que asegura un retorno booleano
   verificarEstado(servicio: ServicioInterface): boolean {
-    return (
-      this.profesional?.listaServicios?.some(
-        (s) => s.idServicio === servicio.idServicio
-      ) ?? true
-    );
+    return this.profesional?.listaServicios?.some(
+      (s) => s.idServicio === servicio.idServicio
+    ) ?? false;
   }
+
 
   escribirCards() {
     console.log(this.idCards);
