@@ -1,0 +1,42 @@
+<section id="seccionRegister">
+  <fieldset id="fieldsetRegister">
+    <legend>Crear Negocio</legend>
+    <form [formGroup]="formularioRegisterNegocio">
+      <app-input formControlName="nombre" [icono]="iconos.person" [textoLabel]="'Nombre del negocio'"
+        [id]="'nombreInput'" [placeholder]="placeholders.nombre+' del negocio'">
+      </app-input>
+
+      <app-input formControlName="email" [type]="'email'" [icono]="iconos.email" [textoLabel]="'Email'"
+        [id]="'emailInput'" [placeholder]="placeholders.email">
+      </app-input>
+
+      <app-input formControlName="telefono" [type]="'tel'" [icono]="iconos.call" [textoLabel]="'Telefono'"
+        [id]="'telefonoInput'" [placeholder]="placeholders.telefono">
+      </app-input>
+
+      <app-input formControlName="rubro" [icono]="iconos.person" [textoLabel]="'Rubro'" [id]="'rubroInput'"
+        placeholder="Rubro del negocio">
+      </app-input>
+
+      <app-input formControlName="calle" [icono]="iconos.person" [textoLabel]="'Calle'" [id]="'calleInput'"
+        placeholder="Calle del negocio">
+      </app-input>
+
+      <app-input formControlName="altura" [icono]="iconos.person" [textoLabel]="'Altura'" [id]="'alturaInput'"
+        placeholder="Altura del negocio"></app-input>
+      <app-input formControlName="detalle" [icono]="iconos.person" [textoLabel]="'Detalle'" [id]="'detalleInput'"
+        placeholder="Detalle del negocio"> </app-input>
+
+      <app-input formControlName="password" [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado"
+        [textoLabel]="'Contraseña'" [id]="'contraseniaInput'" [placeholder]="placeholders.contrasenia">
+      </app-input>
+
+      <app-input formControlName="passwordRepetida" [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado"
+        [textoLabel]="'Repetir Contraseña'" [id]="'repetirContraseniaInput'"
+        [placeholder]="placeholders.repetirContrasenia">
+      </app-input>
+
+      <app-boton [style]="" [textoDentroBoton]="'Crear'" [type]="'submit'" (click)="onSubmit()"></app-boton>
+    </form>
+  </fieldset>
+</section>

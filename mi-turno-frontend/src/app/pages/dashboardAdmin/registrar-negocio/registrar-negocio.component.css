@@ -1,0 +1,67 @@
+#seccionRegister{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h2{
+  font-size: var(--titulo-h2);
+  margin: 0;
+  text-align: center;
+}
+
+h3{
+  font-size: var(--titulo-h3);
+}
+
+#fieldsetRegister{
+  border: 1px solid #ccc;
+  width: 500px;
+  height: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+legend{
+  text-align: center;
+  padding: 0 3rem;
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+app-input{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+#spanRedirectLogin
+{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+#spanRedirectLogin p{
+  text-align: center;
+  margin: 0;
+  padding-right: 15px;
+}
+
+#spanRedirectLogin a{
+  text-decoration: none;
+}
+
+#spanRedirectLogin a:hover{
+  color: var(--color-contraste1);
+  text-decoration: underline;
+}
