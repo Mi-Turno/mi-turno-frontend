@@ -1,5 +1,5 @@
 <div class="principal">
-  <app-side-bar-admin [idAdmin]="idAdmin.toString()"></app-side-bar-admin>
+  <app-side-bar-admin [idAdmin]="idAdmin.toString()" (salir)="cerrarSesion($event)"></app-side-bar-admin>
 
   <div class="secundario">
     <app-navbar-admin></app-navbar-admin>

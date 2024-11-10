@@ -57,7 +57,7 @@
     </li>
     <li>
       <div [ngClass]="{'seleccionado': selecionado(rutaSalir)}">
-        <a class="claseEnlace" [routerLink]="urlBaseNegocio+ nombreNegocio +'/'+ rutaSalir">
+        <a class="claseEnlace" [routerLink]="urlBaseNegocio+ nombreNegocio +'/'+ rutaSalir" (click)="cerrarSesion()">
           <mat-icon class="claseIcono salir">{{iconos.logout}}</mat-icon>
           Salir
         </a>
