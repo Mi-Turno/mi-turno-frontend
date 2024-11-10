@@ -1,0 +1,117 @@
+
+
+
+.sidebar {
+  width: 250px;            /* Ajusta el ancho del sidebar */
+  height: 96vh;           /* Hace que el sidebar ocupe toda la altura de la pantalla */
+  background-color: var();  /* Color de fondo */
+  padding: 20px;           /* Espacio interno */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+  border: 2px solid #000; /* Aquí defines el borde derecho */
+  margin: 2vh 1.5vh 2vh 3vh;
+}
+
+
+ul div {
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3); /* Sombra abajo y a la izquierda */
+ }
+
+
+ .seccion-logo img {
+  max-width: 100%;
+  height: auto;
+  object-fit:contain;
+ }
+
+ .seccion-img-perfil img {
+  max-width: 100%;
+  height: auto;
+  object-fit:contain;
+  display: block;
+  margin: 0 auto;
+ }
+
+ .seccion-img-perfil  {
+  text-align: center;
+ }
+
+
+ul{
+  list-style-type:none ;
+  padding: 0;
+  margin: 0;
+  display: flex;
+flex-direction: column;
+
+}
+
+li {
+  width: 100%;
+}
+
+li div {
+  display: flex;
+  vertical-align: middle;
+  height: 4.5vh;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.claseEnlace {
+  color: #000;
+}
+
+li div:hover {
+  scale: 1.02;
+  background-color: var(--color-contraste2-hover);
+  color: white;
+}
+
+li div:hover .claseIcono {
+  color:white;
+}
+
+li div:hover .claseEnlace {
+  color: white;
+}
+
+.claseEnlace {
+  display: flex; /* Alineación del contenido dentro del enlace */
+  align-items: center; /* Alinear verticalmente el contenido */
+  justify-content: left; /* Mantener el contenido alineado a la izquierda */
+  width: 100%; /* Hace que el enlace ocupe todo el ancho del div */
+  height: 100%; /* Hace que el enlace ocupe toda la altura del div */
+  text-decoration: none; /* Elimina el subrayado del enlace */
+  font-size: var(--titulo-h5);
+  margin-left: 10px ;
+  height: 30px;
+}
+
+.claseIcono{
+  color: #4a90e2;
+  font-size: 30px;
+  margin-left: 10px;
+  height: 30px;
+  width: 30px;
+  margin-right: 5px;
+}
+
+.salir {
+  color: red;
+}
+
+.seleccionado {
+  background-color: var(--color-contraste2);
+  color: white;
+  scale: 1.02;
+}
+
+.seleccionado .claseEnlace {
+  color: white;
+}
+.seleccionado .claseIcono {
+  color: white;
+}
+
+

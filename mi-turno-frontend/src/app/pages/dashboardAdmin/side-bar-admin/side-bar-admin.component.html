@@ -1,0 +1,54 @@
+<nav class="sidebar">
+  <div class="seccion-logo">
+    <img [src]="urlLogo" alt="logo mi-miTurno" />
+  </div>
+  <div class="seccion-img-perfil">
+    <img [src]="urlFotoPerfil" [alt]="altFotoPerfil" />
+    <p>{{nombreAdmin}}</p>
+  </div>
+  <ul>
+    <li>
+      <div [ngClass]="{'seleccionado': selecionado(rutaInicio)}">
+        <a class="claseEnlace" [routerLink]="rutaInicio">
+          <mat-icon class="claseIcono">{{iconos.home}}</mat-icon>
+          Inicio
+        </a>
+      </div>
+    </li>
+   <!-- <li>
+      <div [ngClass]="{'seleccionado': selecionado(rutaTurnos)}">
+        <a class="claseEnlace" [routerLink]="urlBaseNegocio + nombreNegocio + '/' + rutaTurnos">
+          <mat-icon class="claseIcono">{{iconos.eventNote}}</mat-icon>
+          Negocios
+        </a>
+      </div>
+    </li>
+  -->
+   <!-- <li>
+      <div [ngClass]="{'seleccionado': selecionado(rutaStaff)}">
+        <a class="claseEnlace" [routerLink]="urlBaseNegocio + nombreNegocio + '/' + rutaStaff">
+          <mat-icon class="claseIcono">{{iconos.badge}}</mat-icon>
+          Usuarios
+        </a>
+      </div>
+    </li>-->
+
+    <!--<li>
+      <div [ngClass]="{'seleccionado': selecionado(rutaConfiguracion)}">
+        <a class="claseEnlace" [routerLink]="urlBaseNegocio+ nombreNegocio +'/'+ rutaConfiguracion">
+          <mat-icon class="claseIcono">{{iconos.settings}}</mat-icon>
+          Configuración
+        </a>
+      </div>
+    </li>-->
+    <li>
+      <div [ngClass]="{'seleccionado': selecionado(rutaSalir)}">
+        <a class="claseEnlace" [routerLink]="rutaSalir">
+          <mat-icon class="claseIcono salir">{{iconos.logout}}</mat-icon>
+          Salir
+        </a>
+      </div>
+    </li>
+  </ul>
+</nav>
+
