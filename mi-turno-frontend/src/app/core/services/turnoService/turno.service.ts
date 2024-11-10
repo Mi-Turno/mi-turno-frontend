@@ -16,7 +16,31 @@ export class TurnoService {
   }
 
   public postTurno(turnoNuevo:TurnoInterface):Observable<TurnoInterface>{
-    return this.http.post<TurnoInterface>(`${this.urlBase}/${turnoNuevo.idNegocio}/turnos`, turnoNuevo);
+
+    /*
+  "idServicio": 1,
+  "idMetodoDePago": 2,
+  "idCliente": 2,
+  "idNegocio": 1,
+  "idProfesional": 4,
+  "idHorarioProfesional": 1,
+  "fechaInicio": "2024-11-10"
+   */
+
+
+
+    const requestBody: any = {
+      idServicio: turnoNuevo.idServicio,
+      metodosDePagoEnum: turnoNuevo.metodoPago,
+      idCliente: turnoNuevo.idCliente,
+      idNegocio: turnoNuevo.idNegocio,
+      idProfesional: turnoNuevo.horarioProfesional.idProfesional,
+      idHorarioProfesional: turnoNuevo.horarioProfesional.idHorario,
+      fechaInicio: turnoNuevo.fechaInicio
+    }
+    console.log("EStoy en el service!!!!!!!!",requestBody);
+    console.log(requestBody);
+    return this.http.post<TurnoInterface>(`${this.urlBase}/${turnoNuevo.idNegocio}/turnos`, requestBody);
   }
 
 
