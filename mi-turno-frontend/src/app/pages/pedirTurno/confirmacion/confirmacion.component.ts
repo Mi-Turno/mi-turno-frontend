@@ -65,6 +65,13 @@ export class ConfirmacionComponent implements OnInit {
 
   NegocioServiceService: NegocioServiceService = inject(NegocioServiceService);
   negocio: NegocioInterface = {
+    nombre:'',
+    apellido:'',
+    email:'',
+    password:'',
+    telefono:'',
+    fechaNacimiento:'',
+    idRolUsuario:'',
     rubro:'',
     calle:'',
     altura:'',
@@ -86,8 +93,15 @@ detalleTexto:string='';
 settearMostrarInfo(){
   this.servicioTexto = this.servicio.nombre;
   this.profesionalTexto= this.profesional.nombre;
-  this.precioTexto= String(this.servicio.precio);
-  this.ubicacionTexto = `${this.negocio.calle} ${this.negocio.altura}`;
+
+  if(this.servicio.precio !== undefined){
+    this.precioTexto=   this.servicio.precio.toString();
+  }
+  else{
+    console.log("SERVICIO PRECIO UNDEFINED");
+  }
+  //${this.negocio.calle} ${this.negocio.altura}
+  this.ubicacionTexto = `Mar del Plata, Buenos Aires, Argentina`;
   this.metodoDePagoTexto = this.turnoCreado.metodoPago.toString().replaceAll('_', ' ');
   this.detalleTexto = 'Se enviará un mail de aviso 3 horas antes del servicio. En caso de cancelar el turno avisar 2 horas antes';
 }

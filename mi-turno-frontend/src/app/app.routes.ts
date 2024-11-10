@@ -49,10 +49,6 @@ export const routes: Routes = [{
   canActivate: [authGuardFn,()=>rolGuardFn(ROLES.cliente)],
 },
 {
-  path:":nombreNegocio/pedir-turno",
-  component:PedirTurnoComponent,
-},
-{
   path:"**",
   redirectTo:"landing-page",
   pathMatch:"full"

@@ -2,4 +2,8 @@
   <app-nav-pedir-turno></app-nav-pedir-turno>
 </div>
 <app-widget-bienvenida></app-widget-bienvenida>
-<app-tabla-turnos></app-tabla-turnos>
+<app-tabla-turnos [listadoTurnos]="listadoTurnos" [listadoNegocios]="listadoNegocios"></app-tabla-turnos>
+
+@if (popupLevantado) {
+
+}

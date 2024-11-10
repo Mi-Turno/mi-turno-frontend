@@ -38,7 +38,6 @@ export class TurnoService {
       idHorarioProfesional: turnoNuevo.horarioProfesional.idHorario,
       fechaInicio: turnoNuevo.fechaInicio
     }
-    console.log("EStoy en el service!!!!!!!!",requestBody);
     console.log(requestBody);
     return this.http.post<TurnoInterface>(`${this.urlBase}/${turnoNuevo.idNegocio}/turnos`, requestBody);
   }
