@@ -12,6 +12,7 @@ import { rolGuardFn } from './auth/guard/rol.guard-fn';
 import { ROLES } from './shared/models/rolesUsuario.constants';
 import { PanelComponent } from './pages/dashboardAdmin/panel/panel.component';
 import { RegistrarNegocioComponent } from './pages/dashboardAdmin/registrar-negocio/registrar-negocio.component';
+import { TurnosComponent } from './pages/dashboardLocal/turnos/turnos.component';
 
 
 export const routes: Routes = [{
@@ -36,8 +37,8 @@ export const routes: Routes = [{
  component:PanelRecepcionComponent,
  canActivate: [authGuardFn,()=>rolGuardFn(ROLES.negocio)],
  children : [
-  {path: 'recepcion', component:PanelRecepcionComponent},
-  {path: 'turnos', component:PanelRecepcionComponent},
+  {path: 'recepcion', component:TurnosComponent},
+  {path: 'turnos', component:TurnosComponent},
   {path: 'staff', component:ProfesionalesMainComponent},
   {path: 'servicios', component:ServicioMainComponent},
   {path: 'clientes', component:PanelRecepcionComponent},

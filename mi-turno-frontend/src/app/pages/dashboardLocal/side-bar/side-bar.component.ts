@@ -10,7 +10,7 @@ import { TextoConIconoComponent } from '../../../shared/components/texto-con-ico
 @Component({
   selector: 'app-side-bar',
   standalone: true,
-  imports: [CommonModule, BotonComponent, MatIcon, TextoConIconoComponent,RouterModule],
+  imports: [CommonModule, MatIcon, RouterModule],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.css'
 })

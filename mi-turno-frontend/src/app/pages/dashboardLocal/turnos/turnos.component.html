@@ -1,0 +1,40 @@
+<table>
+  <thead>
+    <tr>
+      <th>Estado</th>
+      <th>Numero</th>
+      <th>Fecha</th>
+      <th>Hora</th>
+      <th>Cliente</th>
+      <th>Profesional</th>
+      <th>Servicio</th>
+      <th>Metodo Pago</th>
+      <th>Cancelar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let turno of turnoTabla; let i = index">
+      <td>
+        <span [ngClass]="{
+          'estado-cobrada': verificarEstado(turno.fecha, turno.horaInicio) === 'pagado',
+          'estado-reservada': verificarEstado(turno.fecha, turno.horaInicio) === 'reservado',
+          'estado-cancelado': verificarEstado(turno.fecha, turno.horaInicio) === 'cancelado'
+        }">
+          {{ verificarEstado(turno.fecha, turno.horaInicio) === 'pagado' ? 'Pagado' : 'Reservado' }}
+        </span>
+      </td>
+      <td>{{ turno.idTurno }}</td>
+      <td>{{ turno.fecha }}</td>
+      <td>{{ turno.horaInicio }}</td>
+      <td>{{ turno.nombreCliente }}</td>
+      <td>{{ turno.nombreProfesional }}</td>
+      <td>{{ turno.nombreServicio }}</td>
+      <td>{{ turno.metodoPago }}</td>
+      <td>
+        <button class="btn-cancelar" >Cancelar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+

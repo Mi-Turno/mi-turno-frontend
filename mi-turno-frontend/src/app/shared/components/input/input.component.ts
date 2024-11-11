@@ -6,7 +6,7 @@ import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-input',
   standalone: true,
-  imports: [CommonModule, InputComponent,MatIcon, ReactiveFormsModule,FormsModule],
+  imports: [CommonModule, MatIcon, ReactiveFormsModule, FormsModule],
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.css'],
   providers: [
@@ -73,7 +73,7 @@ inputFocus:EventEmitter<void> = new EventEmitter();
 
 manejarFocus() {
   this.inputFocus.emit();  // Emitir el evento personalizado
- 
+
 }
 
 // @Output()
