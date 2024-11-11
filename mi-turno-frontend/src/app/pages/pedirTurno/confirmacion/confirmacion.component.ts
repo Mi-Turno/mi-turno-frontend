@@ -218,6 +218,9 @@ ngOnInit(): void {
           console.log(respuesta);
           //si hay exito envio el mail
           this.enviarEmailAlCliente();
+          setTimeout(() => {
+            window.location.href = '/dashboard-cliente';
+          },3000);
         },
         error: (error)=>{
           console.error(error,"Error al confirmar el turno");
