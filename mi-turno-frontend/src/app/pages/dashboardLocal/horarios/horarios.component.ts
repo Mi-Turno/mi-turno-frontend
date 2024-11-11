@@ -13,7 +13,7 @@ import { ProfesionalInterface } from '../../../core/interfaces/profesional-inter
 @Component({
   selector: 'app-horarios',
   standalone: true,
-  imports: [MatIcon, ChipComponent,CommonModule,FormsModule, MatSlideToggleModule],
+  imports: [MatIcon, CommonModule, FormsModule, MatSlideToggleModule],
   templateUrl: './horarios.component.html',
   styleUrl: './horarios.component.css'
 })
@@ -38,6 +38,7 @@ crearHorario(horarioNuevo: string): HorarioProfesional {
   }
   const dianuevo = this.dia;
   const horario = this.parsearHora(horarioNuevo);
+
   return{
     horaInicio: horario,
     dia: dianuevo,
@@ -73,12 +74,14 @@ crearHorario(horarioNuevo: string): HorarioProfesional {
     const horario = new Date();
     horario.setHours(horas);
     horario.setMinutes(minutos);
-    horario.setSeconds(0); // Puedes establecerlo a 0 si no necesitas segundos
-
-    return horario;
+    horario.setSeconds(0); // Puedes establecerlo a 0 si no necesitas segundos}
+    console.log(horario);
+    const horarioParseado:string = `${String(horario.getHours()).padStart(2, '0')}:${String(horario.getMinutes()).padStart(2, '0')}`;;
+    console.log(horarioParseado);
+    return horarioParseado;
   }
 
-  
+
 
   // Función para añadir un nuevo horario
   agregarHorario() {
