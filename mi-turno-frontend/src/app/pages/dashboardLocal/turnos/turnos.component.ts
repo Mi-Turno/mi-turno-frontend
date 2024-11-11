@@ -121,4 +121,25 @@ export class TurnosComponent implements OnInit {
       }
     });
   }
+
+
+cancelarTurno(idNegocio?: number, idTurno?: number) {
+
+  if(idTurno && idNegocio){
+
+    this.turnoService.deleteTurno(idNegocio, idTurno).subscribe({
+
+      next: (response) => {
+
+        console.log(response);
+
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    }
+  )
+  }
+  }
 }
+

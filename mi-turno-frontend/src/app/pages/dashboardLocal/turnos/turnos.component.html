@@ -31,7 +31,7 @@
       <td>{{ turno.nombreServicio }}</td>
       <td>{{ turno.metodoPago }}</td>
       <td>
-        <button class="btn-cancelar" >Cancelar</button>
+        <button class="btn-cancelar" (click) = "cancelarTurno(idNegocio,turno.idTurno)" >Cancelar</button>
       </td>
     </tr>
   </tbody>

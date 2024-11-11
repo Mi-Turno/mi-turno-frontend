@@ -46,4 +46,9 @@ export class TurnoService {
     return this.http.get<TurnoInterface[]>(`${this.urlBase}/${idNegocio}/turnos`);///negocios/{idNegocio}/turnos
   }
 
+
+  public deleteTurno(idNegocio: number, idTurno: number): Observable<TurnoInterface> {
+    return this.http.delete<TurnoInterface>(`${this.urlBase}/${idNegocio}/turnos/${idTurno}`)
+  }
+
 }
