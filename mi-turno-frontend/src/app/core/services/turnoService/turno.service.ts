@@ -31,7 +31,7 @@ export class TurnoService {
 
     const requestBody: any = {
       idServicio: turnoNuevo.idServicio,
-      metodosDePagoEnum: turnoNuevo.metodoPago,
+      metodosDePagoEnum: turnoNuevo.metodosDePagoEnum,
       idCliente: turnoNuevo.idCliente,
       idNegocio: turnoNuevo.idNegocio,
       idProfesional: turnoNuevo.horarioProfesional.idProfesional,

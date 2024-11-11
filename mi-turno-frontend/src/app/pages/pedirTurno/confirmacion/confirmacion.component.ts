@@ -46,7 +46,7 @@ export class ConfirmacionComponent implements OnInit {
       dia: obtenerDiaEnumPorNumero(0),
       horaInicio: new Date(),
     },
-    metodoPago: obtenerMetodosDePagoPorNumero(0),
+    metodosDePagoEnum: obtenerMetodosDePagoPorNumero(0),
     idServicio: 0,
     fechaInicio: new Date(),
     estado: true
@@ -102,7 +102,7 @@ settearMostrarInfo(){
   }
   //${this.negocio.calle} ${this.negocio.altura}
   this.ubicacionTexto = `Mar del Plata, Buenos Aires, Argentina`;
-  this.metodoDePagoTexto = this.turnoCreado.metodoPago.toString().replaceAll('_', ' ');
+  this.metodoDePagoTexto = this.turnoCreado.metodosDePagoEnum.toString().replaceAll('_', ' ');
   this.detalleTexto = 'Se enviará un mail de aviso 3 horas antes del servicio. En caso de cancelar el turno avisar 2 horas antes';
 }
 

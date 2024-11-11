@@ -8,7 +8,7 @@ export interface TurnoInterface{
   idNegocio:number; //id del negocio
   fechaInicio:Date; //fecha del turno
   horarioProfesional:HorarioProfesional;
-  metodoPago:MetodosDePago; //metodo de pago
+  metodosDePagoEnum:MetodosDePago; //metodo de pago
   estado?:boolean
 }
 

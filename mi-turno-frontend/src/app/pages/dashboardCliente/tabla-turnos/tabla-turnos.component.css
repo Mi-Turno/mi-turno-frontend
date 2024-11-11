@@ -1,0 +1,48 @@
+.tablaContainer{
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.tablaTurnos{
+  background-color: whitesmoke;
+  border-radius: 15px;
+  width: 90%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tablaTitulo{
+  margin: 40px 0 0 100px;
+}
+
+.columnaTablaHead{
+
+  border-bottom: 1px solid black;
+}
+
+.columnaHead{
+  width: 100px;
+  padding: 10px;
+}
+
+.columnaInicialCuerpo{
+  border-right: 1px solid black;
+}
+
+
+.filaCuerpo{
+  border-bottom: 1px solid black;
+}
+
+.filaCuerpo:last-child{
+  border-bottom: none;
+}
+
+td{
+  padding: 20px;
+  text-align: center;
+}
+
