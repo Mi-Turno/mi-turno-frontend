@@ -23,6 +23,7 @@
 .seleccionarNegocioTitulo{
   text-align: center;
   margin-right: 10%;
+  margin: auto;
 }
 
 .unaFilaContainer{
@@ -48,15 +49,14 @@
 .containerArriba{
   width: 100%;
   display: flex;
-  justify-content: end;
-  align-items: center;
+  flex-direction: column-reverse;
+
 }
 
 .cruzCerrar{
-  width: 100px;
   display: flex;
-  justify-content: center;
-  padding: 5%;
+  justify-content: end;
+  padding: 10px 20px 0 0;
 }
 
 .cruzCerrar:hover{
