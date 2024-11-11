@@ -31,7 +31,7 @@ export class TurnoService {
 
     const requestBody: any = {
       idServicio: turnoNuevo.idServicio,
-      metodosDePagoEnum: turnoNuevo.metodoPago,
+      metodosDePagoEnum: turnoNuevo.metodosDePagoEnum,
       idCliente: turnoNuevo.idCliente,
       idNegocio: turnoNuevo.idNegocio,
       idProfesional: turnoNuevo.horarioProfesional.idProfesional,
@@ -42,5 +42,8 @@ export class TurnoService {
     return this.http.post<TurnoInterface>(`${this.urlBase}/${turnoNuevo.idNegocio}/turnos`, requestBody);
   }
 
+  public getTurnos(idNegocio:number):Observable<TurnoInterface[]>{
+    return this.http.get<TurnoInterface[]>(`${this.urlBase}/${idNegocio}/turnos`);///negocios/{idNegocio}/turnos
+  }
 
 }
