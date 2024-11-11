@@ -5,15 +5,13 @@
   <div [className]="'bienvenidaContainer'">
 
     @if (nombreCliente === "Nombre" && apellidoCliente ==="Apellido") {
-      <p [className]="'textoBienvenida'">Bienvenido Visitante! Es un placer ofrecerte nuestros servicios. Reserva un turno con nostros!</p>
+      <p [className]="'textoBienvenida'">Bienvenido Visitante! Es un placer ofrecerte nuestros servicios. Reserva un turno con nosotros!</p>
     }@else {
-      <p [className]="'textoBienvenida'">Bienvenido, {{nombreCliente}} {{apellidoCliente}}, es un placer ofrecerte nuestros servicios. Reserva un turno con nostros!</p>
+      <p [className]="'textoBienvenida'">Bienvenido {{nombreCliente}} {{apellidoCliente}}, es un placer ofrecerte nuestros servicios. Reserva un turno con nosotros!</p>
     }
 
-    <app-boton
-    [textoDentroBoton]="'(+) Nuevo Turno'"
+    <button [className]="'botonElegirNegocio'" (click)="levantarPopupPedirTurno()">(+) Nuevo Turno</button>
 
-    ></app-boton>
 <!-- [class]="'botonBienvenida'"  -->
   </div>
 

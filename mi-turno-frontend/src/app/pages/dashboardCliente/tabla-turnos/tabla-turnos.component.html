@@ -1,30 +1,36 @@
 
-<!-- Nombre negocio, fecha, horario, servicio, precio y profesional -->
 
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Nro:</th>
-      <th scope="col">Nombre</th>
-      <th scope="col">Fecha</th>
-      <th scope="col">Horario</th>
-      <th scope="col">Servicio</th>
-      <th scope="col">Precio</th>
-      <th scope="col">Profesional</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (unTurno of listadoTurnos; track $index) {
-      <tr>
-        <th scope="row">{{$index}}</th>
-          <td>{{unTurno}}</td>
-          <td>{{unTurno}}</td>
-          <td>{{unTurno}}</td>
-          <td>{{unTurno}}</td>
-          <td>{{unTurno}}</td>
-          <td>{{unTurno}}</td>
+<h5 [className]="'tablaTitulo'">Proximos Turnos</h5>
+<div [className]="'tablaContainer'">
+
+  <table [className]="'tablaTurnos'">
+    <thead [className]="'columnaTablaHead'">
+      <tr [className]="'filaInicio'">
+        <th [className]="'columnaHead'" scope="col">Nro:</th>
+        <th [className]="'columnaHead'" scope="col">Negocio</th>
+        <th [className]="'columnaHead'" scope="col">Fecha</th>
+        <th [className]="'columnaHead'" scope="col">Horario</th>
+        <th [className]="'columnaHead'" scope="col">Servicio</th>
+        <th [className]="'columnaHead'" scope="col">Precio</th>
+        <th [className]="'columnaHead'" scope="col">Profesional</th>
       </tr>
-    }
+    </thead>
+    <tbody [className]="'tablaCuerpo'">
 
-  </tbody>
-</table>
+      @for (unTurno of listadoMostrarTurnos; track $index) {
+        <tr [className]="'filaCuerpo'">
+          <th [className]="'columnaInicialCuerpo'" scope="row">{{$index+1}}</th>
+            <td>{{unTurno.nombreNegocio}}</td>
+            <td>{{unTurno.fechaInicio}}</td>
+            <td>{{unTurno.horario}}</td>
+            <td>{{unTurno.nombreServicio}}</td>
+            <td>{{unTurno.precioServicio}}</td>
+            <td>{{unTurno.nombreProfesional}}</td>
+        </tr>
+      }
+
+    </tbody>
+  </table>
+</div>
+
+

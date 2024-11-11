@@ -3,12 +3,13 @@ import { Component, inject, Input } from '@angular/core';
 import { BotonComponent } from "../../../shared/components/boton/boton.component";
 import { MatIcon } from '@angular/material/icon';
 import { AuthService } from '../../../auth/service/auth.service';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-nav-pedir-turno',
   standalone: true,
-  imports: [BotonComponent,MatIcon],
+  imports: [BotonComponent,MatIcon,RouterLink],
   templateUrl: './nav-pedir-turno.component.html',
   styleUrl: './nav-pedir-turno.component.css'
 })
@@ -24,7 +25,7 @@ export class NavPedirTurnoComponent {
 
   claseBoton:string = "boton-nav";
 
-  auth:AuthService = inject(AuthService);;
+  auth:AuthService = inject(AuthService);
   clearLocalStorage(){
     console.log("Cerrando sesion");
    this.auth.logOut();

@@ -37,9 +37,11 @@ export class PedirTurnoComponent implements OnInit{
   // Variables
   idNegocio: number = -1;
 
-  idCliente: number = Number(localStorage.getItem('idUsuario')); // ID del cliente que pide el turno
+  idCliente: number = 0; // ID del cliente que pide el turno
 
   ngOnInit(): void {
+    this.idCliente= Number(localStorage.getItem('idUsuario'));
+
     const nombreNegocio = this.ruta.snapshot.paramMap.get('nombreNegocio');
     console.log(this.idCliente,"ID CLIENTE");
     if (nombreNegocio) {
@@ -77,7 +79,7 @@ export class PedirTurnoComponent implements OnInit{
   turno:TurnoInterface={
     idCliente: this.idCliente,
     idNegocio: this.idNegocio,
-    metodoPago: MetodosDePago.credito,
+    metodosDePagoEnum: MetodosDePago.credito,
     idServicio: 0,
     fechaInicio: new Date(),
     horarioProfesional:{
@@ -121,7 +123,7 @@ export class PedirTurnoComponent implements OnInit{
 
     if(this.pasoActual == 4){
       console.log(obtenerMetodosDePagoPorNumero(event));
-      this.turno.metodoPago = obtenerMetodosDePagoPorNumero(event);
+      this.turno.metodosDePagoEnum = obtenerMetodosDePagoPorNumero(event);
     }
 
 

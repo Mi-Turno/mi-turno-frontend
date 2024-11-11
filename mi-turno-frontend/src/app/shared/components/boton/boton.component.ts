@@ -34,7 +34,7 @@ export class BotonComponent {
   clickBotonEmitir(){
     //si es -1 no emito nada
     if(this.guardarInformacion !==-1){
-      
+
       this.clickBoton.emit(this.guardarInformacion);
     }
 

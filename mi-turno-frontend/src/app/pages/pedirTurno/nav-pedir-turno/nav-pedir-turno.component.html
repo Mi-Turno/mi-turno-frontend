@@ -4,8 +4,8 @@
   </a>
 
   <ul>
-    <li><app-boton [class]="claseBoton" [textoDentroBoton]="'Proximos Turnos'"></app-boton></li>
-    <li><app-boton [class]="claseBoton" [textoDentroBoton]="'Historial de Turnos'"></app-boton></li>
+    <li><app-boton [routerLink]="'/dashboard-cliente'"  [class]="claseBoton" [textoDentroBoton]="'Proximos Turnos'"></app-boton></li>
+    <li><app-boton [routerLink]="'/dashboard-cliente'" [class]="claseBoton" [textoDentroBoton]="'Historial de Turnos'"></app-boton></li>
     <li><app-boton [class]="claseBoton" [textoDentroBoton]="'Cerrar sesion'" (click)="clearLocalStorage()"></app-boton></li>
     <li>
       @if (!imagenUsuario) {
