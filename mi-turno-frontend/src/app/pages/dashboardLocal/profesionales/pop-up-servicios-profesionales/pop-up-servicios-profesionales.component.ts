@@ -4,8 +4,10 @@ import {
   Inject,
   inject,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { ServiciosCheckComponent } from '../servicios-check/servicios-check.component';
@@ -26,7 +28,7 @@ import { ProfesionalesServiceService } from '../../../../core/services/profesion
   templateUrl: './pop-up-servicios-profesionales.component.html',
   styleUrl: './pop-up-servicios-profesionales.component.css',
 })
-export class PopUpServiciosProfesionalesComponent implements OnInit {
+export class PopUpServiciosProfesionalesComponent implements OnInit, OnChanges {
   @Input() profesional: ProfesionalInterface | null = null;
 
   servicioService = inject(ServicioServiceService);
@@ -42,6 +44,10 @@ export class PopUpServiciosProfesionalesComponent implements OnInit {
     this.cargarServicios();
     this.nombreProfesional = this.profesional?.nombre;
   }
+ngOnChanges(changes: SimpleChanges): void {
+    this.cargarServicios();
+}
+
   servicioNegocio: NegocioServiceService = inject(NegocioServiceService);
   servicioProfesional: ProfesionalesServiceService = inject(
     ProfesionalesServiceService

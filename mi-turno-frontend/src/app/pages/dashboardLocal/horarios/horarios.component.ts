@@ -37,6 +37,7 @@ ngOnChanges(changes: SimpleChanges): void {
   if (changes['horarios'] && this.horarios.length > 0) {
     this.toggleActivo = true;
   }
+  this.actualizarHorarios.emit();
 }
 
 cambiarToggle(){

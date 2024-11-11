@@ -5,6 +5,8 @@ import {
   Input,
   OnInit,
   importProvidersFrom,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ServicioInterface } from '../../../../core/interfaces/servicio-interface';
@@ -31,6 +33,7 @@ export class ServiciosCheckComponent implements OnInit {
   @Input() toggleActivo: boolean | null = null;
   @Input() profesionalCompleto: ProfesionalInterface | null = null;
   nombreServicio = this.servicioCompleto?.nombre;
+
 
   // Función para alternar el estado del toggle
   cambiarEstadoToggle(event: any) {
@@ -83,6 +86,8 @@ export class ServiciosCheckComponent implements OnInit {
             console.log(e.message);
           },
         });
+
+
     }
   }
 

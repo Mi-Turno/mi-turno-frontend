@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, inject, OnChanges, SimpleChanges } from '@angular/core';
 import { HorariosComponent } from '../../horarios/horarios.component';
 import { BotonComponent } from '../../../../shared/components/boton/boton.component';
 import { MatIcon } from '@angular/material/icon';
@@ -17,7 +17,7 @@ import { DiasEnum } from '../../../../shared/models/diasEnum';
   templateUrl: './pop-up-horarios-profesionales.component.html',
   styleUrl: './pop-up-horarios-profesionales.component.css'
 })
-export class PopUpHorariosProfesionalesComponent implements OnInit{
+export class PopUpHorariosProfesionalesComponent implements OnInit, OnChanges{
 
   nombreProfesional:string  | undefined= "";
 
@@ -28,6 +28,9 @@ dia = DiasEnum;
     this.cargarHorariosPorSemana();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+      this.cargarHorariosPorSemana();
+  }
 
 horariosProfesional = inject(HorarioXprofesionalService);
   @Input() profesional: ProfesionalInterface | null = null;
