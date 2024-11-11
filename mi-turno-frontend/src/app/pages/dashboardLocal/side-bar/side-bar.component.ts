@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BotonComponent } from '../../../shared/components/boton/boton.component';
 import { MatIcon } from '@angular/material/icon';
 import { ICONOS } from '../../../shared/models/iconos.constants';
@@ -24,6 +24,8 @@ export class SideBarComponent {
   iconos = ICONOS;
 
   @Input() nombreNegocio = "";
+  @Output() salir:EventEmitter<boolean>= new EventEmitter();
+  cerrarSesionEstado:boolean = false;
   urlBaseNegocio = '/negocios/';
   rutaRecepcion = 'recepcion';
   rutaTurnos = 'turnos';
@@ -35,7 +37,9 @@ export class SideBarComponent {
 
   claseEnlace = "claseEnlace";
   claseIcono = "claseIcono";
-
+  cerrarSesion(){
+    this.salir.emit(this.cerrarSesionEstado = true);
+  }
   selecionado(ruta: string): boolean {
    return this.router.url.includes(`${this.urlBaseNegocio}${this.nombreNegocio}/${ruta}`);
   }

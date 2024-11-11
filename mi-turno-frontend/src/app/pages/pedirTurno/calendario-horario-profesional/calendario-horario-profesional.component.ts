@@ -125,8 +125,20 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
 
 
 
-              let horarioAux:string = this.parsearHorarios(unTurno.horarioProfesional.horaInicio);
+             let horarioAux:string = '';
+              if (typeof unTurno.horarioProfesional.horaInicio === 'string') {
+                // Convertir string a Date (considerando que está en formato 'HH:mm')
+                const horaString = unTurno.horarioProfesional.horaInicio;
+                const fecha = new Date(`1970-01-01T${horaString}:00`);
 
+                if (isNaN(fecha.getTime())) {
+                  throw new Error('Formato de hora inválido');
+                }
+                horarioAux = this.formatearHora(fecha);
+              } else {
+                // Ya es un objeto Date
+                horarioAux = this.formatearHora(unTurno.horarioProfesional.horaInicio);
+              }
               if(unHorario.horaInicio.toString() === horarioAux){
 
                 unHorario.estado = false;
@@ -147,6 +159,13 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
     });
   }
 
+
+  // Método para formatear un objeto Date a 'HH:mm'
+  formatearHora(fecha: Date): string {
+    const horas = fecha.getHours().toString().padStart(2, '0');
+    const minutos = fecha.getMinutes().toString().padStart(2, '0');
+    return `${horas}:${minutos}`;
+  }
 
   obtenerListadoTurnosPorIdProfesional(idProfesional:number){
     this.profesionalService.getListadoTurnosPorIdNegocioYIdProfesional(this.idNegocio,idProfesional).subscribe({

@@ -1,5 +1,5 @@
 <div class="principal">
-  <app-side-bar [nombreNegocio]="nombreNegocio"/>
+  <app-side-bar [nombreNegocio]="nombreNegocio" (salir)="cerrarSesion($event)"/>
 
   <div class="secundario">
     <app-nav-bar/>

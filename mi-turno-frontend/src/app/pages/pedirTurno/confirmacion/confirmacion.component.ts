@@ -27,7 +27,7 @@ import { TurnoService } from '../../../core/services/turnoService/turno.service'
 @Component({
   selector: 'app-confirmacion',
   standalone: true,
-  imports: [CommonModule, NavPedirTurnoComponent, NavPasosComponent, TextoConIconoComponent, BotonComponent, NavBarComponent, PopUpConfirmacionComponent],
+  imports: [CommonModule, TextoConIconoComponent, BotonComponent, PopUpConfirmacionComponent],
   templateUrl: './confirmacion.component.html',
   styleUrl: './confirmacion.component.css'
 })
@@ -189,7 +189,7 @@ ngOnInit(): void {
       emailNegocio: emailNegocio,
       mensaje: mensajeEnviar,
       fecha: this.turnoCreado.fechaInicio,
-      horario: this.turnoCreado.horarioProfesional.horaInicio,
+      horario: this.turnoCreado.horarioProfesional.horaInicio.toLocaleString(),
       direccion: this.negocio.calle + ' ' + this.negocio.altura,
       servicio: this.servicio.nombre,
       precio: String(this.servicio.precio),

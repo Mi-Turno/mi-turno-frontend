@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ICONOS } from '../../../shared/models/iconos.constants';
 import { CommonModule } from '@angular/common';
@@ -23,7 +23,8 @@ export class SideBarAdminComponent   {
   iconos = ICONOS;
 
   @Input() idAdmin = '';
-
+  @Output() salir:EventEmitter<boolean>= new EventEmitter();
+  cerrarSesionEstado:boolean = false;
   nombreAdmin = '';
   rutaInicio = 'inicio';
   rutaNegocio = 'negocio';
@@ -46,6 +47,9 @@ export class SideBarAdminComponent   {
     })
   }
 
+  cerrarSesion(){
+    this.salir.emit(this.cerrarSesionEstado = true);
+  }
   selecionado(ruta: string): boolean {
    return this.router.url.includes(`${this.idAdmin}/${ruta}`);
   }
