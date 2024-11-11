@@ -19,7 +19,7 @@
       (emitirInformacion)="recibirIdInformacion($event)"
       [idNegocio]="idNegocio"
       ></app-seleccion-usuario>
-      <button (click)="avanzarPaso()">avanzarPaso</button>
+    
     }
     @case (2) {
       <app-seleccion-usuario
@@ -28,7 +28,7 @@
       [idNegocio]="idNegocio"
       [idServicio]="turno.idServicio"
       ></app-seleccion-usuario>
-      <button (click)="avanzarPaso()">avanzarPaso</button>
+
     }
     @case (3) {
       <app-seleccion-usuario
@@ -38,7 +38,7 @@
       [idNegocio]="idNegocio"
       [idProfesional]="turno.horarioProfesional.idProfesional"
       ></app-seleccion-usuario>
-      <button (click)="avanzarPaso()">avanzarPaso</button>
+
     }
     @case (4) {
       <app-metodo-pago

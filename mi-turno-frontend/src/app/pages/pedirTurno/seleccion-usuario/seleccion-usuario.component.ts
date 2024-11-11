@@ -53,7 +53,6 @@ export class SeleccionUsuarioComponent implements OnInit{
   }
 
   enviarDiaInicio(event:Date){
-
     this.emitirDiaInicio.emit(event);
   }
 

@@ -66,7 +66,7 @@ export class RegistrarNegocioComponent {
       const negocio: NegocioInterface = this.obtenerNegocioForm();
       this.negocioService.postNegocio(negocio).subscribe({
         next:() =>{
-          console.log("Negocio registrado correctamente");
+          alert("Negocio registrado correctamente");
         },
         error:(error) =>{
           if(error instanceof HttpErrorResponse){
