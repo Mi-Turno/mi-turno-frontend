@@ -3,7 +3,7 @@ export interface EmailInterface {
   email:string;
   mensaje:string;
   fecha:Date;
-  horario:Date;
+  horario:Date|string;
   ubicacion:string;
   direccion:string;
   servicio:string;

@@ -4,7 +4,7 @@ export interface HorarioProfesional {
 idHorario?:number;
 idProfesional:number;
 dia:DiasEnum;
-horaInicio:Date;
+horaInicio:Date|string;
 estado?:boolean;
 
 }
