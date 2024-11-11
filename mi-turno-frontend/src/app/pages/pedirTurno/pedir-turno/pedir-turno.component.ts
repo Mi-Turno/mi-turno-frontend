@@ -77,7 +77,7 @@ export class PedirTurnoComponent implements OnInit{
   turno:TurnoInterface={
     idCliente: this.idCliente,
     idNegocio: this.idNegocio,
-    metodoPago: MetodosDePago.credito,
+    metodosDePagoEnum: MetodosDePago.credito,
     idServicio: 0,
     fechaInicio: new Date(),
     horarioProfesional:{
@@ -121,7 +121,7 @@ export class PedirTurnoComponent implements OnInit{
 
     if(this.pasoActual == 4){
       console.log(obtenerMetodosDePagoPorNumero(event));
-      this.turno.metodoPago = obtenerMetodosDePagoPorNumero(event);
+      this.turno.metodosDePagoEnum = obtenerMetodosDePagoPorNumero(event);
     }
 
 

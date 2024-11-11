@@ -13,7 +13,7 @@ import { AuthService } from '../../../auth/service/auth.service';
 @Component({
   selector: 'app-panel-recepcion',
   standalone: true,
-  imports: [CommonModule,CardComponent, NavBarComponent, SideBarComponent,ProfesionalesMainComponent, FormsModule, RouterOutlet,PopUpCrearProfesionalComponent ],
+  imports: [CommonModule, NavBarComponent, SideBarComponent, FormsModule, RouterOutlet],
   templateUrl: './panel-recepcion.component.html',
   styleUrl: './panel-recepcion.component.css'
 })

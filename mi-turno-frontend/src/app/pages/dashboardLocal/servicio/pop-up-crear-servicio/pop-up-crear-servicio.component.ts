@@ -35,7 +35,6 @@ import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface'
     InputComponent,
     MatIcon,
     ReactiveFormsModule,
-    CardComponent,
   ],
   templateUrl: './pop-up-crear-servicio.component.html',
   styleUrl: './pop-up-crear-servicio.component.css',
