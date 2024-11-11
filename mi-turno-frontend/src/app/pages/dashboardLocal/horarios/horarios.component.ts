@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { ChipComponent } from '../../../shared/components/chip/chip.component';
 import { CommonModule } from '@angular/common';
@@ -9,6 +9,8 @@ import { HorarioXprofesionalService } from '../../../core/services/horariosProfe
 import { HorarioProfesional } from '../../../core/interfaces/horarioProfesional.interface';
 import { ProfesionalInterface } from '../../../core/interfaces/profesional-interface';
 
+//todo: Hay que hacer que cuando el arreglo este con elementos, no se pueda desmarcar el toggle
+
 
 @Component({
   selector: 'app-horarios',
@@ -17,17 +19,33 @@ import { ProfesionalInterface } from '../../../core/interfaces/profesional-inter
   templateUrl: './horarios.component.html',
   styleUrl: './horarios.component.css'
 })
-export class HorariosComponent  implements OnInit{
+export class HorariosComponent  implements OnInit, OnChanges{
 
   horarioService = inject(HorarioXprofesionalService);
   toggleActivo: boolean = false;
+
  @Input() horarios: HorarioProfesional [] = [];
- @Input() dia:DiasEnum= DiasEnum.DOMINGO;
+ @Input() dia:DiasEnum= DiasEnum.LUNES;
  @Input() profesional: ProfesionalInterface | null = null;
 
 
 ngOnInit(): void {
-   console.log(this.horarios);
+  this.toggleActivo = this.cambiarToggle();
+}
+
+ngOnChanges(changes: SimpleChanges): void {
+  if (changes['horarios'] && this.horarios.length > 0) {
+    this.toggleActivo = true;
+  }
+}
+
+cambiarToggle(){
+  if(this.horarios.length > 0) {
+    console.log(this.horarios.length);
+    return true;
+  }
+  else
+    return false
 }
 
 
@@ -45,18 +63,15 @@ crearHorario(horarioNuevo: string): HorarioProfesional {
     idProfesional: id,
   }
 }
-
-
-
-
-
   // Función para alternar el estado del toggle
   cambiarEstadoToggle(event: any) {
-    this.toggleActivo = event.checked; // Obtiene el estado del toggle desde el evento
+
+      this.toggleActivo = event.checked; // Obtiene el estado del toggle desde el evento
+
   }
 
-
   convertirADiasEnum(dia: string): DiasEnum | undefined {
+    console.log(dia);
     dia = dia.toUpperCase();
     // Asegúrate de que el string esté en mayúsculas para coincidir con el enum
     return DiasEnum[dia as keyof typeof DiasEnum];
@@ -66,10 +81,8 @@ crearHorario(horarioNuevo: string): HorarioProfesional {
     return Object.values(DiasEnum).indexOf(dia);
   }
 
-
   parsearHora(horarioNuevo:string) {
     const [horas, minutos] = horarioNuevo.split(':').map(Number);
-
     // Crear un objeto Date y ajustar la hora
     const horario = new Date();
     horario.setHours(horas);
@@ -81,25 +94,20 @@ crearHorario(horarioNuevo: string): HorarioProfesional {
     return horarioParseado;
   }
 
+  @Output() actualizarHorarios: EventEmitter<void> = new EventEmitter<void>();
 
 
   // Función para añadir un nuevo horario
   agregarHorario() {
-
     const nuevoHorario = prompt('Ingresa un nuevo horario (HH:mm):');
     if(nuevoHorario){
      const horario = this.crearHorario(nuevoHorario)
-     console.log(horario);
       this.postHorarioToBackend(horario);
+      this.actualizarHorarios.emit()
     }
   }
-
-
   private postHorarioToBackend(horario:any):void{
     try {
-
-      console.log(this.profesional);
-      console.log(horario);
       this.horarioService.postHorariosPorProfesional(this.profesional?.idNegocio!, this.profesional?.idUsuario!, horario).subscribe({
         next:(horario: HorarioProfesional) =>{
           console.log(horario);
@@ -112,12 +120,30 @@ crearHorario(horarioNuevo: string): HorarioProfesional {
       console.error(error);
     }
   }
+
+  //todo: Hacer metodo para eliminar un horario de un porfesional
+  //todo: En HORARIO_PROFESIONAL_CONTROLADOR
   // Función para eliminar un horario específico
-  eliminarHorario(index: number) {
-    this.horarios.splice(index, 1);
+  eliminarHorario(idServicio: number | undefined) {
+    try{
+      this.horarioService.deleteHorarioDeProfesional(this.profesional?.idNegocio!, this.profesional?.idUsuario!, idServicio!).subscribe({
+        next:(response: any) => {
+          console.log(response);
+        },
+        error:(error: Error) => {
+          console.log(error);
+        }
+      })
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   escribirGola(){
     console.log("Gola");
   }
+
+
+
+
 }

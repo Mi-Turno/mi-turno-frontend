@@ -5,6 +5,8 @@
     <!-- Recibe el evento change y cambia el estilo  -->
     <mat-slide-toggle
       (change)="cambiarEstadoToggle($event)"
+      [checked]="toggleActivo"
+
       color="primary"
     ></mat-slide-toggle>
   </div>
@@ -12,8 +14,8 @@
   <div class="horarios-boton" [ngClass]="{ 'desactivado ': !toggleActivo }">
     <div class="horario-lista">
       <div class="horario-item" *ngFor="let horario of horarios; let i = index">
-        <span>{{ horario }}</span>
-        <mat-icon (click)="eliminarHorario(i)" class="delete-icon"
+        <span>{{ horario.horaInicio }}</span>
+        <mat-icon (click)="eliminarHorario(horario.idHorario)" class="delete-icon"
           >delete</mat-icon
         >
       </div>

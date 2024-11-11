@@ -1,11 +1,11 @@
 export enum DiasEnum{
+    DOMINGO = "DOMINGO",
   LUNES = "LUNES",
   MARTES = "MARTES",
   MIERCOLES = "MIERCOLES",
   JUEVES = "JUEVES",
   VIERNES = "VIERNES",
-  SABADO = "SABADO",
-  DOMINGO = "DOMINGO"
+  SABADO = "SABADO"
 }
 
 export enum DiasEnumOrdinal{

@@ -5,8 +5,10 @@ import { BotonComponent } from '../../../../shared/components/boton/boton.compon
 import { MatIcon } from '@angular/material/icon';
 import { UsuarioService } from '../../../../core/services/usuarioService/usuario.service';
 import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface';
-import { DiasEnum } from '../../../../shared/models/diasEnum';
 import { HorarioProfesional } from '../../../../core/interfaces/horarioProfesional.interface';
+import { HorarioXprofesionalService } from '../../../../core/services/horariosProfesionalService/horarioProfesional.service';
+import { ProfesionalInterface } from '../../../../core/interfaces/profesional-interface';
+import { DiasEnum } from '../../../../shared/models/diasEnum';
 
 @Component({
   selector: 'app-pop-up-horarios-profesionales',
@@ -22,15 +24,13 @@ export class PopUpHorariosProfesionalesComponent implements OnInit{
 dia = DiasEnum;
 
   ngOnInit(): void {
-    this.nombreProfesional =  this.cardSeleccionada?.nombre;
+    this.nombreProfesional =  this.profesional?.nombre;
     this.cargarHorariosPorSemana();
-    // console.log(this.horarios);
   }
 
 
-  // horariosProfesional:HorarioXprofesionalService = inject(HorarioXprofesionalService)
-
-  @Input() cardSeleccionada: UsuarioInterface | null = null;
+horariosProfesional = inject(HorarioXprofesionalService);
+  @Input() profesional: ProfesionalInterface | null = null;
 
   botonConfirmar = "botonConfirmar"
 
@@ -40,11 +40,6 @@ dia = DiasEnum;
   @Output() desactivarOverlay: EventEmitter<void> = new EventEmitter<void>();
   @Output() activarModificacion: EventEmitter<void> = new EventEmitter<void>();
 
-  // horarios:HorarioXProfesionalInterface[] = [];
-
-  //horariosActuales:string[] = [];
-
-// Define el tipo que usa DiasEnum como claves y cada clave tiene un arreglo de strings
 
 
  horariosActuales = {
@@ -57,37 +52,34 @@ dia = DiasEnum;
   [DiasEnum.DOMINGO]: [] as HorarioProfesional[]
 };
 
+horarios: HorarioProfesional | null = null;
+
 
 cargarHorariosPorSemana() {
-  if (this.cardSeleccionada?.idUsuario) {
+  console.log("recibo el evento");
+  if (this.profesional?.idUsuario) {
     // Obtener todos los valores del enum para iterar sobre ellos
     const dias = Object.values(DiasEnum);
 
-    // dias.forEach((dia) => {
-    //   if(this.cardSeleccionada?.idUsuario){
-    //   this.horariosProfesional.obtenerHorariosPorProfesionalYDia(this.cardSeleccionada.idUsuario, dia).subscribe({
-    //     next: (response) => {
-    //       this.horarios = response;
-    //       this.pasarHorariosAhoras(dia);
-    //     },
-    //     error: (error) => {
-    //       console.error(`Error al obtener horarios para el día ${dia}:`, error);
-    //     }
-    //   });
-    // }});
+    dias.forEach((dia) => {
+      const indiceDia = this.obtenerIndiceDia(dia); // Obtener el índice del día en el enum
+       if(this.profesional?.idUsuario){
+       this.horariosProfesional.obtenerHorariosPorIdProfesionalYDia(this.profesional.idNegocio!, this.profesional.idUsuario!, indiceDia).subscribe({
+         next: (response) => {
+          this.horariosActuales[dia] = response;
+         },
+         error: (error: Error) => {
+           console.error(`Error al obtener horarios para el día ${dia}:`, error);
+         }
+       });
+     }});
   }
 }
 
 
-pasarHorariosAhoras(dia: DiasEnum) {
-  // this.horariosActuales[dia] = this.horarios.map(objeto => objeto.horario.toString());
-  console.log(`HorariosActuales para ${dia}:`, this.horariosActuales[dia]);
+obtenerIndiceDia(dia: DiasEnum): number {
+  return Object.values(DiasEnum).indexOf(dia);
 }
-
-  confirmar() {
-    // console.log(this.horarios);
-  }
-
 
 
 cerrarPopUp() {
