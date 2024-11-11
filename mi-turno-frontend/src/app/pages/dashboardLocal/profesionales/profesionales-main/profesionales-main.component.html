@@ -53,7 +53,7 @@
     <div class="overlay" (click)="cambiar_SobreposicionHorarios(cardActual)"></div>
     <app-pop-up-horarios-profesionales
       class="posicionPopUp"
-      [cardSeleccionada]="cardActual"
+      [profesional]="cardActual"
       (desactivarOverlay)="cambiar_SobreposicionHorarios(cardActual)"
       (activarModificacion)="cambiarSobreposicion('Modificar profesional', cardActual)"
     ></app-pop-up-horarios-profesionales>

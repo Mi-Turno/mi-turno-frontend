@@ -28,5 +28,9 @@ export class HorarioXprofesionalService {
   }
 
 
+  public deleteHorarioDeProfesional(idNegocio: number, idProfesional : number, idHorario: number) {
+    return this.http.delete<HorarioProfesional>(`${this.urlBase}/${idNegocio}/profesionales/${idProfesional}/horarios/${idHorario}`)
+  }
+
 
 }

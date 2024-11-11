@@ -33,6 +33,7 @@ import { TurnoService } from '../../../core/services/turnoService/turno.service'
 })
 export class ConfirmacionComponent implements OnInit {
 
+
   botonActivado = false;
   iconos = ICONOS;
   //todo reemplazar por los valores reales que se van asignando en el turno
@@ -107,6 +108,7 @@ settearMostrarInfo(){
 }
 
 ngOnInit(): void {
+  this.turnoCreado.idCliente = Number(localStorage.getItem('idUsuario'));
   this.obtenerCliente(this.turnoCreado.idCliente);
   this.obtenerProfesional(this.turnoCreado.horarioProfesional.idProfesional);
   this.obtenerServicio(this.turnoCreado.idNegocio, this.turnoCreado.idServicio);
@@ -121,6 +123,7 @@ ngOnInit(): void {
     this.UsuarioService.obtenerUsuarioPorId(idCliente).subscribe({
       next: (usuario) => {
         this.usuario = usuario;
+        console.log(usuario);
       },
       error: (error) => {
         console.log(error);

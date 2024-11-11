@@ -42,6 +42,7 @@ export class SeleccionUsuarioComponent implements OnInit{
   //init
   ngOnInit(): void {
     console.log("ID NEGOCIO",this.idNegocio);
+    console.log("Id Usuario", Number(localStorage.getItem('idUsuario')));
     this.obtenerServiciosPorIdNegocio(this.idNegocio);
 
     //lo verifico asi no hago una peticion de mas y ademas tengo el id del servicio para mostrar los profesionales que lo brindan
@@ -63,6 +64,8 @@ export class SeleccionUsuarioComponent implements OnInit{
     this.servicioServicios.GETserviciosPorIdNegocioYEstado(idNegocio, "true").subscribe({
       next: (servicios) => {
         console.log("id negocio",idNegocio);
+        console.log("Id Usuario", Number(localStorage.getItem('idUsuario')));
+
         console.log("Servicios",servicios);
         this.arregloServicios= servicios;
       },
@@ -108,6 +111,8 @@ export class SeleccionUsuarioComponent implements OnInit{
   @Output() emitirHorarioProfesionalSeleccionado: EventEmitter<HorarioProfesional> = new EventEmitter<HorarioProfesional>();
   enviarHorarioProfesional(e:HorarioProfesional){
     console.log("HORARIO PROFESIONALLL",e);
+    console.log("Id Usuario", Number(localStorage.getItem('idUsuario')));
+
     this.emitirHorarioProfesionalSeleccionado.emit(e);
   }
 
