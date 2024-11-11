@@ -4,6 +4,9 @@
   <button (click)="pasarFoto()" [disabled]="botonAvanzarDisabled">Avanzar</button>
 </div>
 <div class="controles">
-  <button (click)="playIntervalo()" [disabled]="botonPlayDisabled">Play</button>
-  <button (click)="stopIntervalo()" [disabled]="botonStopDisabled">Stop</button>
+
+
+
+  <button [className]="'botonSiguiente'" (click)="playIntervalo()" [disabled]="botonPlayDisabled">Play</button>
+  <button [className]="'botonSiguiente'" (click)="stopIntervalo()" [disabled]="botonStopDisabled">Stop</button>
 </div>
