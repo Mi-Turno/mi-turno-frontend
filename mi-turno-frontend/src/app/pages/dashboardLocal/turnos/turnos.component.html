@@ -16,11 +16,13 @@
     <tr *ngFor="let turno of turnoTabla; let i = index">
       <td>
         <span [ngClass]="{
-          'estado-cobrada': verificarEstado(turno.fecha, turno.horaInicio) === 'pagado',
-          'estado-reservada': verificarEstado(turno.fecha, turno.horaInicio) === 'reservado',
-          'estado-cancelado': verificarEstado(turno.fecha, turno.horaInicio) === 'cancelado'
-        }">
-          {{ verificarEstado(turno.fecha, turno.horaInicio) === 'pagado' ? 'Pagado' : 'Reservado' }}
+              'estado-cancelado': !turno.estado,
+              'estado-cobrada':  verificarEstado(turno.fecha, turno.horaInicio,turno.estado) === 'pagado',
+              'estado-reservada': verificarEstado(turno.fecha, turno.horaInicio,turno.estado) === 'reservado'
+            }">
+          <!-- Mostrar el estado en texto -->
+          {{ !turno.estado ? 'Cancelado' : (verificarEstado(turno.fecha, turno.horaInicio,turno.estado) === 'pagado' ?
+          'Pagado' : 'Reservado') }}
         </span>
       </td>
       <td>{{ turno.idTurno }}</td>
@@ -31,10 +33,10 @@
       <td>{{ turno.nombreServicio }}</td>
       <td>{{ turno.metodoPago }}</td>
       <td>
-        <button class="btn-cancelar" (click) = "cancelarTurno(idNegocio,turno.idTurno)" >Cancelar</button>
+        <button class="btn-cancelar" (click)="cancelarTurno(idNegocio, turno.idTurno)" [disabled]="!turno.estado">
+          Cancelar
+        </button>
       </td>
     </tr>
   </tbody>
 </table>
-
-

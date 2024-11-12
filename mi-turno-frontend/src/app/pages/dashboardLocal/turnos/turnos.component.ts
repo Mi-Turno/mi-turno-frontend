@@ -36,18 +36,23 @@ export class TurnosComponent implements OnInit {
 
   }
 
-  verificarEstado(fechaTurno: string, horaTurno: string): string {
-    const fechaActual = new Date();
+  verificarEstado(fechaTurno: string, horaTurno: string,estado:boolean): string {
+    if(estado){
+      const fechaActual = new Date();
 
-    const [anio, mes, dia] = fechaTurno.split('-').map((parte) => parseInt(parte, 10));
-    const [hora, minutos] = horaTurno.split(':').map((parte) => parseInt(parte, 10));
+      const [anio, mes, dia] = fechaTurno.split('-').map((parte) => parseInt(parte, 10));
+      const [hora, minutos] = horaTurno.split(':').map((parte) => parseInt(parte, 10));
 
-    const fechaTurnoDate = new Date(anio, mes - 1, dia, hora, minutos, 0, 0);
-    if (fechaTurnoDate < fechaActual) {
-      return 'pagado';
-    } else {
-      return 'reservado';
+      const fechaTurnoDate = new Date(anio, mes - 1, dia, hora, minutos, 0, 0);
+      if (fechaTurnoDate < fechaActual) {
+        return 'pagado';
+      } else {
+        return 'reservado';
+      }
+    }else{
+      return 'cancelado';
     }
+
   }
   // 1 - Crear un método que obtenga todos los turnos del negocio
   cargarTurnos() {
@@ -131,7 +136,8 @@ cancelarTurno(idNegocio?: number, idTurno?: number) {
 
       next: (response) => {
 
-        console.log(response);
+        alert('Turno cancelado ');
+        window.location.reload();
 
       },
       error: (error) => {
