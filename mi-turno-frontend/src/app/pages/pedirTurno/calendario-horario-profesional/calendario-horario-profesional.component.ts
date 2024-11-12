@@ -116,17 +116,28 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
           next: (horarios) => {
             // Iteramos para actualizar el estado según los turnos
             horarios.forEach(unHorario => {
+
+              const fechaActual = new Date();
+              const horaFormateada = fechaActual.toLocaleTimeString('es-AR', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false,
+              });
               const [horaInicio, minutosInicio] = unHorario.horaInicio.toString().split(':');
 
               const tieneTurno = this.arregloTurnos.some(unTurno => {
+
                 const fechaTurno = this.parsearFechas(unTurno.fechaInicio.toString());
                 const [horaTurno, minutosTurno] = unTurno.horarioProfesional.horaInicio.toString().split(':');
+
+
 
                 // Verificamos si el horario coincide con un turno existente
                 return (
                   fechaTurno.getDate() === this.fechaInicio.getDate() &&
                   horaInicio === horaTurno && minutosInicio === minutosTurno
-                );
+                   ||     (this.fechaInicio.toDateString() === fechaActual.toDateString() &&
+                   unHorario.horaInicio < horaFormateada))
               });
 
               // Marcamos el horario como ocupado si coincide con algún turno
