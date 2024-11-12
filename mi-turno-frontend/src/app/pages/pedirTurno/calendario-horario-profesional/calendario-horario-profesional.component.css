@@ -27,14 +27,13 @@ main{
   background-color: var(--color-gris-claro);
 }
 
-.listadoDias{
+.listadoDias {
   display: flex;
   justify-content: space-evenly;
   border-bottom: 2px solid lightgray;
 }
 
-
-.dia{
+.dia {
   height: 50px;
   display: flex;
   align-items: center;
@@ -43,25 +42,32 @@ main{
   width: 25vw;
   margin: 0;
   font-size: larger;
-  font-weight:600;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
 }
 
-.dia:first-child{
+.dia:first-child {
   border-top-left-radius: 29px;
 }
 
-.dia:last-child{
+.dia:last-child {
   border-top-right-radius: 29px;
 }
 
-.dia:hover{
+.dia:hover {
   cursor: pointer;
   background-color: rgba(0, 0, 139, 0.3);
 }
 
-/* .diaSeleccionado{
+/* Estilo para el día seleccionado */
+.seleccionado {
+  background-color: rgba(0, 0, 139, 0.6);
+  color: white;
+}
+
+ .diaSeleccionado{
   background-color: rgba(0, 0, 139, 0.3);
-} */
+}
 
 .horariosProfesional{
   display: flex;
