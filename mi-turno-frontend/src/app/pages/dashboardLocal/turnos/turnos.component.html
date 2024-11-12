@@ -33,7 +33,7 @@
       <td>{{ turno.nombreServicio }}</td>
       <td>{{ turno.metodoPago }}</td>
       <td>
-        <button class="btn-cancelar" (click)="cancelarTurno(idNegocio, turno.idTurno)" [disabled]="!turno.estado">
+        <button class="btn-cancelar" (click)="cancelarTurno(idNegocio, turno.idTurno)" [disabled]="verificarEstado(turno.fecha, turno.horaInicio, turno.estado) === 'pagado'||verificarEstado(turno.fecha, turno.horaInicio, turno.estado) === 'cancelado'">
           Cancelar
         </button>
       </td>
