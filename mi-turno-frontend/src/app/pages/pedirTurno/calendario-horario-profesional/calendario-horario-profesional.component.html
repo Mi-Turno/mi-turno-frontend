@@ -2,12 +2,32 @@
 
   <main>
     <section [className]="'listadoDias'">
+      <!-- Día de Hoy -->
+  <p
+  [className]="'dia'"
+  [ngClass]="{ seleccionado: diaDeLaSemanaSeleccionado === hoy.getDay() }"
+  (click)="manejarDiaSeleccionado(hoy.getDay())"
+>
+  HOY
+</p>
 
-      <p [className]="'dia'" (click)="manejarDiaSeleccionado(hoy.getDay())">HOY</p>
+<!-- Día Siguiente -->
+<p
+  [className]="'dia'"
+  [ngClass]="{ seleccionado: diaDeLaSemanaSeleccionado === diaSiguiente }"
+  (click)="manejarDiaSeleccionado(diaSiguiente)"
+>
+  {{ obtenerDiaEnumPorNumero(diaSiguiente).toLocaleUpperCase() }}
+</p>
 
-      <p [className]="'dia'" (click)="manejarDiaSeleccionado(diaSiguiente)">{{obtenerDiaEnumPorNumero(diaSiguiente).toLocaleUpperCase()}}</p>
-
-      <p [className]="'dia'" (click)="activarInputOtroDia()">OTRO DIA</p>
+<!-- Otro Día -->
+<p
+  [className]="'dia'"
+  [ngClass]="{ seleccionado: otroDiaActivo}"
+  (click)="activarInputOtroDia()"
+>
+  OTRO DÍA
+</p>
 
     </section>
 
