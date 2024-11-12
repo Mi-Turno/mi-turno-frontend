@@ -1,36 +1,63 @@
-
-
 <h5 [className]="'tablaTitulo'">Todos tus turnos:</h5>
 <div [className]="'tablaContainer'">
-
   <table [className]="'tablaTurnos'">
     <thead [className]="'columnaTablaHead'">
       <tr [className]="'filaInicio'">
         <th [className]="'columnaHead'" scope="col">Nro:</th>
+        <th [className]="'columnaHead'" scope="col">Estado</th>
         <th [className]="'columnaHead'" scope="col">Negocio</th>
         <th [className]="'columnaHead'" scope="col">Fecha</th>
         <th [className]="'columnaHead'" scope="col">Horario</th>
         <th [className]="'columnaHead'" scope="col">Servicio</th>
         <th [className]="'columnaHead'" scope="col">Precio</th>
         <th [className]="'columnaHead'" scope="col">Profesional</th>
+        <th [className]="'columnaHead'" scope="col">Cancelar</th>
+
       </tr>
     </thead>
     <tbody [className]="'tablaCuerpo'">
-
       @for (unTurno of listadoMostrarTurnos; track $index) {
-        <tr [className]="'filaCuerpo'">
-          <th [className]="'columnaInicialCuerpo'" scope="row">{{$index+1}}</th>
-            <td>{{unTurno.nombreNegocio}}</td>
-            <td>{{unTurno.fechaInicio}}</td>
-            <td>{{unTurno.horario}}</td>
-            <td>{{unTurno.nombreServicio}}</td>
-            <td>{{unTurno.precioServicio}}</td>
-            <td>{{unTurno.nombreProfesional}}</td>
-        </tr>
-      }
+      <tr [className]="'filaCuerpo'">
+        <th [className]="'columnaInicialCuerpo'" scope="row">
+          {{ $index + 1 }}
+        </th>
+        <td>
+          <span [ngClass]="{
+            'estado-cancelado': !unTurno.estado,
+            'estado-cobrada': verificarEstado(unTurno.fechaInicio,unTurno.horario,unTurno.estado) === 'pagado',
+            'estado-reservada':verificarEstado( unTurno.fechaInicio, unTurno.horario, unTurno.estado) === 'reservado'
+            }"
+          >
+            <!-- Mostrar el estado en texto -->
+            {{
+              !unTurno.estado? "Cancelado"
+                : verificarEstado(unTurno.fechaInicio,unTurno.horario,unTurno.estado) === "pagado"? "Pagado": "Reservado"
+            }}
+          </span>
 
+
+        </td>
+        <td>{{ unTurno.nombreNegocio }}</td>
+        <td>{{ unTurno.fechaInicio }}</td>
+        <td>{{ unTurno.horario }}</td>
+        <td>{{ unTurno.nombreServicio }}</td>
+        <td>{{ unTurno.precioServicio }}</td>
+        <td>{{ unTurno.nombreProfesional }}</td>
+
+        <td>
+
+          <button
+          class="btn-cancelar"
+          (click)="cancelarTurno(unTurno.idNegocio, unTurno.idTurno)"
+          [disabled]="
+          verificarEstado( unTurno.fechaInicio, unTurno.horario, unTurno.estado) === 'pagado' ||
+          verificarEstado( unTurno.fechaInicio, unTurno.horario, unTurno.estado) === 'cancelado'">
+        Cancelar
+      </button>
+    </td>
+
+      </tr>
+      }
     </tbody>
   </table>
 </div>
-
-

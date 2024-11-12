@@ -49,24 +49,20 @@ export class DashboardClienteComponent implements OnInit{
 
   ngOnInit(): void {
     this.idCliente = Number(localStorage.getItem('idUsuario'));
-
     this.obtenerInfo()
-
   }
 
 
 
   listadoTurnos:TurnoInterface[] = [];
+/*
 
   obtenerInfo(){
-
-
   //obtener todos los negocios
   this.servicioNegocio.getTodosLosNegocios().subscribe({
     next: (negocios: NegocioInterface[])=>{
-      console.log("Negocios que recibod del back",negocios);
-      // this.listadoNegocios= negocios;
-
+      this.listadoNegocios= negocios;
+console.log("Negocios del back crudos", negocios);
       negocios.map((unNegocio:NegocioInterface)=>{
         this.listadoNegocios.push({
           idUsuario:unNegocio.idUsuario,
@@ -82,18 +78,12 @@ export class DashboardClienteComponent implements OnInit{
           altura: unNegocio.altura,
           detalle: unNegocio.detalle
         });
-
-
       })
-      
     },
     error: (error)=>{
       console.error(error);
     }
   })
-
-
-
 
   //obtener nombre y apellido del cliente
   this.servicioCliente.getClienteById(this.idCliente).subscribe({
@@ -106,6 +96,34 @@ export class DashboardClienteComponent implements OnInit{
   })
 
   }
+
+*/
+
+
+obtenerInfo() {
+  // Obtener todos los negocios
+  this.servicioNegocio.getTodosLosNegocios().subscribe({
+    next: (negocios: NegocioInterface[]) => {
+      // Asignar directamente los negocios a listadoNegocios
+      this.listadoNegocios = negocios;
+      console.log("Negocios que recibo del back", this.listadoNegocios);
+    },
+    error: (error) => {
+      console.error(error);
+    }
+  });
+
+  // Obtener nombre y apellido del cliente
+  this.servicioCliente.getClienteById(this.idCliente).subscribe({
+    next: (unCliente: ClienteInterface) => {
+      this.clienteActual = unCliente;
+    },
+    error: (error) => {
+      console.error(error);
+    }
+  });
+}
+
   estiloGeneralContainer:string="generalContainer"
 
   manejarLevantarPopUp(event:number){
@@ -119,5 +137,10 @@ export class DashboardClienteComponent implements OnInit{
       this.popupLevantado = false;
     }
   }
+
+mostrarNegocios() {
+  console.log("Negocios que recibo del back", this.listadoNegocios);
+
+}
 
 }
