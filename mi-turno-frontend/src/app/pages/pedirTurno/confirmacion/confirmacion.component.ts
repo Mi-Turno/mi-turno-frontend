@@ -38,9 +38,9 @@ export class ConfirmacionComponent implements OnInit {
   iconos = ICONOS;
   //todo reemplazar por los valores reales que se van asignando en el turno
 
-  @Input() turnoCreado:TurnoInterface ={
+  @Input() turnoCreado: TurnoInterface = {
     idCliente: 0,
-    idNegocio:0,
+    idNegocio: 0,
     horarioProfesional: {
       idHorario: 0,
       idProfesional: 0,
@@ -59,24 +59,24 @@ export class ConfirmacionComponent implements OnInit {
   usuario: UsuarioInterface = { idUsuario: 0, nombre: '', apellido: '', email: '', telefono: '', fechaNacimiento: '', password: '', idRolUsuario: 0 };
 
   ServicioServiceService: ServicioServiceService = inject(ServicioServiceService);
-  servicio:ServicioInterface = { nombre:'',duracion: 0, precio: 0};
+  servicio: ServicioInterface = { nombre: '', duracion: 0, precio: 0 };
 
   profesionalService: ProfesionalesServiceService = inject(ProfesionalesServiceService);
-  profesional:  UsuarioInterface = { idUsuario: 0, nombre: '', apellido: '', email: '', telefono: '', fechaNacimiento: '', password: '', idRolUsuario: 0 };
+  profesional: UsuarioInterface = { idUsuario: 0, nombre: '', apellido: '', email: '', telefono: '', fechaNacimiento: '', password: '', idRolUsuario: 0 };
 
   NegocioServiceService: NegocioServiceService = inject(NegocioServiceService);
   negocio: NegocioInterface = {
-    nombre:'',
-    apellido:'',
-    email:'',
-    password:'',
-    telefono:'',
-    fechaNacimiento:'',
-    idRolUsuario:'',
-    rubro:'',
-    calle:'',
-    altura:'',
-    detalle:''
+    nombre: '',
+    apellido: '',
+    email: '',
+    password: '',
+    telefono: '',
+    fechaNacimiento: '',
+    idRolUsuario: '',
+    rubro: '',
+    calle: '',
+    altura: '',
+    detalle: ''
   };
 
 
@@ -84,42 +84,55 @@ export class ConfirmacionComponent implements OnInit {
 
 
 
-servicioTexto:string='';
-profesionalTexto:string='';
-precioTexto:string='';
-ubicacionTexto:string='';
-metodoDePagoTexto:string='';
-detalleTexto:string='';
+  servicioTexto: string = '';
+  profesionalTexto: string = '';
+  precioTexto: string = '';
+  ubicacionTexto: string = '';
+  metodoDePagoTexto: string = '';
+  detalleTexto: string = '';
 
-settearMostrarInfo(){
-  this.servicioTexto = this.servicio.nombre;
-  this.profesionalTexto= this.profesional.nombre;
 
-  if(this.servicio.precio !== undefined){
-    this.precioTexto=   this.servicio.precio.toString();
+
+  ngOnInit(): void {
+    this.turnoCreado.idCliente = Number(localStorage.getItem('idUsuario'));
+    this.obtenerCliente(this.turnoCreado.idCliente);
+    this.obtenerProfesional(this.turnoCreado.horarioProfesional.idProfesional);
+    this.obtenerServicio(this.turnoCreado.idNegocio, this.turnoCreado.idServicio);
+    this.obtenerNegocio(this.turnoCreado.idNegocio);
+
+    this.settearMostrarInfo();
+
   }
-  else{
-    console.log("SERVICIO PRECIO UNDEFINED");
+  settearMostrarInfo() {
+    this.servicioTexto = this.servicio.nombre;
+    this.profesionalTexto = this.profesional.nombre;
+
+
+    this.fecha ='Fecha: '+ this.formatearFecha(this.turnoCreado.fechaInicio);
+    //this.turnoCreado.horarioProfesional.horaInicio = new Date(this.turnoCreado.horarioProfesional.horaInicio);
+    if (this.servicio.precio !== undefined) {
+      this.precioTexto = this.servicio.precio.toString();
+    }
+    else {
+      console.log("SERVICIO PRECIO UNDEFINED");
+    }
+
+
+    this.metodoDePagoTexto = this.turnoCreado.metodosDePagoEnum.replace("_", " ").toLocaleLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());;
+    this.detalleTexto = 'Se enviará un mail de aviso 3 horas antes del servicio. En caso de cancelar el turno avisar 2 horas antes';
   }
-  //${this.negocio.calle} ${this.negocio.altura}
-  this.ubicacionTexto = `Mar del Plata, Buenos Aires, Argentina`;
-  this.metodoDePagoTexto = this.turnoCreado.metodosDePagoEnum.toString().replaceAll('_', ' ');
-  this.detalleTexto = 'Se enviará un mail de aviso 3 horas antes del servicio. En caso de cancelar el turno avisar 2 horas antes';
-}
+  formatearFecha(fecha: Date): string {
+    if (!fecha) return '';
 
-ngOnInit(): void {
-  this.turnoCreado.idCliente = Number(localStorage.getItem('idUsuario'));
-  this.obtenerCliente(this.turnoCreado.idCliente);
-  this.obtenerProfesional(this.turnoCreado.horarioProfesional.idProfesional);
-  this.obtenerServicio(this.turnoCreado.idNegocio, this.turnoCreado.idServicio);
-  this.obtenerNegocio(this.turnoCreado.idNegocio);
-
-  this.settearMostrarInfo();
-  console.log(this.turnoCreado);
+    return fecha.toLocaleDateString('es-AR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
   }
 
 
-  obtenerCliente(idCliente:number) {
+  obtenerCliente(idCliente: number) {
     this.UsuarioService.obtenerUsuarioPorId(idCliente).subscribe({
       next: (usuario) => {
         this.usuario = usuario;
@@ -130,7 +143,7 @@ ngOnInit(): void {
       }
     })
   }
-  obtenerProfesional(idProfesional:number) {
+  obtenerProfesional(idProfesional: number) {
     this.UsuarioService.obtenerUsuarioPorId(idProfesional).subscribe({
       next: (nuevoProfesional) => {
         this.profesional = nuevoProfesional;
@@ -142,11 +155,11 @@ ngOnInit(): void {
     })
   }
 
-  obtenerServicio(idNegocio:number,idServicio:number) {
+  obtenerServicio(idNegocio: number, idServicio: number) {
 
-    this.ServicioServiceService.GETservicioPorIdNegocio(idNegocio,idServicio).subscribe({
+    this.ServicioServiceService.GETservicioPorIdNegocio(idNegocio, idServicio).subscribe({
       next: (servicio) => {
-
+        console.log(servicio);
         this.servicio = servicio;
       },
       error: (error) => {
@@ -155,12 +168,13 @@ ngOnInit(): void {
     })
 
   }
-  obtenerNegocio(idNegocio:number) {
+  obtenerNegocio(idNegocio: number) {
 
     this.NegocioServiceService.getNegocioById(idNegocio).subscribe({
       next: (negocio) => {
         this.negocio = negocio;
-
+        console.log(negocio);
+        this.ubicacionTexto = negocio.calle + ' ,' + negocio.altura + ' ,' + negocio.detalle;
       },
       error: (error) => {
         console.log(error);
@@ -171,9 +185,9 @@ ngOnInit(): void {
 
 
   // titulo: string = 'Confirmacion';
-  fecha: string = "Fecha de turno: "+ this.turnoCreado.fechaInicio.toDateString();
+  fecha: string = "Fecha de turno: " + this.turnoCreado.fechaInicio.toDateString();
 
-  settearHorario():string{
+  settearHorario(): string {
     return `Hora de inicio: ${this.turnoCreado.horarioProfesional.horaInicio}`;
   }
 
@@ -197,7 +211,7 @@ ngOnInit(): void {
       servicio: this.servicio.nombre,
       precio: String(this.servicio.precio),
       nombreProfesional: this.profesional.nombre,
-      ubicacion: "Argentina, Buenos Aires, Mar del Plata"
+      ubicacion: this.ubicacionTexto,
     }
   };
 
@@ -214,17 +228,17 @@ ngOnInit(): void {
 
 
     this.turnoService.postTurno(this.turnoCreado).subscribe({
-        next: (respuesta)=>{
-          console.log(respuesta);
-          //si hay exito envio el mail
-          this.enviarEmailAlCliente();
-          setTimeout(() => {
-            window.location.href = '/dashboard-cliente';
-          },3000);
-        },
-        error: (error)=>{
-          console.error(error,"Error al confirmar el turno");
-        }
+      next: (respuesta) => {
+        console.log(respuesta);
+        //si hay exito envio el mail
+        this.enviarEmailAlCliente();
+        setTimeout(() => {
+          window.location.href = '/dashboard-cliente';
+        }, 3000);
+      },
+      error: (error) => {
+        console.error(error, "Error al confirmar el turno");
+      }
     });
 
   }

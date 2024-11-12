@@ -55,7 +55,7 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
   }
 
 
-  manejarDiaSeleccionado(event:number){
+  /*manejarDiaSeleccionado(event:number){
     //esto sirve para HOY y para EL DIA SIGUIENTE
     //saco el input otro dia
     if(this.otroDiaActivo === true){
@@ -74,12 +74,34 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
 
       this.obtenerHorariosProfesionalPorDia(event);
     }
+  }*/
+  manejarDiaSeleccionado(event: number) {
+    // Desactivamos el input de otro día si está activo
+    if (this.otroDiaActivo === true) {
+      this.otroDiaActivo = false;
+    }
 
+    // Solo actualizar si el día seleccionado es diferente al anterior
+    if (this.diaDeLaSemanaSeleccionado !== event) {
+      this.diaDeLaSemanaSeleccionado = event;
 
+      // Si es el día de hoy, reseteamos `fechaInicio` a la fecha actual
+      if (event === this.hoy.getDay()) {
+        this.fechaInicio = new Date(); // Reiniciar al día de hoy
+      } else {
+        // Si es un día distinto, ajustamos la fecha al siguiente día seleccionado
+        this.fechaInicio = new Date();
+        const diferenciaDias = event - this.hoy.getDay();
+        // Si el evento es "mañana" o días futuros, ajustamos la fecha
+        if (diferenciaDias > 0) {
+          this.fechaInicio.setDate(this.fechaInicio.getDate() + diferenciaDias);
+        }
+      }
 
-
+      // Llamamos al método para obtener los horarios del profesional para el día seleccionado
+      this.obtenerHorariosProfesionalPorDia(event);
+    }
   }
-
   parsearFechas(fecha:string):Date{
 
     //parseo la fecha a un string y lo separo por el guion
@@ -152,6 +174,7 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
 
               console.log("asdasdasdasdasdsadasdsaad",);
               if(unHorario.horaInicio.toString() === `${horaDelTurno}:${minutosDelTurno}`){
+                  unHorario.horaInicio = `${horaDelTurno}:${minutosDelTurno}`;
                   console.log("Entro al estado ", unHorario.estado);
                 unHorario.estado = false;
               }else{
@@ -197,6 +220,7 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
 
   //iniciamos con los horarios del profesional del dia de hoy
   ngOnInit(): void {
+
     this.obtenerListadoTurnosPorIdProfesional(this.idDelProfesional);
     this.obtenerHorariosProfesionalPorDia(this.hoy.getDay());
 
