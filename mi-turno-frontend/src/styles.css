@@ -6,7 +6,7 @@
 }
 
 :root{
-  --color-background:#FFFFFF;/*F5F5F5 TODO: cambiar el fondo del icono a este tono y luego cambiar el background*/
+  --color-background:#F5F5F5;/*F5F5F5 TODO: cambiar el fondo del icono a este tono y luego cambiar el background*/
   --color-secundario:#DDDDDD;
   --color-gris-claro: #f0f0f0;
   --color-texto:#4A4A4A;
@@ -18,7 +18,14 @@
   --titulo-h2: 2rem;
   --titulo-h3: 1.5rem;
   --titulo-h4: 1.3rem;
-  --titulo-h5:1rem;
+  --titulo-h5:1.1rem;
+
+
+  --bg-color: #fff;
+  --text-color: #4A4A4A;
+  --main-color: #3f47ae;
+
+
 }
 
 html {
