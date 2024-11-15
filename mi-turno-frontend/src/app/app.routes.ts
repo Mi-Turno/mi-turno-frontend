@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
 import { LandingPageComponent } from './pages/landing/landing-page/landing-page.component';
-import { LoginComponent } from './pages/inicioSesion/login/login.component';
-import { RegisterComponent } from './pages/inicioSesion/register/register.component';
 import { PanelRecepcionComponent } from './pages/dashboardLocal/panel-recepcion/panel-recepcion.component';
 import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno/pedir-turno.component';
 import { ProfesionalesMainComponent } from './pages/dashboardLocal/profesionales/profesionales-main/profesionales-main.component';
@@ -21,11 +19,11 @@ export const routes: Routes = [{
   component:LandingPageComponent
 },{
   path:"login",
-  component:LoginComponent
+  component:ToggleComponent
 },
 {
   path:"register",
-  component:RegisterComponent
+  component:ToggleComponent
 },
 {
   path:"dashboard-cliente",
@@ -65,10 +63,6 @@ export const routes: Routes = [{
    {path: 'salir', component:PanelComponent}
   ]
 },
-{path:"prueba",
-  component:ToggleComponent
-}
-,
 {
   path:"**",
   redirectTo:"landing-page",

@@ -56,13 +56,13 @@ export class ConfirmacionComponent implements OnInit {
 
 
   UsuarioService: UsuarioService = inject(UsuarioService);
-  usuario: UsuarioInterface = { idUsuario: 0, nombre: '', apellido: '', email: '', telefono: '', fechaNacimiento: '', password: '', idRolUsuario: 0 };
+  usuario: UsuarioInterface = {} as UsuarioInterface;
 
   ServicioServiceService: ServicioServiceService = inject(ServicioServiceService);
   servicio: ServicioInterface = { nombre: '', duracion: 0, precio: 0 };
 
   profesionalService: ProfesionalesServiceService = inject(ProfesionalesServiceService);
-  profesional: UsuarioInterface = { idUsuario: 0, nombre: '', apellido: '', email: '', telefono: '', fechaNacimiento: '', password: '', idRolUsuario: 0 };
+  profesional: UsuarioInterface = {} as UsuarioInterface;
 
   NegocioServiceService: NegocioServiceService = inject(NegocioServiceService);
   negocio: NegocioInterface = {
@@ -72,7 +72,7 @@ export class ConfirmacionComponent implements OnInit {
     password: '',
     telefono: '',
     fechaNacimiento: '',
-    idRolUsuario: '',
+    rolUsuario: '',
     rubro: '',
     calle: '',
     altura: '',
