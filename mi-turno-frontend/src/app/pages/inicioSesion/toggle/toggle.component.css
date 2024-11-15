@@ -89,7 +89,6 @@ main {
 }
 
 .container.active .sign-in {
-
   transform: translateX(100%);
 }
 
@@ -159,7 +158,6 @@ main {
 }
 
 .contenedor.active .toggle-container {
-
   transform: translateX(-100%);
   border-radius: 0 150px 100px 0;
 }

@@ -1,0 +1,19 @@
+<!-- Formulario de suscripción o contacto -->
+<section id="contacto">
+  <h2>Contacto</h2>
+  <form action="/submit" method="POST" class="contact-form">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+
+    <label for="negocio">Nombre del negocio:</label>
+    <input type="text" id="negocio" name="negocio" placeholder="Nombre de tu negocio">
+
+    <label for="email">Correo electrónico:</label>
+    <input type="email" id="email" name="email" placeholder="Tu correo electrónico" required>
+
+    <label for="mensaje">Mensaje:</label>
+    <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje aquí" rows="4" required></textarea>
+
+    <button type="submit" class="cta-button">Enviar mensaje</button>
+  </form>
+</section>

@@ -10,7 +10,6 @@ import { BotonComponent } from "../../../shared/components/boton/boton.component
 import { EmailInterface } from '../../../core/interfaces/email-interface';
 import { EmailService } from '../../../core/services/emailService/email-service.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NavBarComponent } from "../../landing/nav-landing/nav-bar.component";
 import { PopUpConfirmacionComponent } from "../pop-up-confirmacion/pop-up-confirmacion.component";
 import { CommonModule } from '@angular/common';
 import { codigoErrorHttp } from '../../../shared/models/httpError.constants';

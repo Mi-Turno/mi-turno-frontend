@@ -23,6 +23,8 @@ export const ICONOS =
   reloj: 'schedule',
   ubicacion:'place',
   exclamacion:'priority_high',
-  tilde:'check'
+  tilde:'check',
+  flecha_creciendo:'trending_up',
+  robot: 'smart_toy',
 
 }

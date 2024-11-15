@@ -1,0 +1,62 @@
+#beneficios {
+  padding: 50px 20px;
+  background-color: #f8f9fa;
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#beneficios h2 {
+  font-size: 2.5rem;
+  color: #333;
+  margin: 50px;
+}
+
+.beneficios-flex {
+  display: flex;
+  width: 90%;
+  justify-content: center;
+  align-items: center;
+ flex-wrap: wrap;
+  gap: 20px;
+  padding-bottom: 150px;
+}
+
+.beneficio {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-align: left;
+  position: relative;
+}
+
+.beneficio:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.icono {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 15px;
+}
+
+.beneficio h3 {
+  font-size: 1.25rem;
+  color: var(--color-texto);
+  margin-bottom: 10px;
+}
+
+.beneficio mat-icon{
+  color: var(--main-color);
+}
+
+.beneficio p {
+  color: #555;
+  line-height: 1.5;
+}
