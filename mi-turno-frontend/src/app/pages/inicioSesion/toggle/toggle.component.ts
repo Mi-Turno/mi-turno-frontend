@@ -4,15 +4,14 @@ import { InputComponent } from '../../../shared/components/input/input.component
 import { MatIconModule } from '@angular/material/icon';
 import { ClienteInterface } from '../../../core/interfaces/cliente-interface';
 import { HttpErrorResponse } from '@angular/common/http';
-import { codigoErrorHttp } from '../../../shared/models/httpError.constants';
 import { Router } from '@angular/router';
 import { ClienteService } from '../../../core/services/clienteService/cliente.service';
 import { ROLES } from '../../../shared/models/rolesUsuario.constants';
 import { ICONOS } from '../../../shared/models/iconos.constants';
 import { PLACEHOLDERS } from '../../../shared/models/placeholderInicioSesion.constants';
 import { AuthService } from '../../../auth/service/auth.service';
-import { UsuarioInterface } from '../../../core/interfaces/usuario-interface';
 import { UsuarioService } from '../../../core/services/usuarioService/usuario.service';
+
 
 @Component({
   selector: 'app-toggle',
@@ -22,193 +21,24 @@ import { UsuarioService } from '../../../core/services/usuarioService/usuario.se
   styleUrl: './toggle.component.css'
 })
 export class ToggleComponent {
-  loginHref: string = "login";
-  claseAppInput: string = "claseAppInput";
-  inputContainer: string = "inputContainer";
+
+  //variables
   iconos = ICONOS;
-  clienteService = inject(ClienteService);
   roles = ROLES;
-  fb:FormBuilder = inject(FormBuilder)
-
   placeholders = PLACEHOLDERS;
-  //form reactivo
-  //-----------------------------------REGISTER-----------------------------------
-  formularioRegister:FormGroup = this.fb.nonNullable.group({
-    nombre: new FormControl('', Validators.required),
-    apellido: new FormControl('', Validators.required),
-    emailRegister: new FormControl('', [Validators.required, Validators.email]),
-    fechaNacimiento: new FormControl('',Validators.required),
-    telefono: new FormControl('', Validators.required),
-    passwordRegister: new FormControl('', Validators.required),
-    passwordRepetida: new FormControl('', Validators.required),
-  });
-
-
-  //metodo para crear un usuario
-   crearClienteDesdeFormulario():ClienteInterface {
-    const nombreForm = this.formularioRegister.get('nombre')?.value ||'';//||'' esto significa que puede ser null
-    const apellidoForm = this.formularioRegister.get('apellido')?.value||'';
-    const emailForm = this.formularioRegister.get('emailRegister')?.value||'';
-    const fechaNacimientoForm = this.formularioRegister.get('fechaNacimiento')?.value||'';
-    const telefonoForm = this.formularioRegister.get('telefono')?.value||'';
-    const passwordForm = this.formularioRegister.get('passwordRegister')?.value||'';
-
-    return {
-      nombre:nombreForm,
-      apellido:apellidoForm,
-      email:emailForm,
-      fechaNacimiento:fechaNacimientoForm,
-      telefono:telefonoForm,
-      password:passwordForm,
-      idRolUsuario: 2,
-      estado:true
-    };
-
-  }
-  //metodo POST
-  router: Router = inject(Router);
   exito:boolean = false;
+  isLogin: boolean = true;//Para saber si esta en el login o en el register
 
-  private postClienteToBackend(cliente:ClienteInterface):void{
-    try {
-      this.clienteService.postCliente(cliente).subscribe({
-        next:(cliente:ClienteInterface) =>{
-          this.exito = true;
+  //servicios
+  usuarioService = inject(UsuarioService);//Para poder obtener cualquier usuario del sistema sea CLIENTE, PROFESIONAL, NEGOCIO O ADMIN
+  clienteService = inject(ClienteService);//Para poder hacer el login y el register de los clientes
+  fb:FormBuilder = inject(FormBuilder)//Forms reactives
+  router: Router = inject(Router);//Para poder redirigir a las distintas paginas
 
-          /*setTimeout(() => {
-            this.router.navigateByUrl('/login');
-          }, 2000);*/
-
-
-
-        },
-        error: (error:HttpErrorResponse) =>{
-          if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
-            alert('Error 404: Usuario no encontrado');
-
-          } else if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
-            alert('Error 500: Error del servidor');//Error 500
-
-          } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
-            alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
-          } else if(error.status === codigoErrorHttp.ERROR_REPETIDO){
-            alert('Error 409: el usuario ya existe en el sistema');
-          } else {
-            alert('Error inesperado. Intente otra vez mas tarde.');
-          }
-      }
-      })
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  // Método para enviar los valores del formulario al backend
-  onRegister() {
-    if (this.formularioRegister.valid) {
-
-      console.log('Usuario enviado con exito');
-
-      const cliente:ClienteInterface = this.crearClienteDesdeFormulario();
-
-      this.postClienteToBackend(cliente);
-
-
-    }
-    else {
-      let campoError: string = '';
-      Object.keys(this.formularioRegister.controls).forEach(campo => {
-        const control = this.formularioRegister.get(campo);
-        if (control?.invalid) {
-          campoError += (`${campo} es inválido, `);
-        }
-      });
-      alert(campoError);
-    }
-  }
-
-  //-----------------------------------LOGIN-----------------------------------
-  registerHref: string = "register";
-
-  usuarioService = inject(UsuarioService);
-  //form reactivo
-  formularioLogin = new FormGroup({
-    emailLogin: new FormControl('', [Validators.required, Validators.email]),
-    passwordLogin: new FormControl('', Validators.required)
-  });
-  //obtengo los datos del formulario reactivo
-  private obtenerDatosForm() {
-    const emailForm = this.formularioLogin.get('emailLogin')?.value || '';
-    const passwordForm = this.formularioLogin.get('passwordLogin')?.value || '';
-
-    return {
-      email: emailForm,
-      password: passwordForm
-    };
-  }
-  verificarErrorHttp(error: HttpErrorResponse) {
-    if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
-      alert('Error 404: Usuario no encontrado');
-
-    } else if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
-      alert('Campos invalidos. ¡Si aun no tiene una cuenta creesela aqui abajo!');
-
-    } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
-      alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
-    } else if (error.status === codigoErrorHttp.ERROR_REPETIDO) {
-      alert('Error 409: Usuario ya existe en el sistema');
-    } else {
-      alert('Error inesperado. Intente otra vez mas tarde.');
-    }
-  }
-
-
-  //permito o deniego el acceso a la pagina
-  auth:AuthService = inject(AuthService);
-
-  onLogin() {
-    if (this.formularioLogin.valid) {
-
-      const objetoDelForm = this.obtenerDatosForm();
-      /**PASO 1: CON ESTO VALIDO EL EMAIL Y LA CONTRASEÑA(ES UN POST YA QUE NO PUEDO ENVIAR CONTRASEÑAS POR EL URI) */
-      this.usuarioService.getUsuarioByEmailAndPassword(objetoDelForm.email, objetoDelForm.password).subscribe({
-        next: (usuarioResponse: UsuarioInterface) => {
-
-          this.auth.logIn(usuarioResponse.idUsuario!.toString(),usuarioResponse.idRolUsuario!.toString());
-          if (usuarioResponse.idRolUsuario == 2 || usuarioResponse.idRolUsuario == ROLES.cliente || usuarioResponse.idRolUsuario == 3|| usuarioResponse.idRolUsuario == ROLES.profesional) {
-            this.router.navigateByUrl('/dashboard-cliente');
-            //lo mando al DASHBOARD DE CLIENTE
-          } else if (usuarioResponse.idRolUsuario === 4||usuarioResponse.idRolUsuario === ROLES.negocio) {
-            //lo mando al DASHBOARD DE LOCAL
-            this.router.navigateByUrl(`/negocios/${usuarioResponse.nombre}`);//es el nombre del negocio
-          } else if (usuarioResponse.idRolUsuario === 1 || usuarioResponse.idRolUsuario === ROLES.admin) {
-            //lo mando al DASHBOARD DE ADMIN
-            this.router.navigateByUrl(`/admin/${usuarioResponse.idUsuario}`);
-          } else {
-            console.log('ROL INEXISTENTE');
-          }
-        },
-        error: (error: HttpErrorResponse) => {
-          this.verificarErrorHttp(error);
-        }
-
-      })
-    } else {
-      let campoError: string = '';
-      Object.keys(this.formularioLogin.controls).forEach(campo => {
-        const control = this.formularioLogin.get(campo);
-        if (control?.invalid) {
-          campoError += (`${campo} es inválido, `);
-        }
-      });
-      alert(campoError);
-    }
-  }
-
+  //auth
+  auth:AuthService = inject(AuthService);//Para poder loguear al usuario
 
   //-----------------------------------TOGGLE-----------------------------------
-  isLogin: boolean = true;
-
 
   mostrarLogIn() {
     this.isLogin = true;
@@ -225,5 +55,101 @@ export class ToggleComponent {
       container.classList.add('active');
     }
   }
+
+  //-----------------------------------REGISTER-----------------------------------
+  formularioRegister:FormGroup = this.fb.nonNullable.group({
+    nombre: new FormControl('', Validators.required),
+    apellido: new FormControl('', Validators.required),
+    emailRegister: new FormControl('', [Validators.required, Validators.email]),
+    fechaNacimiento: new FormControl('',Validators.required),
+    telefono: new FormControl('', Validators.required),
+    passwordRegister: new FormControl('', Validators.required),
+    passwordRepetida: new FormControl('', Validators.required),
+  });
+
+  //metodo para crear un cliente
+   obtenerFormRegister():ClienteInterface {
+
+    return {
+      nombre:this.formularioRegister.get('nombre')?.value ||'',
+      apellido:this.formularioRegister.get('apellido')?.value||'',
+      email:this.formularioRegister.get('emailRegister')?.value||'',
+      fechaNacimiento:this.formularioRegister.get('fechaNacimiento')?.value||'',
+      telefono:this.formularioRegister.get('telefono')?.value||'',
+      password:this.formularioRegister.get('passwordRegister')?.value||'',
+      rolUsuario: 'CLIENTE',
+      estado:true
+    };
+
+  }
+
+  private postClienteToBackend(cliente:ClienteInterface):void{
+
+      this.clienteService.postCliente(cliente).subscribe({
+        next:(cliente:ClienteInterface) =>{
+          this.exito = true;
+        },
+        error: (error:HttpErrorResponse) =>{
+          console.error(error);
+      }
+      })
+
+  }
+
+  // Método para enviar los valores del formulario al backend
+  onRegister() {
+    if (this.formularioRegister.valid) {
+
+      const cliente:ClienteInterface = this.obtenerFormRegister();
+      this.postClienteToBackend(cliente);
+    }
+
+  }
+
+  //-----------------------------------LOGIN-----------------------------------
+  formularioLogin = new FormGroup({
+    emailLogin: new FormControl('', [Validators.required, Validators.email]),
+    passwordLogin: new FormControl('', Validators.required)
+  });
+  //obtengo los datos del formulario reactivo
+  private obtenerDatosFormLogin() {
+
+    return {
+      email: this.formularioLogin.get('emailLogin')?.value || '',
+      password: this.formularioLogin.get('passwordLogin')?.value || ''
+    };
+  }
+
+
+  onLogin() {
+    if (this.formularioLogin.valid) {
+
+      const datosLogIn = this.obtenerDatosFormLogin();
+
+      this.usuarioService.getUsuarioByEmailAndPassword(datosLogIn.email, datosLogIn.password).subscribe({
+        next: (usuarioResponse: ClienteInterface) => {
+
+          this.auth.logIn(usuarioResponse.idUsuario!.toString(),usuarioResponse.rolUsuario);
+          if ( usuarioResponse.rolUsuario == ROLES.cliente || usuarioResponse.rolUsuario == ROLES.profesional) {
+            //lo mando al DASHBOARD DE CLIENTE
+            this.router.navigateByUrl('/dashboard-cliente');
+          } else if (usuarioResponse.rolUsuario === ROLES.negocio) {
+            //lo mando al DASHBOARD DE LOCAL
+            this.router.navigateByUrl(`/negocios/${usuarioResponse.nombre}`);//es el nombre del negocio
+          } else if ( usuarioResponse.rolUsuario === ROLES.admin) {
+            //lo mando al DASHBOARD DE ADMIN
+            this.router.navigateByUrl(`/admin/${usuarioResponse.idUsuario}`);
+          } else {
+            console.error('ROL INEXISTENTE');
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error(error);
+        }
+
+      })
+    }
+  }
+
 
 }
