@@ -67,7 +67,9 @@ export class ConfirmacionComponent implements OnInit {
   profesional: UsuarioInterface = {} as UsuarioInterface;
 
   NegocioServiceService: NegocioServiceService = inject(NegocioServiceService);
+
   negocio: NegocioInterface = {} as NegocioInterface;
+
 
 
   turnoService: TurnoService = inject(TurnoService);

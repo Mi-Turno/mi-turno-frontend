@@ -12,7 +12,9 @@ export class UsuarioService {
   private urlBase: string = 'http://localhost:8080/usuarios';
   private http: HttpClient= inject(HttpClient);
 
+
   usuario:UsuarioInterface ={} as UsuarioInterface;
+
 
   public getUsuarios(): Observable<UsuarioInterface[]>{
     return this.http.get<UsuarioInterface[]>(this.urlBase);
