@@ -75,7 +75,8 @@ crearUnProfesional():ProfesionalInterface {
     fechaNacimiento:fechaNacimientoForm,
     telefono:telefonoForm,
     password:password,
-    rolUsuario:'PROFESIONAL',//profesional
+    rolUsuario:ROLES.profesional,//profesional
+
   };
 }
 
