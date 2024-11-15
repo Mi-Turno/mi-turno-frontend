@@ -1,0 +1,83 @@
+/* Sección de Contacto */
+#contacto {
+  padding: 60px 20px;
+  background-color: #f3f4f6;
+  text-align: center;
+  height: 100vh;
+}
+
+#contacto h2 {
+  font-size: 2.5rem;
+  color: #333333;
+  margin-bottom: 20px;
+}
+
+/* Estilo para el formulario */
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Estilo para etiquetas y campos de entrada */
+.contact-form label {
+  font-size: 1rem;
+  color: #333333;
+  margin-bottom: 5px;
+  text-align: left;
+  display: block;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
+.contact-form textarea:focus {
+  border-color: #007BFF;
+  outline: none;
+}
+
+/* Estilo para el botón */
+.contact-form .cta-button {
+  padding: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contact-form .cta-button:hover {
+  background-color: #0056b3;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+  #contacto {
+    padding: 40px 10px;
+  }
+
+  .contact-form {
+    padding: 20px;
+  }
+}

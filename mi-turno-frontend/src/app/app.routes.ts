@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { LandingPageComponent } from './pages/landing/landing-page/landing-page.component';
 import { PanelRecepcionComponent } from './pages/dashboardLocal/panel-recepcion/panel-recepcion.component';
 import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno/pedir-turno.component';
 import { ProfesionalesMainComponent } from './pages/dashboardLocal/profesionales/profesionales-main/profesionales-main.component';
@@ -12,6 +11,7 @@ import { PanelComponent } from './pages/dashboardAdmin/panel/panel.component';
 import { RegistrarNegocioComponent } from './pages/dashboardAdmin/registrar-negocio/registrar-negocio.component';
 import { TurnosComponent } from './pages/dashboardLocal/turnos/turnos.component';
 import { ToggleComponent } from './pages/inicioSesion/toggle/toggle.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 
 
 export const routes: Routes = [{

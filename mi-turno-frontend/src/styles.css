@@ -9,7 +9,7 @@
   --color-background:#F5F5F5;/*F5F5F5 TODO: cambiar el fondo del icono a este tono y luego cambiar el background*/
   --color-secundario:#DDDDDD;
   --color-gris-claro: #f0f0f0;
-  --color-texto:#4A4A4A;
+  --color-texto:#333;
   --color-contraste1: #73C21C;
   --color-contraste2: #2138bb;
   --color-contraste2-hover: #1a2c96;
@@ -22,7 +22,7 @@
 
 
   --bg-color: #fff;
-  --text-color: #4A4A4A;
+  --text-color: #333;
   --main-color: #3f47ae;
 
 

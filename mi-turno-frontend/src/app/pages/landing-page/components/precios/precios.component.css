@@ -1,0 +1,82 @@
+#precios {
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Contenedor de los planes de precios */
+.precios-planes-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap:nowrap;
+  margin-top: 20px;
+  padding-bottom: 150px;
+
+}
+
+/* Estilos para cada card de precios */
+.precios-plan {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 300px;
+  height: 400px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Efecto hover para que la card resalte */
+.precios-plan:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para el precio destacado en la parte superior */
+.precios-plan p {
+  font-size: 2rem;
+  font-weight: bold;
+  color:  var(--main-color);
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+/* Título del plan */
+.precios-plan h3 {
+  font-size: 1.5rem;
+  color: #333333;
+  margin: 10px 0;
+}
+
+/* Lista de características */
+.precios-plan ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.precios-plan li {
+  font-size: 1rem;
+  color: #555555;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.precios-plan li::before {
+  content: "✔️";
+  color: var(--main-color);
+  margin-right: 8px;
+}

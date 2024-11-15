@@ -1,0 +1,43 @@
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+/* Sección de Introducción */
+#introduccion {
+  padding: 50px 20px;
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+
+#introduccion img {
+  width: 500px;
+  height: 350px;
+  margin-left: 50px ;
+}
+
+#introduccion h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--color-texto);
+}
+
+#introduccion p {
+  font-size: 1.2rem;
+  color: var(--color-texto);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 15px;
+  line-height: 1.8;
+  text-align: left;
+}
