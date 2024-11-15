@@ -1,5 +1,23 @@
-.inputContainer{
+:host {
+  display: block;
+  width: 100%;
+}
+
+.inputContainer {
   width: 100%;
   display: flex;
-  align-items: center;
+
+}
+
+input {
+  background-color: #eee;
+  border: none;
+  padding: 10px 15px;
+  font-size: 13px;
+  border-radius: 8px;
+  width: 100%;
+  outline: none;
+  box-sizing: border-box;
+  max-width: 100%;
+
 }
