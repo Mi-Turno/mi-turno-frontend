@@ -1,0 +1,82 @@
+<div class="contenedor" id="contenedor">
+  <div class="form-container sign-up">
+    <form [formGroup]="formularioRegister">
+
+      <h6>Registrarse</h6>
+      <div class="social-icons">
+        <a href="#" class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512" width="24" height="24"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"/></svg>
+        </a>
+      </div>
+      <span>Registrarse con sus datos</span>
+
+      <app-input formControlName="nombre" [icono]="iconos.person" [textoLabel]="'Nombre'" [id]="'nombreInput'"
+        [placeholder]="placeholders.nombre">
+      </app-input>
+
+      <app-input formControlName="apellido" [icono]="iconos.person" [textoLabel]="'Apellido'" [id]="'apellidoInput'"
+        [placeholder]="placeholders.apellido">
+      </app-input>
+
+      <app-input formControlName="emailRegister" [type]="'email'" [icono]="iconos.email" [textoLabel]="'Email'"
+        [id]="'emailRegister'" [placeholder]="placeholders.email">
+      </app-input>
+
+      <app-input formControlName="fechaNacimiento" [type]="'date'" [icono]="iconos.email"
+        [textoLabel]="'fecha de nacimiento'" [id]="'fechaNacimientoInput'" [placeholder]="placeholders.fechaNacimiento">
+      </app-input>
+
+      <app-input formControlName="telefono" [type]="'tel'" [icono]="iconos.call" [textoLabel]="'Telefono'"
+        [id]="'telefonoInput'" [placeholder]="placeholders.telefono">
+      </app-input>
+
+      <app-input formControlName="passwordRegister" [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado"
+        [textoLabel]="'Contraseña'" [id]="'passwordRegister'" [placeholder]="placeholders.contrasenia">
+      </app-input>
+
+      <app-input formControlName="passwordRepetida" [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado"
+        [textoLabel]="'Repetir Contraseña'" [id]="'repetirContraseniaInput'"
+        [placeholder]="placeholders.repetirContrasenia">
+      </app-input>
+
+      <button type="submit" (click)="onRegister()">Registrarse</button>
+
+    </form>
+  </div>
+  <div class="form-container sign-in">
+    <form [formGroup]="formularioLogin">
+      <h4>Iniciar Sesion</h4>
+      <div class="social-icons">
+        <a href="#" class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512" width="24" height="24"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"/></svg>
+        </a>
+      </div>
+
+      <span>Iniciar sesion con sus datos</span>
+
+      <app-input formControlName="emailLogin" [type]="'email'" [icono]="iconos.email" [textoLabel]="'Email'"
+        [id]="'emailLogin'" [placeholder]="placeholders.email">
+      </app-input>
+      <app-input formControlName="passwordLogin" [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado"
+        [textoLabel]="'Contraseña'" [id]="'passwordLogin'" [placeholder]="placeholders.contrasenia">
+      </app-input>
+
+      <a class="olvidasteContra" href="">¿Olvidaste tu contraseña?</a>
+      <button type="submit" (click)="onLogin()">Ingresar</button>
+    </form>
+  </div>
+  <div class="toggle-container">
+    <div class="toggle">
+      <div class="toggle-panel toggle-left">
+        <h1>Bienvenido de vuelta!</h1>
+        <p>Ingresa con tus datos personales</p>
+        <button class="hidden" id="login" (click)="mostrarLogIn()">Iniciar sesion</button>
+      </div>
+      <div class="toggle-panel toggle-right">
+        <h1>¿No tenes cuenta?</h1>
+        <p>Digitaliza tu agenda, maximiza tu tiempo</p>
+        <button class="hidden" id="register" (click)="mostrarRegister()">Registrarse</button>
+      </div>
+    </div>
+  </div>
+</div>

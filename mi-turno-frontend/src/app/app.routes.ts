@@ -13,6 +13,7 @@ import { ROLES } from './shared/models/rolesUsuario.constants';
 import { PanelComponent } from './pages/dashboardAdmin/panel/panel.component';
 import { RegistrarNegocioComponent } from './pages/dashboardAdmin/registrar-negocio/registrar-negocio.component';
 import { TurnosComponent } from './pages/dashboardLocal/turnos/turnos.component';
+import { ToggleComponent } from './pages/inicioSesion/toggle/toggle.component';
 
 
 export const routes: Routes = [{
@@ -64,6 +65,10 @@ export const routes: Routes = [{
    {path: 'salir', component:PanelComponent}
   ]
 },
+{path:"prueba",
+  component:ToggleComponent
+}
+,
 {
   path:"**",
   redirectTo:"landing-page",
