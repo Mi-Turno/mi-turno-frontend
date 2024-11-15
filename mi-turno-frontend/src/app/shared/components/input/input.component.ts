@@ -66,14 +66,16 @@ registerOnTouched(fn: any): void {
 setDisabledState?(isDisabled: boolean): void {
 }
 
+@Output() inputBlur:EventEmitter<void> = new EventEmitter();
 
+onBlur(){
+  this.inputBlur.emit();  // Emitir el evento personalizado
+}
 
-@Output()
-inputFocus:EventEmitter<void> = new EventEmitter();
+@Output() inputFocus:EventEmitter<void> = new EventEmitter();
 
-manejarFocus() {
+onFocus() {
   this.inputFocus.emit();  // Emitir el evento personalizado
-
 }
 
 // @Output()

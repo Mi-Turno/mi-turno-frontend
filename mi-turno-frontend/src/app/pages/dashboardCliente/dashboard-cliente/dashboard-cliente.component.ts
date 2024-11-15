@@ -44,7 +44,7 @@ export class DashboardClienteComponent implements OnInit{
     password:'',
     telefono:'',
     fechaNacimiento:'',
-    idRolUsuario:''
+    rolUsuario:''
   }
 
   ngOnInit(): void {

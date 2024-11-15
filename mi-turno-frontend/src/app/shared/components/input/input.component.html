@@ -1,7 +1,14 @@
 
 <label [for]="id">{{textoLabel}}</label>
 <div [className]="claseInputContainer">
-  <input  [id]="id" [type]="type" [placeholder]="placeholder" [(ngModel)]="value"/>
+
+  <input
+  (blur)="onBlur()"
+  (focus)="onFocus()"
+  [id]="id"
+  [type]="type"
+  [placeholder]="placeholder"
+  [(ngModel)]="value"/>
   <mat-icon>{{ icono }}</mat-icon>
 </div>
 

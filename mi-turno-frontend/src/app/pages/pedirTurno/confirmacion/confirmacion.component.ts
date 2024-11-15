@@ -1,3 +1,4 @@
+import { ROLES } from './../../../shared/models/rolesUsuario.constants';
 import { NegocioServiceService } from './../../../core/services/negocioService/negocio-service.service';
 import { HorarioProfesional } from './../../../core/interfaces/horarioProfesional.interface';
 import { Component, EventEmitter, inject, Input, Output, OnInit } from '@angular/core';
@@ -23,6 +24,7 @@ import { obtenerDiaEnumPorNumero } from '../../../shared/models/diasEnum';
 import { MetodosDePago, obtenerMetodosDePagoPorNumero } from '../../../shared/models/metodosDePago';
 import { NegocioInterface } from '../../../core/interfaces/negocio-interface';
 import { TurnoService } from '../../../core/services/turnoService/turno.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-confirmacion',
@@ -56,28 +58,16 @@ export class ConfirmacionComponent implements OnInit {
 
 
   UsuarioService: UsuarioService = inject(UsuarioService);
-  usuario: UsuarioInterface = { idUsuario: 0, nombre: '', apellido: '', email: '', telefono: '', fechaNacimiento: '', password: '', idRolUsuario: 0 };
+  usuario: UsuarioInterface = {} as UsuarioInterface;
 
   ServicioServiceService: ServicioServiceService = inject(ServicioServiceService);
   servicio: ServicioInterface = { nombre: '', duracion: 0, precio: 0 };
 
   profesionalService: ProfesionalesServiceService = inject(ProfesionalesServiceService);
-  profesional: UsuarioInterface = { idUsuario: 0, nombre: '', apellido: '', email: '', telefono: '', fechaNacimiento: '', password: '', idRolUsuario: 0 };
+  profesional: UsuarioInterface = {} as UsuarioInterface;
 
   NegocioServiceService: NegocioServiceService = inject(NegocioServiceService);
-  negocio: NegocioInterface = {
-    nombre: '',
-    apellido: '',
-    email: '',
-    password: '',
-    telefono: '',
-    fechaNacimiento: '',
-    idRolUsuario: '',
-    rubro: '',
-    calle: '',
-    altura: '',
-    detalle: ''
-  };
+  negocio: NegocioInterface = {} as NegocioInterface;
 
 
   turnoService: TurnoService = inject(TurnoService);
@@ -174,7 +164,7 @@ export class ConfirmacionComponent implements OnInit {
       next: (negocio) => {
         this.negocio = negocio;
         console.log(negocio);
-        this.ubicacionTexto = negocio.calle + ' ,' + negocio.altura + ' ,' + negocio.detalle;
+        this.ubicacionTexto = negocio.calle + ', ' + negocio.altura + ', ' + negocio.detalle;
       },
       error: (error) => {
         console.log(error);
@@ -224,6 +214,8 @@ export class ConfirmacionComponent implements OnInit {
   seEnvioBien: boolean = false;
 
 
+  router = inject(Router);
+
   confirmarTurno() {
 
 
@@ -232,9 +224,11 @@ export class ConfirmacionComponent implements OnInit {
         console.log(respuesta);
         //si hay exito envio el mail
         this.enviarEmailAlCliente();
+
         setTimeout(() => {
-          window.location.href = '/dashboard-cliente';
+          this.router.navigateByUrl('/dashboard-cliente');
         }, 3000);
+
       },
       error: (error) => {
         console.error(error, "Error al confirmar el turno");
