@@ -148,7 +148,7 @@ export class ConfirmacionComponent implements OnInit {
 
   obtenerServicio(idNegocio: number, idServicio: number) {
 
-    this.ServicioServiceService.GETservicioPorIdNegocio(idNegocio, idServicio).subscribe({
+    this.ServicioServiceService.getServicioPorIdNegocio(idNegocio, idServicio).subscribe({
       next: (servicio) => {
         console.log(servicio);
         this.servicio = servicio;

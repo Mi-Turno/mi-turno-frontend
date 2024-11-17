@@ -39,7 +39,7 @@ export class ServicioMainComponent implements OnInit {
       console.log(nombreNegocio);
 
       //obtengo el arreglo de servicios del negocio y lo guardo en la variable idCards
-      this.servicios.GETserviciosPorIdNegocioYEstado(this.idNegocio, "true").subscribe({
+      this.servicios.getServiciosPorIdNegocioYEstado(this.idNegocio, "true").subscribe({
         next: (response) => {
 
           this.idCards = [...response];

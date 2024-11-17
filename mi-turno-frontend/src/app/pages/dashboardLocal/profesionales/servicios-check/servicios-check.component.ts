@@ -72,7 +72,7 @@ export class ServiciosCheckComponent implements OnInit {
 
     if (idNegocio && idProfesional && idServicio && this.profesionalCompleto) {
       this.profesionalService
-        .putServicioEnProfecionalEnNegocio(
+        .putServicioEnProfesionalEnNegocio(
           idNegocio,
           idProfesional,
           idServicio,

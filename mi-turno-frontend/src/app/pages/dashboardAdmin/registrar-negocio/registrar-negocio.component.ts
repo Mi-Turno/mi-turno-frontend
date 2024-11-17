@@ -47,15 +47,15 @@ export class RegistrarNegocioComponent {
   obtenerNegocioForm() {
 
     const credencial:CredencialInterface = {
-      email:this.formularioRegisterNegocio.get('emailRegister')?.value,
-      password:this.formularioRegisterNegocio.get('passwordRegister')?.value,
+      email:this.formularioRegisterNegocio.get('email')?.value,
+      password:this.formularioRegisterNegocio.get('password')?.value,
       telefono:this.formularioRegisterNegocio.get('telefono')?.value,
       estado:true,
     } ;
 
       return {
         nombre: this.formularioRegisterNegocio.get('nombre')?.value,
-        apellido: this.formularioRegisterNegocio.get('nombre')?.value,
+        apellido: this.formularioRegisterNegocio.get('nombre')?.value,//es igual ya que un negocio no tiene apellido
         fechaNacimiento: new Date().toISOString().slice(0, 10),//fecha de nacimiento por defecto que seria la fecha de hoy
         credencial: credencial,
         rubro: this.formularioRegisterNegocio.get('rubro')?.value,
@@ -73,7 +73,8 @@ export class RegistrarNegocioComponent {
     if(this.formularioRegisterNegocio.valid){
       const negocio:NegocioInterface = this.obtenerNegocioForm();
       this.negocioService.postNegocio(negocio).subscribe({
-        next:() =>{
+        next:(response) =>{
+          console.log(response);
           alert("Negocio registrado correctamente");
         },
         error:(error) =>{

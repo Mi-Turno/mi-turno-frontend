@@ -98,7 +98,7 @@ export class TurnosComponent implements OnInit {
           next: (profesional) => {
             this.nombreProfesional = profesional.nombre;
 
-            this.servicioService.GETservicioPorIdNegocio(this.idNegocio, unTurno.idServicio).subscribe({
+            this.servicioService.getServicioPorIdNegocio(this.idNegocio, unTurno.idServicio).subscribe({
               next: (servicio) => {
                 this.nombreServicio = servicio.nombre;
 

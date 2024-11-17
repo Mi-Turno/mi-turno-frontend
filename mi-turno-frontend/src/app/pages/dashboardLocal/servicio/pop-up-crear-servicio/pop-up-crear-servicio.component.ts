@@ -64,9 +64,9 @@ export class PopUpCrearServicioComponent implements OnInit {
     duracion: new FormControl('', [Validators.required, Validators.min(0)]),
     precio: new FormControl('', Validators.required),
   });
-  idNegocio:number=0;
+  idNegocio: number = 0;
   ngOnInit(): void {
-    this.idNegocio= parseFloat(localStorage.getItem('idUsuario')!);
+    this.idNegocio = parseFloat(localStorage.getItem('idUsuario')!);
     this.actualizarValores();
   }
 
@@ -99,7 +99,7 @@ export class PopUpCrearServicioComponent implements OnInit {
     if (this.formularioServicio.valid) {
       const servicioNuevo: ServicioInterface = this.crearUnServicio();
 
-      this.servicioService.POSTcrearUnServicio(servicioNuevo, this.idNegocio).subscribe({//todo deberia tener el id del negocio
+      this.servicioService.postCrearUnServicio(servicioNuevo, this.idNegocio).subscribe({//todo deberia tener el id del negocio
         next: (response) => {
           this.cerrarPopUp();
           window.location.reload();
@@ -139,7 +139,7 @@ export class PopUpCrearServicioComponent implements OnInit {
     if (this.formularioServicio.valid) {
       const servicioActualizado: ServicioInterface = this.crearUnServicio();
       if (idServicio) {
-        this.servicioService.PUTservicio(idServicio!, idNegocio!, servicioActualizado).subscribe({
+        this.servicioService.putServicio(idServicio!, idNegocio!, servicioActualizado).subscribe({
           next: (response) => {
             this.cerrarPopUp();
             window.location.reload();
@@ -156,7 +156,7 @@ export class PopUpCrearServicioComponent implements OnInit {
   eliminarServicio(idServicio: number | undefined, idNegocio: number | undefined) {
     console.log(idServicio);
     if (idServicio) {
-      this.servicioService.DELETEservicio(idServicio!, idNegocio!).subscribe({
+      this.servicioService.deleteServicio(idServicio!, idNegocio!).subscribe({
         next: (response) => {
           this.cerrarPopUp();
           console.log(response);
