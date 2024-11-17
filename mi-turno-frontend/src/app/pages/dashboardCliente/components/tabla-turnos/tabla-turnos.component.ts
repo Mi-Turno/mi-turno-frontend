@@ -1,14 +1,14 @@
-import { ProfesionalInterface } from './../../../core/interfaces/profesional-interface';
+
 import { ChangeDetectorRef, Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { TurnoInterface } from '../../../core/interfaces/turno-interface';
-import { ServicioServiceService } from '../../../core/services/servicioService/servicio-service.service';
-import { ProfesionalesServiceService } from '../../../core/services/profesionalService/profesionales-service.service';
-import { NegocioServiceService } from '../../../core/services/negocioService/negocio-service.service';
-import { NegocioInterface } from '../../../core/interfaces/negocio-interface';
-import { ServicioInterface } from '../../../core/interfaces/servicio-interface';
-import { ClienteService } from '../../../core/services/clienteService/cliente.service';
 import { CommonModule } from '@angular/common';
-import { TurnoService } from '../../../core/services/turnoService/turno.service';
+import { ServicioServiceService } from '../../../../core/services/servicioService/servicio-service.service';
+import { ProfesionalesServiceService } from '../../../../core/services/profesionalService/profesionales-service.service';
+import { NegocioInterface } from '../../../../core/interfaces/negocio-interface';
+import { ServicioInterface } from '../../../../core/interfaces/servicio-interface';
+import { TurnoInterface } from '../../../../core/interfaces/turno-interface';
+import { ClienteService } from '../../../../core/services/clienteService/cliente.service';
+import { TurnoService } from '../../../../core/services/turnoService/turno.service';
+
 
 interface mostrarTurnosInterface{
   nombreNegocio:string,

@@ -1,18 +1,22 @@
 .widgetContainer{
-  border: 2px solid black;
-  border-radius: 30px;
   display: flex;
-
-
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
+
+  min-height: 30vh;
   width: 80vw;
-  height: 30vh;
   margin: 0 auto;
+
+  border: 2px solid #333;
+  border-radius: 30px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+
 }
 
 .widgetHoraContainer{
   width: 100%;
-
   padding: 15px;
   display: flex;
   justify-content: right;
@@ -28,9 +32,9 @@
 }
 
 .textoBienvenida{
-  margin: 0 5% 60px 5%;
+  margin: 0 5% 20px 5%;
   text-align: center;
-
+  color: #333;
   font-size: 1.5rem;
 }
 
@@ -43,6 +47,7 @@
   font-size: larger;
   text-align: center;
   width: 20rem;
+  margin: 20px 0;
 }
 
 

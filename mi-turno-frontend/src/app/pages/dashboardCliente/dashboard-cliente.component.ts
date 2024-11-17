@@ -1,16 +1,16 @@
-import { TurnoInterface } from './../../../core/interfaces/turno-interface';
-import { ChangeDetectorRef, Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { NavPedirTurnoComponent } from "../../pedirTurno/nav-pedir-turno/nav-pedir-turno.component";
-import { WidgetBienvenidaComponent } from "../widget-bienvenida/widget-bienvenida.component";
-import { TablaTurnosComponent } from "../tabla-turnos/tabla-turnos.component";
-import { NegocioInterface } from '../../../core/interfaces/negocio-interface';
-import { NegocioServiceService } from '../../../core/services/negocioService/negocio-service.service';
-import { ClienteService } from '../../../core/services/clienteService/cliente.service';
-import { ClienteInterface } from '../../../core/interfaces/cliente-interface';
-import { MetodosDePago } from '../../../shared/models/metodosDePago';
-import { PopupElegirNegocioComponent } from "../popup-elegir-negocio/popup-elegir-negocio.component";
+import { TurnoInterface } from '../../core/interfaces/turno-interface';
+import { Component, inject, OnInit  } from '@angular/core';
+import { NavPedirTurnoComponent } from "../pedirTurno/nav-pedir-turno/nav-pedir-turno.component";
+import { NegocioInterface } from '../../core/interfaces/negocio-interface';
+import { NegocioServiceService } from '../../core/services/negocioService/negocio-service.service';
+import { ClienteService } from '../../core/services/clienteService/cliente.service';
+import { ClienteInterface } from '../../core/interfaces/cliente-interface';
 import { CommonModule } from '@angular/common';
-import { DiasEnum } from '../../../shared/models/diasEnum';
+import { WidgetBienvenidaComponent } from './components/widget-bienvenida/widget-bienvenida.component';
+import { TablaTurnosComponent } from './components/tabla-turnos/tabla-turnos.component';
+import { PopupElegirNegocioComponent } from './components/popup-elegir-negocio/popup-elegir-negocio.component';
+import { NavBarLandingComponent } from "../landing-page/components/nav-bar-landing/nav-bar-landing.component";
+
 
 
 
@@ -18,7 +18,7 @@ import { DiasEnum } from '../../../shared/models/diasEnum';
 @Component({
   selector: 'app-dashboard-cliente',
   standalone: true,
-  imports: [CommonModule,NavPedirTurnoComponent, WidgetBienvenidaComponent, TablaTurnosComponent, PopupElegirNegocioComponent],
+  imports: [CommonModule, NavPedirTurnoComponent, WidgetBienvenidaComponent, TablaTurnosComponent, PopupElegirNegocioComponent],
   templateUrl: './dashboard-cliente.component.html',
   styleUrl: './dashboard-cliente.component.css'
 })
