@@ -1,4 +1,9 @@
-<div [className]="estiloGeneralContainer" >
+<div [className]="'backgroundContainer'">
+  <div class="wave"></div>
+  <div class="wave"></div>
+  <div class="wave"></div>
+</div>
+<div [className]="estiloGeneralContainer">
 
   <div [className]="'navContainer'">
     <app-nav-pedir-turno></app-nav-pedir-turno>
@@ -10,7 +15,6 @@
     <app-popup-elegir-negocio (clickBoton)="manejarLevantarPopUp($event)" [listadoNegocios]="listadoNegocios"></app-popup-elegir-negocio>
   }
 </div>
-
 
 
 <!-- (emitirIdNegocio)="recibirIdNegocio($event) -->

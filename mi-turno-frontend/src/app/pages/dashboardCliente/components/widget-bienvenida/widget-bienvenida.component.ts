@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FechaYHoraComponent } from "../../../shared/components/fecha-y-hora/fecha-y-hora.component";
+import { FechaYHoraComponent } from '../../../../shared/components/fecha-y-hora/fecha-y-hora.component';
+
 
 
 @Component({
