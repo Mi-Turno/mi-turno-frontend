@@ -60,7 +60,7 @@ export class SeleccionUsuarioComponent implements OnInit{
 
     //obtengo el arreglo de servicios del negocio y lo guardo en la variable servicios
 
-    this.servicioServicios.GETserviciosPorIdNegocioYEstado(idNegocio, "true").subscribe({
+    this.servicioServicios.getServiciosPorIdNegocioYEstado(idNegocio, "true").subscribe({
       next: (servicios) => {
         console.log("id negocio",idNegocio);
         console.log("Id Usuario", Number(localStorage.getItem('idUsuario')));
@@ -78,7 +78,7 @@ export class SeleccionUsuarioComponent implements OnInit{
 
   obtenerProfesionalesPorIdNegocioYIdServicio(idNegocio:number, idServicio:number){
     //obtengo el arreglo de profesionales del negocio y lo guardo en la variable profesionales
-    this.servicioServicios.GETlistadoDeProfesionalesPorIdServicioYIdNegocio(idServicio,idNegocio).subscribe({
+    this.servicioServicios.getListadoDeProfesionalesPorIdServicioYIdNegocio(idServicio,idNegocio).subscribe({
       next: (profesionales) => {
 
         this.arregloProfesionales = profesionales

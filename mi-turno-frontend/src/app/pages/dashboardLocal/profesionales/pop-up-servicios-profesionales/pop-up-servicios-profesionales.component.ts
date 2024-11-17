@@ -44,26 +44,23 @@ export class PopUpServiciosProfesionalesComponent implements OnInit, OnChanges {
     this.cargarServicios();
     this.nombreProfesional = this.profesional?.nombre;
   }
-ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges): void {
     this.cargarServicios();
-}
+  }
 
   servicioNegocio: NegocioServiceService = inject(NegocioServiceService);
   servicioProfesional: ProfesionalesServiceService = inject(
     ProfesionalesServiceService
   );
-  constructor(private ruta: ActivatedRoute) {}
+
   idNegocio: number = 0;
 
   cargarServicios() {
-    this.ruta.parent?.params.subscribe((params) => {
-      const nombreNegocio = params['nombreNegocio'];
-      this.servicioNegocio.getIdNegocioByNombre(nombreNegocio).subscribe({
-        next: (idNegocio) => {
-          this.idNegocio = idNegocio;
-          //obtengo el arreglo de servicios del negocio y lo guardo en la variable idCards
-          this.servicios
-            .GETserviciosPorIdNegocioYEstado(this.idNegocio, 'true')
+
+    this.idNegocio = parseFloat(localStorage.getItem('idUsuario')!) ;
+      this.servicioNegocio.getNegocioById(this.idNegocio).subscribe({
+        next: (responseNegocio) => {
+          this.servicios.getServiciosPorIdNegocioYEstado(this.idNegocio, 'true')
             .subscribe({
               next: (response) => {
                 this.idCards = [...response];
@@ -78,7 +75,7 @@ ngOnChanges(changes: SimpleChanges): void {
           console.error('Error al obtener el ID del negocio', error);
         },
       });
-    });
+
   }
 
   profesionalActual: ProfesionalInterface | null = null;

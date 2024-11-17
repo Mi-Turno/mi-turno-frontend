@@ -148,7 +148,7 @@ export class ConfirmacionComponent implements OnInit {
 
   obtenerServicio(idNegocio: number, idServicio: number) {
 
-    this.ServicioServiceService.GETservicioPorIdNegocio(idNegocio, idServicio).subscribe({
+    this.ServicioServiceService.getServicioPorIdNegocio(idNegocio, idServicio).subscribe({
       next: (servicio) => {
         console.log(servicio);
         this.servicio = servicio;
@@ -188,7 +188,7 @@ export class ConfirmacionComponent implements OnInit {
   crearEmail(): EmailInterface {
     //formato para enviarlo
     const emailNegocio = "miturno.flf@gmail.com";//negocio
-    const emailCliente = this.usuario.email;//cliente
+    const emailCliente = this.usuario.credencial.email;//cliente
     const mensajeEnviar = "Tu turno ha sido confirmado";
 
 

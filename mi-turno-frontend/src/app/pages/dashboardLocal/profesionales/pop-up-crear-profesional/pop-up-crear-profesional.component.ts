@@ -12,6 +12,7 @@ import { RouterLink } from '@angular/router';
 import { codigoErrorHttp } from '../../../../shared/models/httpError.constants';
 import { ProfesionalesServiceService } from '../../../../core/services/profesionalService/profesionales-service.service';
 import { ProfesionalInterface } from '../../../../core/interfaces/profesional-interface';
+import { CredencialInterface } from '../../../../core/interfaces/credencial.interface';
 
 @Component({
   selector: 'app-pop-up-crear-profesional',
@@ -52,30 +53,30 @@ actualizarValores() {
   this.formularioRegister.patchValue({
     nombre: this.cardSeleccionada?.nombre,
     apellido: this.cardSeleccionada?.apellido,
-    email: this.cardSeleccionada?.email,
+    email: this.cardSeleccionada?.credencial.email,
     fechaNacimiento: this.cardSeleccionada?.fechaNacimiento,
-    telefono: this.cardSeleccionada?.telefono,
+    telefono: this.cardSeleccionada?.credencial.telefono,
   });
 }
 
 
 
 crearUnProfesional():ProfesionalInterface {
-  const nombreForm = this.formularioRegister.get('nombre')?.value ||'';//||'' esto significa que puede ser null
-  const apellidoForm = this.formularioRegister.get('apellido')?.value||'';
-  const emailForm = this.formularioRegister.get('email')?.value||'';
-  const fechaNacimientoForm = this.formularioRegister.get('fechaNacimiento')?.value||'';
-  const telefonoForm = this.formularioRegister.get('telefono')?.value||'';
-  const password = "Programador";
 
+
+
+  const credencial:CredencialInterface = {
+    email:this.formularioRegister.get('email')?.value||'',
+    password:"profesional",
+    telefono:this.formularioRegister.get('telefono')?.value||'',
+    estado:true
+  } ;
   return {
-    nombre:nombreForm,
-    apellido:apellidoForm,
-    email:emailForm,
-    fechaNacimiento:fechaNacimientoForm,
-    telefono:telefonoForm,
-    password:password,
-    rolUsuario:ROLES.profesional,//profesional
+    nombre:this.formularioRegister.get('nombre')?.value||'',
+    apellido:this.formularioRegister.get('apellido')?.value||'',
+    fechaNacimiento:this.formularioRegister.get('fechaNacimiento')?.value||'',
+    credencial:credencial,
+    rolUsuario:ROLES.profesional,
 
   };
 }

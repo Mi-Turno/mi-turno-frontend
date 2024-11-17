@@ -11,6 +11,8 @@ import { ICONOS } from '../../../shared/models/iconos.constants';
 import { PLACEHOLDERS } from '../../../shared/models/placeholderInicioSesion.constants';
 import { AuthService } from '../../../auth/service/auth.service';
 import { UsuarioService } from '../../../core/services/usuarioService/usuario.service';
+import { UsuarioInterface } from '../../../core/interfaces/usuario-interface';
+import { CredencialInterface } from '../../../core/interfaces/credencial.interface';
 
 
 @Component({
@@ -69,20 +71,25 @@ export class ToggleComponent {
 
   //metodo para crear un cliente
    obtenerFormRegister():ClienteInterface {
-
+    const credencial:CredencialInterface = {
+      email:this.formularioRegister.get('emailRegister')?.value,
+      password:this.formularioRegister.get('passwordRegister')?.value,
+      telefono:this.formularioRegister.get('telefono')?.value,
+      estado:true,
+    } ;
     return {
-      nombre:this.formularioRegister.get('nombre')?.value ||'',
-      apellido:this.formularioRegister.get('apellido')?.value||'',
-      email:this.formularioRegister.get('emailRegister')?.value||'',
-      fechaNacimiento:this.formularioRegister.get('fechaNacimiento')?.value||'',
-      telefono:this.formularioRegister.get('telefono')?.value||'',
-      password:this.formularioRegister.get('passwordRegister')?.value||'',
+      nombre:this.capitalizarString(this.formularioRegister.get('nombre')?.value),
+      apellido:this.capitalizarString(this.formularioRegister.get('apellido')?.value),
+      fechaNacimiento:this.formularioRegister.get('fechaNacimiento')?.value,
+      credencial:credencial,
       rolUsuario: 'CLIENTE',
-      estado:true
+
     };
 
   }
-
+  capitalizarString(palabraFormatear: string): string {
+    return palabraFormatear.charAt(0).toUpperCase() + palabraFormatear.slice(1).toLowerCase();// 0 es la primera letra de la palabra y el resto es el resto de la palabra
+  }
   private postClienteToBackend(cliente:ClienteInterface):void{
 
       this.clienteService.postCliente(cliente).subscribe({
@@ -127,8 +134,8 @@ export class ToggleComponent {
       const datosLogIn = this.obtenerDatosFormLogin();
 
       this.usuarioService.getUsuarioByEmailAndPassword(datosLogIn.email, datosLogIn.password).subscribe({
-        next: (usuarioResponse: ClienteInterface) => {
-
+        next: (usuarioResponse: UsuarioInterface) => {
+          //lo logueo
           this.auth.logIn(usuarioResponse.idUsuario!.toString(),usuarioResponse.rolUsuario);
           if ( usuarioResponse.rolUsuario == ROLES.cliente || usuarioResponse.rolUsuario == ROLES.profesional) {
             //lo mando al DASHBOARD DE CLIENTE

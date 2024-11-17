@@ -107,7 +107,7 @@ export class TablaTurnosComponent implements OnInit, OnChanges {
     unTurnoAux.idNegocio= this.listadoNegocios.find((unNegocio)=> unNegocio.idUsuario === unTurno.idNegocio)?.idUsuario || 0;
     unTurnoAux.idTurno= unTurno.idTurno || 0;
     unTurnoAux.estado = unTurno.estado !== undefined ? unTurno.estado : true;
-    this.servicioServicios.GETservicioPorIdNegocio(unTurno.idNegocio,unTurno.idServicio).subscribe({
+    this.servicioServicios.getServicioPorIdNegocio(unTurno.idNegocio,unTurno.idServicio).subscribe({
       next: (servicio:ServicioInterface) => {
         unTurnoAux.nombreServicio = servicio.nombre;
         unTurnoAux.precioServicio = servicio.precio ? servicio.precio.toString() : '';

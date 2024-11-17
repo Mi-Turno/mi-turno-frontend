@@ -37,15 +37,7 @@ export class DashboardClienteComponent implements OnInit{
 
   //variables
   popupLevantado:boolean = false;
-  clienteActual:ClienteInterface={
-    nombre:'',
-    apellido:'',
-    email:'',
-    password:'',
-    telefono:'',
-    fechaNacimiento:'',
-    rolUsuario:''
-  }
+  clienteActual:ClienteInterface = {} as ClienteInterface;
 
   ngOnInit(): void {
     this.idCliente = Number(localStorage.getItem('idUsuario'));
@@ -55,49 +47,6 @@ export class DashboardClienteComponent implements OnInit{
 
 
   listadoTurnos:TurnoInterface[] = [];
-/*
-
-  obtenerInfo(){
-  //obtener todos los negocios
-  this.servicioNegocio.getTodosLosNegocios().subscribe({
-    next: (negocios: NegocioInterface[])=>{
-      this.listadoNegocios= negocios;
-console.log("Negocios del back crudos", negocios);
-      negocios.map((unNegocio:NegocioInterface)=>{
-        this.listadoNegocios.push({
-          idUsuario:unNegocio.idUsuario,
-          nombre: unNegocio.nombre,
-          apellido: unNegocio.apellido,
-          email: unNegocio.email,
-          password: unNegocio.password,
-          telefono: unNegocio.telefono,
-          fechaNacimiento: unNegocio.fechaNacimiento,
-          idRolUsuario: unNegocio.idRolUsuario,
-          rubro: unNegocio.rubro,
-          calle: unNegocio.calle,
-          altura: unNegocio.altura,
-          detalle: unNegocio.detalle
-        });
-      })
-    },
-    error: (error)=>{
-      console.error(error);
-    }
-  })
-
-  //obtener nombre y apellido del cliente
-  this.servicioCliente.getClienteById(this.idCliente).subscribe({
-    next:(unCliente:ClienteInterface)=>{
-      this.clienteActual=unCliente;
-    },
-    error:(error)=>{
-      console.error(error)
-    }
-  })
-
-  }
-
-*/
 
 
 obtenerInfo() {

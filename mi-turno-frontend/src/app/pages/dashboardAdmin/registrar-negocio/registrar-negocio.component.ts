@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { NegocioInterface } from '../../../core/interfaces/negocio-interface';
 import { NegocioServiceService } from '../../../core/services/negocioService/negocio-service.service';
 import { of } from 'rxjs';
+import { CredencialInterface } from '../../../core/interfaces/credencial.interface';
 @Component({
   selector: 'app-registrar-negocio',
   standalone: true,
@@ -44,28 +45,36 @@ export class RegistrarNegocioComponent {
   //metodo para crear un negocio
   negocioService:NegocioServiceService = inject(NegocioServiceService);
   obtenerNegocioForm() {
+
+    const credencial:CredencialInterface = {
+      email:this.formularioRegisterNegocio.get('email')?.value,
+      password:this.formularioRegisterNegocio.get('password')?.value,
+      telefono:this.formularioRegisterNegocio.get('telefono')?.value,
+      estado:true,
+    } ;
+
       return {
         nombre: this.formularioRegisterNegocio.get('nombre')?.value,
-        apellido: this.formularioRegisterNegocio.get('nombre')?.value,
+        apellido: this.formularioRegisterNegocio.get('nombre')?.value,//es igual ya que un negocio no tiene apellido
         fechaNacimiento: new Date().toISOString().slice(0, 10),//fecha de nacimiento por defecto que seria la fecha de hoy
-        email: this.formularioRegisterNegocio.get('email')?.value,
-        telefono: this.formularioRegisterNegocio.get('telefono')?.value,
+        credencial: credencial,
         rubro: this.formularioRegisterNegocio.get('rubro')?.value,
         calle: this.formularioRegisterNegocio.get('calle')?.value,
         altura: this.formularioRegisterNegocio.get('altura')?.value,
         detalle: this.formularioRegisterNegocio.get('detalle')?.value,
-        password: this.formularioRegisterNegocio.get('password')?.value,
         rolUsuario: ROLES.negocio
       }
 
   }
 
-  // Metodo para crear onSubmit
-  onSubmit() {
+  // Metodo para registrar un negocio haciendo el click
+  registrarNegocio() {
+
     if(this.formularioRegisterNegocio.valid){
-      const negocio: NegocioInterface = this.obtenerNegocioForm();
+      const negocio:NegocioInterface = this.obtenerNegocioForm();
       this.negocioService.postNegocio(negocio).subscribe({
-        next:() =>{
+        next:(response) =>{
+          console.log(response);
           alert("Negocio registrado correctamente");
         },
         error:(error) =>{
