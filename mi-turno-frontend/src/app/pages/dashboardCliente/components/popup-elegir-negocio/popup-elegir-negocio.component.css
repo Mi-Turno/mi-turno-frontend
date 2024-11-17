@@ -1,5 +1,5 @@
 .popUpContainer{
-  position: absolute;
+  position: fixed;
   top: 20vh;
   left: 35vw;
   background-color: white;

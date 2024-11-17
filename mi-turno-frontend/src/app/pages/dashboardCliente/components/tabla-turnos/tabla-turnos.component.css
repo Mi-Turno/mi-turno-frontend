@@ -1,14 +1,16 @@
-.tablaContainer{
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+.sectionContainer{
+  background-color: white;
+  width: 80vw;
+  margin: 6% auto 0 auto;
+  border-radius: 30px;
+  padding-bottom: 10px;
 }
 
 .tablaTurnos{
+  margin: 0 auto;
   background-color: whitesmoke;
-  border-radius: 15px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 
   border-collapse: collapse;
   margin-top: 20px;
@@ -19,8 +21,11 @@ td {
   vertical-align: middle;
 }
 
-.tablaTitulo{
-  margin: 40px 0 0 100px;
+.titulo{
+  color: #333;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
 }
 
 .columnaTablaHead{
@@ -100,4 +105,12 @@ td{
   background-color: #6b1515;
   cursor: not-allowed;
   opacity: 0.6;
+}
+
+
+.mensajeSinTurnos{
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.5rem;
+  color: #333;
 }

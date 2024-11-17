@@ -1,8 +1,7 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { NegocioInterface } from '../../../core/interfaces/negocio-interface';
 import { MatIcon } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
-import { NegocioServiceService } from '../../../core/services/negocioService/negocio-service.service';
+import { NegocioInterface } from '../../../../core/interfaces/negocio-interface';
 
 @Component({
   selector: 'app-popup-elegir-negocio',
