@@ -13,10 +13,12 @@ export class NavBarLandingComponent {
   iconos = ICONOS;
 
 
-urlBase:string = "landing-page/"
+urlBase:string = "landing-page/";
 urlIcono:string = "icono.png";
-heroHref:string =`#hero`
-sobreNosotrosHref:string = `#sobreNosotros`
-preciosHref:string = `#precio`
-loginHref:string = "login"
+heroHref:string =`#hero`;
+sobreNosotrosHref:string =`#introduccion`;
+beneficioHref:string = `#beneficios`;
+preciosHref:string = `#precios`;
+contactoHref:string = `#contacto`;
+loginHref:string = "login";
 }
