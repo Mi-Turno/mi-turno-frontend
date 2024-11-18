@@ -1,19 +1,18 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { SideBarAdminComponent } from "../side-bar-admin/side-bar-admin.component";
-import { NavbarAdminComponent } from "../navbar-admin/navbar-admin.component";
-import { AuthService } from '../../../auth/service/auth.service';
+import { AuthService } from '../../auth/service/auth.service';
+import { CommonModule } from '@angular/common';
+import { SideBarAdminComponent } from './components/side-bar-admin/side-bar-admin.component';
+import { NavbarAdminComponent } from './components/navbar-admin/navbar-admin.component';
 
 @Component({
-  selector: 'app-panel',
+  selector: 'app-dashboard-admin-page',
   standalone: true,
   imports: [CommonModule, SideBarAdminComponent, RouterModule, NavbarAdminComponent],
-  templateUrl: './panel.component.html',
-  styleUrl: './panel.component.css'
+  templateUrl: './dashboard-admin-page.component.html',
+  styleUrl: './dashboard-admin-page.component.css'
 })
-export class PanelComponent implements OnInit {
-
+export class DashboardAdminPageComponent implements OnInit {
   estaSobrepuesto: boolean = false;
   constructor(private ruta:ActivatedRoute){}
   idAdmin:number = 0;
@@ -32,3 +31,4 @@ export class PanelComponent implements OnInit {
     console.log(this.estaSobrepuesto);
   }
 }
+

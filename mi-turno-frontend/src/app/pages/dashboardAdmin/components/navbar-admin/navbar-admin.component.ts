@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { ICONOS } from '../../../shared/models/iconos.constants';
-import { Router } from '@angular/router';
-import { ChipComponent } from "../../../shared/components/chip/chip.component";
-import { FechaYHoraComponent } from "../../../shared/components/fecha-y-hora/fecha-y-hora.component";
+import { Component, OnInit } from "@angular/core";
+import { ChipComponent } from "../../../../shared/components/chip/chip.component";
+import { FechaYHoraComponent } from "../../../../shared/components/fecha-y-hora/fecha-y-hora.component";
+import { Router } from "@angular/router";
+import { ICONOS } from "../../../../shared/models/iconos.constants";
 
-@Component({
+
+
+@Component
+({
   selector: 'app-navbar-admin',
   standalone: true,
   imports: [ChipComponent, FechaYHoraComponent],
@@ -25,7 +28,6 @@ export class NavbarAdminComponent implements OnInit {
     this.currentUrl = this.router.url; // Obtiene la URL actual
     this.actualizarNavBar(this.currentUrl);
   }
-
 
   actualizarNavBar(ruta: string) {
 
