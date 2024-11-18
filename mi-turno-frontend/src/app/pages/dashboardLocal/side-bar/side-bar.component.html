@@ -6,6 +6,7 @@
     <img [src]="urlFotoPerfil" [alt]="altFotoPerfil" />
     <p>{{nombreNegocio}}</p>
   </div>
+  <div class="contenedor-etiquetas">
   <ul>
     <li>
       <div [ngClass]="{'seleccionado': selecionado(rutaRecepcion)}">
@@ -31,15 +32,15 @@
         </a>
       </div>
     </li>
-    <li>
-      <div [ngClass]="{'seleccionado': selecionado(rutaServicios)}">
+    <li >
+      <div [ngClass]="{'seleccionado': selecionado(rutaServicios)}" >
         <a class="claseEnlace" [routerLink]="urlBaseNegocio + nombreNegocio +'/'+ rutaServicios">
           <mat-icon class="claseIcono">{{iconos.star}}</mat-icon>
           Servicios
         </a>
       </div>
     </li>
-    <!--<li>
+    <!-- <li>
       <div [ngClass]="{'seleccionado': selecionado(rutaClientes)}">
         <a class="claseEnlace" [routerLink]="urlBaseNegocio+ nombreNegocio+'/'+rutaClientes">
           <mat-icon class="claseIcono">{{iconos.people}}</mat-icon>
@@ -54,14 +55,18 @@
           Configuración
         </a>
       </div>
-    </li>-->
-    <li>
-      <div [ngClass]="{'seleccionado': selecionado(rutaSalir)}">
-        <a class="claseEnlace" [routerLink]="urlBaseNegocio+ nombreNegocio +'/'+ rutaSalir" (click)="cerrarSesion()">
-          <mat-icon class="claseIcono salir">{{iconos.logout}}</mat-icon>
-          Salir
-        </a>
-      </div>
-    </li>
+    </li> -->
+
+
   </ul>
+  <li>
+
+    <div [ngClass]="{'seleccionado': selecionado(rutaSalir)}" class="ultimo">
+      <a class="claseEnlace" [routerLink]="urlBaseNegocio + nombreNegocio + '/' + rutaSalir" (click)="cerrarSesion()">
+        <mat-icon class="claseIcono salir">{{iconos.logout}}</mat-icon>
+        Salir
+      </a>
+    </div>
+  </li>
+  </div>
 </nav>

@@ -36,6 +36,27 @@ export class TurnosComponent implements OnInit {
 
   }
 
+  horaActual(horasMenos: number){
+    const fechaActual = new Date();  // Obtener la fecha y hora actual
+
+    // Restar 1 hora
+    fechaActual.setHours(fechaActual.getHours() - horasMenos);
+
+
+    // Formatear la hora
+    const horas = fechaActual.getHours().toString().padStart(2, '0');
+    const minutos = fechaActual.getMinutes().toString().padStart(2, '0');
+    const segundos = fechaActual.getSeconds().toString().padStart(2, '0');
+    const horaFormateada = `${horas}:${minutos}:${segundos}`;
+
+    return horaFormateada;
+  }
+
+  // Crear el string de hora formateada
+
+
+
+
   verificarEstado(fechaTurno: string, horaTurno: string,estado:boolean): string {
     if(estado){
       const fechaActual = new Date();
@@ -44,10 +65,12 @@ export class TurnosComponent implements OnInit {
       const [hora, minutos] = horaTurno.split(':').map((parte) => parseInt(parte, 10));
 
       const fechaTurnoDate = new Date(anio, mes - 1, dia, hora, minutos, 0, 0);
-      if (fechaTurnoDate < fechaActual) {
-        return 'pagado';
-      } else {
+      if (fechaTurnoDate > fechaActual  && horaTurno > this.horaActual(0)) {
         return 'reservado';
+      } else if (fechaTurnoDate > fechaActual && !estado) {
+        return 'pagado';
+      }else{
+        return 'enCurso';
       }
     }else{
       return 'cancelado';
@@ -56,6 +79,7 @@ export class TurnosComponent implements OnInit {
   }
   // 1 - Crear un método que obtenga todos los turnos del negocio
   cargarTurnos() {
+
     this.turnoService.getTurnos(this.idNegocio).subscribe({
       next: (turnosResponse: TurnoInterface[]) => {
         console.log(turnosResponse);
@@ -108,6 +132,7 @@ export class TurnosComponent implements OnInit {
                 unTurnoAux.nombreServicio = this.nombreServicio;
 
                 //Lo agrego a la tabla AL FINNN...:)
+                if(unTurnoAux.estado || unTurnoAux.horaInicio > this.horaActual(1))
                 this.turnoTabla.push(unTurnoAux);
 
               },

@@ -30,6 +30,7 @@
 
 html {
   scroll-padding-top: 70px; /* Ajusta según la altura de tu nav fijo */
+  scroll-behavior: smooth;
 }
 
 body{

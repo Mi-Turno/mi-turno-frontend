@@ -1,5 +1,4 @@
 .popUp {
-  border: 2px solid;
   margin: 10px;
   border-radius: 20px;
   height: 550px;
@@ -11,6 +10,7 @@
   background-color: #fff;
   position: relative; /* Para posicionar elementos dentro de .popUp */
   padding-top: 20px; /* Espacio superior */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
 }
 
 .titulos {

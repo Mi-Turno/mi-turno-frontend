@@ -7,7 +7,7 @@
     @if (!nombreCliente) {
       <p [className]="'textoBienvenida'">Bienvenido Visitante! Es un placer ofrecerte nuestros servicios. </p>
     }@else {
-      <p [className]="'textoBienvenida'">Bienvenido {{nombreCliente}} {{apellidoCliente}}, es un placer ofrecerte nuestros servicios. <br>Reserva un turno con nosotros!</p>
+      <p [className]="'textoBienvenida'">Bienvenido {{nombreCliente}} {{apellidoCliente}}, es un placer ofrecerte nuestros servicios. </p>
     }
       <p [className]="'textoBienvenida'">Reserva un turno con nosotros!</p>
     <button [className]="'botonElegirNegocio'" (click)="levantarPopupPedirTurno()">(+) Nuevo Turno</button>

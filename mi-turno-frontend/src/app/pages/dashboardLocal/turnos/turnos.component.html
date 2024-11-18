@@ -1,4 +1,4 @@
-<table>
+<table class="main">
   <thead>
     <tr>
       <th>Estado</th>
@@ -17,12 +17,16 @@
       <td>
         <span [ngClass]="{
               'estado-cancelado': !turno.estado,
-              'estado-cobrada':  verificarEstado(turno.fecha, turno.horaInicio,turno.estado) === 'pagado',
-              'estado-reservada': verificarEstado(turno.fecha, turno.horaInicio,turno.estado) === 'reservado'
+              'estado-en-curso':  verificarEstado(turno.fecha, turno.horaInicio,turno.estado) === 'enCurso',
+              'estado-reservada': verificarEstado(turno.fecha, turno.horaInicio,turno.estado) === 'reservado',
+              'estado-pagado': verificarEstado(turno.fecha, turno.horaInicio, turno.estado) === 'pagado'
             }">
           <!-- Mostrar el estado en texto -->
-          {{ !turno.estado ? 'Cancelado' : (verificarEstado(turno.fecha, turno.horaInicio,turno.estado) === 'pagado' ?
-          'Pagado' : 'Reservado') }}
+          {{
+            !turno.estado ? 'Cancelado' : verificarEstado(turno.fecha, turno.horaInicio, turno.estado) === 'enCurso'
+                                  ? 'En Curso' : verificarEstado(turno.fecha, turno.horaInicio, turno.estado) === 'reservado'
+                                  ? 'Reservado' : 'Pagado'
+          }}
         </span>
       </td>
       <td>{{ turno.idTurno }}</td>
@@ -34,7 +38,7 @@
       <td>{{ turno.metodoPago }}</td>
       <td>
         <button class="btn-cancelar" (click)="cancelarTurno(idNegocio, turno.idTurno)" [disabled]="verificarEstado(turno.fecha, turno.horaInicio, turno.estado) === 'pagado'||verificarEstado(turno.fecha, turno.horaInicio, turno.estado) === 'cancelado'">
-          Cancelar
+           {{ verificarEstado(turno.fecha, turno.horaInicio, turno.estado) === 'enCurso' ? 'Pagar' : 'Cancelar' }}
         </button>
       </td>
     </tr>

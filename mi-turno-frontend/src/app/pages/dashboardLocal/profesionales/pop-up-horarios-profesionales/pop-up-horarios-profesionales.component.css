@@ -7,7 +7,6 @@
 
  .popUp {
   display: flex;
-  border: 2px solid;
   margin: 20px;
   width: 1100px;
   height: 600px;
@@ -16,7 +15,7 @@
   justify-content: center;
   flex-direction: column;
   background-color: #fff;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
  }
 
 
