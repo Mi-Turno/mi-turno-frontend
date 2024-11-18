@@ -34,41 +34,17 @@
   display: block;
 }
 
-.contact-form input[type="text"],
-.contact-form input[type="email"],
-.contact-form textarea {
-  width: 100%;
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  box-sizing: border-box;
-  transition: border-color 0.3s ease;
-}
 
-.contact-form input[type="text"]:focus,
-.contact-form input[type="email"]:focus,
-.contact-form textarea:focus {
-  border-color: #007BFF;
-  outline: none;
-}
-
-/* Estilo para el botón */
-.contact-form .cta-button {
-  padding: 15px;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #ffffff;
-  background-color: #007BFF;
+textarea{
+  background-color: #eee;
   border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.contact-form .cta-button:hover {
-  background-color: #0056b3;
+  padding: 10px 15px;
+  font-size: 13px;
+  border-radius: 8px;
+  width: 100%;
+  outline: none;
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
 /* Ajustes para pantallas pequeñas */

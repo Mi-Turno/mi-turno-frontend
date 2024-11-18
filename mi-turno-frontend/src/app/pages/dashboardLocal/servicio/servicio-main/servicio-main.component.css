@@ -1,6 +1,8 @@
 .main {
   display: flex;
-  border: 2px solid;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+  border-radius: 15px;
+  background-color: var(--color-background);
   margin: 2vh 3vh 2vh 1.5vh;
   width: 82vw;
   height: 88vh;

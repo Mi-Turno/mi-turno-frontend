@@ -2,19 +2,18 @@
 
 
 .sidebar {
-  width: 250px;            /* Ajusta el ancho del sidebar */
-  height: 96vh;           /* Hace que el sidebar ocupe toda la altura de la pantalla */
-  background-color: var();  /* Color de fondo */
-  padding: 20px;           /* Espacio interno */
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra opcional */
-  border: 2px solid #000; /* Aquí defines el borde derecho */
+  width: 250px;
+  height: 96vh;
+  background-color: var();
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+  border-radius: 15px;
   margin: 2vh 1.5vh 2vh 3vh;
+  background-color: var(--color-background);
 }
 
 
-ul div {
-  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3); /* Sombra abajo y a la izquierda */
- }
+
 
 
  .seccion-logo img {
@@ -33,6 +32,7 @@ ul div {
 
  .seccion-img-perfil  {
   text-align: center;
+  margin-bottom: 30px;
  }
 
 
@@ -47,16 +47,18 @@ flex-direction: column;
 
 li {
   width: 100%;
+  list-style-type: none;
 }
 
 li div {
   display: flex;
   vertical-align: middle;
-  height: 4.5vh;
-  display: flex;
+  height: 5.5vh;
   align-items: center;
   justify-content: left;
 }
+
+
 
 .claseEnlace {
   color: #000;
@@ -65,36 +67,36 @@ li div {
 li div:hover {
   scale: 1.02;
   background-color: var(--color-contraste2-hover);
-  color: white;
+  color: var(--color-background);
 }
 
 li div:hover .claseIcono {
-  color:white;
+  color:var(--color-background);
 }
 
 li div:hover .claseEnlace {
-  color: white;
+  color: var(--color-background);
 }
 
 .claseEnlace {
-  display: flex; /* Alineación del contenido dentro del enlace */
-  align-items: center; /* Alinear verticalmente el contenido */
-  justify-content: left; /* Mantener el contenido alineado a la izquierda */
-  width: 100%; /* Hace que el enlace ocupe todo el ancho del div */
-  height: 100%; /* Hace que el enlace ocupe toda la altura del div */
-  text-decoration: none; /* Elimina el subrayado del enlace */
-  font-size: var(--titulo-h5);
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  font-size: var(--titulo-h4);
   margin-left: 10px ;
   height: 30px;
 }
 
 .claseIcono{
-  color: #4a90e2;
-  font-size: 30px;
+  color: var(--main-color);
+  font-size: 40px;
   margin-left: 10px;
-  height: 30px;
-  width: 30px;
-  margin-right: 5px;
+  height: 40px;
+  width: 40px;
+  margin-right: 13px;
 }
 
 .salir {
@@ -103,15 +105,27 @@ li div:hover .claseEnlace {
 
 .seleccionado {
   background-color: var(--color-contraste2);
-  color: white;
+  color: var(--color-background);
   scale: 1.02;
 }
 
 .seleccionado .claseEnlace {
-  color: white;
+  color: var(--color-background);
 }
 .seleccionado .claseIcono {
-  color: white;
+  color: var(--color-background);
+}
+
+.ultimo {
+  display: flex;
+  align-items: center;
+  margin-top: auto;
 }
 
 
+.contenedor-etiquetas{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 74%;
+}

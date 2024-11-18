@@ -9,4 +9,8 @@ import { Component } from '@angular/core';
 })
 export class PreciosComponent {
 
+precioA =  '$ 300';
+precioB= '$ 400';
+precioC = '$ 500';
+
 }

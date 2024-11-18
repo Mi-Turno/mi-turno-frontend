@@ -8,10 +8,9 @@
   width: 80vw;
   margin: 0 auto;
 
-  border: 2px solid #333;
-  border-radius: 30px;
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+  border-radius: 15px;
+  background-color: var(--color-background);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
 
 }
 
@@ -54,4 +53,9 @@
 .botonElegirNegocio:hover{
   cursor: pointer;
   background-color: var(--color-contraste2-hover);
+}
+
+app-fecha-y-hora {
+  font-size: var(--titulo-h5);
+  padding-right: 30px;
 }
