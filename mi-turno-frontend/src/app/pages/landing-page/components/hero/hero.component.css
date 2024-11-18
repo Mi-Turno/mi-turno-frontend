@@ -126,7 +126,7 @@ font-size: xx-large;
 }
 
 
-.heroBoton{
+.heroBoton {
   border-radius: 5px;
   color: var(--text-color);
   border: none;
@@ -138,4 +138,14 @@ font-size: xx-large;
   margin-top: 3rem;
   font-weight: bold;
   font-size: large;
+  transition: all 0.3s ease;
+}
+
+
+.heroBoton:hover {
+  cursor: pointer;
+  color: #fff;
+  background-color: #76ac3e;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
