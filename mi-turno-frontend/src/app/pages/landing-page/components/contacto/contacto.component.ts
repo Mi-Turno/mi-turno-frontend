@@ -62,6 +62,10 @@ enviarMail() {
 
 bloquearContacto() {
   this.mailEnviado = true;
+  this.formularioContacto.get('nombre')?.disable();
+  this.formularioContacto.get('negocio')?.disable();
+  this.formularioContacto.get('email')?.disable();
+  this.formularioContacto.get('mensaje')?.disable();
   alert("Mail envíado de forma correcta");
 }
 
