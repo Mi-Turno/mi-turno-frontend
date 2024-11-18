@@ -3,12 +3,9 @@ import { Component, inject, OnInit } from '@angular/core';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 import { SideBarComponent } from '../side-bar/side-bar.component';
 import { FormsModule } from '@angular/forms';
-
-import { CardComponent } from '../../../shared/components/card/card.component';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { PopUpCrearProfesionalComponent } from '../profesionales/pop-up-crear-profesional/pop-up-crear-profesional.component';
-import { ProfesionalesMainComponent } from '../profesionales/profesionales-main/profesionales-main.component';
-import { AuthService } from '../../../auth/service/auth.service';
+import { AuthService } from '../../../core/guards/auth/service/auth.service';
+
 
 @Component({
   selector: 'app-panel-recepcion',

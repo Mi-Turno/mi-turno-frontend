@@ -2,8 +2,8 @@ import { ICONOS } from './../../../shared/models/iconos.constants';
 import { Component, inject, Input } from '@angular/core';
 import { BotonComponent } from "../../../shared/components/boton/boton.component";
 import { MatIcon } from '@angular/material/icon';
-import { AuthService } from '../../../auth/service/auth.service';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../core/guards/auth/service/auth.service';
 
 
 @Component({

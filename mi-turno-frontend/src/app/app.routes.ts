@@ -4,8 +4,7 @@ import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno/pedir-turno.
 import { ProfesionalesMainComponent } from './pages/dashboardLocal/profesionales/profesionales-main/profesionales-main.component';
 import { ServicioMainComponent } from './pages/dashboardLocal/servicio/servicio-main/servicio-main.component';
 import { DashboardClienteComponent } from './pages/dashboardCliente/dashboard-cliente.component';
-import { authGuardFn } from './auth/guard/auth.guard-fn';
-import { rolGuardFn } from './auth/guard/rol.guard-fn';
+
 import { ROLES } from './shared/models/rolesUsuario.constants';
 import { TurnosComponent } from './pages/dashboardLocal/turnos/turnos.component';
 import { ToggleComponent } from './pages/inicioSesion/toggle/toggle.component';
@@ -13,6 +12,8 @@ import { LandingPageComponent } from './pages/landing-page/landing-page.componen
 import { RegistrarNegocioComponent } from './pages/dashboardAdmin/components/registrar-negocio/registrar-negocio.component';
 import { DashboardAdminPageComponent } from './pages/dashboardAdmin/dashboard-admin-page.component';
 import { UsuariosComponent } from './pages/dashboardAdmin/components/usuarios/usuarios.component';
+import { authGuardFn } from './core/guards/auth/guard/auth.guard-fn';
+import { rolGuardFn } from './core/guards/auth/guard/rol.guard-fn';
 
 
 

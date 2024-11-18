@@ -1,9 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { AuthService } from '../../auth/service/auth.service';
+
 import { CommonModule } from '@angular/common';
 import { SideBarAdminComponent } from './components/side-bar-admin/side-bar-admin.component';
 import { NavbarAdminComponent } from './components/navbar-admin/navbar-admin.component';
+import { AuthService } from '../../core/guards/auth/service/auth.service';
 
 @Component({
   selector: 'app-dashboard-admin-page',

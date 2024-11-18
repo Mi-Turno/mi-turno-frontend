@@ -9,10 +9,10 @@ import { ClienteService } from '../../../core/services/clienteService/cliente.se
 import { ROLES } from '../../../shared/models/rolesUsuario.constants';
 import { ICONOS } from '../../../shared/models/iconos.constants';
 import { PLACEHOLDERS } from '../../../shared/models/placeholderInicioSesion.constants';
-import { AuthService } from '../../../auth/service/auth.service';
 import { UsuarioService } from '../../../core/services/usuarioService/usuario.service';
 import { UsuarioInterface } from '../../../core/interfaces/usuario-interface';
 import { CredencialInterface } from '../../../core/interfaces/credencial.interface';
+import { AuthService } from '../../../core/guards/auth/service/auth.service';
 
 
 @Component({
