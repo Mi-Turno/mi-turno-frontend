@@ -100,7 +100,6 @@ export class ConfirmacionComponent implements OnInit {
 
 
     this.fecha ='Fecha: '+ this.formatearFecha(this.turnoCreado.fechaInicio);
-    //this.turnoCreado.horarioProfesional.horaInicio = new Date(this.turnoCreado.horarioProfesional.horaInicio);
     if (this.servicio.precio !== undefined) {
       this.precioTexto = this.servicio.precio.toString();
     }
@@ -243,6 +242,7 @@ export class ConfirmacionComponent implements OnInit {
   enviarEmailAlCliente() {
     this.botonActivado = true;
     const email: EmailInterface = this.crearEmail();
+
     this.emailService.postEnviarEmail(email).subscribe({
       next: (response) => {
         this.enviarOscurecer();

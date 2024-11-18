@@ -33,9 +33,8 @@ export class TurnoService {
       idServicio: turnoNuevo.idServicio,
       metodosDePagoEnum: turnoNuevo.metodosDePagoEnum,
       idCliente: turnoNuevo.idCliente,
-      idNegocio: turnoNuevo.idNegocio,
       idProfesional: turnoNuevo.horarioProfesional.idProfesional,
-      idHorarioProfesional: turnoNuevo.horarioProfesional.idHorario,
+      horarioProfesional: turnoNuevo.horarioProfesional,
       fechaInicio: turnoNuevo.fechaInicio
     }
     console.log(requestBody);
