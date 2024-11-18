@@ -15,9 +15,6 @@ export class WidgetBienvenidaComponent {
   @Input() apellidoCliente: string = "Apellido";
 
 
-  @Output() clickBoton: EventEmitter<number> = new EventEmitter<number>();
-  levantarPopupPedirTurno(){
+  @Output() clickBoton = new EventEmitter<void>();
 
-    this.clickBoton.emit(1);
-  }
 }

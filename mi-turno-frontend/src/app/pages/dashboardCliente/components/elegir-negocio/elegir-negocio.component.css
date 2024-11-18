@@ -15,10 +15,8 @@
 }
 
 .inputNegocio{
-
   height: 2rem;
   width: 20rem;
-
 }
 
 .seleccionarNegocioTitulo{
@@ -103,4 +101,3 @@ text-align: center;
   cursor: pointer;
   background-color: var(--color-contraste2-hover);
 }
-
