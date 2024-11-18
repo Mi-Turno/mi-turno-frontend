@@ -47,13 +47,5 @@ textarea{
   max-width: 100%;
 }
 
-/* Ajustes para pantallas pequeñas */
-@media (max-width: 768px) {
-  #contacto {
-    padding: 40px 10px;
-  }
 
-  .contact-form {
-    padding: 20px;
-  }
-}
+
