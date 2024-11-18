@@ -12,9 +12,9 @@
   <app-tabla-turnos [listadoNegocios]="listadoNegocios" [idCliente]="idCliente"></app-tabla-turnos>
 
   @if (modalLevantado) {
-    <app-modal (cerrarModal)="cerrarModal()">
+    <app-modal [modal]="'modalSeleccionarNegocio'" (cerrarModal)="cerrarModal()">
       <ng-container modal-header>
-        <h5>Selecciona un negocio</h5>
+        <h5 [className]="'tituloModal'">Selecciona un negocio</h5>
         </ng-container>
       <ng-container modal-content>
         <app-elegir-negocio [listadoNegocios]="listadoNegocios"></app-elegir-negocio>

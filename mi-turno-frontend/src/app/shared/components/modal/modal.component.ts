@@ -1,6 +1,6 @@
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { CdkPortal, PortalModule } from '@angular/cdk/portal';
-import { Component, EventEmitter, inject, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
@@ -41,9 +41,9 @@ export class ModalComponent implements OnInit{
   }
 
 
-  botonCerrar:string = "botonCerrar";
-
-
-
+ 
+  @Input() modal:string = "modal";
+  @Input() modalHeader:string = "modalHeader";
+  @Input() modalContent:string = "modalContent";
 
 }

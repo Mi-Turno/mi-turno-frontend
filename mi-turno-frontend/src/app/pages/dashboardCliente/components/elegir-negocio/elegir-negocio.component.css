@@ -1,17 +1,12 @@
-.popUpContainer{
-  position: fixed;
-  top: 20vh;
-  left: 35vw;
-  background-color: var(--color-background);
-  height: 600px;
-  width: 600px;
+.negociosContainer{
   display: flex;
   flex-direction: column;
-  justify-content: start;
   align-items: center;
-  border-radius: 15px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
-
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #3333338f #f5f5f5;
 }
 
 .inputNegocio{
@@ -31,7 +26,8 @@
   text-decoration: none;
   border: 2px solid gainsboro;
   justify-content: start;
-  width: 60%;
+  width: 70%;
+  color: black;
 }
 
 .unaFilaContainer:hover{
@@ -68,17 +64,13 @@
   align-items: center;
   justify-content: center;
   overflow: auto;
-  padding-left: 50px;
+  text-wrap: wrap;
+  margin: 0 auto;
+  scrollbar-width: thin;
+  scrollbar-color: #3333338f #f5f5f5;
+
 }
 
-.negociosContainer{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 99%;
-  height: 80%;
-  overflow-y: auto;
-}
 
 .nombreNegocio, .rubroNegocio{
 margin: 0;

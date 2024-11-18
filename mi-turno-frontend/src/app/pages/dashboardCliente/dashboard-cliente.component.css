@@ -93,3 +93,11 @@
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
   margin-bottom: 50px;
 }
+
+.tituloModal{
+  text-align: center;
+  margin: auto 0;
+  width: 100%;
+}
+
+
