@@ -95,6 +95,7 @@ export class ToggleComponent {
       this.clienteService.postCliente(cliente).subscribe({
         next:(cliente:ClienteInterface) =>{
           this.exito = true;
+          this.mostrarLogIn();
         },
         error: (error:HttpErrorResponse) =>{
           console.error(error);
