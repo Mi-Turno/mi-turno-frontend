@@ -1,0 +1,16 @@
+<ng-template cdkPortal>
+  <div [className]="modal">
+
+    <div [className]="'cerrarContainer'" >
+      <mat-icon [className]="'cruzCerrar'" (click)="cerrarModal.emit()">close</mat-icon>
+    </div>
+
+
+    <div [className]="modalHeader">
+      <ng-content select="[modal-header]"></ng-content>
+    </div>
+    <div [className]="modalContent">
+      <ng-content select="[modal-content]"></ng-content>
+    </div>
+  </div>
+</ng-template>

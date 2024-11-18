@@ -8,8 +8,9 @@ import { ClienteInterface } from '../../core/interfaces/cliente-interface';
 import { CommonModule } from '@angular/common';
 import { WidgetBienvenidaComponent } from './components/widget-bienvenida/widget-bienvenida.component';
 import { TablaTurnosComponent } from './components/tabla-turnos/tabla-turnos.component';
-import { PopupElegirNegocioComponent } from './components/popup-elegir-negocio/popup-elegir-negocio.component';
-import { NavBarLandingComponent } from "../landing-page/components/nav-bar-landing/nav-bar-landing.component";
+
+import { ModalComponent } from "../../shared/components/modal/modal.component";
+import { ElegirNegocioComponent } from "./components/elegir-negocio/elegir-negocio.component";
 
 
 
@@ -18,7 +19,7 @@ import { NavBarLandingComponent } from "../landing-page/components/nav-bar-landi
 @Component({
   selector: 'app-dashboard-cliente',
   standalone: true,
-  imports: [CommonModule, NavPedirTurnoComponent, WidgetBienvenidaComponent, TablaTurnosComponent, PopupElegirNegocioComponent],
+  imports: [CommonModule, NavPedirTurnoComponent, WidgetBienvenidaComponent, TablaTurnosComponent, ModalComponent, ElegirNegocioComponent],
   templateUrl: './dashboard-cliente.component.html',
   styleUrl: './dashboard-cliente.component.css'
 })
@@ -36,7 +37,7 @@ export class DashboardClienteComponent implements OnInit{
 
 
   //variables
-  popupLevantado:boolean = false;
+  modalLevantado:boolean = false;
   clienteActual:ClienteInterface = {} as ClienteInterface;
 
   ngOnInit(): void {
@@ -75,16 +76,12 @@ obtenerInfo() {
 
   estiloGeneralContainer:string="generalContainer"
 
-  manejarLevantarPopUp(event:number){
-    if(event === 1 ){
-      this.estiloGeneralContainer="generalContainerSobrepuesto"
-      this.popupLevantado = true;
-    }
+  abrirModal() {
+    this.modalLevantado = true;
+  }
 
-    if(event===0){
-      this.estiloGeneralContainer="generalContainer"
-      this.popupLevantado = false;
-    }
+  cerrarModal(){
+    this.modalLevantado = false;
   }
 
 mostrarNegocios() {

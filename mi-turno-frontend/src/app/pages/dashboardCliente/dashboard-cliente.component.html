@@ -8,11 +8,20 @@
   <div [className]="'navContainer'">
     <app-nav-pedir-turno></app-nav-pedir-turno>
   </div>
-  <app-widget-bienvenida [nombreCliente]="clienteActual.nombre" [apellidoCliente]="clienteActual.apellido" (clickBoton)="manejarLevantarPopUp($event)"></app-widget-bienvenida>
+  <app-widget-bienvenida [nombreCliente]="clienteActual.nombre" [apellidoCliente]="clienteActual.apellido" (clickBoton)="abrirModal()"></app-widget-bienvenida>
   <app-tabla-turnos [listadoNegocios]="listadoNegocios" [idCliente]="idCliente"></app-tabla-turnos>
 
-  @if (popupLevantado) {
-    <app-popup-elegir-negocio (clickBoton)="manejarLevantarPopUp($event)" [listadoNegocios]="listadoNegocios"></app-popup-elegir-negocio>
+  @if (modalLevantado) {
+    <app-modal [modal]="'modalSeleccionarNegocio'" (cerrarModal)="cerrarModal()">
+      <ng-container modal-header>
+        <h5 [className]="'tituloModal'">Selecciona un negocio</h5>
+        </ng-container>
+      <ng-container modal-content>
+        <app-elegir-negocio [listadoNegocios]="listadoNegocios"></app-elegir-negocio>
+      </ng-container>
+
+    </app-modal>
+    <!-- <app-popup-elegir-negocio (clickBoton)="cerrarModal()" [listadoNegocios]="listadoNegocios"></app-popup-elegir-negocio> -->
   }
 </div>
 

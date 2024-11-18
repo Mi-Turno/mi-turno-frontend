@@ -10,7 +10,7 @@
       <p [className]="'textoBienvenida'">Bienvenido {{nombreCliente}} {{apellidoCliente}}, es un placer ofrecerte nuestros servicios. </p>
     }
       <p [className]="'textoBienvenida'">Reserva un turno con nosotros!</p>
-    <button [className]="'botonElegirNegocio'" (click)="levantarPopupPedirTurno()">(+) Nuevo Turno</button>
+    <button [className]="'botonElegirNegocio'" (click)="clickBoton.emit()">(+) Nuevo Turno</button>
 
 <!-- [class]="'botonBienvenida'"  -->
   </div>

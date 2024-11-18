@@ -47,7 +47,7 @@ export class ProfesionalesMainComponent implements OnInit {
   }
 
 
-  //! aca hay logica de cambiar a el nuevo popUp
+
   cambiar_SobreposicionHorarios(card: UsuarioInterface | null) {
     this.verHorarios = !this.verHorarios;
     this.cardSeleccionada = card;
