@@ -11,6 +11,6 @@
     <label for="mensaje">Mensaje:</label>
     <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje aquí" rows="4" required formControlName = "mensaje"></textarea>
 
-    <app-boton [textoDentroBoton]="'Enviar mensaje'" (click)="enviarMail()"></app-boton>
+    <app-boton [textoDentroBoton]="'Enviar mensaje'" (click)="enviarMail()" [disabled]="mailEnviado"></app-boton>
   </form>
 </section>
