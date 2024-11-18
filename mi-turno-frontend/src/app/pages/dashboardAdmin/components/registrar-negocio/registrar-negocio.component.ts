@@ -1,17 +1,18 @@
-import { Component, inject } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ICONOS } from '../../../shared/models/iconos.constants';
-import { ROLES } from '../../../shared/models/rolesUsuario.constants';
-import { PLACEHOLDERS } from '../../../shared/models/placeholderInicioSesion.constants';
-import { BotonComponent } from "../../../shared/components/boton/boton.component";
-import { InputComponent } from "../../../shared/components/input/input.component";
-import { MatIconModule } from '@angular/material/icon';
-import { NegocioInterface } from '../../../core/interfaces/negocio-interface';
-import { NegocioServiceService } from '../../../core/services/negocioService/negocio-service.service';
-import { of } from 'rxjs';
-import { CredencialInterface } from '../../../core/interfaces/credencial.interface';
-@Component({
+import { Component, inject } from "@angular/core";
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { InputComponent } from "../../../../shared/components/input/input.component";
+import { BotonComponent } from "../../../../shared/components/boton/boton.component";
+import { MatIconModule } from "@angular/material/icon";
+import { ICONOS } from "../../../../shared/models/iconos.constants";
+import { ROLES } from "../../../../shared/models/rolesUsuario.constants";
+import { PLACEHOLDERS } from "../../../../shared/models/placeholderInicioSesion.constants";
+import { NegocioServiceService } from "../../../../core/services/negocioService/negocio-service.service";
+import { CredencialInterface } from "../../../../core/interfaces/credencial.interface";
+import { NegocioInterface } from "../../../../core/interfaces/negocio-interface";
+import { HttpErrorResponse } from "@angular/common/http";
+
+@Component
+({
   selector: 'app-registrar-negocio',
   standalone: true,
   imports: [ReactiveFormsModule, InputComponent, BotonComponent, MatIconModule],
