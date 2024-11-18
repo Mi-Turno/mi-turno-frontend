@@ -1,0 +1,46 @@
+<div class="contendor">
+  <mat-form-field>
+    <mat-label>Filtro</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar" #input>
+  </mat-form-field>
+
+  <div class="mat-elevation-z8">
+    <mat-table [dataSource]="informacionUsuarios" matSort>
+
+      <ng-container matColumnDef="ID">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+        <td mat-cell *matCellDef="let row" [innerHTML]="row.idUsuario"> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+        <td mat-cell *matCellDef="let row" [innerHTML]="row.nombre"> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Correo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Correo </th>
+        <td mat-cell *matCellDef="let row" [innerHTML]="row.correo"> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Telefono">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Telefono </th>
+        <td mat-cell *matCellDef="let row" [innerHTML]="row.telefono"> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Rol">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Rol </th>
+        <td mat-cell *matCellDef="let row" [innerHTML]="row.rol"> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Acciones">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let row"> <button>Editar</button></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+  </div>
+</div>

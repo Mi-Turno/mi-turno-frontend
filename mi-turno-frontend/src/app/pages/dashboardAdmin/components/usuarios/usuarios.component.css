@@ -1,0 +1,28 @@
+.contendor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 97.5%;
+  margin: 0 auto;
+}
+
+.mat-elevation-z8 {
+  width: 100%;
+
+}
+
+table {
+  width: 100%;
+
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+
+}
+
+td, th {
+  width: 25%;
+}
+
