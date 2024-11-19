@@ -32,7 +32,7 @@ textoLabel:string="Texto predeterminado";
 @Input()
 icono:string="sin icono";
 @Input()
-deshabilitado: boolean  =true;
+deshabilitado: boolean  =false;
 
 // Emitir el evento cuando se hace click
 

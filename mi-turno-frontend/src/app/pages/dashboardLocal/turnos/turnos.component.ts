@@ -6,6 +6,7 @@ import { TurnoService } from '../../../core/services/turnoService/turno.service'
 import { ProfesionalesServiceService } from '../../../core/services/profesionalService/profesionales-service.service';
 import { ServicioServiceService } from '../../../core/services/servicioService/servicio-service.service';
 import { AtributosTurno } from '../../../core/interfaces/atributos-turno';
+import { estadoTurno } from '../../../shared/models/estadoTurnoEnum';
 
 
 @Component({
@@ -104,7 +105,7 @@ export class TurnosComponent implements OnInit {
       metodoPago: '',
       horaInicio: '',
       fecha: '',
-      estado: true
+      estado: estadoTurno.LIBRE
     };
 
     unTurnoAux.fecha = unTurno.fechaInicio.toString();

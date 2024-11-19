@@ -8,6 +8,7 @@ import { ServicioInterface } from '../../../../core/interfaces/servicio-interfac
 import { TurnoInterface } from '../../../../core/interfaces/turno-interface';
 import { ClienteService } from '../../../../core/services/clienteService/cliente.service';
 import { TurnoService } from '../../../../core/services/turnoService/turno.service';
+import { estadoTurno } from '../../../../shared/models/estadoTurnoEnum';
 
 
 interface mostrarTurnosInterface{
@@ -17,7 +18,7 @@ interface mostrarTurnosInterface{
   nombreServicio:string,
   precioServicio:string,
   nombreProfesional:string,
-  estado: boolean,
+  estado: estadoTurno,
   idNegocio:  number,
   idTurno: number
 }
@@ -43,6 +44,7 @@ export class TablaTurnosComponent implements OnInit, OnChanges {
   listadoTurnos: TurnoInterface[] = [];
   constructor(private cdr: ChangeDetectorRef) {}
 
+  estado = estadoTurno;
   @Input()
   listadoNegocios: NegocioInterface[] = [];
   listadoMostrarTurnos: mostrarTurnosInterface[] = [];
@@ -95,7 +97,7 @@ export class TablaTurnosComponent implements OnInit, OnChanges {
       nombreServicio:'',
       precioServicio:'',
       nombreProfesional:'',
-      estado:true,
+      estado:estadoTurno.LIBRE,
       idNegocio: 0,
       idTurno: 0
 
@@ -106,7 +108,8 @@ export class TablaTurnosComponent implements OnInit, OnChanges {
     unTurnoAux.nombreNegocio = this.listadoNegocios.find((unNegocio)=>unNegocio.idUsuario === unTurno.idNegocio)?.nombre || 'babay';
     unTurnoAux.idNegocio= this.listadoNegocios.find((unNegocio)=> unNegocio.idUsuario === unTurno.idNegocio)?.idUsuario || 0;
     unTurnoAux.idTurno= unTurno.idTurno || 0;
-    unTurnoAux.estado = unTurno.estado !== undefined ? unTurno.estado : true;
+    unTurnoAux.estado = unTurno.estado || estadoTurno.LIBRE;
+    console.log(unTurnoAux.estado);
     this.servicioServicios.getServicioPorIdNegocio(unTurno.idNegocio,unTurno.idServicio).subscribe({
       next: (servicio:ServicioInterface) => {
         unTurnoAux.nombreServicio = servicio.nombre;
@@ -133,10 +136,28 @@ export class TablaTurnosComponent implements OnInit, OnChanges {
   }
 
 
-  verificarEstado(fechaTurno: string, horaTurno: string,estado:boolean): string {
+  verificarEstado(fechaTurno: string, horaTurno: string,estado:estadoTurno): string {
 
-    if(!estado){
+console.log("Entro aca");
+
+    if(estado == estadoTurno.CANCELADO){
       return 'cancelado'
+    }
+    if(estado == estadoTurno.EN_CURSO){
+      return 'enCurso'
+    }
+
+    if(estado == estadoTurno.COBRADO
+    ) {
+      return 'pagado'
+    }
+
+    if(estado == estadoTurno.RESERVADO) {
+      return 'reservado'
+    }
+
+    if(estado == estadoTurno.LIBRE) {
+      return 'libre'
     }
       const fechaActual = new Date();
       const [anio, mes, dia] = fechaTurno.split('-').map((parte) => parseInt(parte, 10));

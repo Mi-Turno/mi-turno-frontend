@@ -1,3 +1,5 @@
+import { estadoTurno } from "../../shared/models/estadoTurnoEnum";
+
 export interface AtributosTurno {
   idTurno?: number;
   nombreCliente: string;
@@ -6,5 +8,5 @@ export interface AtributosTurno {
   metodoPago: string;
   horaInicio: string;
   fecha: string;
-  estado: boolean;
+  estado: estadoTurno;
 }
