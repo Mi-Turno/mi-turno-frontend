@@ -52,7 +52,7 @@ export class ConfirmacionComponent implements OnInit {
     metodosDePagoEnum: obtenerMetodosDePagoPorNumero(0),
     idServicio: 0,
     fechaInicio: new Date(),
-    estado: estadoTurno.LIBRE
+    estado: estadoTurno.RESERVADO
   }
 
 
@@ -127,7 +127,7 @@ export class ConfirmacionComponent implements OnInit {
     this.UsuarioService.obtenerUsuarioPorId(idCliente).subscribe({
       next: (usuario) => {
         this.usuario = usuario;
-        console.log(usuario);
+
       },
       error: (error) => {
         console.log(error);
@@ -138,7 +138,7 @@ export class ConfirmacionComponent implements OnInit {
     this.UsuarioService.obtenerUsuarioPorId(idProfesional).subscribe({
       next: (nuevoProfesional) => {
         this.profesional = nuevoProfesional;
-        console.log(nuevoProfesional);
+
       },
       error: (error) => {
         console.log(error);
@@ -150,7 +150,7 @@ export class ConfirmacionComponent implements OnInit {
 
     this.ServicioServiceService.getServicioPorIdNegocio(idNegocio, idServicio).subscribe({
       next: (servicio) => {
-        console.log(servicio);
+
         this.servicio = servicio;
       },
       error: (error) => {
@@ -164,7 +164,7 @@ export class ConfirmacionComponent implements OnInit {
     this.NegocioServiceService.getNegocioById(idNegocio).subscribe({
       next: (negocio) => {
         this.negocio = negocio;
-        console.log(negocio);
+
         this.ubicacionTexto = negocio.calle + ', ' + negocio.altura + ', ' + negocio.detalle;
       },
       error: (error) => {
@@ -196,7 +196,7 @@ export class ConfirmacionComponent implements OnInit {
       email: emailCliente,
       emailNegocio: emailNegocio,
       mensaje: mensajeEnviar,
-      fecha: this.turnoCreado.fechaInicio,
+      fecha: this.ajustarFechaLocal(this.turnoCreado.fechaInicio),
       horario: this.turnoCreado.horarioProfesional.horaInicio.toLocaleString(),
       direccion: this.negocio.calle + ' ' + this.negocio.altura,
       servicio: this.servicio.nombre,
@@ -205,7 +205,15 @@ export class ConfirmacionComponent implements OnInit {
       ubicacion: this.ubicacionTexto,
     }
   };
+  private ajustarFechaLocal(fecha: Date): Date {
+    const copiaDate = new Date(fecha); // copiar la fecha para no modificar la original
 
+    // Restar el offset de la zona horaria local para corregir la fecha
+    const offsetMs = copiaDate.getTimezoneOffset() * 60000; // convertir minutos a milisegundos
+    const fechaCorrecta = new Date(copiaDate.getTime() - offsetMs);
+
+    return fechaCorrecta;
+  }
   @Output() oscurecerFondo = new EventEmitter<boolean>();
 
   enviarOscurecer() {
@@ -219,7 +227,7 @@ export class ConfirmacionComponent implements OnInit {
 
   confirmarTurno() {
 
-console.log(this.turnoCreado);
+    console.log(this.turnoCreado);
     this.turnoService.postTurno(this.turnoCreado).subscribe({
       next: (respuesta) => {
         console.log(respuesta);
@@ -243,12 +251,11 @@ console.log(this.turnoCreado);
   enviarEmailAlCliente() {
     this.botonActivado = true;
     const email: EmailInterface = this.crearEmail();
-
     this.emailService.postEnviarEmail(email).subscribe({
       next: (response) => {
         this.enviarOscurecer();
         this.seEnvioBien = true;
-        console.log(response);
+
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
@@ -269,5 +276,6 @@ console.log(this.turnoCreado);
       }
     })
   }
+
 
 }
