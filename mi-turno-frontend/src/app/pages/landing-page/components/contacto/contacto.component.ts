@@ -16,6 +16,9 @@ import { codigoErrorHttp } from '../../../../shared/models/httpError.constants';
 })
 export class ContactoComponent {
 
+
+mailEnviado = false;
+
 formularioContacto = new FormGroup ({
   nombre: new FormControl('', Validators.required),
   negocio: new FormControl('', Validators.required),
@@ -38,7 +41,7 @@ enviarMail() {
   const email: EmailContactoInterface = this.crearEmail();
   this.emailService.postEnviarEmail(email).subscribe({
     next: (response) => {
-      console.log(response);
+      this.bloquearContacto();
     }, error: (error: HttpErrorResponse) => {
       if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
         alert('Error 404: Email no encontrado');
@@ -54,6 +57,16 @@ enviarMail() {
         alert('Error al enviar el Email');
       }
 }})
+}
+
+
+bloquearContacto() {
+  this.mailEnviado = true;
+  this.formularioContacto.get('nombre')?.disable();
+  this.formularioContacto.get('negocio')?.disable();
+  this.formularioContacto.get('email')?.disable();
+  this.formularioContacto.get('mensaje')?.disable();
+  alert("Mail envíado de forma correcta");
 }
 
 }

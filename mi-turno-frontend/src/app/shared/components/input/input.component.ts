@@ -31,6 +31,8 @@ claseInputContainer: string = "inputContainer";
 textoLabel:string="Texto predeterminado";
 @Input()
 icono:string="sin icono";
+@Input()
+deshabilitado: boolean  =false;
 
 // Emitir el evento cuando se hace click
 

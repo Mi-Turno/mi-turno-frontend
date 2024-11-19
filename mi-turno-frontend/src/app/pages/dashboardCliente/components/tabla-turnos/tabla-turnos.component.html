@@ -30,9 +30,11 @@
             </th>
             <td>
               <span [ngClass]="{
-                'estado-cancelado': !unTurno.estado,
-                'estado-cobrada': verificarEstado(unTurno.fechaInicio,unTurno.horario,unTurno.estado) === 'pagado',
-                'estado-reservada':verificarEstado( unTurno.fechaInicio, unTurno.horario, unTurno.estado) === 'reservado'
+                'estado-cancelado': unTurno.estado === estado.CANCELADO,
+                'estado-cobrada': unTurno.estado === estado.COBRADO,
+                'estado-reservada': unTurno.estado === estado.RESERVADO,
+                'estado-en-curso': unTurno.estado === estado.EN_CURSO,
+                'estado-libre': unTurno.estado === estado.LIBRE
                 }"
               >
                 <!-- Mostrar el estado en texto -->

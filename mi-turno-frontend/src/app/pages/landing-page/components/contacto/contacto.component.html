@@ -3,14 +3,14 @@
   <h2>Contacto</h2>
   <form  [formGroup]="formularioContacto" class="contact-form">
 
-    <app-input [textoLabel]="'Nombre:'" [placeholder]="' Tu nombre'" [id]="'nombre'" formControlName = "nombre"></app-input>
+    <app-input [textoLabel]="'Nombre:'" [placeholder]="' Tu nombre'" [id]="'nombre'" formControlName = "nombre" [deshabilitado]="mailEnviado"></app-input>
 
-    <app-input [textoLabel]="'Nombre del negocio:'" [placeholder]="' Nombre de tu negocio'" [id]="'negocio'" formControlName = "negocio"></app-input>
-    <app-input [textoLabel]="'Correo electrónico:'" [placeholder]="' Tu correo electrónico'" [type]="'email'" [id]="" formControlName = "email"></app-input>
+    <app-input [textoLabel]="'Nombre del negocio:'" [placeholder]="' Nombre de tu negocio'" [id]="'negocio'" formControlName = "negocio"  [deshabilitado]="mailEnviado"></app-input>
+    <app-input [textoLabel]="'Correo electrónico:'" [placeholder]="' Tu correo electrónico'" [type]="'email'" [id]="" formControlName = "email" [deshabilitado]="mailEnviado"></app-input>
 
     <label for="mensaje">Mensaje:</label>
     <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje aquí" rows="4" required formControlName = "mensaje"></textarea>
 
-    <app-boton [textoDentroBoton]="'Enviar mensaje'" (click)="enviarMail()"></app-boton>
+    <app-boton [textoDentroBoton]="'Enviar mensaje'" (click)="enviarMail()" [disabled]="mailEnviado"></app-boton>
   </form>
 </section>

@@ -24,6 +24,7 @@ import { MetodosDePago, obtenerMetodosDePagoPorNumero } from '../../../shared/mo
 import { NegocioInterface } from '../../../core/interfaces/negocio-interface';
 import { TurnoService } from '../../../core/services/turnoService/turno.service';
 import { Router } from '@angular/router';
+import { estadoTurno } from '../../../shared/models/estadoTurnoEnum';
 
 @Component({
   selector: 'app-confirmacion',
@@ -51,7 +52,7 @@ export class ConfirmacionComponent implements OnInit {
     metodosDePagoEnum: obtenerMetodosDePagoPorNumero(0),
     idServicio: 0,
     fechaInicio: new Date(),
-    estado: true
+    estado: estadoTurno.LIBRE
   }
 
 

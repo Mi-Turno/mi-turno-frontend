@@ -1,0 +1,7 @@
+export enum estadoTurno{
+LIBRE = "LIBRE",
+RESERVADO = "RESERVADO",
+EN_CURSO = "EN_CURSO",
+COBRADO = "COBRADO",
+CANCELADO = "CANCELADO"
+ }

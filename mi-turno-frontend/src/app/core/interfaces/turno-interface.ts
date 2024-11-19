@@ -1,3 +1,4 @@
+import { estadoTurno } from "../../shared/models/estadoTurnoEnum";
 import { MetodosDePago } from "../../shared/models/metodosDePago";
 import { HorarioProfesional } from "./horarioProfesional.interface";
 
@@ -9,6 +10,6 @@ export interface TurnoInterface{
   fechaInicio:Date; //fecha del turno
   horarioProfesional:HorarioProfesional;
   metodosDePagoEnum:MetodosDePago; //metodo de pago
-  estado?:boolean
+  estado?:estadoTurno
 }
 
