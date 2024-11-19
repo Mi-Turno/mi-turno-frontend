@@ -13,19 +13,23 @@
     </tr>
   </thead>
   <tbody>
+
     <tr *ngFor="let turno of turnoTabla; let i = index">
       <td>
         <span [ngClass]="{
-              'estado-cancelado': !turno.estado,
-              'estado-en-curso':  verificarEstado(turno.fecha, turno.horaInicio,turno.estado) === 'enCurso',
-              'estado-reservada': verificarEstado(turno.fecha, turno.horaInicio,turno.estado) === 'reservado',
-              'estado-pagado': verificarEstado(turno.fecha, turno.horaInicio, turno.estado) === 'pagado'
+              'estado-cancelado': turno.estado === estado.CANCELADO,
+              'estado-en-curso': turno.estado === estado.EN_CURSO,
+              'estado-reservada': turno.estado === estado.RESERVADO,
+              'estado-pagado': turno.estado === estado.COBRADO,
+              'estado-libre': turno.estado === estado.LIBRE
             }">
-          <!-- Mostrar el estado en texto -->
           {{
-            !turno.estado ? 'Cancelado' : verificarEstado(turno.fecha, turno.horaInicio, turno.estado) === 'enCurso'
-                                  ? 'En Curso' : verificarEstado(turno.fecha, turno.horaInicio, turno.estado) === 'reservado'
-                                  ? 'Reservado' : 'Pagado'
+            turno.estado === estado.CANCELADO ? 'Cancelado' :
+            turno.estado === estado.EN_CURSO ? 'En curso' :
+            turno.estado === estado.RESERVADO ? 'Reservado' :
+            turno.estado === estado.COBRADO ? 'Pagado' :
+            turno.estado === estado.LIBRE ? 'Libre' :
+            'Estado desconocido'
           }}
         </span>
       </td>
@@ -37,8 +41,11 @@
       <td>{{ turno.nombreServicio }}</td>
       <td>{{ turno.metodoPago }}</td>
       <td>
-        <button class="btn-cancelar" (click)="cancelarTurno(idNegocio, turno.idTurno)" [disabled]="verificarEstado(turno.fecha, turno.horaInicio, turno.estado) === 'pagado'||verificarEstado(turno.fecha, turno.horaInicio, turno.estado) === 'cancelado'">
-           {{ verificarEstado(turno.fecha, turno.horaInicio, turno.estado) === 'enCurso' ? 'Pagar' : 'Cancelar' }}
+        <button class="btn-cancelar" (click)="cancelarTurno(idNegocio, turno.idTurno)"
+
+        [disabled]="estado.COBRADO === 'COBRADO' || estado.CANCELADO === 'CANCELADO'"
+        >
+           {{ estado.EN_CURSO === 'EN_CURSO' ? 'Cobrar' : 'Cancelar' }}
         </button>
       </td>
     </tr>

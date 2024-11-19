@@ -37,6 +37,8 @@ export class TurnosComponent implements OnInit {
 
   }
 
+estado = estadoTurno;
+
   horaActual(horasMenos: number){
     const fechaActual = new Date();  // Obtener la fecha y hora actual
 

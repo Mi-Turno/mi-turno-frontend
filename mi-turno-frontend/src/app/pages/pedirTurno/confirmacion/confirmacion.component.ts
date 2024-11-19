@@ -219,7 +219,7 @@ export class ConfirmacionComponent implements OnInit {
 
   confirmarTurno() {
 
-
+console.log(this.turnoCreado);
     this.turnoService.postTurno(this.turnoCreado).subscribe({
       next: (respuesta) => {
         console.log(respuesta);

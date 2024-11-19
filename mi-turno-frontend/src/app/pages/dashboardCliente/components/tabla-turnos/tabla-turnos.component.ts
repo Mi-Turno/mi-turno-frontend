@@ -140,25 +140,6 @@ export class TablaTurnosComponent implements OnInit, OnChanges {
 
 console.log("Entro aca");
 
-    if(estado == estadoTurno.CANCELADO){
-      return 'cancelado'
-    }
-    if(estado == estadoTurno.EN_CURSO){
-      return 'enCurso'
-    }
-
-    if(estado == estadoTurno.COBRADO
-    ) {
-      return 'pagado'
-    }
-
-    if(estado == estadoTurno.RESERVADO) {
-      return 'reservado'
-    }
-
-    if(estado == estadoTurno.LIBRE) {
-      return 'libre'
-    }
       const fechaActual = new Date();
       const [anio, mes, dia] = fechaTurno.split('-').map((parte) => parseInt(parte, 10));
       const [hora, minutos] = horaTurno.split(':').map((parte) => parseInt(parte, 10));
