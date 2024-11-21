@@ -1,63 +1,60 @@
 <section [className]="'sectionContainer'">
 
   <h5 [className]="'titulo'">Todos tus turnos</h5>
-
   @if (listadoTurnos.length ===0) {
-  <p [className]="'mensajeSinTurnos'">No tienes turnos reservados</p>
+    <p [className]="'mensajeSinTurnos'">No tienes turnos reservados</p>
   }
   @else {
 
-  <table [className]="'tablaTurnos'">
-    <thead [className]="'columnaTablaHead'">
-      <tr [className]="'filaInicio'">
-        <th [className]="'columnaHead'" scope="col">Nro:</th>
-        <th [className]="'columnaHead'" scope="col">Estado</th>
-        <th [className]="'columnaHead'" scope="col">Negocio</th>
-        <th [className]="'columnaHead'" scope="col">Fecha</th>
-        <th [className]="'columnaHead'" scope="col">Horario</th>
-        <th [className]="'columnaHead'" scope="col">Servicio</th>
-        <th [className]="'columnaHead'" scope="col">Precio</th>
-        <th [className]="'columnaHead'" scope="col">Profesional</th>
-        <th [className]="'columnaHead'" scope="col">Cancelar</th>
+    <div [className]="'tablaScrollContainer'">
+      <table [className]="'tablaTurnos'">
+        <thead [className]="'columnaTablaHead'">
+          <tr [className]="'filaInicio'">
+            <th [className]="'columnaHead'" scope="col">Nro:</th>
+            <th [className]="'columnaHead'" scope="col">Estado</th>
+            <th [className]="'columnaHead'" scope="col">Negocio</th>
+            <th [className]="'columnaHead'" scope="col">Fecha</th>
+            <th [className]="'columnaHead'" scope="col">Horario</th>
+            <th [className]="'columnaHead'" scope="col">Servicio</th>
+            <th [className]="'columnaHead'" scope="col">Precio</th>
+            <th [className]="'columnaHead'" scope="col">Profesional</th>
+            <th [className]="'columnaHead'" scope="col">Cancelar</th>
+          </tr>
+        </thead>
+        <tbody [className]="'tablaCuerpo'">
+          @for (unTurno of listadoMostrarTurnos; track $index) {
+            <tr [className]="'filaCuerpo'">
+              <th [className]="'columnaInicialCuerpo'" scope="row">
+                {{ $index + 1 }}
+              </th>
+              <td>
+                <span [ngClass]="{
+                        'estado-cancelado': determinarEstado(unTurno) === estado.CANCELADO,
+                        'estado-cobrada': determinarEstado(unTurno) === estado.COBRADO,
+                        'estado-reservada': determinarEstado(unTurno) === estado.RESERVADO,
+                        'estado-en-curso': determinarEstado(unTurno) === estado.EN_CURSO,
+                        'estado-libre': determinarEstado(unTurno) === estado.LIBRE,
+                      }">
+                  {{ determinarEstado(unTurno)}}
+                </span>
+              </td>
+              <td>{{ unTurno.nombreNegocio }}</td>
+              <td>{{ unTurno.fechaInicio }}</td>
+              <td>{{ unTurno.horario }}</td>
+              <td>{{ unTurno.nombreServicio }}</td>
+              <td>{{ unTurno.precioServicio }}</td>
+              <td>{{ unTurno.nombreProfesional }}</td>
+              <td>
+                <button class="btn-cancelar" (click)="cancelarTurno(unTurno.idNegocio, unTurno.idTurno)"
+                  [disabled]="determinarEstado(unTurno) === estado.COBRADO || determinarEstado(unTurno) === estado.CANCELADO">
+                  Cancelar
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
 
-      </tr>
-    </thead>
-    <tbody [className]="'tablaCuerpo'">
-      @for (unTurno of listadoMostrarTurnos; track $index) {
-      <tr [className]="'filaCuerpo'">
-        <th [className]="'columnaInicialCuerpo'" scope="row">
-          {{ $index + 1 }}
-        </th>
-        <td>
-          <span [ngClass]="{
-                  'estado-cancelado': determinarEstado(unTurno) === estado.CANCELADO,
-                  'estado-cobrada': determinarEstado(unTurno) === estado.COBRADO,
-                  'estado-reservada': determinarEstado(unTurno) === estado.RESERVADO,
-                  'estado-en-curso': determinarEstado(unTurno) === estado.EN_CURSO,
-                  'estado-libre': determinarEstado(unTurno) === estado.LIBRE,
-                }">
-            <!-- Mostrar el estado en texto -->
-            {{ determinarEstado(unTurno)}}
-          </span>
-        </td>
-        <td>{{ unTurno.nombreNegocio }}</td>
-        <td>{{ unTurno.fechaInicio }}</td>
-        <td>{{ unTurno.horario }}</td>
-        <td>{{ unTurno.nombreServicio }}</td>
-        <td>{{ unTurno.precioServicio }}</td>
-        <td>{{ unTurno.nombreProfesional }}</td>
-
-        <td>
-          <button class="btn-cancelar" (click)="cancelarTurno(unTurno.idNegocio, unTurno.idTurno)"
-            [disabled]="determinarEstado(unTurno) === estado.COBRADO || determinarEstado(unTurno) === estado.CANCELADO">
-            Cancelar
-          </button>
-        </td>
-
-      </tr>
-      }
-    </tbody>
-  </table>
   }
-
 </section>

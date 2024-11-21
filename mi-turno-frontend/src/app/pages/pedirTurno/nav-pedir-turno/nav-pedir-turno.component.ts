@@ -27,7 +27,7 @@ export class NavPedirTurnoComponent {
 
   auth:AuthService = inject(AuthService);
   clearLocalStorage(){
-    console.log("Cerrando sesion");
+
    this.auth.logOut();
   }
 }

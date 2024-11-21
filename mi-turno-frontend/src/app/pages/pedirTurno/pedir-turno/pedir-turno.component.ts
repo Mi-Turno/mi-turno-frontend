@@ -43,7 +43,7 @@ export class PedirTurnoComponent implements OnInit{
     this.idCliente= Number(localStorage.getItem('idUsuario'));
 
     const nombreNegocio = this.ruta.snapshot.paramMap.get('nombreNegocio');
-    console.log(this.idCliente,"ID CLIENTE");
+
     if (nombreNegocio) {
       this.servicioNegocio.getIdNegocioByNombre(nombreNegocio).subscribe(
         {
@@ -122,7 +122,7 @@ export class PedirTurnoComponent implements OnInit{
     }
 
     if(this.pasoActual == 4){
-      console.log(obtenerMetodosDePagoPorNumero(event));
+
       this.turno.metodosDePagoEnum = obtenerMetodosDePagoPorNumero(event);
     }
 
