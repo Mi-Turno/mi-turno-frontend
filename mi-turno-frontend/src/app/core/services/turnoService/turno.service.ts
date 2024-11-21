@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TurnoInterface } from '../../interfaces/turno-interface';
+import { estadoTurno } from '../../../shared/models/estadoTurnoEnum';
 
 @Injectable({
   providedIn: 'root'
@@ -50,5 +51,18 @@ export class TurnoService {
   public deleteTurno(idNegocio: number, idTurno: number): Observable<TurnoInterface> {
     return this.http.delete<TurnoInterface>(`${this.urlBase}/${idNegocio}/turnos/${idTurno}`)
   }
+
+// public updateTurno(idNegocio: number,idTurno: number, estado: estadoTurno): Observable<TurnoInterface>{
+//   return this.http.patch<TurnoInterface>(`${this.urlBase}/${idNegocio}/turnos/${idTurno}/${estado}`,null);
+// }
+
+public updateTurno(idNegocio: number, idTurno: number, estado: estadoTurno): Observable<TurnoInterface> {
+  const url = `${this.urlBase}/${idNegocio}/turnos/${idTurno}/${estado}`;
+  return this.http.patch<TurnoInterface>(url, null, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+}
 
 }

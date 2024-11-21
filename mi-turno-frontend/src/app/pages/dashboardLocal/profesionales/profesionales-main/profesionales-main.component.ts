@@ -23,7 +23,7 @@ export class ProfesionalesMainComponent implements OnInit {
 
 
   nombre = "Juan"
-  especialidad = "Barbero"
+  especialidad = "Profesional"
   textoBoton = "Modificar"
   rutaImg = "img-default.png"
   textoAlternativo = "Img del barbero"
