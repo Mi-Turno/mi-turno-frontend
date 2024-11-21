@@ -9,6 +9,7 @@ import { TurnoInterface } from '../../../../core/interfaces/turno-interface';
 import { ClienteService } from '../../../../core/services/clienteService/cliente.service';
 import { TurnoService } from '../../../../core/services/turnoService/turno.service';
 import { estadoTurno } from '../../../../shared/models/estadoTurnoEnum';
+import { forkJoin, map, Observable, switchMap } from 'rxjs';
 
 
 interface mostrarTurnosInterface {
@@ -34,88 +35,86 @@ interface mostrarTurnosInterface {
 })
 export class TablaTurnosComponent implements OnInit {
 
+  //atributos
+  idCliente: number = 0;
+  estado = estadoTurno;
   //servicios
-  @Input() idCliente: number = 0;//localStorage.getItem('idUsuario') ? Number(localStorage.getItem('idUsuario')) : 0;
   servicioServicios: ServicioServiceService = inject(ServicioServiceService);
   servicioProfesional: ProfesionalesServiceService = inject(ProfesionalesServiceService);
   turnoService: TurnoService = inject(TurnoService);
-  //arreglos
-
-  listadoTurnos: TurnoInterface[] = [];
-  constructor(private cdr: ChangeDetectorRef) { }
-
-  estado = estadoTurno;
-  @Input() listadoNegocios: NegocioInterface[] = [];
-  listadoMostrarTurnos: mostrarTurnosInterface[] = [];
   servicioCliente: ClienteService = inject(ClienteService);
+  //arreglos
+  @Input() listadoNegocios: NegocioInterface[] = [];
+  listadoTurnos: TurnoInterface[] = [];
+  listadoMostrarTurnos: mostrarTurnosInterface[] = [];
 
+  //constructor
+  constructor(private cdr: ChangeDetectorRef) { }
   ngOnInit(): void {
-
+    this.idCliente = parseFloat(localStorage.getItem('idUsuario')!);
     this.setearTurnos();
+
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['listadoNegocios'] || changes['listadoTurnos']) {
+      if (this.listadoNegocios.length > 0 && this.listadoTurnos.length > 0) {
+        this.setearTurnos();
+      }
+    }
   }
 
 
   setearTurnos() {
     this.listadoMostrarTurnos = []; // Limpiar antes de agregar nuevos turnos
-    this.servicioCliente.getListadoDeTurnosPorIdCliente(this.idCliente).subscribe({
-      next: (turnos: TurnoInterface[]) => {
-        this.listadoTurnos = turnos;
-        turnos.forEach((unTurno: TurnoInterface) => {
 
-          const turnoUnico = this.settearMostrarTurnos(unTurno);
-          if (!this.listadoMostrarTurnos.some(
-            turno => turno.idNegocio === turnoUnico.idTurno
-          )) {
-            this.listadoMostrarTurnos.push(turnoUnico);
-          }
-        });
-        this.cdr.detectChanges();
+    this.servicioCliente.getListadoDeTurnosPorIdCliente(this.idCliente).pipe(
+      switchMap((turnos: TurnoInterface[]) => {
+        this.listadoTurnos = turnos;
+
+        //Mapeamos cada turno segun las necesidades de la tabla
+        return forkJoin(
+          turnos.map((unTurno: TurnoInterface) =>
+            this.obtenerDatosTurno(unTurno) //Función para manejar cada turno
+          )
+        );
+      })
+    ).subscribe({
+      next: (turnosMostrados: mostrarTurnosInterface[]) => {
+        this.listadoMostrarTurnos = turnosMostrados;
+        this.cdr.detectChanges(); //Reflejar los cambios en la vista
       },
       error: (error) => {
-        console.error(error);
+        console.error('Error al obtener los turnos:', error);
       }
     });
   }
 
+  //Metodo combina las llamadas para un único turno
+  obtenerDatosTurno(unTurno: TurnoInterface): Observable<mostrarTurnosInterface> {
+    const unTurnoAux: mostrarTurnosInterface = {
+      fechaInicio: unTurno.fechaInicio.toString(),
+      horario: unTurno.horarioProfesional.horaInicio.toString(),
+      nombreNegocio: this.listadoNegocios.find((n) => n.idUsuario === unTurno.idNegocio)?.nombre || '',
+      idNegocio: unTurno.idNegocio,
+      idTurno: unTurno.idTurno!,
+      estado: unTurno.estado!,
+      nombreServicio: '',
+      precioServicio: '',
+      nombreProfesional: ''
+    };
 
-  settearMostrarTurnos(unTurno: TurnoInterface): mostrarTurnosInterface {
-
-    const unTurnoAux: mostrarTurnosInterface = {} as mostrarTurnosInterface;
-
-    unTurnoAux.fechaInicio = unTurno.fechaInicio.toString();
-    unTurnoAux.horario = unTurno.horarioProfesional.horaInicio.toString();
-    //! todo verificar por que llega null aca desde el padre
-    unTurnoAux.nombreNegocio = this.listadoNegocios.find((unNegocio) => unNegocio.idUsuario === unTurno.idNegocio)?.nombre!;
-    unTurnoAux.idNegocio = this.listadoNegocios.find((unNegocio) => unNegocio.idUsuario === unTurno.idNegocio)?.idUsuario!;
-    unTurnoAux.idTurno = unTurno.idTurno!;
-    unTurnoAux.estado = unTurno.estado!;
-    console.log(unTurnoAux.estado);
-    this.servicioServicios.getServicioPorIdNegocio(unTurno.idNegocio, unTurno.idServicio).subscribe({
-      next: (servicio: ServicioInterface) => {
+    return forkJoin({
+      servicio: this.servicioServicios.getServicioPorIdNegocio(unTurno.idNegocio, unTurno.idServicio),
+      profesional: this.servicioProfesional.getProfesionalPorIdNegocio(unTurno.idNegocio, unTurno.horarioProfesional.idProfesional)
+    }).pipe(
+      map(({ servicio, profesional }) => {
         unTurnoAux.nombreServicio = servicio.nombre;
         unTurnoAux.precioServicio = servicio.precio ? servicio.precio.toString() : '';
-      },
-      error: (error) => {
-        console.error(error)
-      }
-    })
-
-
-
-    this.servicioProfesional.getProfesionalPorIdNegocio(unTurno.idNegocio, unTurno.horarioProfesional.idProfesional).subscribe({
-      next: (unProfesional) => {
-        unTurnoAux.nombreProfesional = unProfesional.nombre;
-      },
-      error: (error) => {
-        console.error(error)
-      }
-    })
-
-
-    return unTurnoAux;
+        unTurnoAux.nombreProfesional = profesional.nombre;
+        return unTurnoAux;
+      })
+    );
   }
-
-
 
   verificarEstado(fechaTurno: string, horaTurno: string): 'Pagado' | 'Reservado' {
     const fechaActual = new Date();
@@ -143,9 +142,10 @@ export class TablaTurnosComponent implements OnInit {
     const estadoTurno = this.determinarEstado({ estado: idTurno });
     if (estadoTurno !== this.estado.COBRADO && estadoTurno !== this.estado.CANCELADO) {
 
-      this.turnoService.deleteTurno(idNegocio, idTurno).subscribe({
+      this.turnoService.updateTurno(idNegocio, idTurno,this.estado.CANCELADO).subscribe({
         next: (response) => {
           alert('Turno cancelado');
+
           window.location.reload();
         },
         error: (error) => {
@@ -157,11 +157,6 @@ export class TablaTurnosComponent implements OnInit {
     }
   }
 }
-// obtenerServicioPorId(idNegocio:number,idServicio:number):ServicioInterface{
-
-
-//   return servicioAux;
-// }
 
 
 

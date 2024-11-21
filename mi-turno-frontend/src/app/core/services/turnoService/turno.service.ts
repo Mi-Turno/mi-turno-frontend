@@ -27,7 +27,7 @@ export class TurnoService {
       fechaInicio: this.formatearFecha(turnoNuevo.fechaInicio)
     };
 
-    console.log(requestBody);
+
 
     return this.http.post<TurnoInterface>(
       `${this.urlBase}/${turnoNuevo.idNegocio}/turnos`,

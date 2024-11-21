@@ -9,7 +9,7 @@
     <app-nav-pedir-turno></app-nav-pedir-turno>
   </div>
   <app-widget-bienvenida [nombreCliente]="clienteActual.nombre" [apellidoCliente]="clienteActual.apellido" (clickBoton)="abrirModal()"></app-widget-bienvenida>
-  <app-tabla-turnos [listadoNegocios]="listadoNegocios" [idCliente]="idCliente"></app-tabla-turnos>
+  <app-tabla-turnos [listadoNegocios]="listadoNegocios"></app-tabla-turnos>
 
   @if (modalLevantado) {
     <app-modal [modal]="'modalSeleccionarNegocio'" (cerrarModal)="cerrarModal()">

@@ -1,5 +1,5 @@
 import { TurnoInterface } from '../../core/interfaces/turno-interface';
-import { Component, inject, OnInit  } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit  } from '@angular/core';
 import { NavPedirTurnoComponent } from "../pedirTurno/nav-pedir-turno/nav-pedir-turno.component";
 import { NegocioInterface } from '../../core/interfaces/negocio-interface';
 import { NegocioServiceService } from '../../core/services/negocioService/negocio-service.service';
@@ -11,6 +11,7 @@ import { TablaTurnosComponent } from './components/tabla-turnos/tabla-turnos.com
 
 import { ModalComponent } from "../../shared/components/modal/modal.component";
 import { ElegirNegocioComponent } from "./components/elegir-negocio/elegir-negocio.component";
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 
@@ -41,7 +42,7 @@ export class DashboardClienteComponent implements OnInit{
   clienteActual:ClienteInterface = {} as ClienteInterface;
 
   ngOnInit(): void {
-    this.idCliente = Number(localStorage.getItem('idUsuario'));
+    this.idCliente = parseFloat(localStorage.getItem('idUsuario')!);
     this.obtenerInfo()
   }
 
@@ -49,30 +50,39 @@ export class DashboardClienteComponent implements OnInit{
 
   listadoTurnos:TurnoInterface[] = [];
 
+  constructor(private cdr: ChangeDetectorRef) {}
 
-obtenerInfo() {
-  // Obtener todos los negocios
-  this.servicioNegocio.getTodosLosNegocios().subscribe({
-    next: (negocios: NegocioInterface[]) => {
-      // Asignar directamente los negocios a listadoNegocios
-      this.listadoNegocios = negocios;
-      console.log("Negocios que recibo del back", this.listadoNegocios);
-    },
-    error: (error) => {
-      console.error(error);
-    }
-  });
+  obtenerInfo() {
+    this.servicioNegocio.getTodosLosNegocios().subscribe({
+      next: (negocios: NegocioInterface[]) => {
+        this.listadoNegocios = [...negocios];
+         // Forzar detección de cambios
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
 
-  // Obtener nombre y apellido del cliente
-  this.servicioCliente.getClienteById(this.idCliente).subscribe({
-    next: (unCliente: ClienteInterface) => {
-      this.clienteActual = unCliente;
-    },
-    error: (error) => {
-      console.error(error);
-    }
-  });
-}
+    this.servicioCliente.getListadoDeTurnosPorIdCliente(this.idCliente).subscribe({
+      next: (turnos: TurnoInterface[]) => {
+        this.listadoTurnos = [...turnos];
+
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+    this.servicioCliente.getClienteById(this.idCliente).subscribe({
+      next: (cliente: ClienteInterface) => {
+        this.clienteActual = cliente;
+
+      },
+      error: (error:HttpErrorResponse) => {
+        console.error(error);
+      }
+    });
+    this.cdr.detectChanges(); // Forzar detección de cambios
+  }
 
   estiloGeneralContainer:string="generalContainer"
 
@@ -84,9 +94,6 @@ obtenerInfo() {
     this.modalLevantado = false;
   }
 
-mostrarNegocios() {
-  console.log("Negocios que recibo del back", this.listadoNegocios);
 
-}
 
 }
