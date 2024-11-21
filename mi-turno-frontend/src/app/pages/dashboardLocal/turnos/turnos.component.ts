@@ -202,10 +202,11 @@ modificarEstado(turno: AtributosTurno, idNegocio: number) {
 
   verificarEstadoTurno() {
     console.log("verificando estado de los turnos");
-    console.log(this.horaActual(0));
+    console.log(this.formatearHora(this.horaActual(0)));
+
     this.turnoTabla.forEach(turno => {
 
-      console.log(turno.horaInicio);
+      console.log(this.formatearHora(turno.horaInicio));
       if(this.formatearHora(turno.horaInicio) == this.formatearHora(this.horaActual(0))){
         turno.estado = estadoTurno.EN_CURSO;
         this.modificarEstado(turno, this.idNegocio);
@@ -215,7 +216,7 @@ modificarEstado(turno: AtributosTurno, idNegocio: number) {
   }
 
 formatearHora(hora: string): string {
-  const [horas, minutos] = hora.split('-');
+  const [horas, minutos] = hora.split(':');
   return `${horas}:${minutos}`;
 }
 }

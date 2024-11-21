@@ -46,6 +46,7 @@
         {{
           turno.estado === estado.EN_CURSO ? 'Cobrar' :
           turno.estado === estado.RESERVADO ? 'Cancelar' :
+          turno.estado === estado.COBRADO ? 'Cobrado' :
           'Cancelar'
         }}
          </button>

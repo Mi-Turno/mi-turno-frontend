@@ -7,21 +7,68 @@
   }
   @else {
 
-  <table [className]="'tablaTurnos'">
-    <thead [className]="'columnaTablaHead'">
-      <tr [className]="'filaInicio'">
-        <th [className]="'columnaHead'" scope="col">Nro:</th>
-        <th [className]="'columnaHead'" scope="col">Estado</th>
-        <th [className]="'columnaHead'" scope="col">Negocio</th>
-        <th [className]="'columnaHead'" scope="col">Fecha</th>
-        <th [className]="'columnaHead'" scope="col">Horario</th>
-        <th [className]="'columnaHead'" scope="col">Servicio</th>
-        <th [className]="'columnaHead'" scope="col">Precio</th>
-        <th [className]="'columnaHead'" scope="col">Profesional</th>
-        <th [className]="'columnaHead'" scope="col">Cancelar</th>
 
-      </tr>
-    </thead>
+    <div [className]="'tablaScrollContainer'">
+      <table [className]="'tablaTurnos'">
+        <thead [className]="'columnaTablaHead'">
+          <tr [className]="'filaInicio'">
+            <th [className]="'columnaHead'" scope="col">Nro:</th>
+            <th [className]="'columnaHead'" scope="col">Estado</th>
+            <th [className]="'columnaHead'" scope="col">Negocio</th>
+            <th [className]="'columnaHead'" scope="col">Fecha</th>
+            <th [className]="'columnaHead'" scope="col">Horario</th>
+            <th [className]="'columnaHead'" scope="col">Servicio</th>
+            <th [className]="'columnaHead'" scope="col">Precio</th>
+            <th [className]="'columnaHead'" scope="col">Profesional</th>
+            <th [className]="'columnaHead'" scope="col">Cancelar</th>
+          </tr>
+        </thead>
+        <tbody [className]="'tablaCuerpo'">
+          @for (unTurno of listadoMostrarTurnos; track $index) {
+            <tr [className]="'filaCuerpo'">
+              <th [className]="'columnaInicialCuerpo'" scope="row">
+                {{ $index + 1 }}
+              </th>
+              <td>
+                <span [ngClass]="{
+                        'estado-cancelado': unTurno.estado === estado.CANCELADO,
+                        'estado-cobrada': unTurno.estado === estado.COBRADO,
+                        'estado-reservada': unTurno.estado === estado.RESERVADO,
+                        'estado-en-curso': unTurno.estado === estado.EN_CURSO,
+                        'estado-libre': unTurno.estado === estado.LIBRE,
+                      }">
+                            {{
+                              unTurno.estado === estado.CANCELADO ? 'Cancelado' :
+                              unTurno.estado === estado.EN_CURSO ? 'En curso' :
+                              unTurno.estado === estado.RESERVADO ? 'Reservado' :
+                              unTurno.estado === estado.COBRADO ? 'Finalizado' :
+                              unTurno.estado === estado.LIBRE ? 'Libre' :
+                              'Estado desconocido'
+                            }}
+                </span>
+              </td>
+              <td>{{ unTurno.nombreNegocio }}</td>
+              <td>{{ unTurno.fechaInicio }}</td>
+              <td>{{ unTurno.horario }}</td>
+              <td>{{ unTurno.nombreServicio }}</td>
+              <td>{{ unTurno.precioServicio }}</td>
+              <td>{{ unTurno.nombreProfesional }}</td>
+              <td>
+                <button class="btn-cancelar" (click)="cancelarTurno(unTurno.idNegocio, unTurno.idTurno)"
+                  [disabled]="unTurno.estado === estado.COBRADO || unTurno.estado === estado.CANCELADO || unTurno.estado === estado.EN_CURSO">
+                  {{
+                    unTurno.estado === estado.COBRADO ?  'Pagado' :
+                    unTurno.estado === estado.RESERVADO ? 'Cancelar' :
+                    'Cancelar'
+                  }}
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
     <tbody [className]="'tablaCuerpo'">
       @for (unTurno of listadoMostrarTurnos; track $index) {
       <tr [className]="'filaCuerpo'">
@@ -57,7 +104,6 @@
       </tr>
       }
     </tbody>
-  </table>
   }
 
 </section>
