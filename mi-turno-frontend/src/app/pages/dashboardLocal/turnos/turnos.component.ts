@@ -8,22 +8,22 @@ import { ServicioServiceService } from '../../../core/services/servicioService/s
 import { AtributosTurno } from '../../../core/interfaces/atributos-turno';
 import { estadoTurno } from '../../../shared/models/estadoTurnoEnum';
 
-
 @Component({
   selector: 'app-turnos',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './turnos.component.html',
-  styleUrl: './turnos.component.css'
+  styleUrl: './turnos.component.css',
 })
 export class TurnosComponent implements OnInit {
-
   turnos: TurnoInterface[] = [];
   turnoTabla: AtributosTurno[] = [];
   // Servicios
   turnoService: TurnoService = inject(TurnoService);
   clienteService: ClienteService = inject(ClienteService);
-  profesionalService: ProfesionalesServiceService = inject(ProfesionalesServiceService);
+  profesionalService: ProfesionalesServiceService = inject(
+    ProfesionalesServiceService
+  );
   servicioService: ServicioServiceService = inject(ServicioServiceService);
   // Variables
   nombreCliente: string = '';
@@ -34,17 +34,15 @@ export class TurnosComponent implements OnInit {
   ngOnInit(): void {
     this.idNegocio = parseFloat(localStorage.getItem('idUsuario')!);
     this.cargarTurnos();
-
   }
 
-estado = estadoTurno;
+  estado = estadoTurno;
 
-  horaActual(horasMenos: number){
-    const fechaActual = new Date();  // Obtener la fecha y hora actual
+  horaActual(horasMenos: number) {
+    const fechaActual = new Date(); // Obtener la fecha y hora actual
 
     // Restar 1 hora
     fechaActual.setHours(fechaActual.getHours() - horasMenos);
-
 
     // Formatear la hora
     const horas = fechaActual.getHours().toString().padStart(2, '0');
@@ -57,32 +55,64 @@ estado = estadoTurno;
 
   // Crear el string de hora formateada
 
+  cambiarEstado(idNegocio?: number, turno?: AtributosTurno) {
+    if (idNegocio && turno) {
+      if (turno.estado == estadoTurno.EN_CURSO) {
+        turno.estado = estadoTurno.COBRADO;
+      } else if (turno.estado == estadoTurno.RESERVADO) {
+        turno.estado = estadoTurno.CANCELADO;
+      }
+    }
+    this.modificarEstado(turno!, idNegocio!);
+  }
+
+
+modificarEstado(turno: AtributosTurno, idNegocio: number) {
+  if (turno) {
+    this.turnoService
+      .updateTurno(idNegocio, turno.idTurno!, turno?.estado)
+      .subscribe({
+        next: (response) => {
+          window.location.reload();
+        },
+        error: (error: any) => {
+          console.error(error);
+        },
+      });
+  }
+}
 
 
 
-  verificarEstado(fechaTurno: string, horaTurno: string,estado:boolean): string {
-    if(estado){
+  verificarEstado(
+    fechaTurno: string,
+    horaTurno: string,
+    estado: boolean
+  ): string {
+    if (estado) {
       const fechaActual = new Date();
 
-      const [anio, mes, dia] = fechaTurno.split('-').map((parte) => parseInt(parte, 10));
-      const [hora, minutos] = horaTurno.split(':').map((parte) => parseInt(parte, 10));
+      const [anio, mes, dia] = fechaTurno
+        .split('-')
+        .map((parte) => parseInt(parte, 10));
+      const [hora, minutos] = horaTurno
+        .split(':')
+        .map((parte) => parseInt(parte, 10));
 
       const fechaTurnoDate = new Date(anio, mes - 1, dia, hora, minutos, 0, 0);
-      if (fechaTurnoDate > fechaActual  && horaTurno > this.horaActual(0)) {
+      if (fechaTurnoDate > fechaActual && horaTurno > this.horaActual(0)) {
         return 'reservado';
       } else if (fechaTurnoDate > fechaActual && !estado) {
-        return 'pagado';
-      }else{
+        return 'cobrado';
+      } else {
         return 'enCurso';
       }
-    }else{
+    } else {
       return 'cancelado';
     }
-
   }
   // 1 - Crear un método que obtenga todos los turnos del negocio
   cargarTurnos() {
-
     this.turnoService.getTurnos(this.idNegocio).subscribe({
       next: (turnosResponse: TurnoInterface[]) => {
         console.log(turnosResponse);
@@ -93,12 +123,11 @@ estado = estadoTurno;
       },
       error: (error: any) => {
         console.error(error);
-      }
+      },
     });
   }
 
-  settearAtributosTurno(unTurno: TurnoInterface) {
-
+  settearAtributosTurno(unTurno: TurnoInterface, idNegocio: number) {
     const unTurnoAux: AtributosTurno = {
       idTurno: 0,
       nombreCliente: '',
@@ -107,13 +136,16 @@ estado = estadoTurno;
       metodoPago: '',
       horaInicio: '',
       fecha: '',
-      estado: estadoTurno.LIBRE
+      estado: estadoTurno.LIBRE,
     };
 
     unTurnoAux.fecha = unTurno.fechaInicio.toString();
     unTurnoAux.horaInicio = unTurno.horarioProfesional.horaInicio.toString();
     unTurnoAux.idTurno = unTurno.idTurno;
-    unTurnoAux.metodoPago = unTurno.metodosDePagoEnum.replace("_", " ").toLocaleLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+    unTurnoAux.metodoPago = unTurno.metodosDePagoEnum
+      .replace('_', ' ')
+      .toLocaleLowerCase()
+      .replace(/\b\w/g, (char) => char.toUpperCase());
     unTurnoAux.estado = unTurno.estado!;
     //obtengo el cliente
     this.clienteService.getClienteById(unTurno.idCliente).subscribe({
@@ -121,59 +153,56 @@ estado = estadoTurno;
         this.nombreCliente = cliente.nombre;
 
         // Si obtengo el cliente ejecuto todo lo demas
-        this.profesionalService.getProfesionalPorIdNegocio(this.idNegocio, unTurno.horarioProfesional.idProfesional).subscribe({
-          next: (profesional) => {
-            this.nombreProfesional = profesional.nombre;
+        this.profesionalService
+          .getProfesionalPorIdNegocio(
+            this.idNegocio,
+            unTurno.horarioProfesional.idProfesional
+          )
+          .subscribe({
+            next: (profesional) => {
+              this.nombreProfesional = profesional.nombre;
 
-            this.servicioService.getServicioPorIdNegocio(this.idNegocio, unTurno.idServicio).subscribe({
-              next: (servicio) => {
-                this.nombreServicio = servicio.nombre;
+              this.servicioService
+                .getServicioPorIdNegocio(this.idNegocio, unTurno.idServicio)
+                .subscribe({
+                  next: (servicio) => {
+                    this.nombreServicio = servicio.nombre;
 
-                // Cuando tengo todo lo asigno
-                unTurnoAux.nombreCliente = this.nombreCliente;
-                unTurnoAux.nombreProfesional = this.nombreProfesional;
-                unTurnoAux.nombreServicio = this.nombreServicio;
+                    // Cuando tengo todo lo asigno
+                    unTurnoAux.nombreCliente = this.nombreCliente;
+                    unTurnoAux.nombreProfesional = this.nombreProfesional;
+                    unTurnoAux.nombreServicio = this.nombreServicio;
 
-                //Lo agrego a la tabla AL FINNN...:)
-                if(unTurnoAux.estado || unTurnoAux.horaInicio > this.horaActual(1))
-                this.turnoTabla.push(unTurnoAux);
-
-              },
-              error: (error) => {
-                console.error(error);
-              }
-            });
-          },
-          error: (error) => {
-            console.error(error);
-          }
-        });
+                    //Lo agrego a la tabla AL FINNN...:)
+                    if (
+                      unTurnoAux.estado ||
+                      unTurnoAux.horaInicio > this.horaActual(1)
+                    )
+                      this.turnoTabla.push(unTurnoAux);
+                  },
+                  error: (error) => {
+                    console.error(error);
+                  },
+                });
+            },
+            error: (error) => {
+              console.error(error);
+            },
+          });
       },
       error: (error) => {
         console.error(error);
-      }
+      },
     });
   }
 
+  verificarEstadoTurno(turno:AtributosTurno) {
 
-cancelarTurno(idNegocio?: number, idTurno?: number) {
 
-  if(idTurno && idNegocio){
+    if(turno.horaInicio == this.horaActual(0)){
+      this.modificarEstado(turno, this.idNegocio);
 
-    this.turnoService.deleteTurno(idNegocio, idTurno).subscribe({
-
-      next: (response) => {
-
-        alert('Turno cancelado ');
-        window.location.reload();
-
-      },
-      error: (error) => {
-        console.error(error);
-      }
     }
-  )
   }
-  }
-}
 
+}

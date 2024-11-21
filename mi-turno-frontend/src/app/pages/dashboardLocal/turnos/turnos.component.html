@@ -20,14 +20,14 @@
               'estado-cancelado': turno.estado === estado.CANCELADO,
               'estado-en-curso': turno.estado === estado.EN_CURSO,
               'estado-reservada': turno.estado === estado.RESERVADO,
-              'estado-pagado': turno.estado === estado.COBRADO,
+              'estado-cobrado': turno.estado === estado.COBRADO,
               'estado-libre': turno.estado === estado.LIBRE
             }">
           {{
             turno.estado === estado.CANCELADO ? 'Cancelado' :
             turno.estado === estado.EN_CURSO ? 'En curso' :
             turno.estado === estado.RESERVADO ? 'Reservado' :
-            turno.estado === estado.COBRADO ? 'Pagado' :
+            turno.estado === estado.COBRADO ? 'Cobrado' :
             turno.estado === estado.LIBRE ? 'Libre' :
             'Estado desconocido'
           }}
@@ -41,12 +41,14 @@
       <td>{{ turno.nombreServicio }}</td>
       <td>{{ turno.metodoPago }}</td>
       <td>
-        <button class="btn-cancelar" (click)="cancelarTurno(idNegocio, turno.idTurno)"
-
-        [disabled]="estado.COBRADO === 'COBRADO' || estado.CANCELADO === 'CANCELADO'"
-        >
-           {{ estado.EN_CURSO === 'EN_CURSO' ? 'Cobrar' : 'Cancelar' }}
-        </button>
+        <button class="btn-cancelar" (click)="cambiarEstado(idNegocio, turno)"
+        [disabled]="turno.estado === estado.COBRADO || turno.estado === estado.CANCELADO">
+        {{
+          turno.estado === estado.EN_CURSO ? 'Cobrar' :
+          turno.estado === estado.RESERVADO ? 'Cancelar' :
+          'Cancelar'
+        }}
+         </button>
       </td>
     </tr>
   </tbody>
