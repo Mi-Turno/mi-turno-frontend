@@ -2,6 +2,7 @@
   background-color: var(--color-background);
   width: 70vw;
   margin: 6% auto 0 auto;
+
   border-radius: 15px;
   padding-bottom: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
@@ -16,6 +17,15 @@
   border-radius: 10px;
 }
 
+.tablaScrollContainer {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: auto;
+  /* margin-top: 20px; */
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
 .tablaTurnos{
   width: 100%;
   display: table;
@@ -25,7 +35,7 @@
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   border-collapse: collapse;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 td {
@@ -36,6 +46,7 @@ td {
 .titulo{
   color: #333;
   padding: 10px;
+
   text-align: center;
   font-weight: bold;
 }
@@ -69,6 +80,9 @@ td{
   text-align: center;
 }
 
+
+
+
 .estado-cobrada {
   background-color: #ff4d4d;
   color: white;
@@ -82,12 +96,26 @@ td{
   padding: 5px;
   border-radius: 5px;
 }
+
 .estado-cancelado {
   background-color: #ff5722;
   color: white;
   padding: 5px;
   border-radius: 5px;
+}
 
+.estado-libre {
+  background-color: #1e90ff;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.estado-en-curso {
+  background-color: #F09319;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 

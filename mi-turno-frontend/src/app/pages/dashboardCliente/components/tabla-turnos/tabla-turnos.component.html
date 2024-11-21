@@ -29,13 +29,21 @@
               </th>
               <td>
                 <span [ngClass]="{
-                        'estado-cancelado': determinarEstado(unTurno) === estado.CANCELADO,
-                        'estado-cobrada': determinarEstado(unTurno) === estado.COBRADO,
-                        'estado-reservada': determinarEstado(unTurno) === estado.RESERVADO,
-                        'estado-en-curso': determinarEstado(unTurno) === estado.EN_CURSO,
-                        'estado-libre': determinarEstado(unTurno) === estado.LIBRE,
+                        'estado-cancelado': unTurno.estado === estado.CANCELADO,
+                        'estado-cobrada': unTurno.estado === estado.COBRADO,
+                        'estado-reservada': unTurno.estado === estado.RESERVADO,
+                        'estado-en-curso': unTurno.estado === estado.EN_CURSO,
+                        'estado-libre': unTurno.estado === estado.LIBRE,
                       }">
-                  {{ determinarEstado(unTurno)}}
+                            {{
+                              unTurno.estado === estado.CANCELADO ? 'Cancelado' :
+                              unTurno.estado === estado.EN_CURSO ? 'En curso' :
+                              unTurno.estado === estado.RESERVADO ? 'Reservado' :
+                              unTurno.estado === estado.COBRADO ? 'Finalizado' :
+                              unTurno.estado === estado.LIBRE ? 'Libre' :
+                              'Estado desconocido'
+                            }}
+
                 </span>
               </td>
               <td>{{ unTurno.nombreNegocio }}</td>
@@ -46,8 +54,13 @@
               <td>{{ unTurno.nombreProfesional }}</td>
               <td>
                 <button class="btn-cancelar" (click)="cancelarTurno(unTurno.idNegocio, unTurno.idTurno)"
-                  [disabled]="determinarEstado(unTurno) === estado.COBRADO || determinarEstado(unTurno) === estado.CANCELADO">
-                  Cancelar
+                  [disabled]="unTurno.estado === estado.COBRADO || unTurno.estado === estado.CANCELADO || unTurno.estado === estado.EN_CURSO">
+                  {{
+                    unTurno.estado === estado.COBRADO ?  'Pagado' :
+                    unTurno.estado === estado.RESERVADO ? 'Cancelar' :
+                    'Cancelar'
+                  }}
+
                 </button>
               </td>
             </tr>
@@ -55,6 +68,42 @@
         </tbody>
       </table>
     </div>
+
+    <tbody [className]="'tablaCuerpo'">
+      @for (unTurno of listadoMostrarTurnos; track $index) {
+      <tr [className]="'filaCuerpo'">
+        <th [className]="'columnaInicialCuerpo'" scope="row">
+          {{ $index + 1 }}
+        </th>
+        <td>
+          <span [ngClass]="{
+                  'estado-cancelado': determinarEstado(unTurno) === estado.CANCELADO,
+                  'estado-cobrada': determinarEstado(unTurno) === estado.COBRADO,
+                  'estado-reservada': determinarEstado(unTurno) === estado.RESERVADO,
+                  'estado-en-curso': determinarEstado(unTurno) === estado.EN_CURSO,
+                  'estado-libre': determinarEstado(unTurno) === estado.LIBRE,
+                }">
+            <!-- Mostrar el estado en texto -->
+            {{ determinarEstado(unTurno)}}
+          </span>
+        </td>
+        <td>{{ unTurno.nombreNegocio }}</td>
+        <td>{{ unTurno.fechaInicio }}</td>
+        <td>{{ unTurno.horario }}</td>
+        <td>{{ unTurno.nombreServicio }}</td>
+        <td>{{ unTurno.precioServicio }}</td>
+        <td>{{ unTurno.nombreProfesional }}</td>
+
+        <td>
+          <button class="btn-cancelar" (click)="cancelarTurno(unTurno.idNegocio, unTurno.idTurno)"
+            [disabled]="determinarEstado(unTurno) === estado.COBRADO || determinarEstado(unTurno) === estado.CANCELADO">
+            Cancelar
+          </button>
+        </td>
+
+      </tr>
+      }
+    </tbody>
 
   }
 </section>
