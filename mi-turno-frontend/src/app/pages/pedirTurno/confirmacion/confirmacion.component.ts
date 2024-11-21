@@ -105,7 +105,7 @@ export class ConfirmacionComponent implements OnInit {
       this.precioTexto = this.servicio.precio.toString();
     }
     else {
-      console.log("SERVICIO PRECIO UNDEFINED");
+
     }
 
 
@@ -227,10 +227,9 @@ export class ConfirmacionComponent implements OnInit {
 
   confirmarTurno() {
 
-    console.log(this.turnoCreado);
+
     this.turnoService.postTurno(this.turnoCreado).subscribe({
       next: (respuesta) => {
-        console.log(respuesta);
         //si hay exito envio el mail
         this.enviarEmailAlCliente();
 

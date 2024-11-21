@@ -94,9 +94,6 @@ export class DashboardClienteComponent implements OnInit{
     this.modalLevantado = false;
   }
 
-mostrarNegocios() {
-  console.log("Negocios que recibo del back", this.listadoNegocios);
 
-}
 
 }

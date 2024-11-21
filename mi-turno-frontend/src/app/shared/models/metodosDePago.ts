@@ -7,7 +7,6 @@ export enum MetodosDePago {
 }
 
 export function obtenerMetodosDePagoPorNumero(metodoDePago:number): MetodosDePago{
-  console.log(metodoDePago);
   switch(metodoDePago){
     case 0:
       return MetodosDePago.efectivo;
