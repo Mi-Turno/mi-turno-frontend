@@ -15,38 +15,106 @@
           </a>
         </div>
         <span>Registrarse con sus datos</span>
+        @if (exito) {
+          <span [className]="'mensajeExitoRegister'">Te registramos correctamente, ahora inicia sesion!</span>
+        }
 
-        <app-input formControlName="nombre" [icono]="iconos.person" [textoLabel]="'Nombre'" [id]="'nombreInput'"
+
+       <mat-form-field  [id]="'nombreInput'" appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input formControlName="nombre" matInput placeholder="Ingresa tu nombre">
+          <mat-icon matSuffix>{{iconos.person}}</mat-icon>
+        </mat-form-field>
+
+
+
+        <!-- <app-input formControlName="nombre" [icono]="iconos.person" [textoLabel]="'Nombre'" [id]="'nombreInput'"
           [placeholder]="placeholders.nombre">
-        </app-input>
+        </app-input> -->
 
-        <app-input formControlName="apellido" [icono]="iconos.person" [textoLabel]="'Apellido'" [id]="'apellidoInput'"
+        <mat-form-field [id]="'apellidoInput'" appearance="outline">
+          <mat-label>Apellido</mat-label>
+          <input formControlName="apellido" matInput placeholder="Ingresa tu apellido">
+          <mat-icon matSuffix>{{iconos.person}}</mat-icon>
+        </mat-form-field>
+
+        <!-- <app-input formControlName="apellido" [icono]="iconos.person" [textoLabel]="'Apellido'" [id]="'apellidoInput'"
           [placeholder]="placeholders.apellido">
-        </app-input>
+        </app-input> -->
 
-        <app-input formControlName="emailRegister" [type]="'email'" [icono]="iconos.email" [textoLabel]="'Email'"
+        <mat-form-field [id]="'emailRegister'" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input formControlName="emailRegister" matInput placeholder="Ingresa tu email">
+          <mat-icon matSuffix>{{iconos.email}}</mat-icon>
+        </mat-form-field>
+
+        <!-- <app-input formControlName="emailRegister" [type]="'email'" [icono]="iconos.email" [textoLabel]="'Email'"
           [id]="'emailRegister'" [placeholder]="placeholders.email">
-        </app-input>
+        </app-input> -->
 
-        <app-input formControlName="fechaNacimiento" [type]="'date'" [icono]="iconos.email"
+        <mat-form-field>
+          <mat-label>Fecha de Nacimiento</mat-label>
+          <input formControlName="fechaNacimiento" matInput [matDatepicker]="picker">
+          <mat-hint>dd/MM/yyyy</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <!-- <app-input formControlName="fechaNacimiento" [type]="'date'" [icono]="iconos.email"
           [textoLabel]="'fecha de nacimiento'" [id]="'fechaNacimientoInput'"
           [placeholder]="placeholders.fechaNacimiento">
-        </app-input>
+        </app-input> -->
 
-        <app-input formControlName="telefono" [type]="'tel'" [icono]="iconos.call" [textoLabel]="'Telefono'"
-          [id]="'telefonoInput'" [placeholder]="placeholders.telefono">
-        </app-input>
+        <mat-form-field [id]="'telefono'" appearance="outline">
+          <mat-label>Telefono Movil</mat-label>
+          <input formControlName="telefono" matInput [placeholder]="placeholders.telefono">
+          <mat-icon matSuffix>{{iconos.call}}</mat-icon>
+        </mat-form-field>
 
-        <app-input formControlName="passwordRegister" [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado"
+        <!-- <app-input formControlName="telefono" [type]="'tel'" [icono]="iconos.call" [textoLabel]="'Telefono'"
+           [id]="'telefonoInput'" [placeholder]="placeholders.telefono">
+         </app-input> -->
+
+
+        <mat-form-field>
+      <mat-label>Contraseña</mat-label>
+      <input [id]="'passwordRegister'" formControlName="passwordRegister" matInput [type]="ocultarContrasenia() ? 'password' : 'text'" />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="ocultarContraseniaEvent($event)"
+        [attr.aria-label]="'Ocultar Contraseña'"
+        [attr.aria-pressed]="ocultarContrasenia()"
+      >
+        <mat-icon>{{ocultarContrasenia() ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+       </mat-form-field>
+
+
+        <!-- <app-input formControlName="passwordRegister" [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado"
           [textoLabel]="'Contraseña'" [id]="'passwordRegister'" [placeholder]="placeholders.contrasenia">
-        </app-input>
+        </app-input> -->
 
-        <app-input formControlName="passwordRepetida" [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado"
+        <mat-form-field>
+          <mat-label>Repetir Contraseña</mat-label>
+          <input [id]="'repetirContraseniaInput'" formControlName="passwordRepetida" matInput [type]="ocultarContraseniaRepetida() ? 'password' : 'text'" />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="ocultarContraseniaRepetidaEvent($event)"
+            [attr.aria-label]="'Ocultar Contraseña'"
+            [attr.aria-pressed]="ocultarContraseniaRepetida()"
+          >
+            <mat-icon>{{ocultarContraseniaRepetida() ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+           </mat-form-field>
+
+        <!-- <app-input formControlName="passwordRepetida" [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado"
           [textoLabel]="'Repetir Contraseña'" [id]="'repetirContraseniaInput'"
           [placeholder]="placeholders.repetirContrasenia">
-        </app-input>
+        </app-input> -->
 
-        <button type="submit" (click)="onRegister()">Registrarse</button>
+        <button [className]="'botonEnviar'" type="submit" (click)="onRegister()">Registrarse</button>
 
       </form>
     </div>
@@ -56,7 +124,7 @@
         <div class="social-icons">
           <a href="#" class="icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512" width="24"
-              height="24"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+              height="24">
               <path
                 d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" />
             </svg>
@@ -73,7 +141,7 @@
         </app-input>
 
         <a class="olvidasteContra" href="">¿Olvidaste tu contraseña?</a>
-        <button type="submit" (click)="onLogin()">Ingresar</button>
+        <button [className]="'botonEnviar'" type="submit" (click)="onLogin()">Ingresar</button>
       </form>
     </div>
     <div class="toggle-container">
@@ -81,12 +149,12 @@
         <div class="toggle-panel toggle-left">
           <h1>Bienvenido de vuelta!</h1>
           <p>Ingresa con tus datos personales</p>
-          <button class="hidden" id="login" (click)="mostrarLogIn()">Iniciar sesion</button>
+          <button  [className]="'botonEnviar'" [ngClass]="{ 'hidden': isLogin }" id="login" (click)="mostrarLogIn()">Iniciar sesion</button>
         </div>
         <div class="toggle-panel toggle-right">
           <h1>¿No tenes cuenta?</h1>
           <p>Digitaliza tu agenda, maximiza tu tiempo</p>
-          <button class="hidden" id="register" (click)="mostrarRegister()">Registrarse</button>
+          <button [className]="'botonEnviar'" [ngClass]="{ 'hidden': !isLogin }" id="register" (click)="mostrarRegister()">Registrarse</button>
         </div>
       </div>
     </div>

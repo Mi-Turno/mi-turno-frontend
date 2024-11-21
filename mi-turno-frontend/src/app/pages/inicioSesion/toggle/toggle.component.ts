@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputComponent } from '../../../shared/components/input/input.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ClienteInterface } from '../../../core/interfaces/cliente-interface';
@@ -13,14 +13,21 @@ import { UsuarioService } from '../../../core/services/usuarioService/usuario.se
 import { UsuarioInterface } from '../../../core/interfaces/usuario-interface';
 import { CredencialInterface } from '../../../core/interfaces/credencial.interface';
 import { AuthService } from '../../../core/guards/auth/service/auth.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { NgClass } from '@angular/common';
 
 
 @Component({
   selector: 'app-toggle',
   standalone: true,
-  imports: [ReactiveFormsModule, InputComponent, MatIconModule],
+  providers: [provideNativeDateAdapter()],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgClass,ReactiveFormsModule, InputComponent, MatIconModule,MatFormFieldModule, MatInputModule, FormsModule,MatDatepickerModule],
   templateUrl: './toggle.component.html',
-  styleUrl: './toggle.component.css'
+  styleUrl: './toggle.component.css',
 })
 export class ToggleComponent {
 
@@ -95,7 +102,11 @@ export class ToggleComponent {
       this.clienteService.postCliente(cliente).subscribe({
         next:(cliente:ClienteInterface) =>{
           this.exito = true;
-          this.mostrarLogIn();
+          setTimeout(() => {
+
+            this.exito = false; //reiniciamos el valor de exito
+            this.mostrarLogIn();
+          },3000);
         },
         error: (error:HttpErrorResponse) =>{
           console.error(error);
@@ -112,6 +123,20 @@ export class ToggleComponent {
       this.postClienteToBackend(cliente);
     }
 
+  }
+
+  //metodos para ocultar las contraseñas
+
+  ocultarContrasenia = signal(true);
+  ocultarContraseniaEvent(event: MouseEvent) {
+    this.ocultarContrasenia.set(!this.ocultarContrasenia());
+    event.stopPropagation();
+  }
+
+  ocultarContraseniaRepetida = signal(true);
+  ocultarContraseniaRepetidaEvent(event: MouseEvent) {
+    this.ocultarContraseniaRepetida.set(!this.ocultarContraseniaRepetida());
+    event.stopPropagation();
   }
 
   //-----------------------------------LOGIN-----------------------------------

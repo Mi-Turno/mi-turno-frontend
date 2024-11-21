@@ -16,7 +16,7 @@ main {
   position: relative;
   overflow: hidden;
   width: 768px;
-  height: 650px;
+  height: 800px;
   max-width: 100%;
   min-height: 480px;
   margin: 0 auto;
@@ -41,8 +41,9 @@ main {
   margin: 15px 0 10px;
 }
 
-.contenedor button {
-  background-color: #512da8;
+
+.contenedor .botonEnviar {
+  background-color: #4419a8;
   color: #fff;
   font-size: 12px;
   padding: 10px 45px;
@@ -56,7 +57,11 @@ main {
   margin-bottom: 1rem;
 }
 
-.contenedor button.hidden {
+.contenedor .botonEnviar:hover{
+  background-color: #512da8;
+}
+
+.contenedor .botonEnviar .hidden {
   background-color: transparent;
   border-color: #fff;
 }
@@ -97,6 +102,13 @@ main {
   width: 50%;
   opacity: 0;
   z-index: 1;
+}
+
+.mensajeExitoRegister{
+  color: green;
+  font-size: 10px;
+  text-align: center;
+  margin: 0;
 }
 
 .contenedor.active .sign-up {
