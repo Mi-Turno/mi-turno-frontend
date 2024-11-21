@@ -34,6 +34,9 @@ export class TurnosComponent implements OnInit {
   ngOnInit(): void {
     this.idNegocio = parseFloat(localStorage.getItem('idUsuario')!);
     this.cargarTurnos();
+    setInterval(() => {
+      this.verificarEstadoTurno();
+    }, 60000);
   }
 
   estado = estadoTurno;
@@ -127,7 +130,7 @@ modificarEstado(turno: AtributosTurno, idNegocio: number) {
     });
   }
 
-  settearAtributosTurno(unTurno: TurnoInterface, idNegocio: number) {
+  settearAtributosTurno(unTurno: TurnoInterface) {
     const unTurnoAux: AtributosTurno = {
       idTurno: 0,
       nombreCliente: '',
@@ -196,13 +199,23 @@ modificarEstado(turno: AtributosTurno, idNegocio: number) {
     });
   }
 
-  verificarEstadoTurno(turno:AtributosTurno) {
 
+  verificarEstadoTurno() {
+    console.log("verificando estado de los turnos");
+    console.log(this.horaActual(0));
+    this.turnoTabla.forEach(turno => {
 
-    if(turno.horaInicio == this.horaActual(0)){
-      this.modificarEstado(turno, this.idNegocio);
+      console.log(turno.horaInicio);
+      if(this.formatearHora(turno.horaInicio) == this.formatearHora(this.horaActual(0))){
+        turno.estado = estadoTurno.EN_CURSO;
+        this.modificarEstado(turno, this.idNegocio);
+      }
+    });
 
-    }
   }
 
+formatearHora(hora: string): string {
+  const [horas, minutos] = hora.split('-');
+  return `${horas}:${minutos}`;
+}
 }
