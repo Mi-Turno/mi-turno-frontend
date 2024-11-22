@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputComponent } from '../../../shared/components/input/input.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ClienteInterface } from '../../../core/interfaces/cliente-interface';
@@ -94,9 +94,15 @@ export class ToggleComponent {
     };
 
   }
+
+  validarEmailYaExiste(control: AbstractControl){
+    
+  }
+
   capitalizarString(palabraFormatear: string): string {
     return palabraFormatear.charAt(0).toUpperCase() + palabraFormatear.slice(1).toLowerCase();// 0 es la primera letra de la palabra y el resto es el resto de la palabra
   }
+
   private postClienteToBackend(cliente:ClienteInterface):void{
 
       this.clienteService.postCliente(cliente).subscribe({
@@ -109,11 +115,24 @@ export class ToggleComponent {
           },3000);
         },
         error: (error:HttpErrorResponse) =>{
-          console.error(error);
+
+          if(error.error['email']){
+            this.emailExiste=true;
+            console.log(this.emailExiste);
+          }
+          if(error.error['telefono']){
+            this.telefonoExiste=true;
+            console.log(this.telefonoExiste);
+          }
+
       }
       })
 
   }
+
+  emailExiste:boolean = false;
+  telefonoExiste:boolean = false;
+
 
   // Método para enviar los valores del formulario al backend
   onRegister() {
@@ -126,6 +145,11 @@ export class ToggleComponent {
       this.formularioRegister.markAllAsTouched();
     }
 
+  }
+
+
+  tieneErrorRegister(control: string, error: string) {
+    return this.formularioRegister.controls[control].hasError(error) && this.formularioRegister.controls[control].touched;
   }
 
   //metodos para ocultar las contraseñas
@@ -201,9 +225,6 @@ export class ToggleComponent {
   }
   //validaciones campos formularios
 
-  tieneErrorRegister(control: string, error: string) {
-    return this.formularioRegister.controls[control].hasError(error) && this.formularioRegister.controls[control].touched;
-  }
 
   tieneErrorLogin(control: string, error: string) {
 
@@ -217,7 +238,11 @@ export class ToggleComponent {
       case 'required':
         return 'Campo requerido';
       case 'email':
-        return 'Email no válido';
+        return 'Email invalido';
+      case 'emailExiste':
+        return 'Email ya registrado';
+      case 'celularExiste':
+        return 'Celular ya registrado';
       case 'minlength':
         return 'Mínimo 8 caracteres';
       case 'maxlength':
