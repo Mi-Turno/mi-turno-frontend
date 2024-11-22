@@ -121,6 +121,9 @@ export class ToggleComponent {
 
       const cliente:ClienteInterface = this.obtenerFormRegister();
       this.postClienteToBackend(cliente);
+    }else{
+      //marcamos todos como tocados para que se muestren los errores
+      this.formularioRegister.markAllAsTouched();
     }
 
   }
@@ -140,49 +143,93 @@ export class ToggleComponent {
   }
 
   //-----------------------------------LOGIN-----------------------------------
+
   formularioLogin = new FormGroup({
     emailLogin: new FormControl('', [Validators.required, Validators.email]),
     passwordLogin: new FormControl('', Validators.required)
   });
   //obtengo los datos del formulario reactivo
-  private obtenerDatosFormLogin() {
+  private obtenerDatosFormLogin(){
 
     return {
-      email: this.formularioLogin.get('emailLogin')?.value || '',
-      password: this.formularioLogin.get('passwordLogin')?.value || ''
+      email: this.formularioLogin.get('emailLogin')?.value,
+      password: this.formularioLogin.get('passwordLogin')?.value
     };
   }
 
+  ocultarContraseniaLogin = signal(true);
+  ocultarContraseniaLoginEvent(event: MouseEvent) {
+    this.ocultarContraseniaLogin.set(!this.ocultarContraseniaLogin());
+    event.stopPropagation();
+  }
 
   onLogin() {
     if (this.formularioLogin.valid) {
 
-      const datosLogIn = this.obtenerDatosFormLogin();
+      const {email, password} = this.obtenerDatosFormLogin();
 
-      this.usuarioService.getUsuarioByEmailAndPassword(datosLogIn.email, datosLogIn.password).subscribe({
-        next: (usuarioResponse: UsuarioInterface) => {
-          //lo logueo
-          this.auth.logIn(usuarioResponse.idUsuario!.toString(),usuarioResponse.rolUsuario);
-          if ( usuarioResponse.rolUsuario == ROLES.cliente || usuarioResponse.rolUsuario == ROLES.profesional) {
-            //lo mando al DASHBOARD DE CLIENTE
-            this.router.navigateByUrl('/dashboard-cliente');
-          } else if (usuarioResponse.rolUsuario === ROLES.negocio) {
-            //lo mando al DASHBOARD DE LOCAL
-            this.router.navigateByUrl(`/negocios/${usuarioResponse.nombre}`);//es el nombre del negocio
-          } else if ( usuarioResponse.rolUsuario === ROLES.admin) {
-            //lo mando al DASHBOARD DE ADMIN
-            this.router.navigateByUrl(`/admin/${usuarioResponse.idUsuario}`);
-          } else {
-            console.error('ROL INEXISTENTE');
+      if(email && password) {
+
+        this.usuarioService.getUsuarioByEmailAndPassword(email, password).subscribe({
+          next: (usuarioResponse: UsuarioInterface) => {
+            //lo logueo
+            this.auth.logIn(usuarioResponse.idUsuario!.toString(),usuarioResponse.rolUsuario);
+            if ( usuarioResponse.rolUsuario == ROLES.cliente || usuarioResponse.rolUsuario == ROLES.profesional) {
+              //lo mando al DASHBOARD DE CLIENTE
+              this.router.navigateByUrl('/dashboard-cliente');
+            } else if (usuarioResponse.rolUsuario === ROLES.negocio) {
+              //lo mando al DASHBOARD DE LOCAL
+              this.router.navigateByUrl(`/negocios/${usuarioResponse.nombre}`);//es el nombre del negocio
+            } else if ( usuarioResponse.rolUsuario === ROLES.admin) {
+              //lo mando al DASHBOARD DE ADMIN
+              this.router.navigateByUrl(`/admin/${usuarioResponse.idUsuario}`);
+            } else {
+              console.error('ROL INEXISTENTE');
+            }
+          },
+          error: (error: HttpErrorResponse) => {
+            console.error(error);
           }
-        },
-        error: (error: HttpErrorResponse) => {
-          console.error(error);
-        }
 
-      })
+        })
+      }
+
+    }else{
+      //marcamos todos como tocados
+      this.formularioLogin.markAllAsTouched();
     }
   }
+  //validaciones campos formularios
 
+  tieneErrorRegister(control: string, error: string) {
+    return this.formularioRegister.controls[control].hasError(error) && this.formularioRegister.controls[control].touched;
+  }
+
+  tieneErrorLogin(control: string, error: string) {
+
+    return (this.formularioLogin.get(control) as FormControl).hasError(error) && (this.formularioLogin.get(control) as FormControl).touched;
+
+  }
+
+  mostrarMensajeError(error: string) {
+
+    switch (error) {
+      case 'required':
+        return 'Campo requerido';
+      case 'email':
+        return 'Email no válido';
+      case 'minlength':
+        return 'Mínimo 8 caracteres';
+      case 'maxlength':
+        return 'Máximo 15 caracteres';
+      case 'pattern':
+        return 'Debe contener al menos una letra y un número';
+      case 'passwordsDiferentes':
+        return 'Las contraseñas no coinciden';
+      default:
+        return 'Error';
+    }
+
+  }
 
 }
