@@ -6,50 +6,52 @@
     <img [src]="urlFotoPerfil" [alt]="altFotoPerfil" />
     <p>{{nombreAdmin}}</p>
   </div>
-  <ul>
-    <li>
-      <div [ngClass]="{'seleccionado': selecionado(rutaInicio)}">
-        <a class="claseEnlace" [routerLink]="rutaInicio">
-          <mat-icon class="claseIcono">{{iconos.home}}</mat-icon>
-          Inicio
-        </a>
-      </div>
-    </li>
+  <div class="contenedor-etiquetas">
+    <ul>
+      <li>
+        <div [ngClass]="{'seleccionado': selecionado(rutaInicio)}">
+          <a class="claseEnlace" [routerLink]="rutaInicio">
+            <mat-icon class="claseIcono">{{iconos.home}}</mat-icon>
+            Inicio
+          </a>
+        </div>
+      </li>
 
-    <li>
-      <div [ngClass]="{'seleccionado': selecionado(rutaCrearNegocio)}">
-        <a class="claseEnlace" [routerLink]="rutaCrearNegocio">
-          <mat-icon class="claseIcono">{{iconos.badge}}</mat-icon>
-          Negocio
-        </a>
-      </div>
-    </li>
+      <li>
+        <div [ngClass]="{'seleccionado': selecionado(rutaCrearNegocio)}">
+          <a class="claseEnlace" [routerLink]="rutaCrearNegocio">
+            <mat-icon class="claseIcono">{{iconos.badge}}</mat-icon>
+            Negocio
+          </a>
+        </div>
+      </li>
 
-    <li>
-      <div [ngClass]="{'seleccionado': selecionado(rutaUsuarios)}">
-        <a class="claseEnlace" [routerLink]="rutaUsuarios">
-          <mat-icon class="claseIcono">{{iconos.eventNote}}</mat-icon>
-          Usuarios
-        </a>
-      </div>
-    </li>
+      <li>
+        <div [ngClass]="{'seleccionado': selecionado(rutaUsuarios)}">
+          <a class="claseEnlace" [routerLink]="rutaUsuarios">
+            <mat-icon class="claseIcono">{{iconos.eventNote}}</mat-icon>
+            Usuarios
+          </a>
+        </div>
+      </li>
 
+      <li>
+        <div [ngClass]="{'seleccionado': selecionado(rutaConfiguracion)}">
+          <a class="claseEnlace" [routerLink]="rutaConfiguracion">
+            <mat-icon class="claseIcono">{{iconos.settings}}</mat-icon>
+            Configuración
+          </a>
+        </div>
+      </li>
+
+    </ul>
     <li>
-      <div [ngClass]="{'seleccionado': selecionado(rutaConfiguracion)}">
-        <a class="claseEnlace" [routerLink]="rutaConfiguracion">
-          <mat-icon class="claseIcono">{{iconos.settings}}</mat-icon>
-          Configuración
-        </a>
-      </div>
-    </li>
-    <li>
-      <div [ngClass]="{'seleccionado': selecionado(rutaSalir)}">
+      <div [ngClass]="{'seleccionado': selecionado(rutaSalir)}" class="ultimo">
         <a class="claseEnlace" (click)="cerrarSesion()">
           <mat-icon class="claseIcono salir">{{iconos.logout}}</mat-icon>
           Salir
         </a>
       </div>
     </li>
-  </ul>
+  </div>
 </nav>
-

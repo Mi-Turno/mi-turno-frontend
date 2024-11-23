@@ -9,10 +9,6 @@
   background-color: var(--color-background);
 }
 
-
-
-
-
  .seccion-logo img {
   max-width: 100%;
   height: auto;
@@ -114,6 +110,7 @@ li div:hover .claseEnlace {
 }
 
 .ultimo {
+  cursor: pointer;
   display: flex;
   align-items: center;
   margin-top: auto;

@@ -17,7 +17,7 @@ export class SideBarAdminComponent implements OnInit {
   constructor(private router: Router) {}
 
   urlLogo = "LogoConFrase.png";
-  urlFotoPerfil = "icono.png";
+  urlFotoPerfil = "icono-removebg.png";
   altFotoPerfil = "Nombre del local";
   iconos = ICONOS;
 
