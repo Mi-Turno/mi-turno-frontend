@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputComponent } from '../../../shared/components/input/input.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,7 +25,7 @@ import { NgClass } from '@angular/common';
   standalone: true,
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass,ReactiveFormsModule, InputComponent, MatIconModule,MatFormFieldModule, MatInputModule, FormsModule,MatDatepickerModule],
+  imports: [NgClass,ReactiveFormsModule, MatIconModule,MatFormFieldModule, MatInputModule, FormsModule,MatDatepickerModule],
   templateUrl: './toggle.component.html',
   styleUrl: './toggle.component.css',
 })
@@ -35,34 +35,34 @@ export class ToggleComponent {
   iconos = ICONOS;
   roles = ROLES;
   placeholders = PLACEHOLDERS;
-  exito:boolean = false;
-  isLogin: boolean = true;//Para saber si esta en el login o en el register
+  exito = signal(false);
+  isLogin = signal(true);//Para saber si esta en el login o en el register
 
   //servicios
   usuarioService = inject(UsuarioService);//Para poder obtener cualquier usuario del sistema sea CLIENTE, PROFESIONAL, NEGOCIO O ADMIN
   clienteService = inject(ClienteService);//Para poder hacer el login y el register de los clientes
   fb:FormBuilder = inject(FormBuilder)//Forms reactives
   router: Router = inject(Router);//Para poder redirigir a las distintas paginas
-
   //auth
   auth:AuthService = inject(AuthService);//Para poder loguear al usuario
 
   //-----------------------------------TOGGLE-----------------------------------
 
   mostrarLogIn() {
-    this.isLogin = true;
-    const container = document.getElementById('contenedor');
-    if (container) {
-      container.classList.remove('active');
-    }
+    this.isLogin.set(true)
+    // this.isLogin = true;
+    // const container = document.getElementById('contenedor');
+    // if (container) {
+    //   container.classList.remove('active');
+    // }
   }
 
   mostrarRegister() {
-    this.isLogin = false;
-    const container = document.getElementById('contenedor');
-    if (container) {
-      container.classList.add('active');
-    }
+    this.isLogin.set(false)
+    // const container = document.getElementById('contenedor');
+    // if (container) {
+    //   container.classList.add('active');
+    // }
   }
 
   //-----------------------------------REGISTER-----------------------------------
@@ -95,43 +95,58 @@ export class ToggleComponent {
 
   }
 
-  validarEmailYaExiste(control: AbstractControl){
-    
+  //validaciones campos formularios
+  emailExiste:boolean = false;
+  telefonoExiste:boolean = false;
+
+  //limpiar los campos del formulario
+  limpiarCampos() {
+    this.formularioRegister.reset();
   }
 
   capitalizarString(palabraFormatear: string): string {
     return palabraFormatear.charAt(0).toUpperCase() + palabraFormatear.slice(1).toLowerCase();// 0 es la primera letra de la palabra y el resto es el resto de la palabra
   }
 
+  mensajeRegister:string= "Bienvenido de vuelta!";
+  subMensajeRegister:string = "Ingresa con tus datos personales";
+
   private postClienteToBackend(cliente:ClienteInterface):void{
 
       this.clienteService.postCliente(cliente).subscribe({
-        next:(cliente:ClienteInterface) =>{
-          this.exito = true;
-          setTimeout(() => {
+        next:() =>{
 
-            this.exito = false; //reiniciamos el valor de exito
+          this.mensajeRegister = "Usuario Registrado con exito!";
+          this.subMensajeRegister = "Redirigiendo a la pagina de inicio de sesion...";
+
+          this.exito.set(true); // Cambia el estado a éxito para mostrar el mensaje de éxito
+
+
+          setTimeout(()=>{
+
             this.mostrarLogIn();
-          },3000);
+
+            this.exito.set(false);
+            this.mensajeRegister= "Bienvenido de vuelta!";
+            this.subMensajeRegister = "Ingresa con tus datos personales";
+
+            this.limpiarCampos() //limpia los campos del formulario
+          },4000)
         },
         error: (error:HttpErrorResponse) =>{
 
-          if(error.error['email']){
-            this.emailExiste=true;
-            console.log(this.emailExiste);
+          if (error.error['email']) {
+            // Agrega el error personalizado al FormControl
+            this.formularioRegister.get('emailRegister')?.setErrors({ emailExiste: true });
           }
-          if(error.error['telefono']){
-            this.telefonoExiste=true;
-            console.log(this.telefonoExiste);
+          else if (error.error['celular']) {
+            this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
           }
-
       }
       })
 
   }
 
-  emailExiste:boolean = false;
-  telefonoExiste:boolean = false;
 
 
   // Método para enviar los valores del formulario al backend
@@ -140,6 +155,10 @@ export class ToggleComponent {
 
       const cliente:ClienteInterface = this.obtenerFormRegister();
       this.postClienteToBackend(cliente);
+
+
+
+
     }else{
       //marcamos todos como tocados para que se muestren los errores
       this.formularioRegister.markAllAsTouched();
@@ -241,8 +260,8 @@ export class ToggleComponent {
         return 'Email invalido';
       case 'emailExiste':
         return 'Email ya registrado';
-      case 'celularExiste':
-        return 'Celular ya registrado';
+      case 'telefonoExiste':
+        return 'Nro Telefono ya registrado';
       case 'minlength':
         return 'Mínimo 8 caracteres';
       case 'maxlength':

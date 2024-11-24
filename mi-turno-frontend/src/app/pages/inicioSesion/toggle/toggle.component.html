@@ -1,5 +1,6 @@
 <main>
-  <div class="contenedor" id="contenedor">
+  <!-- Cuando isLogin es true, le saca active, cuando es false le pone active -->
+  <div class="contenedor" id="contenedor" [ngClass]="{'active': !isLogin()}">
     <div class="form-container sign-up">
       <form [formGroup]="formularioRegister">
         <h6>Registrarse</h6>
@@ -58,7 +59,7 @@
             placeholder="Ingresa tu email"
           />
           <mat-icon matSuffix>{{ iconos.email }}</mat-icon>
-          @if (emailExiste) {
+          @if (tieneErrorRegister("emailRegister", "emailExiste")) {
             <mat-error>{{mostrarMensajeError('emailExiste')}}</mat-error>
           }
           @else if (tieneErrorRegister("emailRegister", "required")) {
@@ -96,7 +97,10 @@
             [placeholder]="placeholders.telefono"
           />
           <mat-icon matSuffix>{{ iconos.call }}</mat-icon>
-          @if (tieneErrorRegister("telefono", "required")) {
+          @if (tieneErrorRegister("telefono", "telefonoExiste")) {
+            <mat-error>{{mostrarMensajeError('telefonoExiste')}}</mat-error>
+          }
+          @else if (tieneErrorRegister("telefono", "required")) {
             <mat-error>{{mostrarMensajeError('required')}}</mat-error>
           }
         </mat-form-field>
@@ -216,7 +220,7 @@
             [attr.aria-pressed]="ocultarContraseniaLogin()"
           >
             <mat-icon>{{
-              ocultarContrasenia() ? "visibility_off" : "visibility"
+              ocultarContraseniaLogin() ? "visibility_off" : "visibility"
             }}</mat-icon>
           </button>
           @if (tieneErrorLogin("passwordLogin", "required")) {
@@ -234,12 +238,19 @@
       <div class="toggle">
         <div class="toggle-panel toggle-left">
 
-          <h1>Bienvenido de vuelta!</h1>
 
-          <p>Ingresa con tus datos personales</p>
+          <div [className]="'mensajeContenedor'">
+            <h1 [id]="'mensajeRegister'" [ngClass]="{'entrar': exito()}">{{ mensajeRegister }}</h1>
+          </div>
+
+          <p [id]="'subMensajeRegister'" [ngClass]="{'entrar': exito()}">{{subMensajeRegister}}</p>
+
+
+
+
           <button
             [className]="'botonEnviar'"
-            [ngClass]="{ hidden: isLogin }"
+            [ngClass]="{ hidden: isLogin() }"
             id="login"
             (click)="mostrarLogIn()"
           >
@@ -251,7 +262,7 @@
           <p>Digitaliza tu agenda, maximiza tu tiempo</p>
           <button
             [className]="'botonEnviar'"
-            [ngClass]="{ hidden: !isLogin }"
+            [ngClass]="{ hidden: !isLogin() }"
             id="register"
             (click)="mostrarRegister()"
           >

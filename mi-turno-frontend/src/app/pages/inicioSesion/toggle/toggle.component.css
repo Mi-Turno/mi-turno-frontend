@@ -110,7 +110,7 @@ mat-form-field{
   width: 250px;
   height: 60px;
   margin: 12px 0;
- 
+
 
 }
 
@@ -258,4 +258,55 @@ mat-form-field{
 
 .contenedor.active .toggle-right {
   transform: translateX(200%);
+}
+
+
+.mensajeContenedor {
+  display: flex;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+
+
+/* Estado normal */
+.mensaje {
+  transition: all 2s ease-in-out;
+}
+
+.salir{
+
+  animation: salir 1s forwards ease-in-out;
+}
+
+@keyframes salir {
+  from {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+    visibility: hidden
+  }
+}
+
+/* Estado de éxito */
+.entrar {
+  color: rgb(112, 236, 112);
+  visibility: visible;
+  animation: entrar 1s forwards ease-in-out;
+}
+
+
+@keyframes entrar {
+  from {
+
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
