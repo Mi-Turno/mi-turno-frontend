@@ -1,5 +1,5 @@
-import { Component, inject } from "@angular/core";
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { Component, inject, signal } from "@angular/core";
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { InputComponent } from "../../../../shared/components/input/input.component";
 import { BotonComponent } from "../../../../shared/components/boton/boton.component";
 import { MatIconModule } from "@angular/material/icon";
@@ -10,25 +10,29 @@ import { NegocioServiceService } from "../../../../core/services/negocioService/
 import { CredencialInterface } from "../../../../core/interfaces/credencial.interface";
 import { NegocioInterface } from "../../../../core/interfaces/negocio-interface";
 import { HttpErrorResponse } from "@angular/common/http";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
 
 @Component
 ({
   selector: 'app-registrar-negocio',
   standalone: true,
-  imports: [ReactiveFormsModule, InputComponent, BotonComponent, MatIconModule],
+  imports: [ReactiveFormsModule, InputComponent, BotonComponent,MatIconModule,MatFormFieldModule, MatInputModule, FormsModule],
   templateUrl: './registrar-negocio.component.html',
   styleUrl: './registrar-negocio.component.css'
 })
 export class RegistrarNegocioComponent {
+
   claseAppInput: string = "claseAppInput";
   inputContainer: string = "inputContainer";
   iconos = ICONOS;
-
   roles = ROLES;
+  //services
+  negocioService:NegocioServiceService = inject(NegocioServiceService);
 
 
   placeholders = PLACEHOLDERS;
-  //form reactivo
+  //---------------------------Formulario de registro de negocio---------------------------
 
   formularioRegisterNegocio:FormGroup = new FormGroup({
     nombre: new FormControl('', Validators.required),
@@ -44,7 +48,6 @@ export class RegistrarNegocioComponent {
 
 
   //metodo para crear un negocio
-  negocioService:NegocioServiceService = inject(NegocioServiceService);
   obtenerNegocioForm() {
 
     const credencial:CredencialInterface = {
@@ -85,7 +88,53 @@ export class RegistrarNegocioComponent {
         }
       })
     }else{
-      console.log("Formulario inválido  ");
+      this.formularioRegisterNegocio.markAllAsTouched();
+    }
+
+  }
+
+  //metodos para ocultar las contraseñas
+
+  ocultarContrasenia = signal(true);
+  ocultarContraseniaEvent(event: MouseEvent) {
+    this.ocultarContrasenia.set(!this.ocultarContrasenia());
+    event.stopPropagation();
+  }
+
+  ocultarContraseniaRepetida = signal(true);
+  ocultarContraseniaRepetidaEvent(event: MouseEvent) {
+    this.ocultarContraseniaRepetida.set(!this.ocultarContraseniaRepetida());
+    event.stopPropagation();
+  }
+
+
+  //--------------verificacion de errores en el formulario----------------
+
+  formularioRegisterNegocioTieneError(campo:string, error:string) {
+    return this.formularioRegisterNegocio.get(campo)?.hasError(error) && this.formularioRegisterNegocio.get(campo)?.touched;
+  }
+
+  mostrarMensajeError(error: string) {
+
+    switch (error) {
+      case 'required':
+        return 'Campo requerido';
+      case 'email':
+        return 'Email invalido';
+      case 'emailExiste':
+        return 'Email ya registrado';
+      case 'telefonoExiste':
+        return 'Nro Telefono ya registrado';
+      case 'minlength':
+        return 'Mínimo 8 caracteres';
+      case 'maxlength':
+        return 'Máximo 15 caracteres';
+      case 'pattern':
+        return 'Debe contener al menos una letra y un número';
+      case 'passwordsDiferentes':
+        return 'Las contraseñas no coinciden';
+      default:
+        return 'Error';
     }
 
   }

@@ -15,21 +15,25 @@ import { AuthService } from '../../core/guards/auth/service/auth.service';
 })
 export class DashboardAdminPageComponent implements OnInit {
   estaSobrepuesto: boolean = false;
-  constructor(private ruta:ActivatedRoute){}
   idAdmin:number = 0;
-  ngOnInit(): void {
-    this.idAdmin = parseFloat(localStorage.getItem('idUsuario')!);
-  }
 
   auth:AuthService = inject(AuthService);
+  ruta:ActivatedRoute = inject(ActivatedRoute);
+
+  ngOnInit(): void {
+    this.idAdmin = Number(localStorage.getItem('idUsuario'));
+  }
+
   cerrarSesion(event:boolean){
+
     if(event){
       this.auth.logOut();
-     }
+    }
+
   }
+
   cambiarSobreposicion() {
     this.estaSobrepuesto = !this.estaSobrepuesto;
-    console.log(this.estaSobrepuesto);
   }
 }
 

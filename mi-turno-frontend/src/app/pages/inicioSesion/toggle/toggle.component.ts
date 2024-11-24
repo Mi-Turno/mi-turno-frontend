@@ -131,7 +131,7 @@ export class ToggleComponent {
             this.subMensajeRegister = "Ingresa con tus datos personales";
 
             this.limpiarCampos() //limpia los campos del formulario
-          },4000)
+          },2500)
         },
         error: (error:HttpErrorResponse) =>{
 
@@ -251,6 +251,9 @@ export class ToggleComponent {
 
   }
 
+
+
+  //se puede modularizar en un servicio
   mostrarMensajeError(error: string) {
 
     switch (error) {

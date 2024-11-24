@@ -4,10 +4,13 @@
   z-index: 1; /* Asegúrate de que el contenido principal esté por debajo */
   position: relative;
   background: linear-gradient(to right, #d4daff, #512da8);
-
+  height: 100vh;
+  width: 100vw;
 }
 
-
+.secundario{
+  
+}
 
 
 
