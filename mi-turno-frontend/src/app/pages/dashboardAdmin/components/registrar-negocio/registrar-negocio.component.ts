@@ -17,7 +17,7 @@ import { MatInputModule } from "@angular/material/input";
 ({
   selector: 'app-registrar-negocio',
   standalone: true,
-  imports: [ReactiveFormsModule, InputComponent, BotonComponent,MatIconModule,MatFormFieldModule, MatInputModule, FormsModule],
+  imports: [ReactiveFormsModule, BotonComponent,MatIconModule,MatFormFieldModule, MatInputModule, FormsModule],
   templateUrl: './registrar-negocio.component.html',
   styleUrl: './registrar-negocio.component.css'
 })
@@ -78,12 +78,20 @@ export class RegistrarNegocioComponent {
       const negocio:NegocioInterface = this.obtenerNegocioForm();
       this.negocioService.postNegocio(negocio).subscribe({
         next:(response) =>{
-          console.log(response);
+
+
+          //modal de negocio registrado correctamente
+          //limpiar formulario
+
           alert("Negocio registrado correctamente");
         },
         error:(error) =>{
-          if(error instanceof HttpErrorResponse){
-            console.log("Error al registrar negocio: "+error.message);
+          if (error.error['email']) {
+            // Agrega el error personalizado al FormControl
+            this.formularioRegisterNegocio.get('email')?.setErrors({ emailExiste: true });
+          }
+          else if (error.error['celular']) {
+            this.formularioRegisterNegocio.get('telefono')?.setErrors({ telefonoExiste: true });
           }
         }
       })

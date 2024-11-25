@@ -1,156 +1,179 @@
 <section id="seccionRegister">
-  <fieldset id="fieldsetRegister">
-    <legend>Crear Negocio</legend>
-    <form [formGroup]="formularioRegisterNegocio">
+  <form
+    [className]="'formularioNegocio'"
+    [formGroup]="formularioRegisterNegocio"
+  >
+    <div [className]="'containerPrincipal'">
+      <div [className]="'containerPrincipalDeInputs'">
+
+        <div>
+          <img src="/img-default.png" alt="Imagen negocio" />
+          <!-- Imagen del negocio con drag and drop -->
+        </div>
 
 
-      <mat-form-field appearance="outline">
-        <mat-label>Nombre del negocio</mat-label>
-        <input
-          formControlName="nombre"
-          matInput
-          [placeholder]="placeholders.nombre"
-        />
-        <mat-icon matSuffix>{{ iconos.person }}</mat-icon>
-        @if (formularioRegisterNegocioTieneError("nombre", "required")) {
-          <mat-error>{{mostrarMensajeError('required')}}</mat-error>
-        }
-        <!-- VERIFICAR QUE NO EXISTA EL MISMO NOMBRE DE NEGOCIO -->
-      </mat-form-field>
+        <div [className]="'containerInputs'">
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre del negocio</mat-label>
+            <input
+              formControlName="nombre"
+              matInput
+              [placeholder]="placeholders.nombre"
+            />
+            <mat-icon matSuffix>{{ iconos.person }}</mat-icon>
+            @if (formularioRegisterNegocioTieneError("nombre", "required")) {
+            <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+            }
+            <!-- VERIFICAR QUE NO EXISTA EL MISMO NOMBRE DE NEGOCIO -->
+          </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input
-          formControlName="email"
-          matInput
-          [placeholder]="placeholders.email"
-          [type]="'email'"
-        />
-        <mat-icon matSuffix>{{ iconos.email }}</mat-icon>
-        @if (formularioRegisterNegocioTieneError("email", "required")) {
-          <mat-error>{{mostrarMensajeError('required')}}</mat-error>
-        }
-        <!-- VERIFICAR QUE NO EXISTA EL MISMO EMAIL DE NEGOCIO -->
-      </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input
+              formControlName="email"
+              matInput
+              [placeholder]="placeholders.email"
+              [type]="'email'"
+            />
+            <mat-icon matSuffix>{{ iconos.email }}</mat-icon>
+            @if (formularioRegisterNegocioTieneError("email", "required")) {
+            <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+            }@else if (formularioRegisterNegocioTieneError("email","emailExiste")) {
+            <mat-error>{{ mostrarMensajeError("emailExiste") }}</mat-error>
+            }
+            <!-- VERIFICAR QUE NO EXISTA EL MISMO EMAIL DE NEGOCIO -->
+          </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Telefono</mat-label>
-        <input
-          formControlName="telefono"
-          matInput
-          [placeholder]="placeholders.telefono"
-          [type]="'tel'"
-        />
-        <mat-icon matSuffix>{{ iconos.call }}</mat-icon>
-        @if (formularioRegisterNegocioTieneError("telefono", "required")) {
-          <mat-error>{{mostrarMensajeError('required')}}</mat-error>
-        }
-        <!-- VERIFICAR QUE NO EXISTA EL MISMO TELEFONO DE NEGOCIO -->
-      </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Telefono</mat-label>
+            <input
+              formControlName="telefono"
+              matInput
+              [placeholder]="placeholders.telefono"
+              [type]="'tel'"
+            />
+            <mat-icon matSuffix>{{ iconos.call }}</mat-icon>
+            @if (formularioRegisterNegocioTieneError("telefono", "required")) {
+            <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+            }
+            <!-- VERIFICAR QUE NO EXISTA EL MISMO TELEFONO DE NEGOCIO -->
+          </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Rubro</mat-label>
-        <input
-          formControlName="rubro"
-          matInput
-          [placeholder]="'Rubro del negocio'"
-        />
-        <mat-icon matSuffix>{{ iconos.person }}</mat-icon>
-        @if (formularioRegisterNegocioTieneError("rubro", "required")) {
-          <mat-error>{{mostrarMensajeError('required')}}</mat-error>
-        }
-      </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Contraseña</mat-label>
+            <input
+              [id]="'passwordRegister'"
+              formControlName="password"
+              matInput
+              [type]="ocultarContrasenia() ? 'password' : 'text'"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              [className]="'botonOcultarContrasenia'"
+              (click)="ocultarContraseniaEvent($event)"
+              [attr.aria-label]="'Ocultar Contraseña'"
+              [attr.aria-pressed]="ocultarContrasenia()"
+            >
+              <mat-icon>{{
+                ocultarContrasenia() ? "visibility_off" : "visibility"
+              }}</mat-icon>
+            </button>
+            @if (formularioRegisterNegocioTieneError("password", "required")) {
+            <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+            }
+          </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Calle</mat-label>
-        <input
-          formControlName="calle"
-          matInput
-          [placeholder]="'Calle del negocio'"
-        />
-        <mat-icon matSuffix>signpost</mat-icon>
-        @if (formularioRegisterNegocioTieneError("calle", "required")) {
-          <mat-error>{{mostrarMensajeError('required')}}</mat-error>
-        }
-      </mat-form-field>
+          <mat-form-field [className]="'matFormField'" appearance="outline">
+            <mat-label>Repetir Contraseña</mat-label>
+            <input
+              [id]="'repetirContraseniaInput'"
+              formControlName="passwordRepetida"
+              matInput
+              [type]="ocultarContraseniaRepetida() ? 'password' : 'text'"
+            />
+            <button
+              mat-icon-button
+              [className]="'botonOcultarContrasenia'"
+              matSuffix
+              (click)="ocultarContraseniaRepetidaEvent($event)"
+              [attr.aria-label]="'Ocultar Contraseña'"
+              [attr.aria-pressed]="ocultarContraseniaRepetida()"
+            >
+              <mat-icon>{{
+                ocultarContraseniaRepetida() ? "visibility_off" : "visibility"
+              }}</mat-icon>
+            </button>
+            @if (formularioRegisterNegocioTieneError("passwordRepetida",
+            "required")) {
+            <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div [className]="'containerInputs'">
+          <mat-form-field appearance="outline">
+            <mat-label>Rubro</mat-label>
+            <input
+              formControlName="rubro"
+              matInput
+              [placeholder]="'Rubro del negocio'"
+            />
+            <mat-icon matSuffix>{{ iconos.person }}</mat-icon>
+            @if (formularioRegisterNegocioTieneError("rubro", "required")) {
+            <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+            }
+          </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Altura</mat-label>
-        <input
-          formControlName="altura"
-          matInput
-          [placeholder]="'Altura del negocio'"
-        />
-        <mat-icon matSuffix>123</mat-icon>
-        @if (formularioRegisterNegocioTieneError("altura", "required")) {
-          <mat-error>{{mostrarMensajeError('required')}}</mat-error>
-        }
-      </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Calle</mat-label>
+            <input
+              formControlName="calle"
+              matInput
+              [placeholder]="'Calle del negocio'"
+            />
+            <mat-icon matSuffix>signpost</mat-icon>
+            @if (formularioRegisterNegocioTieneError("calle", "required")) {
+            <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+            }
+          </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Detalle del negocio</mat-label>
-        <input
-          formControlName="detalle"
-          matInput
-          [placeholder]="'Apartamento Piso 1, etc.'"
-        />
-        <mat-icon matSuffix>location_city</mat-icon>
-        @if (formularioRegisterNegocioTieneError("detalle", "required")) {
-          <mat-error>{{mostrarMensajeError('required')}}</mat-error>
-        }
-      </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Altura</mat-label>
+            <input
+              formControlName="altura"
+              matInput
+              [placeholder]="'Altura del negocio'"
+            />
+            <mat-icon matSuffix>123</mat-icon>
+            @if (formularioRegisterNegocioTieneError("altura", "required")) {
+            <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+            }
+          </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Contraseña</mat-label>
-        <input
-          [id]="'passwordRegister'"
-          formControlName="password"
-          matInput
-          [type]="ocultarContrasenia() ? 'password' : 'text'"
-        />
-        <button
-          mat-icon-button
-          matSuffix
-          [className]="'botonOcultarContrasenia'"
-          (click)="ocultarContraseniaEvent($event)"
-          [attr.aria-label]="'Ocultar Contraseña'"
-          [attr.aria-pressed]="ocultarContrasenia()"
-        >
-          <mat-icon>{{
-            ocultarContrasenia() ? "visibility_off" : "visibility"
-          }}</mat-icon>
-        </button>
-        @if (formularioRegisterNegocioTieneError("password", "required")) {
-          <mat-error>{{mostrarMensajeError('required')}}</mat-error>
-        }
-      </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Detalle del negocio</mat-label>
+            <textarea
+            [className]="'textareaDetalle'"
+            formControlName="detalle"
+            matInput
+            [placeholder]="'Apartamento Piso 1, etc.'"
+            ></textarea>
+            <mat-icon matSuffix>location_city</mat-icon>
+            @if (formularioRegisterNegocioTieneError("detalle", "required")) {
+              <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
 
-      <mat-form-field [className]="'matFormField'" appearance="outline">
-        <mat-label>Repetir Contraseña</mat-label>
-        <input
-          [id]="'repetirContraseniaInput'"
-          formControlName="passwordRepetida"
-          matInput
-          [type]="ocultarContraseniaRepetida() ? 'password' : 'text'"
-        />
-        <button
-        mat-icon-button
-        [className]="'botonOcultarContrasenia'"
-          matSuffix
-          (click)="ocultarContraseniaRepetidaEvent($event)"
-          [attr.aria-label]="'Ocultar Contraseña'"
-          [attr.aria-pressed]="ocultarContraseniaRepetida()"
-        >
-          <mat-icon>{{
-            ocultarContraseniaRepetida() ? "visibility_off" : "visibility"
-          }}</mat-icon>
-        </button>
-        @if (formularioRegisterNegocioTieneError("passwordRepetida", "required")) {
-          <mat-error>{{mostrarMensajeError('required')}}</mat-error>
-        }
-      </mat-form-field>
+      <div [className]="'containerBoton'">
+        <app-boton
+          [textoDentroBoton]="'Crear'"
+          [type]="'submit'"
+          (click)="registrarNegocio()"
+        ></app-boton>
+      </div>
+    </div>
 
-      <app-boton [style]="" [textoDentroBoton]="'Crear'" [type]="'submit'" (click)="registrarNegocio()"></app-boton>
-    </form>
-  </fieldset>
+  </form>
 </section>
