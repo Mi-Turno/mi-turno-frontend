@@ -121,7 +121,7 @@ modificarEstado(turno: AtributosTurno, idNegocio: number) {
         console.log(turnosResponse);
         this.turnos = [...turnosResponse];
         this.turnos.forEach((unTurno) => {
-          this.settearAtributosTurno(unTurno, this.idNegocio);
+          this.settearAtributosTurno(unTurno);
         });
       },
       error: (error: any) => {
