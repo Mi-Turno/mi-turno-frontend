@@ -97,12 +97,11 @@ export class RegistrarNegocioComponent {
         error:(error) =>{
 
           if (error.error['email']) {
-            // Agrega el error personalizado al FormControl
             this.formularioRegisterNegocio.get('email')?.setErrors({ emailExiste: true });
           }
-          else if (error.error['celular']) {
+          else if (error.error['telefono']) {
             this.formularioRegisterNegocio.get('telefono')?.setErrors({ telefonoExiste: true });
-          }else if (error.error['nombre Negocio']) {
+          }else if (error.error['nombreNegocio']) {
             this.formularioRegisterNegocio.get('nombre')?.setErrors({ negocioExiste: true });
           }
           //{nombre Negocio: 'El negocio con el nombre: asd ya existe.'}

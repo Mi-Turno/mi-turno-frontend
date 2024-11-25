@@ -139,7 +139,7 @@ export class ToggleComponent {
             // Agrega el error personalizado al FormControl
             this.formularioRegister.get('emailRegister')?.setErrors({ emailExiste: true });
           }
-          else if (error.error['celular']) {
+          else if (error.error['telefono']) {
             this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
           }
       }
