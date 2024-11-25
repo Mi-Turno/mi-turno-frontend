@@ -1,53 +1,167 @@
 <main>
-
-  <div class="contenedor" id="contenedor">
+  <!-- Cuando isLogin es true, le saca active, cuando es false le pone active -->
+  <div class="contenedor" id="contenedor" [ngClass]="{'active': !isLogin()}">
     <div class="form-container sign-up">
       <form [formGroup]="formularioRegister">
-
         <h6>Registrarse</h6>
         <div class="social-icons">
           <a href="#" class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512" width="24"
-              height="24"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 488 512"
+              width="24"
+              height="24"
+            >
+              <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
               <path
-                d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" />
+                d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
+              />
             </svg>
           </a>
         </div>
-        <span>Registrarse con sus datos</span>
 
-        <app-input formControlName="nombre" [icono]="iconos.person" [textoLabel]="'Nombre'" [id]="'nombreInput'"
-          [placeholder]="placeholders.nombre">
-        </app-input>
+        <div [className]="'lineaHorizontal'">
+          <span [className]="'textoMedio'">Ingrese sus datos</span>
+        </div>
 
-        <app-input formControlName="apellido" [icono]="iconos.person" [textoLabel]="'Apellido'" [id]="'apellidoInput'"
-          [placeholder]="placeholders.apellido">
-        </app-input>
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input
+            formControlName="nombre"
+            matInput
+            placeholder="Ingresa tu nombre"
+          />
+          <mat-icon matSuffix>{{ iconos.person }}</mat-icon>
+          @if (tieneErrorRegister("nombre", "required")) {
+            <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+          }
+        </mat-form-field>
 
-        <app-input formControlName="emailRegister" [type]="'email'" [icono]="iconos.email" [textoLabel]="'Email'"
-          [id]="'emailRegister'" [placeholder]="placeholders.email">
-        </app-input>
+        <mat-form-field appearance="outline">
+          <mat-label>Apellido</mat-label>
+          <input
+            formControlName="apellido"
+            matInput
+            placeholder="Ingresa tu apellido"
+          />
+          <mat-icon matSuffix>{{ iconos.person }}</mat-icon>
+          @if (tieneErrorRegister("apellido", "required")) {
+            <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+          }
+        </mat-form-field>
 
-        <app-input formControlName="fechaNacimiento" [type]="'date'" [icono]="iconos.email"
-          [textoLabel]="'fecha de nacimiento'" [id]="'fechaNacimientoInput'"
-          [placeholder]="placeholders.fechaNacimiento">
-        </app-input>
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            [type]="'email'"
+            formControlName="emailRegister"
+            matInput
+            placeholder="Ingresa tu email"
+          />
+          <mat-icon matSuffix>{{ iconos.email }}</mat-icon>
+          @if (tieneErrorRegister("emailRegister", "emailExiste")) {
+            <mat-error>{{mostrarMensajeError('emailExiste')}}</mat-error>
+          }
+          @else if (tieneErrorRegister("emailRegister", "required")) {
+            <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+          }
+          @else if (tieneErrorRegister("emailRegister", "email")) {
+            <mat-error>{{mostrarMensajeError('email')}}</mat-error>
+          }
 
-        <app-input formControlName="telefono" [type]="'tel'" [icono]="iconos.call" [textoLabel]="'Telefono'"
-          [id]="'telefonoInput'" [placeholder]="placeholders.telefono">
-        </app-input>
+        </mat-form-field>
 
-        <app-input formControlName="passwordRegister" [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado"
-          [textoLabel]="'Contraseña'" [id]="'passwordRegister'" [placeholder]="placeholders.contrasenia">
-        </app-input>
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha Nacimiento</mat-label>
+          <input
+            formControlName="fechaNacimiento"
+            matInput
+            [matDatepicker]="picker"
+          />
+          <mat-hint>dd/MM/yyyy</mat-hint>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          @if (tieneErrorRegister("fechaNacimiento", "required")) {
+            <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+          }
+        </mat-form-field>
 
-        <app-input formControlName="passwordRepetida" [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado"
-          [textoLabel]="'Repetir Contraseña'" [id]="'repetirContraseniaInput'"
-          [placeholder]="placeholders.repetirContrasenia">
-        </app-input>
+        <mat-form-field appearance="outline">
+          <mat-label>Telefono Movil</mat-label>
+          <input
+            formControlName="telefono"
+            matInput
+            [placeholder]="placeholders.telefono"
+          />
+          <mat-icon matSuffix>{{ iconos.call }}</mat-icon>
+          @if (tieneErrorRegister("telefono", "telefonoExiste")) {
+            <mat-error>{{mostrarMensajeError('telefonoExiste')}}</mat-error>
+          }
+          @else if (tieneErrorRegister("telefono", "required")) {
+            <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+          }
+        </mat-form-field>
 
-        <button type="submit" (click)="onRegister()">Registrarse</button>
+        <mat-form-field appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input
+            [id]="'passwordRegister'"
+            formControlName="passwordRegister"
+            matInput
+            [type]="ocultarContrasenia() ? 'password' : 'text'"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            [className]="'botonOcultarContrasenia'"
+            (click)="ocultarContraseniaEvent($event)"
+            [attr.aria-label]="'Ocultar Contraseña'"
+            [attr.aria-pressed]="ocultarContrasenia()"
+          >
+            <mat-icon>{{
+              ocultarContrasenia() ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+          @if (tieneErrorRegister("passwordRegister", "required")) {
+            <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+          }
+        </mat-form-field>
 
+        <mat-form-field [className]="'matFormField'" appearance="outline">
+          <mat-label>Repetir Contraseña</mat-label>
+          <input
+            [id]="'repetirContraseniaInput'"
+            formControlName="passwordRepetida"
+            matInput
+            [type]="ocultarContraseniaRepetida() ? 'password' : 'text'"
+          />
+          <button
+          mat-icon-button
+          [className]="'botonOcultarContrasenia'"
+            matSuffix
+            (click)="ocultarContraseniaRepetidaEvent($event)"
+            [attr.aria-label]="'Ocultar Contraseña'"
+            [attr.aria-pressed]="ocultarContraseniaRepetida()"
+          >
+            <mat-icon>{{
+              ocultarContraseniaRepetida() ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+          @if (tieneErrorRegister("passwordRepetida", "required")) {
+            <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+          }
+        </mat-form-field>
+
+        <button
+          [className]="'botonEnviar'"
+          type="submit"
+          (click)="onRegister()"
+        >
+          Registrarse
+        </button>
       </form>
     </div>
     <div class="form-container sign-in">
@@ -55,38 +169,105 @@
         <h4>Iniciar Sesion</h4>
         <div class="social-icons">
           <a href="#" class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512" width="24"
-              height="24"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 488 512"
+              width="24"
+              height="24"
+            >
               <path
-                d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" />
+                d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
+              />
             </svg>
           </a>
         </div>
 
-        <span>Iniciar sesion con sus datos</span>
+        <div [className]="'lineaHorizontal'">
+          <span [className]="'textoMedio'">Ingrese sus datos</span>
+        </div>
 
-        <app-input formControlName="emailLogin" [type]="'email'" [icono]="iconos.email" [textoLabel]="'Email'"
-          [id]="'emailLogin'" [placeholder]="placeholders.email">
-        </app-input>
-        <app-input formControlName="passwordLogin" [type]="'password'" [icono]="iconos.iconoContrasenia.cerrado"
-          [textoLabel]="'Contraseña'" [id]="'passwordLogin'" [placeholder]="placeholders.contrasenia">
-        </app-input>
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            [type]="'email'"
+            formControlName="emailLogin"
+            matInput
+            placeholder="Ingresa tu email"
+          />
+          <mat-icon matSuffix>{{ iconos.email }}</mat-icon>
+          @if (tieneErrorLogin("emailLogin", "required")) {
+            <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+          }@else if (tieneErrorLogin("emailLogin", "email")) {
+            <mat-error>{{mostrarMensajeError('email')}}</mat-error>
+          }
 
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input
+            [id]="'passwordLogin'"
+            formControlName="passwordLogin"
+            matInput
+            [type]="ocultarContrasenia() ? 'password' : 'text'"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            [className]="'botonOcultarContrasenia'"
+            (click)="ocultarContraseniaLoginEvent($event)"
+            [attr.aria-label]="'Ocultar Contraseña'"
+            [attr.aria-pressed]="ocultarContraseniaLogin()"
+          >
+            <mat-icon>{{
+              ocultarContraseniaLogin() ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+          @if (tieneErrorLogin("passwordLogin", "required")) {
+            <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+          }
+        </mat-form-field>
+        
         <a class="olvidasteContra" href="">¿Olvidaste tu contraseña?</a>
-        <button type="submit" (click)="onLogin()">Ingresar</button>
+        <button [className]="'botonEnviar'" type="submit" (click)="onLogin()">
+          Ingresar
+        </button>
       </form>
     </div>
     <div class="toggle-container">
       <div class="toggle">
         <div class="toggle-panel toggle-left">
-          <h1>Bienvenido de vuelta!</h1>
-          <p>Ingresa con tus datos personales</p>
-          <button class="hidden" id="login" (click)="mostrarLogIn()">Iniciar sesion</button>
+
+
+          <div [className]="'mensajeContenedor'">
+            <h1 [id]="'mensajeRegister'" [ngClass]="{'entrar': exito()}">{{ mensajeRegister }}</h1>
+          </div>
+
+          <p [id]="'subMensajeRegister'" [ngClass]="{'entrar': exito()}">{{subMensajeRegister}}</p>
+
+
+
+
+          <button
+            [className]="'botonEnviar'"
+            [ngClass]="{ hidden: isLogin() }"
+            id="login"
+            (click)="mostrarLogIn()"
+          >
+            Iniciar sesion
+          </button>
         </div>
         <div class="toggle-panel toggle-right">
           <h1>¿No tenes cuenta?</h1>
           <p>Digitaliza tu agenda, maximiza tu tiempo</p>
-          <button class="hidden" id="register" (click)="mostrarRegister()">Registrarse</button>
+          <button
+            [className]="'botonEnviar'"
+            [ngClass]="{ hidden: !isLogin() }"
+            id="register"
+            (click)="mostrarRegister()"
+          >
+            Registrarse
+          </button>
         </div>
       </div>
     </div>

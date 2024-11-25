@@ -11,10 +11,17 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './modal.component.css'
 })
 export class ModalComponent implements OnInit{
+
+
   @ViewChild(CdkPortal) portal: CdkPortal | undefined;
   @Output() cerrarModal = new EventEmitter<void>();
+  @Input() modal:string = "modal";
+  @Input() modalHeader:string = "modalHeader";
+  @Input() modalContent:string = "modalContent";
 
   overlay = inject(Overlay);
+
+  
   overlayConfig = new OverlayConfig({
     hasBackdrop: true,
     positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
@@ -41,9 +48,6 @@ export class ModalComponent implements OnInit{
   }
 
 
- 
-  @Input() modal:string = "modal";
-  @Input() modalHeader:string = "modalHeader";
-  @Input() modalContent:string = "modalContent";
+
 
 }

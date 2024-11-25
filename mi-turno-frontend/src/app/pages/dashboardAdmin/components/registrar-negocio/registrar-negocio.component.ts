@@ -1,5 +1,5 @@
-import { Component, inject } from "@angular/core";
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { Component, inject, signal } from "@angular/core";
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { InputComponent } from "../../../../shared/components/input/input.component";
 import { BotonComponent } from "../../../../shared/components/boton/boton.component";
 import { MatIconModule } from "@angular/material/icon";
@@ -10,25 +10,31 @@ import { NegocioServiceService } from "../../../../core/services/negocioService/
 import { CredencialInterface } from "../../../../core/interfaces/credencial.interface";
 import { NegocioInterface } from "../../../../core/interfaces/negocio-interface";
 import { HttpErrorResponse } from "@angular/common/http";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { ModalComponent } from "../../../../shared/components/modal/modal.component";
+import Swal from 'sweetalert2'
 
 @Component
 ({
   selector: 'app-registrar-negocio',
   standalone: true,
-  imports: [ReactiveFormsModule, InputComponent, BotonComponent, MatIconModule],
+  imports: [ReactiveFormsModule, BotonComponent, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule],
   templateUrl: './registrar-negocio.component.html',
   styleUrl: './registrar-negocio.component.css'
 })
 export class RegistrarNegocioComponent {
+
   claseAppInput: string = "claseAppInput";
   inputContainer: string = "inputContainer";
   iconos = ICONOS;
-
   roles = ROLES;
+  //services
+  negocioService:NegocioServiceService = inject(NegocioServiceService);
 
 
   placeholders = PLACEHOLDERS;
-  //form reactivo
+  //---------------------------Formulario de registro de negocio---------------------------
 
   formularioRegisterNegocio:FormGroup = new FormGroup({
     nombre: new FormControl('', Validators.required),
@@ -44,7 +50,6 @@ export class RegistrarNegocioComponent {
 
 
   //metodo para crear un negocio
-  negocioService:NegocioServiceService = inject(NegocioServiceService);
   obtenerNegocioForm() {
 
     const credencial:CredencialInterface = {
@@ -69,23 +74,87 @@ export class RegistrarNegocioComponent {
   }
 
   // Metodo para registrar un negocio haciendo el click
+
   registrarNegocio() {
 
     if(this.formularioRegisterNegocio.valid){
       const negocio:NegocioInterface = this.obtenerNegocioForm();
       this.negocioService.postNegocio(negocio).subscribe({
         next:(response) =>{
-          console.log(response);
-          alert("Negocio registrado correctamente");
+
+          //modal de negocio registrado correctamente
+          Swal.fire({
+            title: 'Negocio registrado correctamente!',
+            // text: 'Do you want to continue',
+            icon: 'success',
+            confirmButtonText: 'Ok'
+          })
+
+
+          //limpiar formulario
+          this.formularioRegisterNegocio.reset();
         },
         error:(error) =>{
-          if(error instanceof HttpErrorResponse){
-            console.log("Error al registrar negocio: "+error.message);
+
+          if (error.error['email']) {
+            // Agrega el error personalizado al FormControl
+            this.formularioRegisterNegocio.get('email')?.setErrors({ emailExiste: true });
           }
+          else if (error.error['celular']) {
+            this.formularioRegisterNegocio.get('telefono')?.setErrors({ telefonoExiste: true });
+          }else if (error.error['nombre Negocio']) {
+            this.formularioRegisterNegocio.get('nombre')?.setErrors({ negocioExiste: true });
+          }
+          //{nombre Negocio: 'El negocio con el nombre: asd ya existe.'}
         }
       })
     }else{
-      console.log("Formulario inválido  ");
+      this.formularioRegisterNegocio.markAllAsTouched();
+    }
+
+  }
+
+  //metodos para ocultar las contraseñas
+
+  ocultarContrasenia = signal(true);
+  ocultarContraseniaEvent(event: MouseEvent) {
+    this.ocultarContrasenia.set(!this.ocultarContrasenia());
+    event.stopPropagation();
+  }
+
+  ocultarContraseniaRepetida = signal(true);
+  ocultarContraseniaRepetidaEvent(event: MouseEvent) {
+    this.ocultarContraseniaRepetida.set(!this.ocultarContraseniaRepetida());
+    event.stopPropagation();
+  }
+
+  //--------------verificacion de errores en el formulario----------------
+
+  formularioRegisterNegocioTieneError(campo:string, error:string) {
+    return this.formularioRegisterNegocio.get(campo)?.hasError(error) && this.formularioRegisterNegocio.get(campo)?.touched;
+  }
+
+  mostrarMensajeError(error: string) {
+
+    switch (error) {
+      case 'required':
+        return 'Campo requerido';
+      case 'email':
+        return 'Email invalido';
+      case 'emailExiste':
+        return 'Email ya registrado';
+      case 'telefonoExiste':
+        return 'Nro Telefono ya registrado';
+      case 'negocioExiste':
+        return 'Nombre de negocio ya registrado';
+      case 'maxlength':
+        return 'Máximo 15 caracteres';
+      case 'pattern':
+        return 'Debe contener al menos una letra y un número';
+      case 'passwordsDiferentes':
+        return 'Las contraseñas no coinciden';
+      default:
+        return 'Error';
     }
 
   }

@@ -15,8 +15,8 @@ main {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
   position: relative;
   overflow: hidden;
-  width: 768px;
-  height: 650px;
+  width: 800px;
+  height: 800px;
   max-width: 100%;
   min-height: 480px;
   margin: 0 auto;
@@ -30,6 +30,25 @@ main {
   margin: 20px 0;
 }
 
+.lineaHorizontal{
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+  margin: 10px 0;
+  position: relative;
+}
+
+.textoMedio{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 0 10px;
+  font-size: 12px;
+  color: #ccc;
+}
+
 .contenedor span {
   font-size: 12px;
 }
@@ -41,8 +60,9 @@ main {
   margin: 15px 0 10px;
 }
 
-.contenedor button {
-  background-color: #512da8;
+
+.contenedor .botonEnviar {
+  background-color: #4419a8;
   color: #fff;
   font-size: 12px;
   padding: 10px 45px;
@@ -56,9 +76,20 @@ main {
   margin-bottom: 1rem;
 }
 
-.contenedor button.hidden {
+.contenedor .botonEnviar:hover{
+  background-color: #512da8;
+}
+
+.contenedor .botonEnviar .hidden {
   background-color: transparent;
   border-color: #fff;
+}
+
+.botonOcultarContrasenia{
+  background-color: transparent;
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 .contenedor form {
@@ -72,6 +103,15 @@ main {
   border-radius: 30px;
 
 }
+
+
+
+mat-form-field{
+  width: 250px;
+  height: 60px;
+  margin: 12px 0;
+}
+
 
 
 .form-container {
@@ -97,6 +137,13 @@ main {
   width: 50%;
   opacity: 0;
   z-index: 1;
+}
+
+.mensajeExitoRegister{
+  color: green;
+  font-size: 10px;
+  text-align: center;
+  margin: 0;
 }
 
 .contenedor.active .sign-up {
@@ -209,4 +256,55 @@ main {
 
 .contenedor.active .toggle-right {
   transform: translateX(200%);
+}
+
+
+.mensajeContenedor {
+  display: flex;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+
+
+/* Estado normal */
+.mensaje {
+  transition: all 2s ease-in-out;
+}
+
+.salir{
+
+  animation: salir 1s forwards ease-in-out;
+}
+
+@keyframes salir {
+  from {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+    visibility: hidden
+  }
+}
+
+/* Estado de éxito */
+.entrar {
+  color: rgb(112, 236, 112);
+  visibility: visible;
+  animation: entrar 1s forwards ease-in-out;
+}
+
+
+@keyframes entrar {
+  from {
+
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
