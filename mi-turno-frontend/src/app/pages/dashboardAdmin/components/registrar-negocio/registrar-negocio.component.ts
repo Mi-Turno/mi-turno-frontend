@@ -12,12 +12,14 @@ import { NegocioInterface } from "../../../../core/interfaces/negocio-interface"
 import { HttpErrorResponse } from "@angular/common/http";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
+import { ModalComponent } from "../../../../shared/components/modal/modal.component";
+import Swal from 'sweetalert2'
 
 @Component
 ({
   selector: 'app-registrar-negocio',
   standalone: true,
-  imports: [ReactiveFormsModule, BotonComponent,MatIconModule,MatFormFieldModule, MatInputModule, FormsModule],
+  imports: [ReactiveFormsModule, BotonComponent, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule],
   templateUrl: './registrar-negocio.component.html',
   styleUrl: './registrar-negocio.component.css'
 })
@@ -72,6 +74,7 @@ export class RegistrarNegocioComponent {
   }
 
   // Metodo para registrar un negocio haciendo el click
+
   registrarNegocio() {
 
     if(this.formularioRegisterNegocio.valid){
@@ -79,20 +82,30 @@ export class RegistrarNegocioComponent {
       this.negocioService.postNegocio(negocio).subscribe({
         next:(response) =>{
 
-
           //modal de negocio registrado correctamente
-          //limpiar formulario
+          Swal.fire({
+            title: 'Negocio registrado correctamente!',
+            // text: 'Do you want to continue',
+            icon: 'success',
+            confirmButtonText: 'Ok'
+          })
 
-          alert("Negocio registrado correctamente");
+
+          //limpiar formulario
+          this.formularioRegisterNegocio.reset();
         },
         error:(error) =>{
+
           if (error.error['email']) {
             // Agrega el error personalizado al FormControl
             this.formularioRegisterNegocio.get('email')?.setErrors({ emailExiste: true });
           }
           else if (error.error['celular']) {
             this.formularioRegisterNegocio.get('telefono')?.setErrors({ telefonoExiste: true });
+          }else if (error.error['nombre Negocio']) {
+            this.formularioRegisterNegocio.get('nombre')?.setErrors({ negocioExiste: true });
           }
+          //{nombre Negocio: 'El negocio con el nombre: asd ya existe.'}
         }
       })
     }else{
@@ -115,7 +128,6 @@ export class RegistrarNegocioComponent {
     event.stopPropagation();
   }
 
-
   //--------------verificacion de errores en el formulario----------------
 
   formularioRegisterNegocioTieneError(campo:string, error:string) {
@@ -133,8 +145,8 @@ export class RegistrarNegocioComponent {
         return 'Email ya registrado';
       case 'telefonoExiste':
         return 'Nro Telefono ya registrado';
-      case 'minlength':
-        return 'Mínimo 8 caracteres';
+      case 'negocioExiste':
+        return 'Nombre de negocio ya registrado';
       case 'maxlength':
         return 'Máximo 15 caracteres';
       case 'pattern':

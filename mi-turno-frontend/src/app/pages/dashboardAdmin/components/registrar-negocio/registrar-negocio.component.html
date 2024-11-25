@@ -23,8 +23,10 @@
             <mat-icon matSuffix>{{ iconos.person }}</mat-icon>
             @if (formularioRegisterNegocioTieneError("nombre", "required")) {
             <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+            }@else if (formularioRegisterNegocioTieneError("nombre", "negocioExiste")) {
+              <mat-error>{{ mostrarMensajeError("negocioExiste") }}</mat-error>
             }
-            <!-- VERIFICAR QUE NO EXISTA EL MISMO NOMBRE DE NEGOCIO -->
+
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -41,7 +43,7 @@
             }@else if (formularioRegisterNegocioTieneError("email","emailExiste")) {
             <mat-error>{{ mostrarMensajeError("emailExiste") }}</mat-error>
             }
-            <!-- VERIFICAR QUE NO EXISTA EL MISMO EMAIL DE NEGOCIO -->
+
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -55,8 +57,10 @@
             <mat-icon matSuffix>{{ iconos.call }}</mat-icon>
             @if (formularioRegisterNegocioTieneError("telefono", "required")) {
             <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
-            }
-            <!-- VERIFICAR QUE NO EXISTA EL MISMO TELEFONO DE NEGOCIO -->
+            }@else if (formularioRegisterNegocioTieneError("telefono", "telefonoExiste")) {
+              <mat-error>{{ mostrarMensajeError("telefonoExiste") }}</mat-error>
+              }
+
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -177,3 +181,5 @@
 
   </form>
 </section>
+
+
