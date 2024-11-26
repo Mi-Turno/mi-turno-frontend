@@ -6,4 +6,6 @@ export const PLACEHOLDERS = {
   telefono: "Teléfono móvil",
   contrasenia: "Contraseña",
   repetirContrasenia: "Repetir Contraseña",
+  duracion: "Duración",
+  precio: "Precio"
 }

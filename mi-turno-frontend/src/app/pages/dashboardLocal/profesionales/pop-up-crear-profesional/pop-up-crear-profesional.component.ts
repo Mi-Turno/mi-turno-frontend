@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output, OnInit } from '@angular/core';
 import { BotonComponent } from '../../../../shared/components/boton/boton.component';
 import { InputComponent } from '../../../../shared/components/input/input.component';
-import { MatIcon } from '@angular/material/icon';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ICONOS } from '../../../../shared/models/iconos.constants';
 import { PLACEHOLDERS } from '../../../../shared/models/placeholderInicioSesion.constants';
 import { ROLES } from '../../../../shared/models/rolesUsuario.constants';
@@ -13,19 +13,24 @@ import { codigoErrorHttp } from '../../../../shared/models/httpError.constants';
 import { ProfesionalesServiceService } from '../../../../core/services/profesionalService/profesionales-service.service';
 import { ProfesionalInterface } from '../../../../core/interfaces/profesional-interface';
 import { CredencialInterface } from '../../../../core/interfaces/credencial.interface';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-pop-up-crear-profesional',
   standalone: true,
-  imports: [CommonModule, BotonComponent, InputComponent, MatIcon, ReactiveFormsModule],
+  providers: [provideNativeDateAdapter()],
+  imports: [CommonModule, BotonComponent, ReactiveFormsModule, MatIconModule,MatFormFieldModule, MatInputModule, FormsModule,MatDatepickerModule],
   templateUrl: './pop-up-crear-profesional.component.html',
   styleUrl: './pop-up-crear-profesional.component.css'
 })
 export class PopUpCrearProfesionalComponent implements OnInit {
 
 roles = ROLES;
-icono = ICONOS;
-placeholder = PLACEHOLDERS;
+iconos = ICONOS;
+placeholders = PLACEHOLDERS;
 usuarioService = inject(ProfesionalesServiceService);
 
 @Input() fotoProfesional = "img-default.png";
@@ -207,6 +212,38 @@ eliminarProfesional() {
   else{
     alert("Todavía no se creo el profesional ");
   }
+}
+
+
+//--------------verificacion de errores en el formulario----------------
+
+formularioRegisterTieneError(campo:string, error:string) {
+  return this.formularioRegister.get(campo)?.hasError(error) && this.formularioRegister.get(campo)?.touched;
+}
+
+mostrarMensajeError(error: string) {
+
+  switch (error) {
+    case 'required':
+      return 'Campo requerido';
+    case 'email':
+      return 'Email invalido';
+    case 'emailExiste':
+      return 'Email ya registrado';
+    case 'telefonoExiste':
+      return 'Nro Telefono ya registrado';
+    case 'negocioExiste':
+      return 'Nombre de negocio ya registrado';
+    case 'maxlength':
+      return 'Máximo 15 caracteres';
+    case 'pattern':
+      return 'Debe contener al menos una letra y un número';
+    case 'passwordsDiferentes':
+      return 'Las contraseñas no coinciden';
+    default:
+      return 'Error';
+  }
+
 }
 
 }

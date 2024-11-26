@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { BotonComponent } from '../../../../shared/components/boton/boton.component';
 import { InputComponent } from '../../../../shared/components/input/input.component';
-import { MatIcon } from '@angular/material/icon';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 import {
   FormControl,
   FormGroup,
@@ -25,6 +25,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { codigoErrorHttp } from '../../../../shared/models/httpError.constants';
 import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-pop-up-crear-servicio',
@@ -35,13 +37,16 @@ import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface'
     InputComponent,
     MatIcon,
     ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule
   ],
   templateUrl: './pop-up-crear-servicio.component.html',
   styleUrl: './pop-up-crear-servicio.component.css',
 })
 export class PopUpCrearServicioComponent implements OnInit {
-  icono = ICONOS;
-  placeholder = PLACEHOLDERS;
+  iconos = ICONOS;
+  placeholders = PLACEHOLDERS;
   tipoPopUp = 'servicios';
 
   @Input() fotoServicio = 'img-default.png'; //poner imagen de un servicio
@@ -177,4 +182,35 @@ export class PopUpCrearServicioComponent implements OnInit {
       this.postServicioToBackend();
     }
   }
+
+  formularioServicioTieneError(campo:string, error:string) {
+    return this.formularioServicio.get(campo)?.hasError(error) && this.formularioServicio.get(campo)?.touched;
+  }
+
+  mostrarMensajeError(error: string) {
+
+    switch (error) {
+      case 'required':
+        return 'Campo requerido';
+      case 'email':
+        return 'Email invalido';
+      case 'emailExiste':
+        return 'Email ya registrado';
+      case 'telefonoExiste':
+        return 'Nro Telefono ya registrado';
+      case 'negocioExiste':
+        return 'Nombre de negocio ya registrado';
+      case 'maxlength':
+        return 'Máximo 15 caracteres';
+      case 'pattern':
+        return 'Debe contener al menos una letra y un número';
+      case 'passwordsDiferentes':
+        return 'Las contraseñas no coinciden';
+      default:
+        return 'Error';
+    }
+
+  }
+
 }
+

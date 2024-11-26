@@ -8,31 +8,53 @@
       <img [src]="fotoServicio" />
     </div>
     <div class="contenedor-formulario">
-      <app-input
-        formControlName="nombre"
-        [icono]="icono.tijera"
-        [textoLabel]="'Nombre'"
-        [id]="'nombreInput'"
-        [placeholder]="'Nombre'"
-      ></app-input>
-      <app-input
-        formControlName="duracion"
-        [icono]="icono.reloj"
-        [textoLabel]="'Duracion'"
-        [id]="'duracionInput'"
-        [placeholder]="'Duracion'"
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input
+          formControlName="nombre"
+          matInput
+          [placeholder]="placeholders.nombre"
+        />
+        <mat-icon matSuffix>{{ iconos.tijera }}</mat-icon>
+        @if (formularioServicioTieneError("nombre", "required")) {
+        <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+        }
+      </mat-form-field>
+
+
+      <mat-form-field appearance="outline">
+        <mat-label>Duración</mat-label>
+        <input
         type="number"
-      ></app-input>
-      <app-input
-      formControlName="precio"
-      [icono]="icono.dinero"
-      [textoLabel]="'Precio'"
-      [id]="'precioInput'"
-      [placeholder]="'Precio'"
-      type="number"
-    ></app-input>
+          formControlName="duracion"
+          matInput
+          [placeholder]="placeholders.duracion"
+        />
+        <mat-icon matSuffix>{{ iconos.reloj }}</mat-icon>
+        @if (formularioServicioTieneError("duracion", "required")) {
+        <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Precio</mat-label>
+        <input
+        type="number"
+          formControlName="precio"
+          matInput
+          [placeholder]="placeholders.precio"
+        />
+        <mat-icon matSuffix>{{ iconos.dinero }}</mat-icon>
+        @if (formularioServicioTieneError("precio", "required")) {
+        <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+        }
+      </mat-form-field>
+
     </div>
   </div>
+
+  
   <div class="contenedor-fondo">
     <app-boton
       [class]="'botonEliminar'"
