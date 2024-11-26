@@ -1,32 +1,18 @@
-import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { BotonComponent } from '../../../../shared/components/boton/boton.component';
-import { InputComponent } from '../../../../shared/components/input/input.component';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { ICONOS } from '../../../../shared/models/iconos.constants';
-import { PLACEHOLDERS } from '../../../../shared/models/placeholderInicioSesion.constants';
-import { CardComponent } from '../../../../shared/components/card/card.component';
-import { ServicioInterface } from '../../../../core/interfaces/servicio-interface';
-import { ServicioServiceService } from '../../../../core/services/servicioService/servicio-service.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { codigoErrorHttp } from '../../../../shared/models/httpError.constants';
-import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { CommonModule } from "@angular/common";
+import { Component, EventEmitter, inject, Input, OnInit, Output } from "@angular/core";
+import { BotonComponent } from "../../../../../shared/components/boton/boton.component";
+import { InputComponent } from "../../../../../shared/components/input/input.component";
+import { MatIcon, MatIconModule } from "@angular/material/icon";
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { ICONOS } from "../../../../../shared/models/iconos.constants";
+import { PLACEHOLDERS } from "../../../../../shared/models/placeholderInicioSesion.constants";
+import { ServicioServiceService } from "../../../../../core/services/servicioService/servicio-service.service";
+import { ServicioInterface } from "../../../../../core/interfaces/servicio-interface";
+import { Router } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
+import { codigoErrorHttp } from "../../../../../shared/models/httpError.constants";
 
 @Component({
   selector: 'app-pop-up-crear-servicio',
@@ -34,7 +20,6 @@ import { MatInputModule } from '@angular/material/input';
   imports: [
     CommonModule,
     BotonComponent,
-    InputComponent,
     MatIcon,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -59,7 +44,7 @@ export class PopUpCrearServicioComponent implements OnInit {
   @Output() desactivarOverlay: EventEmitter<void> = new EventEmitter<void>();
 
   cerrarPopUp() {
-    console.log(this.cardSeleccionada);
+
     this.estadoPopUp = false;
     this.desactivarOverlay.emit();
   }
@@ -81,7 +66,7 @@ export class PopUpCrearServicioComponent implements OnInit {
       duracion: this.cardSeleccionada?.duracion?.toString(),
       precio: this.cardSeleccionada?.precio?.toString(),
     });
-    //console.log(this.cardSeleccionada?.idServicio);
+
   }
 
   crearUnServicio(): ServicioInterface {
@@ -108,7 +93,7 @@ export class PopUpCrearServicioComponent implements OnInit {
         next: (response) => {
           this.cerrarPopUp();
           window.location.reload();
-          console.log(response);
+
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
@@ -148,7 +133,7 @@ export class PopUpCrearServicioComponent implements OnInit {
           next: (response) => {
             this.cerrarPopUp();
             window.location.reload();
-            console.log(response);
+
           },
           error: (e: Error) => {
             console.log(e.message);
@@ -159,12 +144,12 @@ export class PopUpCrearServicioComponent implements OnInit {
   }
 
   eliminarServicio(idServicio: number | undefined, idNegocio: number | undefined) {
-    console.log(idServicio);
+
     if (idServicio) {
       this.servicioService.deleteServicio(idServicio!, idNegocio!).subscribe({
         next: (response) => {
           this.cerrarPopUp();
-          console.log(response);
+
           window.location.reload();
         },
         error(e: Error) {
@@ -176,7 +161,7 @@ export class PopUpCrearServicioComponent implements OnInit {
 
   manejarServicio() {
     if (this.cardSeleccionada) {
-      console.log(this.cardSeleccionada);
+
       this.putServicio(this.cardSeleccionada.idServicio, this.cardSeleccionada.idNegocio);
     } else if (!this.cardSeleccionada) {
       this.postServicioToBackend();

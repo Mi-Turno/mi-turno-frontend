@@ -1,12 +1,10 @@
 import { Routes } from '@angular/router';
-import { PanelRecepcionComponent } from './pages/dashboardLocal/panel-recepcion/panel-recepcion.component';
 import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno/pedir-turno.component';
-import { ProfesionalesMainComponent } from './pages/dashboardLocal/profesionales/profesionales-main/profesionales-main.component';
-import { ServicioMainComponent } from './pages/dashboardLocal/servicio/servicio-main/servicio-main.component';
+import { ProfesionalesMainComponent } from './pages/dashboardLocal/components/profesionales/profesionales-main/profesionales-main.component';
+import { ServicioMainComponent } from './pages/dashboardLocal/components/servicios/servicio-main/servicio-main.component';
 import { DashboardClienteComponent } from './pages/dashboardCliente/dashboard-cliente.component';
-
 import { ROLES } from './shared/models/rolesUsuario.constants';
-import { TurnosComponent } from './pages/dashboardLocal/turnos/turnos.component';
+import { TurnosComponent } from './pages/dashboardLocal/components/turnos/turnos.component';
 import { ToggleComponent } from './pages/inicioSesion/toggle/toggle.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { RegistrarNegocioComponent } from './pages/dashboardAdmin/components/registrar-negocio/registrar-negocio.component';
@@ -14,6 +12,7 @@ import { DashboardAdminPageComponent } from './pages/dashboardAdmin/dashboard-ad
 import { UsuariosComponent } from './pages/dashboardAdmin/components/usuarios/usuarios.component';
 import { authGuardFn } from './core/guards/auth/guard/auth.guard-fn';
 import { rolGuardFn } from './core/guards/auth/guard/rol.guard-fn';
+import { DashboardLocalPageComponent } from './pages/dashboardLocal/dashboard-local-page.component';
 
 
 
@@ -36,7 +35,7 @@ export const routes: Routes = [{
 {
 
  path:"negocios/:nombreNegocio",
- component:PanelRecepcionComponent,
+ component:DashboardLocalPageComponent,
  canActivate: [authGuardFn,()=>rolGuardFn(ROLES.negocio)],
  children : [
   {path: '', component:TurnosComponent},
@@ -44,9 +43,9 @@ export const routes: Routes = [{
   {path: 'turnos', component:TurnosComponent},
   {path: 'staff', component:ProfesionalesMainComponent},
   {path: 'servicios', component:ServicioMainComponent},
-  {path: 'clientes', component:PanelRecepcionComponent},
-  {path: 'configuracion', component:PanelRecepcionComponent},
-  {path: 'salir', component:PanelRecepcionComponent}
+  {path: 'clientes', component:DashboardLocalPageComponent},
+  {path: 'configuracion', component:DashboardLocalPageComponent},
+  {path: 'salir', component:DashboardLocalPageComponent}
  ]
 },
 {

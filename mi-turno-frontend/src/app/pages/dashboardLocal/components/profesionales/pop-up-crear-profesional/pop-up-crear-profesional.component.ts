@@ -1,22 +1,20 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output, OnInit } from '@angular/core';
-import { BotonComponent } from '../../../../shared/components/boton/boton.component';
-import { InputComponent } from '../../../../shared/components/input/input.component';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ICONOS } from '../../../../shared/models/iconos.constants';
-import { PLACEHOLDERS } from '../../../../shared/models/placeholderInicioSesion.constants';
-import { ROLES } from '../../../../shared/models/rolesUsuario.constants';
-import { UsuarioService } from '../../../../core/services/usuarioService/usuario.service';
-import { RouterLink } from '@angular/router';
-import { codigoErrorHttp } from '../../../../shared/models/httpError.constants';
-import { ProfesionalesServiceService } from '../../../../core/services/profesionalService/profesionales-service.service';
-import { ProfesionalInterface } from '../../../../core/interfaces/profesional-interface';
-import { CredencialInterface } from '../../../../core/interfaces/credencial.interface';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import { CommonModule } from "@angular/common";
+import { Component, EventEmitter, inject, Input, OnInit, Output } from "@angular/core";
+import { provideNativeDateAdapter } from "@angular/material/core";
+import { BotonComponent } from "../../../../../shared/components/boton/boton.component";
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import { MatIconModule } from "@angular/material/icon";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { ROLES } from "../../../../../shared/models/rolesUsuario.constants";
+import { ICONOS } from "../../../../../shared/models/iconos.constants";
+import { PLACEHOLDERS } from "../../../../../shared/models/placeholderInicioSesion.constants";
+import { ProfesionalesServiceService } from "../../../../../core/services/profesionalService/profesionales-service.service";
+import { ProfesionalInterface } from "../../../../../core/interfaces/profesional-interface";
+import { CredencialInterface } from "../../../../../core/interfaces/credencial.interface";
+import { codigoErrorHttp } from "../../../../../shared/models/httpError.constants";
+
 
 @Component({
   selector: 'app-pop-up-crear-profesional',
@@ -92,7 +90,7 @@ private postUsuarioToBackend(usuario:ProfesionalInterface):void{
 
     this.usuarioService.postProfesionalPorIdNegocio(this.idNegocio,usuario).subscribe({
       next:(usuario:ProfesionalInterface) =>{
-        console.log(usuario);
+
       },
       error:(error)=>{
         if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
@@ -117,14 +115,14 @@ private postUsuarioToBackend(usuario:ProfesionalInterface):void{
 putUsuarioToBackend(idProfesional: number | undefined, idNegocio: number | undefined, ) {
     if (this.formularioRegister.valid) {
       const profesionalActualizado: ProfesionalInterface = this.crearUnProfesional();
-      console.log(profesionalActualizado);
-    console.log(idNegocio, idProfesional);
+
+
       if (idProfesional) {
         this.usuarioService.putUsuarioPorIdNegocio(this.idNegocio!, idProfesional!, profesionalActualizado).subscribe({
           next: (response: ProfesionalInterface) => {
             this.cerrarPopUp();
             window.location.reload();
-            console.log(response);
+
           },
           error: (e: Error) => {
             console.log(e.message);
@@ -137,7 +135,7 @@ putUsuarioToBackend(idProfesional: number | undefined, idNegocio: number | undef
 confirmarUsuario() {
   if (this.formularioRegister.valid) {
     const usuario:ProfesionalInterface = this.crearUnProfesional();
-    console.log(this.cardSeleccionada?.idUsuario);
+
     if(this.cardSeleccionada?.idUsuario){
       this.putUsuarioToBackend(this.cardSeleccionada.idUsuario, this.cardSeleccionada.idNegocio);
     }else{
@@ -157,9 +155,7 @@ confirmarUsuario() {
 
 }
 
-mostrarCard() {
-  console.log(this.cardSeleccionada?.nombre);
-}
+//--------------emisores de eventos----------------
 
 
 
@@ -171,7 +167,7 @@ mostrarCard() {
 cerrarPopUp() {
   this.desactivarOverlay.emit();
   if(this.cardSeleccionada){
-    console.log(this.cardSeleccionada);
+
     this.cardActual.emit(this.cardSeleccionada);
   }
 }
@@ -192,16 +188,16 @@ abrirDiasYHorarios() {
     alert("Todavía no se creo el usuario");
   }
 
-  console.log("Abro días y horarios");
+
 }
 
 eliminarProfesional() {
-  console.log(this.cardSeleccionada?.idUsuario);
+
   if (this.cardSeleccionada?.idUsuario) {
     this.usuarioService.deleteUsuario(this.cardSeleccionada.idNegocio!, this.cardSeleccionada.idUsuario!).subscribe({
       next: (response) => {
         this.cerrarPopUp();
-        console.log(response);
+
         window.location.reload();
       },
       error(e: Error) {

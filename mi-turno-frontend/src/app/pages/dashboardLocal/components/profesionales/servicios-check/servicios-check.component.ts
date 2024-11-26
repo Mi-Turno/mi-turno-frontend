@@ -1,18 +1,10 @@
-import { CommonModule } from '@angular/common';
-import {
-  Component,
-  inject,
-  Input,
-  OnInit,
-  importProvidersFrom,
-  Output,
-  EventEmitter,
-} from '@angular/core';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { ServicioInterface } from '../../../../core/interfaces/servicio-interface';
-import { ServicioServiceService } from '../../../../core/services/servicioService/servicio-service.service';
-import { ProfesionalesServiceService } from '../../../../core/services/profesionalService/profesionales-service.service';
-import { ProfesionalInterface } from '../../../../core/interfaces/profesional-interface';
+import { CommonModule } from "@angular/common";
+import { Component, inject, Input, OnInit } from "@angular/core";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { ProfesionalesServiceService } from "../../../../../core/services/profesionalService/profesionales-service.service";
+import { ServicioInterface } from "../../../../../core/interfaces/servicio-interface";
+import { ProfesionalInterface } from "../../../../../core/interfaces/profesional-interface";
+
 
 @Component({
   selector: 'app-servicios-check',

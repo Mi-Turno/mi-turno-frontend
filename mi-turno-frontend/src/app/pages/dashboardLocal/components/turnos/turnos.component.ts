@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { TurnoInterface } from '../../../core/interfaces/turno-interface';
-import { ClienteService } from '../../../core/services/clienteService/cliente.service';
-import { TurnoService } from '../../../core/services/turnoService/turno.service';
-import { ProfesionalesServiceService } from '../../../core/services/profesionalService/profesionales-service.service';
-import { ServicioServiceService } from '../../../core/services/servicioService/servicio-service.service';
-import { AtributosTurno } from '../../../core/interfaces/atributos-turno';
-import { estadoTurno } from '../../../shared/models/estadoTurnoEnum';
+import { TurnoInterface } from '../../../../core/interfaces/turno-interface';
+import { ClienteService } from '../../../../core/services/clienteService/cliente.service';
+import { TurnoService } from '../../../../core/services/turnoService/turno.service';
+import { ProfesionalesServiceService } from '../../../../core/services/profesionalService/profesionales-service.service';
+import { ServicioServiceService } from '../../../../core/services/servicioService/servicio-service.service';
+import { AtributosTurno } from '../../../../core/interfaces/atributos-turno';
+import { estadoTurno } from '../../../../shared/models/estadoTurnoEnum';
 
 @Component({
   selector: 'app-turnos',
@@ -118,7 +118,7 @@ modificarEstado(turno: AtributosTurno, idNegocio: number) {
   cargarTurnos() {
     this.turnoService.getTurnos(this.idNegocio).subscribe({
       next: (turnosResponse: TurnoInterface[]) => {
-        console.log(turnosResponse);
+
         this.turnos = [...turnosResponse];
         this.turnos.forEach((unTurno) => {
           this.settearAtributosTurno(unTurno);
@@ -201,12 +201,10 @@ modificarEstado(turno: AtributosTurno, idNegocio: number) {
 
 
   verificarEstadoTurno() {
-    console.log("verificando estado de los turnos");
-    console.log(this.formatearHora(this.horaActual(0)));
+
 
     this.turnoTabla.forEach(turno => {
 
-      console.log(this.formatearHora(turno.horaInicio));
       if(this.formatearHora(turno.horaInicio) == this.formatearHora(this.horaActual(0))){
         turno.estado = estadoTurno.EN_CURSO;
         this.modificarEstado(turno, this.idNegocio);

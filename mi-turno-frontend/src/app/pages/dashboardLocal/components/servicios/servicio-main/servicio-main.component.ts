@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
-import { CardComponent } from '../../../../shared/components/card/card.component';
+import { CardComponent } from '../../../../../shared/components/card/card.component';
 import { PopUpCrearProfesionalComponent } from '../../profesionales/pop-up-crear-profesional/pop-up-crear-profesional.component';
-import { ServicioInterface } from '../../../../core/interfaces/servicio-interface';
-import { ServicioServiceService } from '../../../../core/services/servicioService/servicio-service.service';
+import { ServicioInterface } from '../../../../../core/interfaces/servicio-interface';
+import { ServicioServiceService } from '../../../../../core/services/servicioService/servicio-service.service';
 import { PopUpCrearServicioComponent } from '../pop-up-crear-servicio/pop-up-crear-servicio.component';
-import { NegocioServiceService } from '../../../../core/services/negocioService/negocio-service.service';
+import { NegocioServiceService } from '../../../../../core/services/negocioService/negocio-service.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -36,7 +36,7 @@ export class ServicioMainComponent implements OnInit {
   cargarServicios() {
     this.ruta.parent?.params.subscribe(params => {
       const nombreNegocio = params['nombreNegocio'];
-      console.log(nombreNegocio);
+
 
       //obtengo el arreglo de servicios del negocio y lo guardo en la variable idCards
       this.servicios.getServiciosPorIdNegocioYEstado(this.idNegocio, "true").subscribe({

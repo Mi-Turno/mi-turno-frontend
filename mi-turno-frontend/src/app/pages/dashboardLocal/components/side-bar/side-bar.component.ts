@@ -1,11 +1,8 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { BotonComponent } from '../../../shared/components/boton/boton.component';
-import { MatIcon } from '@angular/material/icon';
-import { ICONOS } from '../../../shared/models/iconos.constants';
-import { routes } from '../../../app.routes';
-import { Router, RouterModule } from '@angular/router';
-import { TextoConIconoComponent } from '../../../shared/components/texto-con-icono/texto-con-icono.component';
+import { CommonModule } from "@angular/common";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { MatIcon } from "@angular/material/icon";
+import { Router, RouterModule } from "@angular/router";
+import { ICONOS } from "../../../../shared/models/iconos.constants";
 
 @Component({
   selector: 'app-side-bar',

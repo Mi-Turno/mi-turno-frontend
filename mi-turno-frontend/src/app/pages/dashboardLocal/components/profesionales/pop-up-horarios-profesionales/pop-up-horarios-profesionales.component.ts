@@ -1,14 +1,12 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, OnInit, inject, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
-import { HorariosComponent } from '../../horarios/horarios.component';
-import { BotonComponent } from '../../../../shared/components/boton/boton.component';
-import { MatIcon } from '@angular/material/icon';
-import { UsuarioService } from '../../../../core/services/usuarioService/usuario.service';
-import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface';
-import { HorarioProfesional } from '../../../../core/interfaces/horarioProfesional.interface';
-import { HorarioXprofesionalService } from '../../../../core/services/horariosProfesionalService/horarioProfesional.service';
-import { ProfesionalInterface } from '../../../../core/interfaces/profesional-interface';
-import { DiasEnum } from '../../../../shared/models/diasEnum';
+import { CommonModule } from "@angular/common";
+import { Component, EventEmitter, inject, Input, OnInit, Output } from "@angular/core";
+import { HorariosComponent } from "../../horarios/horarios.component";
+import { BotonComponent } from "../../../../../shared/components/boton/boton.component";
+import { MatIcon } from "@angular/material/icon";
+import { DiasEnum } from "../../../../../shared/models/diasEnum";
+import { HorarioXprofesionalService } from "../../../../../core/services/horariosProfesionalService/horarioProfesional.service";
+import { ProfesionalInterface } from "../../../../../core/interfaces/profesional-interface";
+import { HorarioProfesional } from "../../../../../core/interfaces/horarioProfesional.interface";
 
 @Component({
   selector: 'app-pop-up-horarios-profesionales',

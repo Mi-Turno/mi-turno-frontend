@@ -1,15 +1,16 @@
-import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { ChipComponent } from '../../../shared/components/chip/chip.component';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { DiasEnum } from '../../../shared/models/diasEnum';
-import { HorarioXprofesionalService } from '../../../core/services/horariosProfesionalService/horarioProfesional.service';
-import { HorarioProfesional } from '../../../core/interfaces/horarioProfesional.interface';
-import { ProfesionalInterface } from '../../../core/interfaces/profesional-interface';
+
 
 //todo: Hay que hacer que cuando el arreglo este con elementos, no se pueda desmarcar el toggle
+
+import { CommonModule } from "@angular/common";
+import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { MatIcon } from "@angular/material/icon";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { HorarioXprofesionalService } from "../../../../core/services/horariosProfesionalService/horarioProfesional.service";
+import { HorarioProfesional } from "../../../../core/interfaces/horarioProfesional.interface";
+import { DiasEnum } from "../../../../shared/models/diasEnum";
+import { ProfesionalInterface } from "../../../../core/interfaces/profesional-interface";
 
 
 @Component({
@@ -42,7 +43,7 @@ ngOnChanges(changes: SimpleChanges): void {
 
 cambiarToggle(){
   if(this.horarios.length > 0) {
-    console.log(this.horarios.length);
+
     return true;
   }
   else
@@ -72,7 +73,7 @@ crearHorario(horarioNuevo: string): HorarioProfesional {
   }
 
   convertirADiasEnum(dia: string): DiasEnum | undefined {
-    console.log(dia);
+
     dia = dia.toUpperCase();
     // Asegúrate de que el string esté en mayúsculas para coincidir con el enum
     return DiasEnum[dia as keyof typeof DiasEnum];
@@ -89,9 +90,9 @@ crearHorario(horarioNuevo: string): HorarioProfesional {
     horario.setHours(horas);
     horario.setMinutes(minutos);
     horario.setSeconds(0); // Puedes establecerlo a 0 si no necesitas segundos}
-    console.log(horario);
+
     const horarioParseado:string = `${String(horario.getHours()).padStart(2, '0')}:${String(horario.getMinutes()).padStart(2, '0')}`;;
-    console.log(horarioParseado);
+
     return horarioParseado;
   }
 
@@ -111,7 +112,7 @@ crearHorario(horarioNuevo: string): HorarioProfesional {
     try {
       this.horarioService.postHorariosPorProfesional(this.profesional?.idNegocio!, this.profesional?.idUsuario!, horario).subscribe({
         next:(horario: HorarioProfesional) =>{
-          console.log(horario);
+
         },
         error:(error)=>{
           console.log(error);
@@ -129,7 +130,7 @@ crearHorario(horarioNuevo: string): HorarioProfesional {
     try{
       this.horarioService.deleteHorarioDeProfesional(this.profesional?.idNegocio!, this.profesional?.idUsuario!, idServicio!).subscribe({
         next:(response: any) => {
-          console.log(response);
+
         },
         error:(error: Error) => {
           console.log(error);
@@ -140,9 +141,7 @@ crearHorario(horarioNuevo: string): HorarioProfesional {
     }
   }
 
-  escribirGola(){
-    console.log("Gola");
-  }
+
 
 
 
