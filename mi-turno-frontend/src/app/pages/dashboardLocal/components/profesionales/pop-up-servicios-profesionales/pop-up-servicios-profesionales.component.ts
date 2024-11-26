@@ -1,25 +1,14 @@
-import {
-  Component,
-  EventEmitter,
-  Inject,
-  inject,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { ServiciosCheckComponent } from '../servicios-check/servicios-check.component';
-import { BotonComponent } from '../../../../shared/components/boton/boton.component';
-import { CommonModule } from '@angular/common';
-import { ServicioInterface } from '../../../../core/interfaces/servicio-interface';
-import { ProfesionalInterface } from '../../../../core/interfaces/profesional-interface';
-import { ServicioServiceService } from '../../../../core/services/servicioService/servicio-service.service';
-import { NegocioServiceService } from '../../../../core/services/negocioService/negocio-service.service';
-import { ActivatedRoute } from '@angular/router';
-import { normalizePassiveListenerOptions } from '@angular/cdk/platform';
-import { ProfesionalesServiceService } from '../../../../core/services/profesionalService/profesionales-service.service';
+import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
+import { MatIcon } from "@angular/material/icon";
+import { ServiciosCheckComponent } from "../servicios-check/servicios-check.component";
+import { BotonComponent } from "../../../../../shared/components/boton/boton.component";
+import { CommonModule } from "@angular/common";
+import { ProfesionalInterface } from "../../../../../core/interfaces/profesional-interface";
+import { ServicioServiceService } from "../../../../../core/services/servicioService/servicio-service.service";
+import { ServicioInterface } from "../../../../../core/interfaces/servicio-interface";
+import { NegocioServiceService } from "../../../../../core/services/negocioService/negocio-service.service";
+import { ProfesionalesServiceService } from "../../../../../core/services/profesionalService/profesionales-service.service";
+
 
 @Component({
   selector: 'app-pop-up-servicios-profesionales',
@@ -103,15 +92,13 @@ export class PopUpServiciosProfesionalesComponent implements OnInit, OnChanges {
   }
 
 
-  escribirCards() {
-    console.log(this.idCards);
-  }
+
 
   @Output() desactivarOverlay: EventEmitter<void> = new EventEmitter<void>();
   @Output() activarModificacion: EventEmitter<void> = new EventEmitter<void>();
 
   cerrarPopUp() {
-    console.log('cierro el popup');
+
     this.desactivarOverlay.emit();
     this.activarModificacion.emit();
   }

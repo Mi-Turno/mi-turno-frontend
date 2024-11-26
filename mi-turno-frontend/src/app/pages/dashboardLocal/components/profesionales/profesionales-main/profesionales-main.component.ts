@@ -1,15 +1,13 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { CardComponent } from '../../../../shared/components/card/card.component';
-import { PopUpCrearProfesionalComponent } from '../pop-up-crear-profesional/pop-up-crear-profesional.component';
-import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface';
-import { UsuarioService } from '../../../../core/services/usuarioService/usuario.service';
-import { ROLES } from '../../../../shared/models/rolesUsuario.constants';
-import { PopUpHorariosProfesionalesComponent } from "../pop-up-horarios-profesionales/pop-up-horarios-profesionales.component";
-import { ProfesionalesServiceService } from '../../../../core/services/profesionalService/profesionales-service.service';
-import { NegocioServiceService } from '../../../../core/services/negocioService/negocio-service.service';
-import { ActivatedRoute } from '@angular/router';
-import { PopUpServiciosProfesionalesComponent } from "../pop-up-servicios-profesionales/pop-up-servicios-profesionales.component";
+import { CommonModule } from "@angular/common"
+import { Component, inject, OnInit } from "@angular/core"
+import { CardComponent } from "../../../../../shared/components/card/card.component"
+import { PopUpCrearProfesionalComponent } from "../pop-up-crear-profesional/pop-up-crear-profesional.component"
+import { PopUpHorariosProfesionalesComponent } from "../pop-up-horarios-profesionales/pop-up-horarios-profesionales.component"
+import { PopUpServiciosProfesionalesComponent } from "../pop-up-servicios-profesionales/pop-up-servicios-profesionales.component"
+import { UsuarioInterface } from "../../../../../core/interfaces/usuario-interface"
+import { ProfesionalesServiceService } from "../../../../../core/services/profesionalService/profesionales-service.service"
+import { ActivatedRoute } from "@angular/router"
+import { NegocioServiceService } from "../../../../../core/services/negocioService/negocio-service.service"
 
 @Component({
   selector: 'app-profesionales-main',
@@ -43,7 +41,6 @@ export class ProfesionalesMainComponent implements OnInit {
     this.estaSobrepuesto = !this.estaSobrepuesto;
     this.textoTituloPop = titulo;
     this.cardSeleccionada = card;
-    console.log(this.cardSeleccionada);
   }
 
 
@@ -51,13 +48,11 @@ export class ProfesionalesMainComponent implements OnInit {
   cambiar_SobreposicionHorarios(card: UsuarioInterface | null) {
     this.verHorarios = !this.verHorarios;
     this.cardSeleccionada = card;
-    this.imprimirCardActual(this.cardSeleccionada);
   }
 
   cambiar_SobreposicionServicios(card: UsuarioInterface | null) {
     this.verServicios = !this.verServicios;
     this.cardSeleccionada = card;
-    this.imprimirCardActual(this.cardSeleccionada);
   }
 
 
@@ -76,7 +71,7 @@ export class ProfesionalesMainComponent implements OnInit {
 
     this.ruta.parent?.params.subscribe(params => {
       const nombreNegocio = params['nombreNegocio'];
-      console.log(nombreNegocio);
+
 
 
       //obtengo el arreglo de profesionales del negocio y lo guardo en la variable profesionales
@@ -102,15 +97,11 @@ export class ProfesionalesMainComponent implements OnInit {
   }
 
 
-  imprimirCardActual(card: UsuarioInterface | null) {
-    console.log(card);
-  }
 
   cardActual: UsuarioInterface | null = null;
 
   recibirCardActual(card: UsuarioInterface) {
     this.cardActual = card; // Almacena el valor recibido en cardActual
-    console.log('Card recibido desde el hijo:', this.cardActual); // Comprobación
   }
 
 
