@@ -1,3 +1,9 @@
+<div [className]="'backgroundContainer'">
+  <div class="wave"></div>
+  <div class="wave"></div>
+  <div class="wave"></div>
+</div>
+
 <main>
   <!-- Cuando isLogin es true, le saca active, cuando es false le pone active -->
   <div class="contenedor" id="contenedor" [ngClass]="{'active': !isLogin()}">
@@ -227,7 +233,7 @@
             <mat-error>{{mostrarMensajeError('required')}}</mat-error>
           }
         </mat-form-field>
-        
+
         <a class="olvidasteContra" href="">¿Olvidaste tu contraseña?</a>
         <button [className]="'botonEnviar'" type="submit" (click)="onLogin()">
           Ingresar
