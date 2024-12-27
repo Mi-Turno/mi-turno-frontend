@@ -80,7 +80,7 @@ export class TablaTurnosComponent implements OnInit {
       })
     ).subscribe({
       next: (turnosMostrados: mostrarTurnosInterface[]) => {
-        this.listadoMostrarTurnos = turnosMostrados;
+        this.listadoMostrarTurnos = this.ordenarArregloTurnos(turnosMostrados);
         this.cdr.detectChanges(); //Reflejar los cambios en la vista
       },
       error: (error) => {
@@ -88,6 +88,16 @@ export class TablaTurnosComponent implements OnInit {
       }
     });
   }
+
+    ordenarArregloTurnos(arreglo: mostrarTurnosInterface[]) {
+      return arreglo.sort((a, b) => {
+        const fecha = a.fechaInicio.toString().localeCompare(b.fechaInicio.toString());
+        if (fecha !== 0) {
+          return fecha;
+        }
+        return a.horario.toString().localeCompare(b.horario.toString());
+      });
+    }
 
   //Metodo combina las llamadas para un único turno
   obtenerDatosTurno(unTurno: TurnoInterface): Observable<mostrarTurnosInterface> {

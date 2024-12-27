@@ -61,7 +61,7 @@ export class PopUpHorariosProfesionalesComponent implements OnInit {
             this.horariosProfesional.obtenerHorariosPorIdProfesionalYDia(this.profesional.idNegocio!, this.profesional.idUsuario!, indiceDia).subscribe({
               next: (response) => {
                 if(response){
-                  this.horariosActuales[dia] = response;
+                  this.horariosActuales[dia] = response.sort((a,b) => a.horaInicio.toString().localeCompare(b.horaInicio.toString()));
                 }
 
               },
