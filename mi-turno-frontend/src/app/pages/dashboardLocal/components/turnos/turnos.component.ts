@@ -36,7 +36,7 @@ export class TurnosComponent implements OnInit {
     this.cargarTurnos();
     setInterval(() => {
       this.verificarEstadoTurno();
-    }, 60000);
+    }, 30000);
   }
 
   estado = estadoTurno;
@@ -69,23 +69,20 @@ export class TurnosComponent implements OnInit {
     this.modificarEstado(turno!, idNegocio!);
   }
 
-
-modificarEstado(turno: AtributosTurno, idNegocio: number) {
-  if (turno) {
-    this.turnoService
-      .updateTurno(idNegocio, turno.idTurno!, turno?.estado)
-      .subscribe({
-        next: (response) => {
-          window.location.reload();
-        },
-        error: (error: any) => {
-          console.error(error);
-        },
-      });
+  modificarEstado(turno: AtributosTurno, idNegocio: number) {
+    if (turno) {
+      this.turnoService
+        .updateTurno(idNegocio, turno.idTurno!, turno?.estado)
+        .subscribe({
+          next: (response) => {
+            window.location.reload();
+          },
+          error: (error: any) => {
+            console.error(error);
+          },
+        });
+    }
   }
-}
-
-
 
   verificarEstado(
     fechaTurno: string,
@@ -114,11 +111,11 @@ modificarEstado(turno: AtributosTurno, idNegocio: number) {
       return 'cancelado';
     }
   }
+
   // 1 - Crear un método que obtenga todos los turnos del negocio
   cargarTurnos() {
     this.turnoService.getTurnos(this.idNegocio).subscribe({
       next: (turnosResponse: TurnoInterface[]) => {
-
         this.turnos = [...turnosResponse];
         this.turnos.forEach((unTurno) => {
           this.settearAtributosTurno(unTurno);
@@ -182,6 +179,10 @@ modificarEstado(turno: AtributosTurno, idNegocio: number) {
                       unTurnoAux.horaInicio > this.horaActual(1)
                     )
                       this.turnoTabla.push(unTurnoAux);
+
+                    this.turnoTabla = this.ordenarArregloTurnos(
+                      this.turnoTabla
+                    );
                   },
                   error: (error) => {
                     console.error(error);
@@ -199,22 +200,31 @@ modificarEstado(turno: AtributosTurno, idNegocio: number) {
     });
   }
 
+  ordenarArregloTurnos(arreglo: AtributosTurno[]) {
+    return arreglo.sort((a, b) => {
+      const fecha = a.fecha.localeCompare(b.fecha);
+      if (fecha !== 0) {
+        return fecha;
+      }
+
+      return a.horaInicio.localeCompare(b.horaInicio);
+    });
+  }
 
   verificarEstadoTurno() {
-
-
-    this.turnoTabla.forEach(turno => {
-
-      if(this.formatearHora(turno.horaInicio) == this.formatearHora(this.horaActual(0))){
+    this.turnoTabla.forEach((turno) => {
+      if (
+        this.formatearHora(turno.horaInicio) ==
+        this.formatearHora(this.horaActual(0))
+      ) {
         turno.estado = estadoTurno.EN_CURSO;
         this.modificarEstado(turno, this.idNegocio);
       }
     });
-
   }
 
-formatearHora(hora: string): string {
-  const [horas, minutos] = hora.split(':');
-  return `${horas}:${minutos}`;
-}
+  formatearHora(hora: string): string {
+    const [horas, minutos] = hora.split(':');
+    return `${horas}:${minutos}`;
+  }
 }
