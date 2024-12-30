@@ -7,6 +7,7 @@ import { ProfesionalesServiceService } from '../../../../core/services/profesion
 import { ServicioServiceService } from '../../../../core/services/servicioService/servicio-service.service';
 import { AtributosTurno } from '../../../../core/interfaces/atributos-turno';
 import { estadoTurno } from '../../../../shared/models/estadoTurnoEnum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-turnos',
@@ -30,6 +31,8 @@ export class TurnosComponent implements OnInit {
   nombreProfesional: string = '';
   nombreServicio: string = '';
   idNegocio: number = 0;
+  segmento: string = '';
+  router = inject(Router);
 
   ngOnInit(): void {
     this.idNegocio = parseFloat(localStorage.getItem('idUsuario')!);
@@ -37,6 +40,9 @@ export class TurnosComponent implements OnInit {
     setInterval(() => {
       this.verificarEstadoTurno();
     }, 30000);
+    const urlSegments = this.router.url.split('/'); // Divide la URL en segmentos
+    this.segmento = urlSegments[urlSegments.length - 1]; // Obtiene el último segmento
+    console.log(this.segmento);
   }
 
   estado = estadoTurno;
@@ -201,6 +207,14 @@ export class TurnosComponent implements OnInit {
   }
 
   ordenarArregloTurnos(arreglo: AtributosTurno[]) {
+
+    if (this.segmento == 'recepcion') {
+      arreglo = arreglo.filter(
+        (a) =>
+          a.estado == estadoTurno.RESERVADO || a.estado == estadoTurno.EN_CURSO
+      );
+    }
+
     return arreglo.sort((a, b) => {
       const fecha = a.fecha.localeCompare(b.fecha);
       if (fecha !== 0) {
@@ -215,7 +229,7 @@ export class TurnosComponent implements OnInit {
     this.turnoTabla.forEach((turno) => {
       if (
         this.formatearHora(turno.horaInicio) ==
-        this.formatearHora(this.horaActual(0))
+        this.formatearHora(this.horaActual(0)) && turno.estado != estadoTurno.CANCELADO
       ) {
         turno.estado = estadoTurno.EN_CURSO;
         this.modificarEstado(turno, this.idNegocio);
