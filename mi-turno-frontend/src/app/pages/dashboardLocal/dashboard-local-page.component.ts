@@ -1,10 +1,11 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { NavBarComponent } from "./components/nav-bar/nav-bar.component";
-import { SideBarComponent } from "./components/side-bar/side-bar.component";
+import { NavBarComponent } from "../../shared/components/nav-bar/nav-bar.component";
+import { SideBarComponent } from "../../shared/components/side-bar/side-bar.component";
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute, RouterOutlet } from "@angular/router";
 import { AuthService } from "../../core/guards/auth/service/auth.service";
+import { ICONOS } from "../../shared/models/iconos.constants";
 
 @Component({
   selector: 'app-dashboard-local-page',
@@ -15,7 +16,7 @@ import { AuthService } from "../../core/guards/auth/service/auth.service";
 })
 export class DashboardLocalPageComponent {
   estaSobrepuesto: boolean = false;
-
+texto = "Hacer reserva";
   constructor(private ruta:ActivatedRoute){}
   nombreNegocio:string = "";
   ngOnInit(): void {
@@ -31,4 +32,22 @@ export class DashboardLocalPageComponent {
     this.estaSobrepuesto = !this.estaSobrepuesto;
     console.log(this.estaSobrepuesto);
   }
+
+  redirigir(){
+    alert("Hay que hacer la navegación a una pantalla que nos permita crear un turno como negocio");
+  }
+iconos = ICONOS;
+
+
+
+  botones =[
+
+    {texto: 'Recepción', icono: this.iconos.home , ruta: 'recepcion'},
+    {texto: 'Turnos', icono: this.iconos.eventNote, ruta: 'turnos'},
+    {texto: 'Staff', icono: this.iconos.badge, ruta: 'staff'},
+    {texto: 'Servicios', icono: this.iconos.star, ruta: 'servicios'},
+    {texto: 'Clientes', icono: this.iconos.people,  ruta: 'clientes'},
+    {texto: 'Configuración', icono: this.iconos.settings, ruta: 'configuracion'},
+
+  ]
 }
