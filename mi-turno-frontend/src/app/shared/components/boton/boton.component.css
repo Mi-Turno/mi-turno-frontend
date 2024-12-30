@@ -113,3 +113,14 @@
 .botonHorarioDesactivado:hover{
   cursor: not-allowed;
 }
+
+
+.botonNavBar{
+  background-color: var(--color-contraste2);
+  color: #fff;
+  padding: 8px 20px ;
+  border-radius: 30px;
+  margin: 2vh;
+  border:  none;
+  font-size: var( --titulo-h5);
+}

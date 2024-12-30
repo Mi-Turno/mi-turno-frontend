@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
-import { NavBarComponent } from "./components/nav-bar/nav-bar.component";
+import { NavBarComponent } from "../../shared/components/nav-bar/nav-bar.component";
 import { SideBarComponent } from "./components/side-bar/side-bar.component";
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute, RouterOutlet } from "@angular/router";
@@ -15,7 +15,7 @@ import { AuthService } from "../../core/guards/auth/service/auth.service";
 })
 export class DashboardLocalPageComponent {
   estaSobrepuesto: boolean = false;
-
+texto = "Hacer reserva";
   constructor(private ruta:ActivatedRoute){}
   nombreNegocio:string = "";
   ngOnInit(): void {
@@ -30,5 +30,9 @@ export class DashboardLocalPageComponent {
   cambiarSobreposicion() {
     this.estaSobrepuesto = !this.estaSobrepuesto;
     console.log(this.estaSobrepuesto);
+  }
+
+  redirigir(){
+    alert("Hay que hacer la navegación a una pantalla que nos permita crear un turno como negocio");
   }
 }

@@ -8,7 +8,7 @@
   <app-side-bar-admin [idAdmin]="idAdmin.toString()" (salir)="cerrarSesion($event)"></app-side-bar-admin>
 
   <div class="secundario">
-    <app-navbar-admin></app-navbar-admin>
+    <app-nav-bar [textoBoton]="texto" (evento)="redirigir()"></app-nav-bar>
     <router-outlet></router-outlet>
   </div>
 

@@ -6,7 +6,7 @@ nav {
   width: 82vw;
   height: 6vh;
   align-items: center;
-  justify-content: right;
+  justify-content: space-between;
 
   background-color: var(--color-background);
 }
@@ -18,13 +18,4 @@ nav {
 
 
 
-app-chip{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--color-contraste2);
-  color: #fff;
-  padding: 5px 14px ;
-  border-radius: 30px;
-  margin: 1vh;
-}
+
