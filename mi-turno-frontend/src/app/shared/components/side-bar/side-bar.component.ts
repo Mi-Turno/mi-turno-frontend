@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { MatIcon } from "@angular/material/icon";
 import { Router, RouterModule } from "@angular/router";
-import { ICONOS } from "../../../../shared/models/iconos.constants";
+import { ICONOS } from '../../models/iconos.constants';
 
 @Component({
   selector: 'app-side-bar',
@@ -22,14 +22,9 @@ export class SideBarComponent {
 
   @Input() nombreNegocio = "";
   @Output() salir:EventEmitter<boolean>= new EventEmitter();
+@Input() botones: { texto: string; icono: string; ruta: string; }[]= [];
+  @Input() urlBaseNegocio: string = '';
   cerrarSesionEstado:boolean = false;
-  urlBaseNegocio = '/negocios/';
-  rutaRecepcion = 'recepcion';
-  rutaTurnos = 'turnos';
-  rutaStaff = 'staff';
-  rutaServicios = 'servicios';
-  rutaClientes = 'clientes';
-  rutaConfiguracion = 'configuracion';
   rutaSalir = 'salir';
 
   claseEnlace = "claseEnlace";
@@ -40,4 +35,7 @@ export class SideBarComponent {
   selecionado(ruta: string): boolean {
    return this.router.url.includes(`${this.urlBaseNegocio}${this.nombreNegocio}/${ruta}`);
   }
+
+
+
 }

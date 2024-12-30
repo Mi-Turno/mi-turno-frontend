@@ -5,7 +5,7 @@
 </div>
 
 <div class="principal">
-  <app-side-bar [nombreNegocio]="nombreNegocio" (salir)="cerrarSesion($event)"/>
+  <app-side-bar [nombreNegocio]="nombreNegocio" (salir)="cerrarSesion($event)" [botones]="botones" [urlBaseNegocio]="'/negocios/'"/>
 
   <div class="secundario">
     <app-nav-bar [textoBoton]="texto" (evento)="redirigir()"/>
