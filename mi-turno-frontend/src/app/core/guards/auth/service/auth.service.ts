@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {jwtDecode} from 'jwt-decode';
+import { AuthInterceptor } from '../auth.interceptor';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,9 @@ export class AuthService {
   isAuthenticated(): boolean {
     return this.estoyLogueado || !!localStorage.getItem('token');
   }
-
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
   getRolUsuario(): string | null {
     const token = localStorage.getItem('token');
     if (token) {
