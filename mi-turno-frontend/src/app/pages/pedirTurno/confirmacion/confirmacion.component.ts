@@ -1,9 +1,5 @@
-import { ROLES } from './../../../shared/models/rolesUsuario.constants';
 import { NegocioServiceService } from './../../../core/services/negocioService/negocio-service.service';
-import { HorarioProfesional } from './../../../core/interfaces/horarioProfesional.interface';
 import { Component, EventEmitter, inject, Input, Output, OnInit } from '@angular/core';
-import { NavPedirTurnoComponent } from "../nav-pedir-turno/nav-pedir-turno.component";
-import { NavPasosComponent } from "../nav-pasos/nav-pasos.component";
 import { ICONOS } from '../../../shared/models/iconos.constants';
 import { TextoConIconoComponent } from "../../../shared/components/texto-con-icono/texto-con-icono.component";
 import { BotonComponent } from "../../../shared/components/boton/boton.component";
@@ -20,11 +16,12 @@ import { ServicioServiceService } from '../../../core/services/servicioService/s
 import { ServicioInterface } from '../../../core/interfaces/servicio-interface';
 import { TurnoInterface } from '../../../core/interfaces/turno-interface';
 import { obtenerDiaEnumPorNumero } from '../../../shared/models/diasEnum';
-import { MetodosDePago, obtenerMetodosDePagoPorNumero } from '../../../shared/models/metodosDePago';
+import {  obtenerMetodosDePagoPorNumero } from '../../../shared/models/metodosDePago';
 import { NegocioInterface } from '../../../core/interfaces/negocio-interface';
 import { TurnoService } from '../../../core/services/turnoService/turno.service';
 import { Router } from '@angular/router';
 import { estadoTurno } from '../../../shared/models/estadoTurnoEnum';
+import { AuthService } from '../../../core/guards/auth/service/auth.service';
 
 @Component({
   selector: 'app-confirmacion',
@@ -35,11 +32,32 @@ import { estadoTurno } from '../../../shared/models/estadoTurnoEnum';
 })
 export class ConfirmacionComponent implements OnInit {
 
-
+  //variables
   botonActivado = false;
   iconos = ICONOS;
-  //todo reemplazar por los valores reales que se van asignando en el turno
+  servicioTexto: string = '';
+  profesionalTexto: string = '';
+  precioTexto: string = '';
+  ubicacionTexto: string = '';
+  metodoDePagoTexto: string = '';
+  detalleTexto: string = '';
 
+  //servicios
+  UsuarioService: UsuarioService = inject(UsuarioService);
+  ServicioServiceService: ServicioServiceService = inject(ServicioServiceService);
+  profesionalService: ProfesionalesServiceService = inject(ProfesionalesServiceService);
+  NegocioServiceService: NegocioServiceService = inject(NegocioServiceService);
+  turnoService: TurnoService = inject(TurnoService);
+  authService: AuthService = inject(AuthService);
+
+  //interfaces
+  usuario: UsuarioInterface = {} as UsuarioInterface;
+  servicio: ServicioInterface = { nombre: '', duracion: 0, precio: 0 };
+  profesional: UsuarioInterface = {} as UsuarioInterface;
+  negocio: NegocioInterface = {} as NegocioInterface;
+
+  //todo reemplazar por los valores reales que se van asignando en el turno
+  //inputs
   @Input() turnoCreado: TurnoInterface = {
     idCliente: 0,
     idNegocio: 0,
@@ -57,36 +75,9 @@ export class ConfirmacionComponent implements OnInit {
 
 
 
-  UsuarioService: UsuarioService = inject(UsuarioService);
-  usuario: UsuarioInterface = {} as UsuarioInterface;
-
-  ServicioServiceService: ServicioServiceService = inject(ServicioServiceService);
-  servicio: ServicioInterface = { nombre: '', duracion: 0, precio: 0 };
-
-  profesionalService: ProfesionalesServiceService = inject(ProfesionalesServiceService);
-  profesional: UsuarioInterface = {} as UsuarioInterface;
-
-  NegocioServiceService: NegocioServiceService = inject(NegocioServiceService);
-
-  negocio: NegocioInterface = {} as NegocioInterface;
-
-
-
-  turnoService: TurnoService = inject(TurnoService);
-
-
-
-  servicioTexto: string = '';
-  profesionalTexto: string = '';
-  precioTexto: string = '';
-  ubicacionTexto: string = '';
-  metodoDePagoTexto: string = '';
-  detalleTexto: string = '';
-
-
 
   ngOnInit(): void {
-    this.turnoCreado.idCliente = Number(localStorage.getItem('idUsuario'));
+    this.turnoCreado.idCliente = this.authService.getIdUsuario()!;
     this.obtenerCliente(this.turnoCreado.idCliente);
     this.obtenerProfesional(this.turnoCreado.horarioProfesional.idProfesional);
     this.obtenerServicio(this.turnoCreado.idNegocio, this.turnoCreado.idServicio);

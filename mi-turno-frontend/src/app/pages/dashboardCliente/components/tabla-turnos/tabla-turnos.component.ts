@@ -39,7 +39,7 @@ export class TablaTurnosComponent implements OnInit {
   //variables
   idCliente: number = 0;
   estado = estadoTurno;
-  token: string = '';
+
   //servicios
   servicioServicios: ServicioServiceService = inject(ServicioServiceService);
   servicioProfesional: ProfesionalesServiceService = inject(ProfesionalesServiceService);
@@ -55,7 +55,6 @@ export class TablaTurnosComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef) { }
   ngOnInit(): void {
     this.idCliente = this.authService.getIdUsuario()!;
-    this.token = localStorage.getItem('token')!;
     this.setearTurnos();
 
   }
@@ -71,7 +70,7 @@ export class TablaTurnosComponent implements OnInit {
   setearTurnos() {
     this.listadoMostrarTurnos = []; // Limpiar antes de agregar nuevos turnos
 
-    this.servicioCliente.getListadoDeTurnosPorIdCliente(this.idCliente,this.token).pipe(
+    this.servicioCliente.getListadoDeTurnosPorIdCliente(this.idCliente).pipe(
       switchMap((turnos: TurnoInterface[]) => {
         this.listadoTurnos = turnos;
 

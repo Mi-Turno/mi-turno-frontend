@@ -217,7 +217,6 @@ export class ToggleComponent {
           next: (token: string) => {
             //lo logueo
             this.auth.logIn(token);
-            console.log('TOKEN: ', token);
             //obtengo el rol del usuario
             const rolUsuario = this.auth.getRolUsuario();
             const nombreUsuario = this.auth.getNombreUsuario();

@@ -41,10 +41,8 @@ export class DashboardClienteComponent implements OnInit{
   //variables
   modalLevantado:boolean = false;
   clienteActual:ClienteInterface = {} as ClienteInterface;
-  token:string = '';
   ngOnInit(): void {
     this.idCliente = this.authService.getIdUsuario()!;
-    this.token = localStorage.getItem('token')!;
     this.obtenerInfo()
   }
 
@@ -55,7 +53,7 @@ export class DashboardClienteComponent implements OnInit{
   constructor(private cdr: ChangeDetectorRef) {}
 
   obtenerInfo() {
-    this.servicioNegocio.getTodosLosNegocios(this.token).subscribe({
+    this.servicioNegocio.getTodosLosNegocios().subscribe({
       next: (negocios: NegocioInterface[]) => {
         this.listadoNegocios = [...negocios];
          // Forzar detección de cambios
@@ -65,7 +63,7 @@ export class DashboardClienteComponent implements OnInit{
       }
     });
 
-    this.servicioCliente.getListadoDeTurnosPorIdCliente(this.idCliente,this.token).subscribe({
+    this.servicioCliente.getListadoDeTurnosPorIdCliente(this.idCliente).subscribe({
       next: (turnos: TurnoInterface[]) => {
         this.listadoTurnos = [...turnos];
 
@@ -74,7 +72,7 @@ export class DashboardClienteComponent implements OnInit{
         console.error(error);
       }
     });
-    this.servicioCliente.getClienteById(this.idCliente,this.token).subscribe({
+    this.servicioCliente.getClienteById(this.idCliente).subscribe({
       next: (cliente: ClienteInterface) => {
         this.clienteActual = cliente;
 
