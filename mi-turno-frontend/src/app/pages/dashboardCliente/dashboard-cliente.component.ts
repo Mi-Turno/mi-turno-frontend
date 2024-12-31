@@ -12,6 +12,7 @@ import { TablaTurnosComponent } from './components/tabla-turnos/tabla-turnos.com
 import { ModalComponent } from "../../shared/components/modal/modal.component";
 import { ElegirNegocioComponent } from "./components/elegir-negocio/elegir-negocio.component";
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../../core/guards/auth/service/auth.service';
 
 
 
@@ -35,14 +36,15 @@ export class DashboardClienteComponent implements OnInit{
   //servicios
   servicioNegocio: NegocioServiceService = inject(NegocioServiceService);
   servicioCliente: ClienteService = inject(ClienteService);
-
+  authService: AuthService = inject(AuthService);
 
   //variables
   modalLevantado:boolean = false;
   clienteActual:ClienteInterface = {} as ClienteInterface;
-
+  token:string = '';
   ngOnInit(): void {
-    this.idCliente = parseFloat(localStorage.getItem('idUsuario')!);
+    this.idCliente = this.authService.getIdUsuario()!;
+    this.token = localStorage.getItem('token')!;
     this.obtenerInfo()
   }
 
@@ -53,7 +55,7 @@ export class DashboardClienteComponent implements OnInit{
   constructor(private cdr: ChangeDetectorRef) {}
 
   obtenerInfo() {
-    this.servicioNegocio.getTodosLosNegocios().subscribe({
+    this.servicioNegocio.getTodosLosNegocios(this.token).subscribe({
       next: (negocios: NegocioInterface[]) => {
         this.listadoNegocios = [...negocios];
          // Forzar detección de cambios
@@ -63,7 +65,7 @@ export class DashboardClienteComponent implements OnInit{
       }
     });
 
-    this.servicioCliente.getListadoDeTurnosPorIdCliente(this.idCliente).subscribe({
+    this.servicioCliente.getListadoDeTurnosPorIdCliente(this.idCliente,this.token).subscribe({
       next: (turnos: TurnoInterface[]) => {
         this.listadoTurnos = [...turnos];
 
@@ -72,7 +74,7 @@ export class DashboardClienteComponent implements OnInit{
         console.error(error);
       }
     });
-    this.servicioCliente.getClienteById(this.idCliente).subscribe({
+    this.servicioCliente.getClienteById(this.idCliente,this.token).subscribe({
       next: (cliente: ClienteInterface) => {
         this.clienteActual = cliente;
 

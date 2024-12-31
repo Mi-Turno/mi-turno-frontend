@@ -154,7 +154,7 @@ export class TurnosComponent implements OnInit {
       .replace(/\b\w/g, (char) => char.toUpperCase());
     unTurnoAux.estado = unTurno.estado!;
     //obtengo el cliente
-    this.clienteService.getClienteById(unTurno.idCliente).subscribe({
+    this.clienteService.getClienteById(unTurno.idCliente,localStorage.getItem('token')!).subscribe({
       next: (cliente) => {
         this.nombreCliente = cliente.nombre;
 

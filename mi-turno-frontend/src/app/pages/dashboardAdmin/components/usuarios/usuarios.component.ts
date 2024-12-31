@@ -27,7 +27,7 @@ export class UsuariosComponent implements AfterViewInit, OnInit {
   columnas: string[] = ['ID', 'Nombre', 'Correo', 'Telefono', 'Rol', 'Acciones'];
   informacionUsuarios: MatTableDataSource<UsuarioTableInterface>;
   usuarios: UsuarioTableInterface[] = [];
-
+  token:string = '';
   usuarioService: UsuarioService = inject(UsuarioService);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -37,11 +37,12 @@ export class UsuariosComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
+    this.token = localStorage.getItem('token')!;
     this.cargarTabla();
   }
 
   cargarTabla() {
-    this.usuarioService.getUsuarios().subscribe({
+    this.usuarioService.getUsuarios(this.token).subscribe({
       next: (usuariosResponse: UsuarioInterface[]) => {
 
         this.usuarios = usuariosResponse.map((usuario) => {

@@ -212,20 +212,25 @@ export class ToggleComponent {
       const {email, password} = this.obtenerDatosFormLogin();
 
       if(email && password) {
-
-        this.usuarioService.getUsuarioByEmailAndPassword(email, password).subscribe({
-          next: (usuarioResponse: UsuarioInterface) => {
+        //obtengo el token
+        this.usuarioService.getToken(email!, password!).subscribe({
+          next: (token: string) => {
             //lo logueo
-            this.auth.logIn(usuarioResponse.idUsuario!.toString(),usuarioResponse.rolUsuario);
-            if ( usuarioResponse.rolUsuario == ROLES.cliente || usuarioResponse.rolUsuario == ROLES.profesional) {
+            this.auth.logIn(token);
+            console.log('TOKEN: ', token);
+            //obtengo el rol del usuario
+            const rolUsuario = this.auth.getRolUsuario();
+            const nombreUsuario = this.auth.getNombreUsuario();
+            //todo agregar el nombre del usuario
+            if ( rolUsuario == ROLES.cliente || rolUsuario == ROLES.profesional) {
               //lo mando al DASHBOARD DE CLIENTE
               this.router.navigateByUrl('/dashboard-cliente');
-            } else if (usuarioResponse.rolUsuario === ROLES.negocio) {
+            } else if (rolUsuario === ROLES.negocio) {
               //lo mando al DASHBOARD DE LOCAL
-              this.router.navigateByUrl(`/negocios/${usuarioResponse.nombre}`);//es el nombre del negocio
-            } else if ( usuarioResponse.rolUsuario === ROLES.admin) {
+              this.router.navigateByUrl(`/negocios/${nombreUsuario}`);//es el nombre del negocio
+            } else if ( rolUsuario === ROLES.admin) {
               //lo mando al DASHBOARD DE ADMIN
-              this.router.navigateByUrl(`/admin/${usuarioResponse.idUsuario}`);
+              this.router.navigateByUrl(`/admin/${nombreUsuario}`);//es el nombre del admin
             } else {
               console.error('ROL INEXISTENTE');
             }
