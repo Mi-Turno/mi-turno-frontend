@@ -23,7 +23,8 @@ export class NegocioServiceService {
     return this.http.post<NegocioInterface>(this.urlBase, negocio);
   }
 
-  public getTodosLosNegocios():Observable<NegocioInterface[]>{
-    return this.http.get<NegocioInterface[]>(this.urlBase);
+  public getTodosLosNegocios(token:string):Observable<NegocioInterface[]>{
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return this.http.get<NegocioInterface[]>(this.urlBase,{headers});
   }
 }
