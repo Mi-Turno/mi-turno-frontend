@@ -13,6 +13,7 @@ import { ServicioInterface } from "../../../../../core/interfaces/servicio-inter
 import { Router } from "@angular/router";
 import { HttpErrorResponse } from "@angular/common/http";
 import { codigoErrorHttp } from "../../../../../shared/models/httpError.constants";
+import { AuthService } from '../../../../../core/guards/auth/service/auth.service';
 
 @Component({
   selector: 'app-pop-up-crear-servicio',
@@ -30,16 +31,23 @@ import { codigoErrorHttp } from "../../../../../shared/models/httpError.constant
   styleUrl: './pop-up-crear-servicio.component.css',
 })
 export class PopUpCrearServicioComponent implements OnInit {
+
+  //variables
+
   iconos = ICONOS;
   placeholders = PLACEHOLDERS;
   tipoPopUp = 'servicios';
 
-  @Input() fotoServicio = 'img-default.png'; //poner imagen de un servicio
+  //Servicios
   servicioService: ServicioServiceService = inject(ServicioServiceService);
+  authService: AuthService = inject(AuthService);
+  //inputs
 
+  @Input() fotoServicio = 'img-default.png'; //poner imagen de un servicio
   @Input() estadoPopUp: boolean = true;
   @Input() textoTitulo: string = '';
   @Input() cardSeleccionada: ServicioInterface | null = null;
+  //outputs
 
   @Output() desactivarOverlay: EventEmitter<void> = new EventEmitter<void>();
 
@@ -56,7 +64,7 @@ export class PopUpCrearServicioComponent implements OnInit {
   });
   idNegocio: number = 0;
   ngOnInit(): void {
-    this.idNegocio = parseFloat(localStorage.getItem('idUsuario')!);
+    this.idNegocio = this.authService.getIdUsuario()!;
     this.actualizarValores();
   }
 

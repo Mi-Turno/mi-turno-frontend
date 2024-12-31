@@ -3,13 +3,17 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http'; // Agrega `withInterceptors`
+import { AuthInterceptor } from './core/guards/auth/auth.interceptor';
+// Asegúrate de cambiar la ruta
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
-    provideHttpClient(), provideAnimationsAsync(),
+    provideHttpClient(
+      withInterceptors([AuthInterceptor]) // Aquí añades el interceptor
+    ),
   ]
 };

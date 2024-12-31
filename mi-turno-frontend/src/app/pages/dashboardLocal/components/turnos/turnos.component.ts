@@ -8,6 +8,7 @@ import { ServicioServiceService } from '../../../../core/services/servicioServic
 import { AtributosTurno } from '../../../../core/interfaces/atributos-turno';
 import { estadoTurno } from '../../../../shared/models/estadoTurnoEnum';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../../core/guards/auth/service/auth.service';
 
 @Component({
   selector: 'app-turnos',
@@ -26,6 +27,7 @@ export class TurnosComponent implements OnInit {
     ProfesionalesServiceService
   );
   servicioService: ServicioServiceService = inject(ServicioServiceService);
+  authService: AuthService = inject(AuthService);
   // Variables
   nombreCliente: string = '';
   nombreProfesional: string = '';
@@ -35,7 +37,7 @@ export class TurnosComponent implements OnInit {
   router = inject(Router);
 
   ngOnInit(): void {
-    this.idNegocio = parseFloat(localStorage.getItem('idUsuario')!);
+    this.idNegocio = this.authService.getIdUsuario()!;
     this.cargarTurnos();
     setInterval(() => {
       this.verificarEstadoTurno();
@@ -154,7 +156,7 @@ export class TurnosComponent implements OnInit {
       .replace(/\b\w/g, (char) => char.toUpperCase());
     unTurnoAux.estado = unTurno.estado!;
     //obtengo el cliente
-    this.clienteService.getClienteById(unTurno.idCliente,localStorage.getItem('token')!).subscribe({
+    this.clienteService.getClienteById(unTurno.idCliente).subscribe({
       next: (cliente) => {
         this.nombreCliente = cliente.nombre;
 

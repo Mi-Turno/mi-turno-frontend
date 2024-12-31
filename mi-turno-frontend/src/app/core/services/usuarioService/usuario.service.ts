@@ -1,8 +1,8 @@
-import { HttpBackend, HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import {  HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UsuarioInterface } from '../../interfaces/usuario-interface';
-import { ROLES } from '../../../shared/models/rolesUsuario.constants';
+
 
 @Injectable({
   providedIn: 'root'
@@ -18,19 +18,16 @@ export class UsuarioService {
 
 
   public getUsuarios(token:string): Observable<UsuarioInterface[]>{
-     const headers = new HttpHeaders({
-            'Authorization': `Bearer ${token}`
-          });
-    return this.http.get<UsuarioInterface[]>(this.urlBase,{headers});
+     /*const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          });*/
+    return this.http.get<UsuarioInterface[]>(this.urlBase,);
   }
 
   public obtenerUsuarioPorId(id:number|undefined):Observable<UsuarioInterface>{
     return this.http.get<UsuarioInterface>(`${this.urlBase}/${id}`);
   }
-
-  /*public getUsuarioByEmailAndPassword(email:string,password:string): Observable<UsuarioInterface>{
-    return this.http.post<UsuarioInterface>(`${this.urlBase}/login`,{email,password});
-  }*/
 
     //-------------JWT-------->>>>>>
 

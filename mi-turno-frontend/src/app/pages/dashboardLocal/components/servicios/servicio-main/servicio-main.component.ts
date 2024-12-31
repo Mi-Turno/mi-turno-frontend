@@ -7,6 +7,7 @@ import { ServicioServiceService } from '../../../../../core/services/servicioSer
 import { PopUpCrearServicioComponent } from '../pop-up-crear-servicio/pop-up-crear-servicio.component';
 import { NegocioServiceService } from '../../../../../core/services/negocioService/negocio-service.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../../../core/guards/auth/service/auth.service';
 
 @Component({
   selector: 'app-servicio-main',
@@ -16,6 +17,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './servicio-main.component.css'
 })
 export class ServicioMainComponent implements OnInit {
+
+  authService:AuthService = inject(AuthService);
 
   textoBoton = "Modificar";
   rutaImg = "img-default.png";
@@ -27,7 +30,7 @@ export class ServicioMainComponent implements OnInit {
   servicios: ServicioServiceService = inject(ServicioServiceService);
   idNegocio: number = 0;
   ngOnInit() {
-    this.idNegocio = parseFloat(localStorage.getItem('idUsuario')!);
+    this.idNegocio = this.authService.getIdUsuario()!;
     this.cargarServicios();
   }
   servicioNegocio: NegocioServiceService = inject(NegocioServiceService);

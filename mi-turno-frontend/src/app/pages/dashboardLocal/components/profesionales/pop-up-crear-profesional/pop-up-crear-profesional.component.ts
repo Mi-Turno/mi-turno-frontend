@@ -14,6 +14,7 @@ import { ProfesionalesServiceService } from "../../../../../core/services/profes
 import { ProfesionalInterface } from "../../../../../core/interfaces/profesional-interface";
 import { CredencialInterface } from "../../../../../core/interfaces/credencial.interface";
 import { codigoErrorHttp } from "../../../../../shared/models/httpError.constants";
+import { AuthService } from "../../../../../core/guards/auth/service/auth.service";
 
 
 @Component({
@@ -26,11 +27,17 @@ import { codigoErrorHttp } from "../../../../../shared/models/httpError.constant
 })
 export class PopUpCrearProfesionalComponent implements OnInit {
 
+//variables
+
 roles = ROLES;
 iconos = ICONOS;
 placeholders = PLACEHOLDERS;
-usuarioService = inject(ProfesionalesServiceService);
 
+//servicios
+usuarioService = inject(ProfesionalesServiceService);
+authService:AuthService = inject(AuthService);
+
+//inputs
 @Input() fotoProfesional = "img-default.png";
 @Input() textoTitulo:string = "";
 @Input() cardSeleccionada?: ProfesionalInterface | null = null;
@@ -47,7 +54,7 @@ formularioRegister = new FormGroup ({
 
 idNegocio:number= 0;
 ngOnInit(): void {
-  this.idNegocio = parseFloat(localStorage.getItem('idUsuario')!);
+  this.idNegocio = this.authService.getIdUsuario()!;;
   this.actualizarValores();
 
 }

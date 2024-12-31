@@ -1,6 +1,5 @@
 import { Component, inject, signal } from "@angular/core";
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
-import { InputComponent } from "../../../../shared/components/input/input.component";
 import { BotonComponent } from "../../../../shared/components/boton/boton.component";
 import { MatIconModule } from "@angular/material/icon";
 import { ICONOS } from "../../../../shared/models/iconos.constants";
@@ -9,10 +8,8 @@ import { PLACEHOLDERS } from "../../../../shared/models/placeholderInicioSesion.
 import { NegocioServiceService } from "../../../../core/services/negocioService/negocio-service.service";
 import { CredencialInterface } from "../../../../core/interfaces/credencial.interface";
 import { NegocioInterface } from "../../../../core/interfaces/negocio-interface";
-import { HttpErrorResponse } from "@angular/common/http";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
-import { ModalComponent } from "../../../../shared/components/modal/modal.component";
 import Swal from 'sweetalert2'
 
 @Component

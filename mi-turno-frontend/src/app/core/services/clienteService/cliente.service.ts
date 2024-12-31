@@ -14,11 +14,9 @@ export class ClienteService {
     public getClientes():Observable<ClienteInterface[]>{
         return this.http.get<ClienteInterface[]>(this.urlBase);
     }
-    public getClienteById(idCliente:number,token:string):Observable<ClienteInterface>{
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${token}`
-      });
-        return this.http.get<ClienteInterface>(`${this.urlBase}/${idCliente}`,{headers});
+    public getClienteById(idCliente:number):Observable<ClienteInterface>{
+
+        return this.http.get<ClienteInterface>(`${this.urlBase}/${idCliente}`);
     }
 
     public postCliente(cliente:ClienteInterface):Observable<ClienteInterface>{
@@ -32,11 +30,9 @@ export class ClienteService {
     }
 
 
-    public getListadoDeTurnosPorIdCliente(idCliente:number, token: string):Observable<TurnoInterface[]>{
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${token}`
-      });
-      return this.http.get<TurnoInterface[]>(`${this.urlBase}/${idCliente}/turnos`, { headers });
+    public getListadoDeTurnosPorIdCliente(idCliente:number):Observable<TurnoInterface[]>{
+
+      return this.http.get<TurnoInterface[]>(`${this.urlBase}/${idCliente}/turnos`);
     }
 
 }
