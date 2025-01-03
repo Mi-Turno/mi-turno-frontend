@@ -4,44 +4,79 @@ import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
 import { estadoTurno } from '../../models/estadoTurnoEnum';
+import { MetodosDePago } from '../../models/metodosDePago';
+import { TurnoService } from '../../../core/services/turnoService/turno.service';
+import { Inject, inject } from '@angular/core';
+import { ClienteService } from '../../../core/services/clienteService/cliente.service';
+import { ProfesionalesServiceService } from '../../../core/services/profesionalService/profesionales-service.service';
+import { ServicioServiceService } from '../../../core/services/servicioService/servicio-service.service';
+import { TurnoInterface } from '../../../core/interfaces/turno-interface';
 
-// TODO: Replace this with your own data model type
+//Modelo mostrado en la tabla
 export interface TablaTurnosItem {
   estado: estadoTurno;
   numero: number;
-  fecha:string,
-  hora:string,
-  cliente: string,
-  profesional: string,
-  servicio: string,
-  metodoPago:string, 
-  cancelar:string
+  fecha: string;
+  hora: string;
+  cliente: string;
+  profesional: string;
+  servicio: string;
+  metodoPago: string;
 }
+
 
 // TODO: replace this with real data from your application
 const EXAMPLE_DATA: TablaTurnosItem[] = [
-
-  {estado: estadoTurno.CANCELADO, numero: 1,fecha : "12/12/2012", hora: "13:30", cliente:"Carlos", profesional:"Juan", servicio: "Corte", metodoPago: "Efectivo", cancelar: "Cancelar"}
-//   {id: 1, name: 'Hydrogen'},
-//   {id: 2, name: 'Helium'},
-//   {id: 3, name: 'Lithium'},
-//   {id: 4, name: 'Beryllium'},
-//   {id: 5, name: 'Boron'},
-//   {id: 6, name: 'Carbon'},
-//   {id: 7, name: 'Nitrogen'},
-//   {id: 8, name: 'Oxygen'},
-//   {id: 9, name: 'Fluorine'},
-//   {id: 10, name: 'Neon'},
-//   {id: 11, name: 'Sodium'},
-//   {id: 12, name: 'Magnesium'},
-//   {id: 13, name: 'Aluminum'},
-//   {id: 14, name: 'Silicon'},
-//   {id: 15, name: 'Phosphorus'},
-//   {id: 16, name: 'Sulfur'},
-//   {id: 17, name: 'Chlorine'},
-//   {id: 18, name: 'Argon'},
-//   {id: 19, name: 'Potassium'},
-//   {id: 20, name: 'Calcium'},
+  {
+    estado: estadoTurno.CANCELADO,
+    numero: 1,
+    fecha: '12/11/2012',
+    hora: '12:30',
+    cliente: 'Carlos',
+    profesional: 'Juan',
+    servicio: 'Corte',
+    metodoPago: MetodosDePago.credito,
+  },
+  {
+    estado: estadoTurno.CANCELADO,
+    numero: 5,
+    fecha: '12/12/2012',
+    hora: '13:30',
+    cliente: 'jaun',
+    profesional: 'PEdor',
+    servicio: 'Barba',
+    metodoPago: MetodosDePago.debito,
+  },
+  {
+    estado: estadoTurno.COBRADO,
+    numero: 4,
+    fecha: '12/11/2012',
+    hora: '15:30',
+    cliente: 'epepe',
+    profesional: 'Rodri',
+    servicio: 'NAshe',
+    metodoPago: MetodosDePago.efectivo,
+  },
+  {
+    estado: estadoTurno.EN_CURSO,
+    numero: 3,
+    fecha: '12/20/2012',
+    hora: '14:30',
+    cliente: 'pepe',
+    profesional: 'ZA',
+    servicio: 'Burger',
+    metodoPago: MetodosDePago.mercadoPago,
+  },
+  {
+    estado: estadoTurno.LIBRE,
+    numero: 2,
+    fecha: '12/1/2012',
+    hora: '13:30',
+    cliente: 'maiche',
+    profesional: 'Misho',
+    servicio: 'Corte',
+    metodoPago: MetodosDePago.transferencia,
+  },
 ];
 
 /**
@@ -53,6 +88,11 @@ export class TablaTurnosDataSource extends DataSource<TablaTurnosItem> {
   data: TablaTurnosItem[] = EXAMPLE_DATA;
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
+
+  turnoService = inject(TurnoService);
+  clienteService = inject(ClienteService);
+  profesionalService = inject(ProfesionalesServiceService);
+  servicioService = Inject(ServicioServiceService);
 
   constructor() {
     super();
@@ -67,12 +107,19 @@ export class TablaTurnosDataSource extends DataSource<TablaTurnosItem> {
     if (this.paginator && this.sort) {
       // Combine everything that affects the rendered data into one update
       // stream for the data-table to consume.
-      return merge(observableOf(this.data), this.paginator.page, this.sort.sortChange)
-        .pipe(map(() => {
-          return this.getPagedData(this.getSortedData([...this.data ]));
-        }));
+      return merge(
+        observableOf(this.data),
+        this.paginator.page,
+        this.sort.sortChange
+      ).pipe(
+        map(() => {
+          return this.getPagedData(this.getSortedData([...this.data]));
+        })
+      );
     } else {
-      throw Error('Please set the paginator and sort on the data source before connecting.');
+      throw Error(
+        'Please set the paginator and sort on the data source before connecting.'
+      );
     }
   }
 
@@ -107,15 +154,51 @@ export class TablaTurnosDataSource extends DataSource<TablaTurnosItem> {
     return data.sort((a, b) => {
       const isAsc = this.sort?.direction === 'asc';
       switch (this.sort?.active) {
-        case 'name': return compare(a.numero, b.numero, isAsc);
-        case 'id': return compare(+a.fecha, +b.fecha, isAsc);
-        default: return 0;
+        case 'estado':
+          return compare(a.estado, b.estado, isAsc);
+        case 'numero':
+          return compare(a.numero, b.numero, isAsc);
+        case 'fecha':   return compare(new Date(a.fecha).getTime(), new Date(b.fecha).getTime(), isAsc);
+
+        case 'hora':
+          return compare(a.hora, b.hora, isAsc); // Ajustar si es necesario
+        case 'cliente':
+          return compare(
+            a.cliente.toLowerCase(),
+            b.cliente.toLowerCase(),
+            isAsc
+          );
+        case 'profesional':
+          return compare(
+            a.profesional.toLowerCase(),
+            b.profesional.toLowerCase(),
+            isAsc
+          );
+        case 'servicio':
+          return compare(
+            a.servicio.toLowerCase(),
+            b.servicio.toLowerCase(),
+            isAsc
+          );
+        case 'metodoPago':
+          return compare(a.metodoPago, b.metodoPago, isAsc);
+        default:
+          return 0;
       }
     });
-  }
-}
 
-/** Simple sort comparator for example ID/Name columns (for client-side sorting). */
-function compare(a: string | number, b: string | number, isAsc: boolean): number {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+    /** Simple sort comparator for example ID/Name columns (for client-side sorting). */
+    function compare(
+      a: string | number,
+      b: string | number,
+      isAsc: boolean
+    ): number {
+      return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+    }
+  }
+
+
+
+
+
 }
