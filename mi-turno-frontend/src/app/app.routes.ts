@@ -13,6 +13,8 @@ import { UsuariosComponent } from './pages/dashboardAdmin/components/usuarios/us
 import { authGuardFn } from './core/guards/auth/guard/auth.guard-fn';
 import { rolGuardFn } from './core/guards/auth/guard/rol.guard-fn';
 import { DashboardLocalPageComponent } from './pages/dashboardLocal/dashboard-local-page.component';
+import { TablaTurnosComponent } from './shared/components/tabla-turnos/tabla-turnos.component';
+import { TablaTurnosDataSource } from './shared/components/tabla-turnos/tabla-turnos-datasource';
 
 
 
@@ -39,7 +41,7 @@ export const routes: Routes = [{
  canActivate: [authGuardFn,()=>rolGuardFn(ROLES.negocio)],
  children : [
   {path: '', component:TurnosComponent},
-  {path: 'recepcion', component:TurnosComponent},
+  {path: 'recepcion', component:TablaTurnosComponent},
   {path: 'turnos', component:TurnosComponent},
   {path: 'staff', component:ProfesionalesMainComponent},
   {path: 'servicios', component:ServicioMainComponent},
