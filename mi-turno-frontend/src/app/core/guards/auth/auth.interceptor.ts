@@ -6,17 +6,22 @@ import { AuthService } from "./service/auth.service";
 
 export const AuthInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
   const authService = inject(AuthService);
-  const token = authService.getToken();  // Lo obtengo desde el authService
+  const token = authService.getToken(); // Obtengo el token desde el AuthService
 
-  if (token) {
+  const urlIgnoradas = ['/login', '/register'];
+
+  const ignorar = urlIgnoradas.some(url => req.url.includes(url));
+
+  if (!ignorar && token) {
     const clonedRequest = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
     });
-    return next(clonedRequest); // Si hay token, lo agrega a la solicitud y la envía
+    return next(clonedRequest);
   }
 
-  return next(req); // Si no hay token, envía la solicitud sin modificar
+  // Si se ignora, enviar la solicitud sin modificar
+  return next(req);
 };
