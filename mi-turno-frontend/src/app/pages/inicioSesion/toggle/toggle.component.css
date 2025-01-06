@@ -61,6 +61,10 @@ main {
 }
 
 
+h4{
+  margin: 0;
+}
+
 .contenedor .botonEnviar {
   background-color: #4419a8;
   color: #fff;
@@ -104,15 +108,11 @@ main {
 
 }
 
-
-
 mat-form-field{
   width: 250px;
   height: 60px;
   margin: 12px 0;
 }
-
-
 
 .form-container {
   position: absolute;

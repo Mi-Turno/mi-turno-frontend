@@ -50,22 +50,19 @@ export class ToggleComponent {
 
   mostrarLogIn() {
     this.isLogin.set(true)
-    // this.isLogin = true;
-    // const container = document.getElementById('contenedor');
-    // if (container) {
-    //   container.classList.remove('active');
-    // }
   }
 
   mostrarRegister() {
     this.isLogin.set(false)
-    // const container = document.getElementById('contenedor');
-    // if (container) {
-    //   container.classList.add('active');
-    // }
   }
 
   //-----------------------------------REGISTER-----------------------------------
+
+  handleBotonClickNashe(){
+    this.router.navigateByUrl('/verificacion-email');
+  }
+
+
   formularioRegister:FormGroup = this.fb.nonNullable.group({
     nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
@@ -117,9 +114,13 @@ export class ToggleComponent {
         next:() =>{
 
           this.mensajeRegister = "Usuario Registrado con exito!";
-          this.subMensajeRegister = "Redirigiendo a la pagina de inicio de sesion...";
-
+          this.subMensajeRegister = "Redirigiendo a la pagina de verificación...";
           this.exito.set(true); // Cambia el estado a éxito para mostrar el mensaje de éxito
+
+
+          localStorage.setItem('username',cliente.credencial.email);//Guardo el email en el local storage para poder verificarlo
+
+          this.router.navigateByUrl('/verificacion-email'); //redirigir a la pagina de verificación de email
 
 
           setTimeout(()=>{
@@ -135,11 +136,13 @@ export class ToggleComponent {
         },
         error: (error:HttpErrorResponse) =>{
 
-          if (error.error['email']) {
+          const mensaje = error.message;
+
+          if (mensaje.includes("email")) {
             // Agrega el error personalizado al FormControl
             this.formularioRegister.get('emailRegister')?.setErrors({ emailExiste: true });
           }
-          else if (error.error['telefono']) {
+          else if (mensaje.includes("telefono")) {
             this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
           }
       }
@@ -155,9 +158,6 @@ export class ToggleComponent {
 
       const cliente:ClienteInterface = this.obtenerFormRegister();
       this.postClienteToBackend(cliente);
-
-
-
 
     }else{
       //marcamos todos como tocados para que se muestren los errores
@@ -213,7 +213,7 @@ export class ToggleComponent {
 
       if(email && password) {
         //obtengo el token
-        this.usuarioService.getToken(email!, password!).subscribe({
+        this.usuarioService.getToken(email, password).subscribe({
           next: (token: string) => {
             //lo logueo
             this.auth.logIn(token);
@@ -246,13 +246,11 @@ export class ToggleComponent {
       this.formularioLogin.markAllAsTouched();
     }
   }
+
+
   //validaciones campos formularios
-
-
   tieneErrorLogin(control: string, error: string) {
-
     return (this.formularioLogin.get(control) as FormControl).hasError(error) && (this.formularioLogin.get(control) as FormControl).touched;
-
   }
 
 

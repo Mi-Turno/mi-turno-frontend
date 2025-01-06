@@ -7,9 +7,11 @@
   font-size: larger;
   text-align: center;
   width: 20rem;
+  font-weight: 500;
 }
 
 .botonPredeterminado:hover{
+
   cursor: pointer;
   background-color: var(--color-contraste2-hover);
 }

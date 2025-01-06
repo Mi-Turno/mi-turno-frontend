@@ -1,0 +1,54 @@
+<div class="area">
+  <ul class="circles">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+  </ul>
+</div>
+
+<main [className]="'container'">
+  <div [className]="'imgContainer'">
+      <img src="/Circle-icons-mail.svg" alt="Logo de correo">
+  </div>
+
+  @if (loading()) {
+    <p>Reenviando email...</p>
+  }
+  @else {
+
+    <form [formGroup]="formularioCodigo" (submit)="handleSubmit($event)" [className]="'textContainer'">
+        <h1>Verificación de correo</h1>
+
+        <label [className]="'info'" for="codigoVerificacion">Hemos enviado un correo a tu dirección de correo electrónico. Por favor, ingresa el codigo para verificar tu cuenta.</label>
+        <input formControlName="codigo"  type="text" name="codigoVerificacion" id="codigoVerificacion" placeholder="Código de verificación">
+        @if (tieneErrorFormularioCodigo('codigo', 'required')) {
+          <p [className]="'error'">{{mostrarMensajeError('required')}}</p>
+        }@else if(tieneErrorFormularioCodigo("codigo", "maxlength")){
+          <p [className]="'error'">{{mostrarMensajeError('minlegnth')}}</p>
+        }@else if(tieneErrorFormularioCodigo("codigo", "maxlength")){
+          <p [className]="'error'">{{mostrarMensajeError('maxlength')}}</p>
+        }
+
+
+        <app-boton
+        [disabled]="botonDisabled()"
+        (clickBoton)="handleClickBoton()"
+        type="submit"
+        [textoDentroBoton]="mensajeBoton()">
+      </app-boton>
+
+        <small [className]="'textoAdicional'">Si no recibiste el correo, por favor revisa tu carpeta de spam o <span [className]="'reenviarCodigo'" (click)="handleReenviarCodigo()">reenviar correo</span></small>
+      </form>
+  }
+
+
+
+
+</main>
