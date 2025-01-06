@@ -94,5 +94,7 @@ nav{
   margin-right: 7px;
 }
 
-
+a{
+  cursor: pointer;
+}
 
