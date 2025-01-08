@@ -51,31 +51,49 @@ export class VerificacionMailComponent {
 
   botonDisabled = signal(false);
   mensajeBoton = signal("Aceptar")
+  exito = signal(false);
+
 
   handleClickBoton() {
-    this.botonDisabled.set(false);
-    this.mensajeBoton.set("Enviando...");
-
-
+    console.log('Botón clickeado');
   }
 
   handleSubmit(e: Event) {
     e.preventDefault();
 
+    if (this.formularioCodigo.invalid) {
+      this.formularioCodigo.markAllAsTouched();
+      return;
+    }
 
-    this.usuarioService.verificarEmail(
-      this.obtenerVerificarUsuarioInterface()
-    ).subscribe({
+    this.botonDisabled.set(true);
+    this.mensajeBoton.set("Enviando...");
+
+    this.usuarioService.verificarEmail(this.obtenerVerificarUsuarioInterface())
+    .subscribe({
       next: (response) => {
-        this.router.navigateByUrl('/');
+
         console.log(response, "email verificado!");
+        this.exito.set(true);
+        this.mensajeBoton.set("Email verificado");
+
         localStorage.removeItem('username'); //eliminamos el email del localstorage
+        setTimeout(() => {
+
+          this.router.navigateByUrl('/');
+
+        }, 2000);
+
+
+
       },
       error: (error) => {
+        this.botonDisabled.set(false);
+        this.mensajeBoton.set("Aceptar");
         console.error('Error al verificar email:', error);
       },
     });
-    
+
   }
 
   handleReenviarCodigo() {

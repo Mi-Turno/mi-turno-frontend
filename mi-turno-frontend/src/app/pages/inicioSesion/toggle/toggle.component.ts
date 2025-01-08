@@ -67,7 +67,7 @@ export class ToggleComponent {
     nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
     emailRegister: new FormControl('', [Validators.required, Validators.email]),
-    fechaNacimiento: new FormControl('',Validators.required),
+    fechaNacimiento: new FormControl('',[Validators.required,Validators.]),
     telefono: new FormControl('', Validators.required),
     passwordRegister: new FormControl('', Validators.required),
     passwordRepetida: new FormControl('', Validators.required),
@@ -110,43 +110,44 @@ export class ToggleComponent {
 
   private postClienteToBackend(cliente:ClienteInterface):void{
 
-      this.clienteService.postCliente(cliente).subscribe({
-        next:() =>{
+    this.mensajeRegister = "Usuario Registrado con exito!";
+    this.subMensajeRegister = "Redirigiendo a la pagina de verificación...";
+    this.exito.set(true); // Cambia el estado a éxito para mostrar el mensaje de éxito
 
-          this.mensajeRegister = "Usuario Registrado con exito!";
-          this.subMensajeRegister = "Redirigiendo a la pagina de verificación...";
-          this.exito.set(true); // Cambia el estado a éxito para mostrar el mensaje de éxito
-
-
-          localStorage.setItem('username',cliente.credencial.email);//Guardo el email en el local storage para poder verificarlo
-
-          this.router.navigateByUrl('/verificacion-email'); //redirigir a la pagina de verificación de email
+    this.clienteService.postCliente(cliente).subscribe({
+      next:() =>{
 
 
-          setTimeout(()=>{
 
-            this.mostrarLogIn();
+        localStorage.setItem('username',cliente.credencial.email);//Guardo el email en el local storage para poder verificarlo
 
-            this.exito.set(false);
-            this.mensajeRegister= "Bienvenido de vuelta!";
-            this.subMensajeRegister = "Ingresa con tus datos personales";
+        this.router.navigateByUrl('/verificacion-email'); //redirigir a la pagina de verificación de email
 
-            this.limpiarCampos() //limpia los campos del formulario
-          },2500)
-        },
-        error: (error:HttpErrorResponse) =>{
 
-          const mensaje = error.message;
+        // setTimeout(()=>{
 
-          if (mensaje.includes("email")) {
-            // Agrega el error personalizado al FormControl
-            this.formularioRegister.get('emailRegister')?.setErrors({ emailExiste: true });
-          }
-          else if (mensaje.includes("telefono")) {
-            this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
-          }
-      }
-      })
+        //   this.mostrarLogIn();
+
+        //   this.exito.set(false);
+        //   this.mensajeRegister= "Bienvenido de vuelta!";
+        //   this.subMensajeRegister = "Ingresa con tus datos personales";
+
+        //   this.limpiarCampos() //limpia los campos del formulario
+        // },2500)
+      },
+      error: (error:HttpErrorResponse) =>{
+        const mensaje = error.error['mensaje'];
+        console.log(mensaje);
+
+        if (mensaje.includes("email")) {
+          // Agrega el error personalizado al FormControl
+          this.formularioRegister.get('emailRegister')?.setErrors({ emailExiste: true });
+        }
+        else if (mensaje.includes("telefono")) {
+          this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
+        }
+    }
+    })
 
   }
 
@@ -157,6 +158,7 @@ export class ToggleComponent {
     if (this.formularioRegister.valid) {
 
       const cliente:ClienteInterface = this.obtenerFormRegister();
+
       this.postClienteToBackend(cliente);
 
     }else{
@@ -259,6 +261,8 @@ export class ToggleComponent {
   mostrarMensajeError(error: string) {
 
     switch (error) {
+      case 'fechaInvalida':
+        return 'Fecha de nacimiento inválida';
       case 'required':
         return 'Campo requerido';
       case 'email':

@@ -93,6 +93,8 @@
           <mat-datepicker #picker></mat-datepicker>
           @if (tieneErrorRegister("fechaNacimiento", "required")) {
             <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+          } @else if (tieneErrorRegister("fechaNacimiento","pattern")) {
+            <mat-error>{{mostrarMensajeError('fechaInvalida')}}</mat-error>
           }
         </mat-form-field>
 

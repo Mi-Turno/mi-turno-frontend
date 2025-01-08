@@ -45,6 +45,12 @@ img{
   margin: 0;
 }
 
+.exito{
+  color: #33f153;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
 app-boton{
   margin-top: 20px;
 }

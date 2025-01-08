@@ -30,10 +30,12 @@
         <input formControlName="codigo"  type="text" name="codigoVerificacion" id="codigoVerificacion" placeholder="Código de verificación">
         @if (tieneErrorFormularioCodigo('codigo', 'required')) {
           <p [className]="'error'">{{mostrarMensajeError('required')}}</p>
-        }@else if(tieneErrorFormularioCodigo("codigo", "maxlength")){
-          <p [className]="'error'">{{mostrarMensajeError('minlegnth')}}</p>
+        }@else if(tieneErrorFormularioCodigo("codigo", "minlength")){
+          <p [className]="'error'">{{mostrarMensajeError('minlength')}}</p>
         }@else if(tieneErrorFormularioCodigo("codigo", "maxlength")){
           <p [className]="'error'">{{mostrarMensajeError('maxlength')}}</p>
+        }@else if (exito()) {
+          <p [className]="'exito'">¡Tu correo ha sido verificado exitosamente!</p>
         }
 
 
