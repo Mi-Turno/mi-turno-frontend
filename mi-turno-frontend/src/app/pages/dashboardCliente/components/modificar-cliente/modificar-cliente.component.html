@@ -1,0 +1,74 @@
+<form [formGroup]="formularioRegister">
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre</mat-label>
+    <input formControlName="nombre" matInput placeholder="Ingresa tu nombre" />
+    <mat-icon matSuffix>{{ iconos.person }}</mat-icon>
+    @if (tieneErrorRegister("nombre", "required")) {
+    <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Apellido</mat-label>
+    <input formControlName="apellido" matInput placeholder="Ingresa tu apellido" />
+    <mat-icon matSuffix>{{ iconos.person }}</mat-icon>
+    @if (tieneErrorRegister("apellido", "required")) {
+    <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input [type]="'email'" formControlName="emailRegister" matInput placeholder="Ingresa tu email" />
+    <mat-icon matSuffix>{{ iconos.email }}</mat-icon>
+    @if (tieneErrorRegister("emailRegister", "emailExiste")) {
+    <mat-error>{{mostrarMensajeError('emailExiste')}}</mat-error>
+    }
+    @else if (tieneErrorRegister("emailRegister", "required")) {
+    <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+    }
+    @else if (tieneErrorRegister("emailRegister", "email")) {
+    <mat-error>{{mostrarMensajeError('email')}}</mat-error>
+    }
+
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Fecha Nacimiento</mat-label>
+    <input formControlName="fechaNacimiento" matInput [matDatepicker]="picker" />
+    <mat-hint>dd/MM/yyyy</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    @if (tieneErrorRegister("fechaNacimiento", "required")) {
+    <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Telefono Movil</mat-label>
+    <input formControlName="telefono" matInput [placeholder]="placeholders.telefono" />
+    <mat-icon matSuffix>{{ iconos.call }}</mat-icon>
+    @if (tieneErrorRegister("telefono", "telefonoExiste")) {
+    <mat-error>{{mostrarMensajeError('telefonoExiste')}}</mat-error>
+    }
+    @else if (tieneErrorRegister("telefono", "required")) {
+    <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Contraseña</mat-label>
+    <input [id]="'passwordRegister'" formControlName="passwordRegister" matInput
+      [type]="ocultarContrasenia() ? 'password' : 'text'" />
+    <button mat-icon-button matSuffix [className]="'botonOcultarContrasenia'" (click)="ocultarContraseniaEvent($event)"
+      [attr.aria-label]="'Ocultar Contraseña'" [attr.aria-pressed]="ocultarContrasenia()">
+      <mat-icon>{{
+        ocultarContrasenia() ? "visibility_off" : "visibility"
+        }}</mat-icon>
+    </button>
+    @if (tieneErrorRegister("passwordRegister", "required")) {
+    <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+    }
+  </mat-form-field>
+
+</form>
