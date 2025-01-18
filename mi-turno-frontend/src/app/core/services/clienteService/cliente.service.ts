@@ -25,6 +25,9 @@ export class ClienteService {
     public putCliente(cliente:ClienteInterface):Observable<ClienteInterface>{
         return this.http.put<ClienteInterface>(this.urlBase,cliente);
     }
+    public patchCliente(clienteParcial: Partial<ClienteInterface>,id:number): Observable<ClienteInterface> {
+      return this.http.patch<ClienteInterface>(`${this.urlBase}/${id}`, clienteParcial);
+    }
     public deleteCliente(idCliente:number):Observable<ClienteInterface>{
         return this.http.delete<ClienteInterface>(`${this.urlBase}/${idCliente}`);
     }
