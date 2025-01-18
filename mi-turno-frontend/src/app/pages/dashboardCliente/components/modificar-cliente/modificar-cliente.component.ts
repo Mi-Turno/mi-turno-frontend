@@ -21,7 +21,7 @@ import { ClienteService } from '../../../../core/services/clienteService/cliente
   templateUrl: './modificar-cliente.component.html',
   styleUrl: './modificar-cliente.component.css'
 })
-export class ModificarClienteComponent implements OnInit {
+export class ModificarClienteComponent   {
   //servicios
   fb: FormBuilder = inject(FormBuilder)//Forms reactives
   auth: AuthService = inject(AuthService);//Para poder loguear al usuario
@@ -39,11 +39,10 @@ export class ModificarClienteComponent implements OnInit {
     apellido: new FormControl('', Validators.required),
     emailRegister: new FormControl('', [Validators.required, Validators.email]),
     fechaNacimiento: new FormControl('', Validators.required),
-    telefono: new FormControl('', Validators.required),
-    passwordRegister: new FormControl('', Validators.required),
+    //telefono: new FormControl('', Validators.required),
+    //passwordRegister: new FormControl('', Validators.required),
   });
 
-  //metodo para crear un cliente
   obtenerFormRegister(): ClienteInterface {
     const credencial: CredencialInterface = {
       email: this.formularioRegister.get('emailRegister')?.value,
@@ -61,13 +60,40 @@ export class ModificarClienteComponent implements OnInit {
     };
 
   }
-  ngOnInit(): void {
-    this.obtenerCliente();
+
+ filtrarDatos(cliente: Partial<ClienteInterface>): Partial<ClienteInterface> {
+  return {
+    ...(cliente.credencial?.email && {// Utilizamos spreed operator junto al && para que luego sobreescribimos el email que se encuentra en credencial y no chillen las interfaces por falta de recursos
+      credencial: {
+        ...cliente.credencial,
+        email: cliente.credencial.email,
+      },
+    }),
+    ...(cliente.nombre && {
+      nombre: cliente.nombre,
+      apellido: cliente.apellido,
+      fechaNacimiento: cliente.fechaNacimiento,
+    }),
+  };
+}
+
+  modificarCliente() {
+    if(this.formularioRegister.valid){
+      const clienteModificado = this.filtrarDatos(this.obtenerFormRegister());
+      this.clienteService.patchCliente(clienteModificado,this.auth.getIdUsuario()!).subscribe({
+        next: (clienteResponse: ClienteInterface) => {
+          console.dir(clienteResponse);
+        },
+        error: (error: any) => {
+          throw new Error('Error al modificar el cliente');
+        }
+      });
+
+    }
   }
   obtenerCliente() {
     this.clienteService.getClienteById(this.auth.getIdUsuario()!).subscribe({
       next: (clienteResponse: ClienteInterface) => {
-
         this.establecerDatosCliente(clienteResponse);
       },
       error: (error: any) => {
@@ -83,10 +109,11 @@ export class ModificarClienteComponent implements OnInit {
       nombre: this.auth.getNombreUsuario(),
       apellido: cliente.apellido,
       emailRegister: this.auth.getEmailUsuario(),
-      telefono: 'Ingrese su nuevo numero de telefono',
+      //telefono: 'Ingrese su nuevo numero de telefono',
       fechaNacimiento: cliente.fechaNacimiento,
-      passwordRegister: 'Ingrese su nueva contraseña',
+      //passwordRegister: 'Ingrese su nueva contraseña',
     });
+
   }
 
   //validaciones campos formularios
@@ -104,11 +131,11 @@ export class ModificarClienteComponent implements OnInit {
 
   //metodos para ocultar las contraseñas
 
-  ocultarContrasenia = signal(true);
+  /*ocultarContrasenia = signal(true);
   ocultarContraseniaEvent(event: MouseEvent) {
     this.ocultarContrasenia.set(!this.ocultarContrasenia());
     event.stopPropagation();
-  }
+  }*/
 
   mostrarMensajeError(error: string) {
 
