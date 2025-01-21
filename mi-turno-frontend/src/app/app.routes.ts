@@ -13,6 +13,7 @@ import { UsuariosComponent } from './pages/dashboardAdmin/components/usuarios/us
 import { authGuardFn } from './core/guards/auth/guard/auth.guard-fn';
 import { rolGuardFn } from './core/guards/auth/guard/rol.guard-fn';
 import { DashboardLocalPageComponent } from './pages/dashboardLocal/dashboard-local-page.component';
+import { VerificacionMailComponent } from './pages/verificacion-mail/verificacion-mail.component';
 
 
 
@@ -26,6 +27,10 @@ export const routes: Routes = [{
 {
   path:"register",
   component:ToggleComponent
+},
+{
+  path:"verificacion-email",
+  component: VerificacionMailComponent
 },
 {
   path:"dashboard-cliente",
