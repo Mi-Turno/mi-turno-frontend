@@ -67,7 +67,7 @@ export class ToggleComponent {
     nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
     emailRegister: new FormControl('', [Validators.required, Validators.email]),
-    fechaNacimiento: new FormControl('',[Validators.required,Validators.]),
+    fechaNacimiento: new FormControl('',[Validators.required]),
     telefono: new FormControl('', Validators.required),
     passwordRegister: new FormControl('', Validators.required),
     passwordRepetida: new FormControl('', Validators.required),
