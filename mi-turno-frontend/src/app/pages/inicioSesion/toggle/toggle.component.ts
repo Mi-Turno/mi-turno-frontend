@@ -219,21 +219,28 @@ export class ToggleComponent {
           next: (token: string) => {
             //lo logueo
             this.auth.logIn(token);
+
             //obtengo el rol del usuario
             const rolUsuario = this.auth.getRolUsuario();
             const nombreUsuario = this.auth.getNombreUsuario();
+
             //todo agregar el nombre del usuario
-            if ( rolUsuario == ROLES.cliente || rolUsuario == ROLES.profesional) {
-              //lo mando al DASHBOARD DE CLIENTE
-              this.router.navigateByUrl('/dashboard-cliente');
-            } else if (rolUsuario === ROLES.negocio) {
-              //lo mando al DASHBOARD DE LOCAL
-              this.router.navigateByUrl(`/negocios/${nombreUsuario}`);//es el nombre del negocio
-            } else if ( rolUsuario === ROLES.admin) {
-              //lo mando al DASHBOARD DE ADMIN
-              this.router.navigateByUrl(`/admin/${nombreUsuario}`);//es el nombre del admin
-            } else {
-              console.error('ROL INEXISTENTE');
+            switch(rolUsuario){
+              case ROLES.cliente:
+                this.router.navigateByUrl('/dashboard-cliente');
+                break;
+              case ROLES.profesional:
+                this.router.navigateByUrl('/dashboard-cliente');
+                break;
+              case ROLES.admin:
+                this.router.navigateByUrl(`/admin/${nombreUsuario}`);//es el nombre del admin
+                break;
+              case ROLES.negocio:
+                this.router.navigateByUrl(`/negocios/${nombreUsuario}`);//es el nombre del negocio
+                break;
+              default:
+                console.error('ROL INEXISTENTE');
+                break;
             }
           },
           error: (error: HttpErrorResponse) => {
@@ -244,7 +251,7 @@ export class ToggleComponent {
       }
 
     }else{
-      //marcamos todos como tocados
+      //marcamos todos como tocados para mostrar los errores
       this.formularioLogin.markAllAsTouched();
     }
   }

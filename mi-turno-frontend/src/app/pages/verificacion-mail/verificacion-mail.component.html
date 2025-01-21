@@ -14,6 +14,10 @@
 </div>
 
 <main [className]="'container'">
+  <button [className]="'flechaAtrasBoton'">
+    <img [className]="'imagenFlecha'" src="/flechaHaciaLaIzquierda.png" alt="flechaHaciaLaIzquierda" (click)="handleClickAtras()">
+  </button>
+
   <div [className]="'imgContainer'">
       <img src="/Circle-icons-mail.svg" alt="Logo de correo">
   </div>
@@ -34,6 +38,8 @@
           <p [className]="'error'">{{mostrarMensajeError('minlength')}}</p>
         }@else if(tieneErrorFormularioCodigo("codigo", "maxlength")){
           <p [className]="'error'">{{mostrarMensajeError('maxlength')}}</p>
+        }@else if(tieneErrorFormularioCodigo("codigo", "incorrect")){
+          <p [className]="'error'">{{mostrarMensajeError('incorrect')}}</p>
         }@else if (exito()) {
           <p [className]="'exito'">¡Tu correo ha sido verificado exitosamente!</p>
         }

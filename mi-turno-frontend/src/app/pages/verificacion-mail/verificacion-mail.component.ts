@@ -15,10 +15,15 @@ import { Router } from '@angular/router';
 export class VerificacionMailComponent {
 
 
+
   fb:FormBuilder = inject(FormBuilder)//Forms reactives
   loading = signal(false);
   usuarioService:UsuarioService = inject(UsuarioService);
   router:Router = inject(Router);
+
+  handleClickAtras() {
+    this.router.navigateByUrl("/login");
+  }
 
   //-----------------Formulario de verificacion de email -----------------
 
@@ -58,6 +63,7 @@ export class VerificacionMailComponent {
     console.log('Botón clickeado');
   }
 
+
   handleSubmit(e: Event) {
     e.preventDefault();
 
@@ -73,7 +79,7 @@ export class VerificacionMailComponent {
     .subscribe({
       next: (response) => {
 
-        console.log(response, "email verificado!");
+        //console.log(response, "email verificado!");
         this.exito.set(true);
         this.mensajeBoton.set("Email verificado");
 
@@ -90,6 +96,9 @@ export class VerificacionMailComponent {
       error: (error) => {
         this.botonDisabled.set(false);
         this.mensajeBoton.set("Aceptar");
+
+        this.formularioCodigo.get('codigo')?.setErrors({incorrect: true});
+
         console.error('Error al verificar email:', error);
       },
     });
@@ -121,6 +130,8 @@ export class VerificacionMailComponent {
   mostrarMensajeError(error: string) {
 
     switch (error) {
+      case 'incorrect':
+        return 'Código incorrecto';
       case 'required':
         return 'Campo requerido';
       case 'minlength':
