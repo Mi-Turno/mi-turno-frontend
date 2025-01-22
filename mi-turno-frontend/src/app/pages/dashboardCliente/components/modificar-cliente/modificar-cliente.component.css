@@ -1,0 +1,48 @@
+form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 30px;
+  border-radius: 30px;
+}
+/*.botonOcultarContrasenia{
+  background-color: transparent;
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+}*/
+
+mat-form-field{
+  width: 250px;
+  height: 60px;
+  margin: 12px 0;
+}
+a{
+  cursor: pointer;
+}
+#perfil{
+  text-align: center;
+  width: 10vw;
+  height: 10vh;
+  font-size: 10vh
+}
+#modificar{
+  background-color: #4419a8;
+  color: #fff;
+  font-size: 12px;
+  padding: 10px 45px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 10px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+#modificar:hover{
+  background-color: #512da8;
+}
+

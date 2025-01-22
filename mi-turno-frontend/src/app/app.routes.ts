@@ -15,6 +15,7 @@ import { rolGuardFn } from './core/guards/auth/guard/rol.guard-fn';
 import { DashboardLocalPageComponent } from './pages/dashboardLocal/dashboard-local-page.component';
 import { TablaTurnosComponent } from './shared/components/tabla-turnos/tabla-turnos.component';
 import { TablaTurnosDataSource } from './shared/components/tabla-turnos/tabla-turnos-datasource';
+import { VerificacionMailComponent } from './pages/verificacion-mail/verificacion-mail.component';
 
 
 
@@ -28,6 +29,10 @@ export const routes: Routes = [{
 {
   path:"register",
   component:ToggleComponent
+},
+{
+  path:"verificacion-email",
+  component: VerificacionMailComponent
 },
 {
   path:"dashboard-cliente",

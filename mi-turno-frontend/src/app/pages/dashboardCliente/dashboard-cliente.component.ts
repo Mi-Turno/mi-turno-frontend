@@ -12,6 +12,7 @@ import { TablaTurnosComponent } from './components/tabla-turnos/tabla-turnos.com
 import { ModalComponent } from "../../shared/components/modal/modal.component";
 import { ElegirNegocioComponent } from "./components/elegir-negocio/elegir-negocio.component";
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../../core/guards/auth/service/auth.service';
 
 
 
@@ -35,14 +36,13 @@ export class DashboardClienteComponent implements OnInit{
   //servicios
   servicioNegocio: NegocioServiceService = inject(NegocioServiceService);
   servicioCliente: ClienteService = inject(ClienteService);
-
+  authService: AuthService = inject(AuthService);
 
   //variables
   modalLevantado:boolean = false;
   clienteActual:ClienteInterface = {} as ClienteInterface;
-
   ngOnInit(): void {
-    this.idCliente = parseFloat(localStorage.getItem('idUsuario')!);
+    this.idCliente = this.authService.getIdUsuario()!;
     this.obtenerInfo()
   }
 

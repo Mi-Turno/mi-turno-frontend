@@ -8,6 +8,7 @@ import { UsuarioInterface } from "../../../../../core/interfaces/usuario-interfa
 import { ProfesionalesServiceService } from "../../../../../core/services/profesionalService/profesionales-service.service"
 import { ActivatedRoute } from "@angular/router"
 import { NegocioServiceService } from "../../../../../core/services/negocioService/negocio-service.service"
+import { AuthService } from "../../../../../core/guards/auth/service/auth.service"
 
 @Component({
   selector: 'app-profesionales-main',
@@ -18,7 +19,7 @@ import { NegocioServiceService } from "../../../../../core/services/negocioServi
 })
 export class ProfesionalesMainComponent implements OnInit {
 
-
+  authService: AuthService = inject(AuthService);
 
   nombre = "Juan"
   especialidad = "Profesional"
@@ -61,7 +62,7 @@ export class ProfesionalesMainComponent implements OnInit {
   constructor(private ruta: ActivatedRoute) { }
   idNegocio: number = 0;
   ngOnInit() {
-    this.idNegocio = parseFloat(localStorage.getItem('idUsuario')!);
+    this.idNegocio = this.authService.getIdUsuario()!;
     this.cargarUsuarios();
 
   }

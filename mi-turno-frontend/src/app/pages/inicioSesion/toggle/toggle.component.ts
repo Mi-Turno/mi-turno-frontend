@@ -50,19 +50,10 @@ export class ToggleComponent {
 
   mostrarLogIn() {
     this.isLogin.set(true)
-    // this.isLogin = true;
-    // const container = document.getElementById('contenedor');
-    // if (container) {
-    //   container.classList.remove('active');
-    // }
   }
 
   mostrarRegister() {
     this.isLogin.set(false)
-    // const container = document.getElementById('contenedor');
-    // if (container) {
-    //   container.classList.add('active');
-    // }
   }
 
   //-----------------------------------REGISTER-----------------------------------
@@ -70,7 +61,7 @@ export class ToggleComponent {
     nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
     emailRegister: new FormControl('', [Validators.required, Validators.email]),
-    fechaNacimiento: new FormControl('',Validators.required),
+    fechaNacimiento: new FormControl('',[Validators.required]),
     telefono: new FormControl('', Validators.required),
     passwordRegister: new FormControl('', Validators.required),
     passwordRepetida: new FormControl('', Validators.required),
@@ -113,37 +104,44 @@ export class ToggleComponent {
 
   private postClienteToBackend(cliente:ClienteInterface):void{
 
-      this.clienteService.postCliente(cliente).subscribe({
-        next:() =>{
+    this.mensajeRegister = "Usuario Registrado con exito!";
+    this.subMensajeRegister = "Redirigiendo a la pagina de verificación...";
+    this.exito.set(true); // Cambia el estado a éxito para mostrar el mensaje de éxito
 
-          this.mensajeRegister = "Usuario Registrado con exito!";
-          this.subMensajeRegister = "Redirigiendo a la pagina de inicio de sesion...";
-
-          this.exito.set(true); // Cambia el estado a éxito para mostrar el mensaje de éxito
+    this.clienteService.postCliente(cliente).subscribe({
+      next:() =>{
 
 
-          setTimeout(()=>{
 
-            this.mostrarLogIn();
+        localStorage.setItem('username',cliente.credencial.email);//Guardo el email en el local storage para poder verificarlo
 
-            this.exito.set(false);
-            this.mensajeRegister= "Bienvenido de vuelta!";
-            this.subMensajeRegister = "Ingresa con tus datos personales";
+        this.router.navigateByUrl('/verificacion-email'); //redirigir a la pagina de verificación de email
 
-            this.limpiarCampos() //limpia los campos del formulario
-          },2500)
-        },
-        error: (error:HttpErrorResponse) =>{
 
-          if (error.error['email']) {
-            // Agrega el error personalizado al FormControl
-            this.formularioRegister.get('emailRegister')?.setErrors({ emailExiste: true });
-          }
-          else if (error.error['telefono']) {
-            this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
-          }
-      }
-      })
+        // setTimeout(()=>{
+
+        //   this.mostrarLogIn();
+
+        //   this.exito.set(false);
+        //   this.mensajeRegister= "Bienvenido de vuelta!";
+        //   this.subMensajeRegister = "Ingresa con tus datos personales";
+
+        //   this.limpiarCampos() //limpia los campos del formulario
+        // },2500)
+      },
+      error: (error:HttpErrorResponse) =>{
+        const mensaje = error.error['mensaje'];
+        console.log(mensaje);
+
+        if (mensaje.includes("email")) {
+          // Agrega el error personalizado al FormControl
+          this.formularioRegister.get('emailRegister')?.setErrors({ emailExiste: true });
+        }
+        else if (mensaje.includes("telefono")) {
+          this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
+        }
+    }
+    })
 
   }
 
@@ -154,10 +152,8 @@ export class ToggleComponent {
     if (this.formularioRegister.valid) {
 
       const cliente:ClienteInterface = this.obtenerFormRegister();
+
       this.postClienteToBackend(cliente);
-
-
-
 
     }else{
       //marcamos todos como tocados para que se muestren los errores
@@ -212,22 +208,33 @@ export class ToggleComponent {
       const {email, password} = this.obtenerDatosFormLogin();
 
       if(email && password) {
-
-        this.usuarioService.getUsuarioByEmailAndPassword(email, password).subscribe({
-          next: (usuarioResponse: UsuarioInterface) => {
+        //obtengo el token
+        this.usuarioService.getToken(email, password).subscribe({
+          next: (token: string) => {
             //lo logueo
-            this.auth.logIn(usuarioResponse.idUsuario!.toString(),usuarioResponse.rolUsuario);
-            if ( usuarioResponse.rolUsuario == ROLES.cliente || usuarioResponse.rolUsuario == ROLES.profesional) {
-              //lo mando al DASHBOARD DE CLIENTE
-              this.router.navigateByUrl('/dashboard-cliente');
-            } else if (usuarioResponse.rolUsuario === ROLES.negocio) {
-              //lo mando al DASHBOARD DE LOCAL
-              this.router.navigateByUrl(`/negocios/${usuarioResponse.nombre}`);//es el nombre del negocio
-            } else if ( usuarioResponse.rolUsuario === ROLES.admin) {
-              //lo mando al DASHBOARD DE ADMIN
-              this.router.navigateByUrl(`/admin/${usuarioResponse.idUsuario}`);
-            } else {
-              console.error('ROL INEXISTENTE');
+            this.auth.logIn(token);
+
+            //obtengo el rol del usuario
+            const rolUsuario = this.auth.getRolUsuario();
+            const nombreUsuario = this.auth.getNombreUsuario();
+
+            //todo agregar el nombre del usuario
+            switch(rolUsuario){
+              case ROLES.cliente:
+                this.router.navigateByUrl('/dashboard-cliente');
+                break;
+              case ROLES.profesional:
+                this.router.navigateByUrl('/dashboard-cliente');
+                break;
+              case ROLES.admin:
+                this.router.navigateByUrl(`/admin/${nombreUsuario}`);//es el nombre del admin
+                break;
+              case ROLES.negocio:
+                this.router.navigateByUrl(`/negocios/${nombreUsuario}`);//es el nombre del negocio
+                break;
+              default:
+                console.error('ROL INEXISTENTE');
+                break;
             }
           },
           error: (error: HttpErrorResponse) => {
@@ -238,17 +245,15 @@ export class ToggleComponent {
       }
 
     }else{
-      //marcamos todos como tocados
+      //marcamos todos como tocados para mostrar los errores
       this.formularioLogin.markAllAsTouched();
     }
   }
+
+
   //validaciones campos formularios
-
-
   tieneErrorLogin(control: string, error: string) {
-
     return (this.formularioLogin.get(control) as FormControl).hasError(error) && (this.formularioLogin.get(control) as FormControl).touched;
-
   }
 
 
@@ -257,6 +262,8 @@ export class ToggleComponent {
   mostrarMensajeError(error: string) {
 
     switch (error) {
+      case 'fechaInvalida':
+        return 'Fecha de nacimiento inválida';
       case 'required':
         return 'Campo requerido';
       case 'email':

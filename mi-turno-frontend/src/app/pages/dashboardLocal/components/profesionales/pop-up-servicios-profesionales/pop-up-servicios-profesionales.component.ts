@@ -8,6 +8,7 @@ import { ServicioServiceService } from "../../../../../core/services/servicioSer
 import { ServicioInterface } from "../../../../../core/interfaces/servicio-interface";
 import { NegocioServiceService } from "../../../../../core/services/negocioService/negocio-service.service";
 import { ProfesionalesServiceService } from "../../../../../core/services/profesionalService/profesionales-service.service";
+import { AuthService } from '../../../../../core/guards/auth/service/auth.service';
 
 
 @Component({
@@ -18,17 +19,22 @@ import { ProfesionalesServiceService } from "../../../../../core/services/profes
   styleUrl: './pop-up-servicios-profesionales.component.css',
 })
 export class PopUpServiciosProfesionalesComponent implements OnInit, OnChanges {
-  @Input() profesional: ProfesionalInterface | null = null;
 
-  servicioService = inject(ServicioServiceService);
-
+  //variables
   nombreProfesional: string | undefined = '';
-
   idCards: ServicioInterface[] = [];
   maxCards = 6;
   cardSeleccionada: ServicioInterface | null = null;
-  servicios: ServicioServiceService = inject(ServicioServiceService);
+  idNegocio: number = 0;
 
+  //servicios
+  servicioService = inject(ServicioServiceService);
+  servicios: ServicioServiceService = inject(ServicioServiceService);
+  servicioNegocio: NegocioServiceService = inject(NegocioServiceService);
+  servicioProfesional: ProfesionalesServiceService = inject(ProfesionalesServiceService);
+  authService: AuthService = inject(AuthService);
+  //inputs
+  @Input() profesional: ProfesionalInterface | null = null;
   ngOnInit() {
     this.cargarServicios();
     this.nombreProfesional = this.profesional?.nombre;
@@ -37,16 +43,10 @@ export class PopUpServiciosProfesionalesComponent implements OnInit, OnChanges {
     this.cargarServicios();
   }
 
-  servicioNegocio: NegocioServiceService = inject(NegocioServiceService);
-  servicioProfesional: ProfesionalesServiceService = inject(
-    ProfesionalesServiceService
-  );
-
-  idNegocio: number = 0;
 
   cargarServicios() {
 
-    this.idNegocio = parseFloat(localStorage.getItem('idUsuario')!) ;
+    this.idNegocio = this.authService.getIdUsuario()!; ;
       this.servicioNegocio.getNegocioById(this.idNegocio).subscribe({
         next: (responseNegocio) => {
           this.servicios.getServiciosPorIdNegocioYEstado(this.idNegocio, 'true')

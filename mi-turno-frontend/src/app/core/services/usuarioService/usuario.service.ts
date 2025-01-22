@@ -1,8 +1,9 @@
-import { HttpBackend, HttpClient, HttpParams } from '@angular/common/http';
+import {  HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UsuarioInterface } from '../../interfaces/usuario-interface';
-import { ROLES } from '../../../shared/models/rolesUsuario.constants';
+import { VerificarUsuarioInterface } from '../../interfaces/verificar-usuario.interface';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,26 +11,41 @@ import { ROLES } from '../../../shared/models/rolesUsuario.constants';
 export class UsuarioService {
 
   private urlBase: string = 'http://localhost:8080/usuarios';
+  private urlAuth: string = 'http://localhost:8080/auth';
   private http: HttpClient= inject(HttpClient);
 
 
   usuario:UsuarioInterface ={} as UsuarioInterface;
 
 
-  public getUsuarios(): Observable<UsuarioInterface[]>{
-    return this.http.get<UsuarioInterface[]>(this.urlBase);
+  public getUsuarios(token:string): Observable<UsuarioInterface[]>{
+     /*const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          });*/
+    return this.http.get<UsuarioInterface[]>(this.urlBase,);
+  }
+
+  public verificarEmail(verificarUsuarioRequest: VerificarUsuarioInterface):Observable<string>{
+    return this.http.post<string>(`${this.urlAuth}/verificar`,verificarUsuarioRequest);
+  }
+
+  public reenviarCodigoDeVerificacion(emailAReenviar: string):Observable<string>{
+    return this.http.post<string>(`${this.urlAuth}/reenviar`,emailAReenviar);
   }
 
   public obtenerUsuarioPorId(id:number|undefined):Observable<UsuarioInterface>{
     return this.http.get<UsuarioInterface>(`${this.urlBase}/${id}`);
   }
 
-  public getUsuarioByEmailAndPassword(email:string,password:string): Observable<UsuarioInterface>{
-    return this.http.post<UsuarioInterface>(`${this.urlBase}/login`,{email,password});
-  }
+    //-------------JWT-------->>>>>>
 
+  public getToken(email:string,password:string): Observable<string>{
+    return this.http.post<string>(`${this.urlAuth}/login`,{email,password},{ responseType: 'text' as 'json' });
+  }
+  //--------------------------->>>>>>
   public postUsuario(usuario:UsuarioInterface):Observable<UsuarioInterface>{
-    return this.http.post<UsuarioInterface>(this.urlBase,usuario)
+    return this.http.post<UsuarioInterface>(`${this.urlBase}/register`,usuario)
   };
 
   public putUsuario(id: number, usuario:UsuarioInterface):Observable<UsuarioInterface>{

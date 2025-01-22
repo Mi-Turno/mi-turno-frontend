@@ -6,14 +6,23 @@
   <ul>
     <li><app-boton [routerLink]="'/dashboard-cliente'" [class]="claseBoton" [textoDentroBoton]="'Historial de Turnos'"></app-boton></li>
     <li><app-boton [class]="claseBoton" [textoDentroBoton]="'Cerrar sesion'" (click)="clearLocalStorage()"></app-boton></li>
-    <li>
+    <li (click)="abrirModal()">
       @if (!imagenUsuario) {
         <mat-icon>{{iconos.perfil}}</mat-icon>
       }@else {
         <img [src]="imagenUsuario" alt="imagen de usuario">
       }
     </li>
-
+    @if (modalLevantado) {
+      <app-modal [modal]="'modalSeleccionarNegocio'" (cerrarModal)="cerrarModal()"><!--TODO MODIFICAR EL MODALSELECCIOANRNEGOCIO POR UNO ESPECIFICO DE CLIENTE-->
+        <ng-container modal-header>
+          <h5 [className]="'tituloModal'">Modificar perfil de {{nombreCliente}}</h5>
+        </ng-container>
+        <ng-container modal-content>
+          <app-modificar-cliente></app-modificar-cliente>
+        </ng-container>
+      </app-modal>
+    }
 
   </ul>
 

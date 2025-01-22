@@ -10,6 +10,7 @@ import { ClienteService } from '../../../../core/services/clienteService/cliente
 import { TurnoService } from '../../../../core/services/turnoService/turno.service';
 import { estadoTurno } from '../../../../shared/models/estadoTurnoEnum';
 import { forkJoin, map, Observable, switchMap } from 'rxjs';
+import { AuthService } from '../../../../core/guards/auth/service/auth.service';
 
 
 interface mostrarTurnosInterface {
@@ -35,14 +36,16 @@ interface mostrarTurnosInterface {
 })
 export class TablaTurnosComponent implements OnInit {
 
-  //atributos
+  //variables
   idCliente: number = 0;
   estado = estadoTurno;
+
   //servicios
   servicioServicios: ServicioServiceService = inject(ServicioServiceService);
   servicioProfesional: ProfesionalesServiceService = inject(ProfesionalesServiceService);
   turnoService: TurnoService = inject(TurnoService);
   servicioCliente: ClienteService = inject(ClienteService);
+  authService: AuthService = inject(AuthService);
   //arreglos
   @Input() listadoNegocios: NegocioInterface[] = [];
   listadoTurnos: TurnoInterface[] = [];
@@ -51,7 +54,7 @@ export class TablaTurnosComponent implements OnInit {
   //constructor
   constructor(private cdr: ChangeDetectorRef) { }
   ngOnInit(): void {
-    this.idCliente = parseFloat(localStorage.getItem('idUsuario')!);
+    this.idCliente = this.authService.getIdUsuario()!;
     this.setearTurnos();
 
   }
