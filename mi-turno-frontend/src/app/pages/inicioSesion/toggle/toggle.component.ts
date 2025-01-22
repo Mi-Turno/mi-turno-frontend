@@ -57,12 +57,6 @@ export class ToggleComponent {
   }
 
   //-----------------------------------REGISTER-----------------------------------
-
-  handleBotonClickNashe(){
-    this.router.navigateByUrl('/verificacion-email');
-  }
-
-
   formularioRegister:FormGroup = this.fb.nonNullable.group({
     nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
