@@ -1,0 +1,107 @@
+
+<div class="mat-elevation-z2 tabla-turnos">
+
+
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar" #input>
+  </mat-form-field>
+  <table mat-table class="full-width-table" matSort aria-label="Elements">
+    <!-- Estado Column -->
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+      <td mat-cell *matCellDef="let row">
+
+        <span [ngClass]="{
+          'estado-cancelado': row.estado === estado.CANCELADO,
+          'estado-en-curso': row.estado === estado.EN_CURSO,
+          'estado-reservada': row.estado === estado.RESERVADO,
+          'estado-cobrado': row.estado === estado.COBRADO,
+          'estado-libre': row.estado === estado.LIBRE
+        }">
+      {{
+        row.estado === estado.CANCELADO ? 'Cancelado' :
+        row.estado === estado.EN_CURSO ? 'En curso' :
+        row.estado === estado.RESERVADO ? 'Reservado' :
+        row.estado === estado.COBRADO ? 'Cobrado' :
+        row.estado === estado.LIBRE ? 'Libre' :
+        'Estado desconocido'
+      }}
+    </span>
+
+      </td>
+    </ng-container>
+
+    <!-- Numero Column -->
+    <ng-container matColumnDef="numero">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Numero</th>
+      <td mat-cell *matCellDef="let row">{{row.numero}}</td>
+    </ng-container>
+
+        <!-- Fecha Column -->
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+          <td mat-cell *matCellDef="let row">{{row.fecha}}</td>
+        </ng-container>
+
+            <!-- Hora Column -->
+    <ng-container matColumnDef="hora">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Hora</th>
+      <td mat-cell *matCellDef="let row">{{row.hora}}</td>
+    </ng-container>
+
+        <!-- Cliente Column -->
+        <ng-container matColumnDef="cliente">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</th>
+          <td mat-cell *matCellDef="let row">{{row.cliente}}</td>
+        </ng-container>
+
+            <!-- Profesional Column -->
+    <ng-container matColumnDef="profesional">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Profesional</th>
+      <td mat-cell *matCellDef="let row">{{row.profesional}}</td>
+    </ng-container>
+
+        <!-- Servicio Column -->
+        <ng-container matColumnDef="servicio">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Servicio</th>
+          <td mat-cell *matCellDef="let row">{{row.servicio}}</td>
+        </ng-container>
+
+            <!-- Metodo De Pago Column -->
+    <ng-container matColumnDef="metodoPago">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Metodo Pago</th>
+      <td mat-cell *matCellDef="let row">{{row.metodoPago}}</td>
+    </ng-container>
+
+        <!-- Cancelar Column -->
+        <ng-container matColumnDef="cancelar">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Cancelar</th>
+          <td mat-cell *matCellDef="let row">
+
+            <button class="btn-cancelar" (click)="cambiarEstado(idNegocio, row)"
+            [disabled]="row.estado === estado.COBRADO || row.estado === estado.CANCELADO">
+            {{
+              row.estado === estado.EN_CURSO ? 'Cobrar' :
+              row.estado === estado.RESERVADO ? 'Cancelar' :
+              row.estado === estado.COBRADO ? 'Cobrado' :
+              'Cancelar'
+            }}
+             </button>
+
+
+
+          </td>
+        </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator #paginator
+      [length]="dataSource.data.length"
+      [pageIndex]="0"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 20]"
+      aria-label="Select page">
+  </mat-paginator>
+</div>
