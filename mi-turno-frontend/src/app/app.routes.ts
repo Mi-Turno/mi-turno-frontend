@@ -45,7 +45,7 @@ export const routes: Routes = [{
  component:DashboardLocalPageComponent,
  canActivate: [authGuardFn,()=>rolGuardFn(ROLES.negocio)],
  children : [
-  {path: '', component:TurnosComponent},
+  {path: '',  component:TurnosComponent},
   {path: 'recepcion', component:TablaTurnosComponent},
   {path: 'turnos', component:TurnosComponent},
   {path: 'staff', component:ProfesionalesMainComponent},

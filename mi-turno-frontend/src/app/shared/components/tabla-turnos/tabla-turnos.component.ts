@@ -5,7 +5,7 @@ import {
   inject,
   ViewChild,
 } from '@angular/core';
-import { MatTableModule, MatTable } from '@angular/material/table';
+import { MatTableModule, MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import {
@@ -21,13 +21,15 @@ import { MetodosDePago } from '../../models/metodosDePago';
 import { ProfesionalesServiceService } from '../../../core/services/profesionalService/profesionales-service.service';
 import { ServicioServiceService } from '../../../core/services/servicioService/servicio-service.service';
 import { Router } from '@angular/router';
+import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-tabla-turnos',
   templateUrl: './tabla-turnos.component.html',
   styleUrl: './tabla-turnos.component.css',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule, CommonModule],
+  imports: [MatTableModule, MatPaginatorModule, MatSortModule, CommonModule,     MatFormFieldModule, MatInputModule],
 })
 export class TablaTurnosComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -40,6 +42,8 @@ export class TablaTurnosComponent implements AfterViewInit {
   router = inject(Router);
   servicioService = Inject(ServicioServiceService);
   estado = estadoTurno;
+  funteInfo!: MatTableDataSource<TablaTurnosItem>;
+
 
   idNegocio = 0;
   turnos: TurnoInterface[] = [];
@@ -78,6 +82,8 @@ export class TablaTurnosComponent implements AfterViewInit {
 
     const urlSegments = this.router.url.split('/'); // Divide la URL en segmentos
     this.segmento = urlSegments[urlSegments.length - 1]; // Obtiene el último segmento
+    this.funteInfo = new MatTableDataSource(this.dataSource.data);
+
   }
 
   //Filtros para los estados
@@ -249,4 +255,15 @@ export class TablaTurnosComponent implements AfterViewInit {
       return a.hora.localeCompare(b.hora);
     });
   }
+
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.funteInfo.filter = filterValue.trim().toLowerCase();
+    this.table.dataSource = this.funteInfo;
+    if (this.funteInfo.paginator) {
+      this.funteInfo.paginator.firstPage();
+    }
+  }
+
 }

@@ -1,6 +1,10 @@
 
 <div class="mat-elevation-z2 tabla-turnos">
 
+
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar" #input>
+  </mat-form-field>
   <table mat-table class="full-width-table" matSort aria-label="Elements">
     <!-- Estado Column -->
     <ng-container matColumnDef="estado">
