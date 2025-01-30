@@ -10,7 +10,10 @@ export class AuthService {
 
   estoyLogueado: boolean = false;
 
-  constructor(private route: Router) {}
+  constructor(private route: Router) {
+    this.estoyLogueado = !!localStorage.getItem('token'); // Si existe el token, estoy logueado
+
+  }
 
   logIn(token: string): void {
     localStorage.setItem('token', token);
