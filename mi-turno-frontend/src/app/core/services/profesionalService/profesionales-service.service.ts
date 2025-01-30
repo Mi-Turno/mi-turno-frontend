@@ -27,7 +27,7 @@ export class ProfesionalesServiceService {
     return this.http.get<TurnoInterface[]>(`${this.urlBase}/${idNegocio}/profesionales/${idProfesional}/turnos`);
   }
 
-  public GETserviciosPorIdNegocioYEstado(idNegocio:number, estado:string):Observable<ProfesionalInterface[]>{
+  public GETProfesionalesPorIdNegocioYEstado(idNegocio:number, estado:string):Observable<ProfesionalInterface[]>{
     return this.http.get<ProfesionalInterface[]>(`${this.urlBase}/${idNegocio}/profesionales/estado/${estado}`);
 }
 

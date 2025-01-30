@@ -3,6 +3,7 @@ import {
   Component,
   Inject,
   inject,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { MatTableModule, MatTable, MatTableDataSource } from '@angular/material/table';
@@ -23,6 +24,7 @@ import { ServicioServiceService } from '../../../core/services/servicioService/s
 import { Router } from '@angular/router';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { AuthService } from '../../../core/guards/auth/service/auth.service';
 
 @Component({
   selector: 'app-tabla-turnos',
@@ -31,16 +33,17 @@ import { MatInputModule } from '@angular/material/input';
   standalone: true,
   imports: [MatTableModule, MatPaginatorModule, MatSortModule, CommonModule,     MatFormFieldModule, MatInputModule],
 })
-export class TablaTurnosComponent implements AfterViewInit {
+export class TablaTurnosComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<TablaTurnosItem>;
   dataSource = new TablaTurnosDataSource();
-  turnoService = inject(TurnoService);
+  turnoService: TurnoService = inject(TurnoService);
   clienteService = inject(ClienteService);
   profesionalService = inject(ProfesionalesServiceService);
   router = inject(Router);
-  servicioService = Inject(ServicioServiceService);
+authService: AuthService = inject(AuthService);
+servicioService = inject(ServicioServiceService);
   estado = estadoTurno;
   funteInfo!: MatTableDataSource<TablaTurnosItem>;
 
@@ -67,7 +70,12 @@ export class TablaTurnosComponent implements AfterViewInit {
     'cancelar',
   ];
 
+  ngOnInit(): void {
+
+    this.idNegocio = this.authService.getIdUsuario()!;
+  }
   ngAfterViewInit(): void {
+
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
@@ -75,7 +83,7 @@ export class TablaTurnosComponent implements AfterViewInit {
     //Verifico el estado por primera vez
     this.verificarEstadoTurno();
     //  Se configura el intervalo para chequar de manera recurrente
-    this.idNegocio = parseFloat(localStorage.getItem('idUsuario')!);
+
     setInterval(() => {
       this.verificarEstadoTurno();
     }, 30000);
@@ -84,19 +92,10 @@ export class TablaTurnosComponent implements AfterViewInit {
     this.segmento = urlSegments[urlSegments.length - 1]; // Obtiene el último segmento
     this.funteInfo = new MatTableDataSource(this.dataSource.data);
 
+
   }
 
-  //Filtros para los estados
-  cambiarEstado(idNegocio?: number, turno?: TablaTurnosItem) {
-    if (idNegocio && turno) {
-      if (turno.estado == estadoTurno.EN_CURSO) {
-        turno.estado = estadoTurno.COBRADO;
-      } else if (turno.estado == estadoTurno.RESERVADO) {
-        turno.estado = estadoTurno.CANCELADO;
-      }
-    }
-    this.modificarEstado(turno!, idNegocio!);
-  }
+
 
   modificarEstado(turno: TablaTurnosItem, idNegocio: number) {
     if (turno) {
@@ -112,7 +111,6 @@ export class TablaTurnosComponent implements AfterViewInit {
         });
     }
   }
-
   //Funciones para cambiar los estados segun la hora
   verificarEstadoTurno() {
     this.dataSource.data.forEach((turno) => {
@@ -153,6 +151,7 @@ export class TablaTurnosComponent implements AfterViewInit {
 
   cargarTurnos() {
     this.turnoService.getTurnos(this.idNegocio).subscribe({
+
       next: (turnosResponse: TurnoInterface[]) => {
         this.turnos = [...turnosResponse];
         this.turnos.forEach((unTurno) => {
@@ -166,6 +165,7 @@ export class TablaTurnosComponent implements AfterViewInit {
   }
 
   settearAtributosTurno(unTurno: TurnoInterface) {
+
     const unTurnoAux: TablaTurnosItem = {
       numero: 0,
       cliente: '',
@@ -199,6 +199,7 @@ export class TablaTurnosComponent implements AfterViewInit {
             next: (profesional) => {
               this.nombreProfesional = profesional.nombre;
 
+
               this.servicioService
                 .getServicioPorIdNegocio(this.idNegocio, unTurno.idServicio)
                 .subscribe({
@@ -221,6 +222,9 @@ export class TablaTurnosComponent implements AfterViewInit {
                       this.turnoTabla
                     );
                     this.dataSource.data = this.turnoTabla;
+                    this.dataSource.actualizarDatos();
+
+
                   },
                   error: (error: Error) => {
                     console.error(error);
@@ -266,4 +270,15 @@ export class TablaTurnosComponent implements AfterViewInit {
     }
   }
 
+    //Filtros para los estados
+    cambiarEstado(idNegocio?: number, turno?: TablaTurnosItem) {
+      if (idNegocio && turno) {
+        if (turno.estado == estadoTurno.EN_CURSO) {
+          turno.estado = estadoTurno.COBRADO;
+        } else if (turno.estado == estadoTurno.RESERVADO) {
+          turno.estado = estadoTurno.CANCELADO;
+        }
+      }
+      this.modificarEstado(turno!, idNegocio!);
+    }
 }
