@@ -72,18 +72,15 @@ export class ProfesionalesMainComponent implements OnInit {
 
     this.ruta.parent?.params.subscribe(params => {
       const nombreNegocio = params['nombreNegocio'];
-
-
-
       //obtengo el arreglo de profesionales del negocio y lo guardo en la variable profesionales
-      this.profesionales.GETserviciosPorIdNegocioYEstado(this.idNegocio, "true").subscribe({
+      this.profesionales.GETProfesionalesPorIdNegocioYEstado(this.idNegocio, "true").subscribe({
         next: (profesionales) => {
           this.idCards = [...profesionales];
+          console.log(this.idCards);
         }, error: (error) => {
           console.log(error);
         }
       });
-
     });
 
     /*this.profesionales.getProfesionalesPorIdNegocio(1).subscribe({
@@ -103,6 +100,8 @@ export class ProfesionalesMainComponent implements OnInit {
 
   recibirCardActual(card: UsuarioInterface) {
     this.cardActual = card; // Almacena el valor recibido en cardActual
+    this.cargarUsuarios();
+    console.log("Nashe");
   }
 
 

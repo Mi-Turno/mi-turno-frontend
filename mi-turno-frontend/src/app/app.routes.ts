@@ -4,7 +4,6 @@ import { ProfesionalesMainComponent } from './pages/dashboardLocal/components/pr
 import { ServicioMainComponent } from './pages/dashboardLocal/components/servicios/servicio-main/servicio-main.component';
 import { DashboardClienteComponent } from './pages/dashboardCliente/dashboard-cliente.component';
 import { ROLES } from './shared/models/rolesUsuario.constants';
-import { TurnosComponent } from './pages/dashboardLocal/components/turnos/turnos.component';
 import { ToggleComponent } from './pages/inicioSesion/toggle/toggle.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { RegistrarNegocioComponent } from './pages/dashboardAdmin/components/registrar-negocio/registrar-negocio.component';
@@ -45,9 +44,9 @@ export const routes: Routes = [{
  component:DashboardLocalPageComponent,
  canActivate: [authGuardFn,()=>rolGuardFn(ROLES.negocio)],
  children : [
-  {path: '',  component:TurnosComponent},
+  { path: '', redirectTo: 'recepcion', pathMatch: 'full' },
   {path: 'recepcion', component:TablaTurnosComponent},
-  {path: 'turnos', component:TurnosComponent},
+  {path: 'turnos', component:TablaTurnosComponent},
   {path: 'staff', component:ProfesionalesMainComponent},
   {path: 'servicios', component:ServicioMainComponent},
   {path: 'clientes', component:DashboardLocalPageComponent},

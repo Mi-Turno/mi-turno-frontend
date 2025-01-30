@@ -25,67 +25,15 @@ export interface TablaTurnosItem {
 }
 
 
-// TODO: replace this with real data from your application
-const EXAMPLE_DATA: TablaTurnosItem[] = [
-  {
-    estado: estadoTurno.CANCELADO,
-    numero: 1,
-    fecha: '12/11/2012',
-    hora: '12:30',
-    cliente: 'Carlos',
-    profesional: 'Juan',
-    servicio: 'Corte',
-    metodoPago: MetodosDePago.credito,
-  },
-  {
-    estado: estadoTurno.CANCELADO,
-    numero: 5,
-    fecha: '12/12/2012',
-    hora: '13:30',
-    cliente: 'jaun',
-    profesional: 'PEdor',
-    servicio: 'Barba',
-    metodoPago: MetodosDePago.debito,
-  },
-  {
-    estado: estadoTurno.COBRADO,
-    numero: 4,
-    fecha: '12/11/2012',
-    hora: '15:30',
-    cliente: 'epepe',
-    profesional: 'Rodri',
-    servicio: 'NAshe',
-    metodoPago: MetodosDePago.efectivo,
-  },
-  {
-    estado: estadoTurno.EN_CURSO,
-    numero: 3,
-    fecha: '12/20/2012',
-    hora: '14:30',
-    cliente: 'pepe',
-    profesional: 'ZA',
-    servicio: 'Burger',
-    metodoPago: MetodosDePago.mercadoPago,
-  },
-  {
-    estado: estadoTurno.LIBRE,
-    numero: 2,
-    fecha: '12/1/2012',
-    hora: '13:30',
-    cliente: 'maiche',
-    profesional: 'Misho',
-    servicio: 'Corte',
-    metodoPago: MetodosDePago.transferencia,
-  },
-];
-
 /**
  * Data source for the TablaTurnos view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
 export class TablaTurnosDataSource extends DataSource<TablaTurnosItem> {
-  data: TablaTurnosItem[] = EXAMPLE_DATA;
+
+
+  data: TablaTurnosItem[] = [];
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
 
@@ -98,6 +46,15 @@ export class TablaTurnosDataSource extends DataSource<TablaTurnosItem> {
     super();
   }
 
+
+
+  actualizarDatos() {
+    if(this.sort){
+      this.sort.sortChange.next({ active: this.sort.active, direction: this.sort.direction });
+    }
+  }
+
+
   /**
    * Connect this data source to the table. The table will only update when
    * the returned stream emits new items.
@@ -107,6 +64,7 @@ export class TablaTurnosDataSource extends DataSource<TablaTurnosItem> {
     if (this.paginator && this.sort) {
       // Combine everything that affects the rendered data into one update
       // stream for the data-table to consume.
+
       return merge(
         observableOf(this.data),
         this.paginator.page,
@@ -147,6 +105,7 @@ export class TablaTurnosDataSource extends DataSource<TablaTurnosItem> {
    * this would be replaced by requesting the appropriate data from the server.
    */
   private getSortedData(data: TablaTurnosItem[]): TablaTurnosItem[] {
+
     if (!this.sort || !this.sort.active || this.sort.direction === '') {
       return data;
     }
