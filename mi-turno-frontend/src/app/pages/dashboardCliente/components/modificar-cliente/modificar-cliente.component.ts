@@ -35,10 +35,10 @@ export class ModificarClienteComponent   {
 
   //-----------------------------------MODIFICAR-----------------------------------
   formularioRegister: FormGroup = this.fb.nonNullable.group({
-    nombre: new FormControl('', Validators.required),
-    apellido: new FormControl('', Validators.required),
-    emailRegister: new FormControl('', [Validators.required, Validators.email]),
-    fechaNacimiento: new FormControl('', Validators.required),
+    nombre: new FormControl(''),
+    apellido: new FormControl(''),
+    emailRegister: new FormControl('', [ Validators.email]),
+    fechaNacimiento: new FormControl(''),
     //telefono: new FormControl('', Validators.required),
     //passwordRegister: new FormControl('', Validators.required),
   });
