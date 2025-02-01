@@ -1,0 +1,13 @@
+@if (arregloProfesionales.length ===0) {
+  <p>No hay profesionales disponibles</p>
+}@else {
+
+  @for (card of arregloProfesionales; track $index) {
+    <app-card
+    [titulo]="card.nombre"
+    [texto]="card.apellido"
+    [textoBoton]="'Seleccionar'"
+    [guardarInformacion]="card.idUsuario"
+    (emitirInformacion)="enviarIdInformacion($event)"></app-card>
+  }
+}

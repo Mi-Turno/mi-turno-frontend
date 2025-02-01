@@ -16,7 +16,7 @@ import { ICONOS } from "../../shared/models/iconos.constants";
 })
 export class DashboardLocalPageComponent {
   estaSobrepuesto: boolean = false;
-texto = "Hacer reserva";
+  texto = "Hacer reserva";
   constructor(private ruta:ActivatedRoute){}
   nombreNegocio:string = "";
   ngOnInit(): void {

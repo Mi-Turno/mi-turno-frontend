@@ -104,30 +104,32 @@ export class ToggleComponent {
 
   private postClienteToBackend(cliente:ClienteInterface):void{
 
-    this.mensajeRegister = "Usuario Registrado con exito!";
-    this.subMensajeRegister = "Redirigiendo a la pagina de verificación...";
-    this.exito.set(true); // Cambia el estado a éxito para mostrar el mensaje de éxito
 
     this.clienteService.postCliente(cliente).subscribe({
       next:() =>{
 
+        this.mensajeRegister = "Usuario Registrado con exito!";
+        this.subMensajeRegister = "Redirigiendo a la pagina de verificación...";
+        this.exito.set(true); // Cambia el estado a éxito para mostrar el mensaje de éxito
 
 
         localStorage.setItem('username',cliente.credencial.email);//Guardo el email en el local storage para poder verificarlo
 
-        this.router.navigateByUrl('/verificacion-email'); //redirigir a la pagina de verificación de email
+        setTimeout(()=>{
+
+          this.router.navigateByUrl('/verificacion-email'); //redirigir a la pagina de verificación de email
+
+          this.exito.set(false);
+          this.mensajeRegister= "Bienvenido de vuelta!";
+          this.subMensajeRegister = "Ingresa con tus datos personales";
+
+          this.limpiarCampos() //limpia los campos del formulario
+
+         },2000)
 
 
-        // setTimeout(()=>{
 
-        //   this.mostrarLogIn();
 
-        //   this.exito.set(false);
-        //   this.mensajeRegister= "Bienvenido de vuelta!";
-        //   this.subMensajeRegister = "Ingresa con tus datos personales";
-
-        //   this.limpiarCampos() //limpia los campos del formulario
-        // },2500)
       },
       error: (error:HttpErrorResponse) =>{
         const mensaje = error.error['mensaje'];
@@ -238,7 +240,10 @@ export class ToggleComponent {
             }
           },
           error: (error: HttpErrorResponse) => {
-            console.error(error);
+            
+            const mensaje = error.error;
+            // Agrega el error personalizado al FormControl
+            this.formularioLogin.get('passwordLogin')?.setErrors({ emailOContraseniaIncorrectos: true });
           }
 
         })
@@ -280,6 +285,8 @@ export class ToggleComponent {
         return 'Debe contener al menos una letra y un número';
       case 'passwordsDiferentes':
         return 'Las contraseñas no coinciden';
+      case 'emailOContraseniaIncorrectos':
+        return 'Email o Contraseña incorrectos'
       default:
         return 'Error';
     }

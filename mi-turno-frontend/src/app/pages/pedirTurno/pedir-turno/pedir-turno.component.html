@@ -5,50 +5,61 @@
 
   <app-nav-pasos [pasoActual]="pasoActual" (cambiarPaso)="irAPaso($event)"></app-nav-pasos>
 
-@if (idNegocio === -1) {
-<h1 [className]="'mensajeError'">El negocio no existe</h1>
-}
-@else {
-
-  @switch (pasoActual) {
-    @case (1) {
-
-      <!--pegarle al backend y que me muestre los servicios del negocio en el que esta-->
-      <app-seleccion-usuario
-      [pasoActualSeleccion]="pasoActual"
-      (emitirInformacion)="recibirIdInformacion($event)"
-      [idNegocio]="idNegocio"
-      ></app-seleccion-usuario>
-    
-    }
-    @case (2) {
-      <app-seleccion-usuario
-      [pasoActualSeleccion]="pasoActual"
-      (emitirInformacion)="recibirIdInformacion($event)"
-      [idNegocio]="idNegocio"
-      [idServicio]="turno.idServicio"
-      ></app-seleccion-usuario>
-
-    }
-    @case (3) {
-      <app-seleccion-usuario
-      [pasoActualSeleccion]="pasoActual"
-      (emitirHorarioProfesionalSeleccionado)="recibirHorarioProfesional($event)"
-      (emitirDiaInicio)="recibirDiaInicio($event)"
-      [idNegocio]="idNegocio"
-      [idProfesional]="turno.horarioProfesional.idProfesional"
-      ></app-seleccion-usuario>
-
-    }
-    @case (4) {
-      <app-metodo-pago
-      (emitirInformacion)="recibirIdInformacion($event)"></app-metodo-pago>
-    }
-    @case (5) {
-      <app-confirmacion [turnoCreado]="turno" (oscurecerFondo)="manejadorOscurecer($event)"></app-confirmacion>
-      <!-- [idCliente]="idCliente" [idNegocio]="idNegocio" [idServicio]="turno.idServicio" [idProfesional]="turno.horarioProfesional.idProfesional" -->
-    }
+  <main [className]="'main'">
+  @if (idNegocio === -1) {
+  <h1 [className]="'mensajeError'">El negocio no existe</h1>
   }
+  @else {
 
-}
+
+
+      @switch (pasoActual) {
+        @case (1) {
+
+          <app-seleccion-servicio
+          [idNegocio]="idNegocio"
+          (idServicioSeleccionado)="recibirIdInformacion($event)"
+          ></app-seleccion-servicio>
+
+
+          <!--pegarle al backend y que me muestre los servicios del negocio en el que esta-->
+          <!-- <app-seleccion-usuario
+          [pasoActualSeleccion]="pasoActual"
+          (emitirInformacion)="recibirIdInformacion($event)"
+          [idNegocio]="idNegocio"
+          ></app-seleccion-usuario> -->
+
+        }
+        @case (2) {
+
+          <app-seleccion-profesional
+            [idNegocio]="idNegocio"
+            [idServicio]="turno.idServicio"
+            (idProfesionalSeleccionado)="recibirIdInformacion($event)"
+          ></app-seleccion-profesional>
+        }
+        @case (3) {
+
+          <app-calendario-horario-profesional
+          [idDelProfesional]="turno.horarioProfesional.idProfesional"
+          [idNegocio]="idNegocio"
+          (emitirInformacion)="recibirHorarioProfesional($event)"
+          (emitirDiaInicio)="recibirDiaInicio($event)"
+        ></app-calendario-horario-profesional>
+
+        }
+        @case (4) {
+          <app-metodo-pago
+          (emitirInformacion)="recibirIdInformacion($event)"></app-metodo-pago>
+        }
+        @case (5) {
+          <app-confirmacion [turnoCreado]="turno" (oscurecerFondo)="manejadorOscurecer($event)"></app-confirmacion>
+          <!-- [idCliente]="idCliente" [idNegocio]="idNegocio" [idServicio]="turno.idServicio" [idProfesional]="turno.horarioProfesional.idProfesional" -->
+        }@default {
+          <p>No hay datos</p>
+        }
+      }
+
+    }
+  </main>
 </div>

@@ -7,3 +7,10 @@
 .mensajeError{
   text-align: center;
 }
+
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
