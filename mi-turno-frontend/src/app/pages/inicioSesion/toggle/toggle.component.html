@@ -232,6 +232,8 @@
           </button>
           @if (tieneErrorLogin("passwordLogin", "required")) {
             <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+          }@else if (tieneErrorLogin("passwordLogin", "emailOContraseniaIncorrectos")) {
+            <mat-error>{{mostrarMensajeError('emailOContraseniaIncorrectos')}}</mat-error>
           }
         </mat-form-field>
 
