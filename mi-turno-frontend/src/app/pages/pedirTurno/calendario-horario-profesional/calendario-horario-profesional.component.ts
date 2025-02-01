@@ -138,8 +138,9 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
                 // Verificamos si el horario coincide con un turno existente
                 return (
                   fechaTurno.getDate() === this.fechaInicioTurnoSeleccionado.getDate() &&
-                  horaInicio === horaTurno && minutosInicio === minutosTurno
-                   ||     (this.fechaInicioTurnoSeleccionado.toDateString() === fechaActual.toDateString() &&
+                  horaInicio === horaTurno &&
+                  minutosInicio === minutosTurno ||
+                  (this.fechaInicioTurnoSeleccionado.toDateString() === fechaActual.toDateString() &&
                    unHorario.horaInicio < horaFormateada))
               });
 
@@ -228,6 +229,7 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
   //calculamos la fecha minima para el input date para que no se pueda seleccionar un dia anterior al de 2 dias despues de la fecha actual
   calcularFechaMinima(): string {
     const fechaMinima = new Date();
+
     fechaMinima.setDate(fechaMinima.getDate() + 2);
     this.diaDeLaSemanaSeleccionado = -1;//para que no se seleccione el dia HOY
     return fechaMinima.toISOString().split('T')[0];
