@@ -55,6 +55,8 @@
         @case (5) {
           <app-confirmacion [turnoCreado]="turno" (oscurecerFondo)="manejadorOscurecer($event)"></app-confirmacion>
           <!-- [idCliente]="idCliente" [idNegocio]="idNegocio" [idServicio]="turno.idServicio" [idProfesional]="turno.horarioProfesional.idProfesional" -->
+        }@default {
+          <p>No hay datos</p>
         }
       }
 

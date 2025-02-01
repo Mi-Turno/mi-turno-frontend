@@ -6,14 +6,9 @@ import { NavPedirTurnoComponent } from "../nav-pedir-turno/nav-pedir-turno.compo
 import { NavPasosComponent } from "../nav-pasos/nav-pasos.component";
 import { MetodosDePago, obtenerMetodosDePagoPorNumero } from '../../../shared/models/metodosDePago';
 import { ConfirmacionComponent } from '../confirmacion/confirmacion.component';
-import { SeleccionUsuarioComponent } from "../seleccion-usuario/seleccion-usuario.component";
-import { ServicioInterface } from '../../../core/interfaces/servicio-interface';
-import { ProfesionalInterface } from '../../../core/interfaces/profesional-interface';
 import { NegocioServiceService } from '../../../core/services/negocioService/negocio-service.service';
 import { MetodoPagoComponent } from "../metodo-pago/metodo-pago.component";
-import { MetodosDePagoServiceService } from '../../../core/services/metodosDePago/metodos-de-pago-service.service';
-import { HorarioXprofesionalService } from '../../../core/services/horariosProfesionalService/horarioProfesional.service';
-import { DiasEnum, DiasEnumOrdinal } from '../../../shared/models/diasEnum';
+import { DiasEnum } from '../../../shared/models/diasEnum';
 import { HorarioProfesional } from '../../../core/interfaces/horarioProfesional.interface';
 import { SeleccionServicioComponent } from "../seleccion-servicio/seleccion-servicio.component";
 import { SeleccionProfesionalComponent } from "../seleccion-profesional/seleccion-profesional.component";
@@ -23,7 +18,7 @@ import { CalendarioHorarioProfesionalComponent } from "../calendario-horario-pro
 @Component({
   selector: 'app-pedir-turno',
   standalone: true,
-  imports: [CommonModule, NavPedirTurnoComponent, NavPasosComponent, ConfirmacionComponent, SeleccionUsuarioComponent, MetodoPagoComponent, SeleccionServicioComponent, SeleccionProfesionalComponent, CalendarioHorarioProfesionalComponent],
+  imports: [CommonModule, NavPedirTurnoComponent, NavPasosComponent, ConfirmacionComponent, MetodoPagoComponent, SeleccionServicioComponent, SeleccionProfesionalComponent, CalendarioHorarioProfesionalComponent],
   templateUrl: './pedir-turno.component.html',
   styleUrl: './pedir-turno.component.css'
 })
@@ -108,7 +103,7 @@ export class PedirTurnoComponent implements OnInit{
   recibirDiaInicio(event:Date){
     this.turno.fechaInicio = event;
   }
-  
+
   //-----------
 
   recibirIdInformacion(event:number){
