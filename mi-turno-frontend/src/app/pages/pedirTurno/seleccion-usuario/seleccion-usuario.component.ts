@@ -37,7 +37,7 @@ export class SeleccionUsuarioComponent implements OnInit{
 
   //arreglos
   arregloServicios:ServicioInterface[] = [];
-  arregloProfesionales:ProfesionalInterface[] = [];
+
 
   //init
   ngOnInit(): void {
@@ -46,7 +46,7 @@ export class SeleccionUsuarioComponent implements OnInit{
 
     //lo verifico asi no hago una peticion de mas y ademas tengo el id del servicio para mostrar los profesionales que lo brindan
     if(this.idServicio!=-1){
-      this.obtenerProfesionalesPorIdNegocioYIdServicio(this.idNegocio,this.idServicio);
+      //this.obtenerProfesionalesPorIdNegocioYIdServicio(this.idNegocio,this.idServicio);
     }
 
   }
@@ -72,26 +72,14 @@ export class SeleccionUsuarioComponent implements OnInit{
   }
 
 
-  obtenerProfesionalesPorIdNegocioYIdServicio(idNegocio:number, idServicio:number){
-    //obtengo el arreglo de profesionales del negocio y lo guardo en la variable profesionales
-    this.servicioServicios.getListadoDeProfesionalesPorIdServicioYIdNegocio(idServicio,idNegocio).subscribe({
-      next: (profesionales) => {
 
-        this.arregloProfesionales = profesionales
-      },error: (error) => {
-        console.log(error);
-      }
-
-    });
-
-  }
   //variables
 
   enviarIdInformacion(e:number) {
     if(this.pasoActualSeleccion==1){
       //me quedo con el id del servicio para mostrar los profesionales que lo brindan
       this.idServicio=e;
-      this.obtenerProfesionalesPorIdNegocioYIdServicio(this.idNegocio,e);
+      //this.obtenerProfesionalesPorIdNegocioYIdServicio(this.idNegocio,e);
     }
 
    if(this.pasoActualSeleccion==2){

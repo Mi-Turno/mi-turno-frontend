@@ -4,45 +4,14 @@
 
   @case (1) {
 
-    @if (arregloServicios.length ===0) {
-      <p>No hay servicios disponibles</p>
-    }@else {
 
-      @for (card of arregloServicios; track $index) {
-        <app-card
-        [titulo]="card.nombre"
-        [texto]="card.duracion + ' minutos'"
-        [textoSecundario]="'$'+card.precio"
-        [textoBoton]="'Seleccionar'"
-        [guardarInformacion]="card.idServicio"
-        (emitirInformacion)="enviarIdInformacion($event)"></app-card>
-      }
-    }
   }
   @case (2) {
 
-    @if (arregloProfesionales.length ===0) {
-      <p>No hay profesionales disponibles</p>
-    }@else {
-
-      @for (card of arregloProfesionales; track $index) {
-        <app-card
-        [titulo]="card.nombre"
-        [texto]="card.apellido"
-        [textoBoton]="'Seleccionar'"
-        [guardarInformacion]="card.idUsuario"
-        (emitirInformacion)="enviarIdInformacion($event)"></app-card>
-      }
-    }
 
   }
   @case (3) {
-    <app-calendario-horario-profesional
-    [idDelProfesional]="idProfesional"
-    [idNegocio]="idNegocio"
-    (emitirInformacion)="enviarHorarioProfesional($event)"
-    (emitirDiaInicio)="enviarDiaInicio($event)"
-    ></app-calendario-horario-profesional>
+    
 
   }
   @default {

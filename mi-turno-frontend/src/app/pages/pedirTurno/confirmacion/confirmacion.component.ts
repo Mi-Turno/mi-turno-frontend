@@ -86,6 +86,7 @@ export class ConfirmacionComponent implements OnInit {
     this.settearMostrarInfo();
 
   }
+
   settearMostrarInfo() {
     this.servicioTexto = this.servicio.nombre;
     this.profesionalTexto = this.profesional.nombre;

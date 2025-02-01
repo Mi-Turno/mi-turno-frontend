@@ -22,7 +22,7 @@ export class SideBarComponent {
 
   @Input() nombreNegocio = "";
   @Output() salir:EventEmitter<boolean>= new EventEmitter();
-@Input() botones: { texto: string; icono: string; ruta: string; }[]= [];
+  @Input() botones: { texto: string; icono: string; ruta: string; }[]= [];
   @Input() urlBaseNegocio: string = '';
   cerrarSesionEstado:boolean = false;
   rutaSalir = 'salir';
