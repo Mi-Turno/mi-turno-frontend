@@ -8,9 +8,12 @@ import { Observable, of as observableOf, merge } from 'rxjs';
 export interface TablaClientesItem {
   id: string;
   nombre: string;
+  apellido: string;
   correo: string;
   telefono: string;
   rol: string;
+  fechaNacimiento:string;
+  estado: boolean
 }
 
 /**

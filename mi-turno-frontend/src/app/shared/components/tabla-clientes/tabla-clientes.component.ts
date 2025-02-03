@@ -15,6 +15,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { UsuarioService } from '../../../core/services/usuarioService/usuario.service';
 import { UsuarioInterface } from '../../../core/interfaces/usuario-interface';
 import { MatInputModule } from '@angular/material/input';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tabla-clientes',
@@ -39,18 +40,21 @@ export class TablaClientesComponent implements AfterViewInit {
   informacionUsuarios!: MatTableDataSource<TablaClientesItem>;
   usuarios: TablaClientesItem[] = [];
   token: string = '';
+  segmento: string = "";
   usuarioService: UsuarioService = inject(UsuarioService);
+  router:Router = inject(Router);
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'nombre', 'correo', 'telefono', 'rol', 'acciones'];
+  displayedColumns = ['id', 'nombre','apellido', 'correo','telefono','fechaNacimiento',  'rol','estado', 'acciones'];
 
   ngAfterViewInit(): void {
     this.funteInfo = new MatTableDataSource(this.dataSource.data);
     this.funteInfo.sort = this.sort;
     this.funteInfo.paginator = this.paginator;
     this.table.dataSource = this.funteInfo;
-
-
   }
+
+
+  estadoMuestra = false;
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -64,7 +68,21 @@ export class TablaClientesComponent implements AfterViewInit {
   ngOnInit(): void {
     this.token = localStorage.getItem('token')!;
     this.cargarTabla();
+
+
+    this.confirmarTabla()
+
   }
+
+  //Esta función renderiza la tabla según lo que se tenga que mostrar en cada pagina 
+confirmarTabla(){
+  const urlSegments = this.router.url.split('/'); // Divide la URL en segmentos
+  this.segmento = urlSegments[urlSegments.length - 1]; // Obtiene el último segmento
+  if(this.segmento == "clientes"){
+    this.displayedColumns = ['id', 'nombre','apellido', 'correo','telefono','fechaNacimiento','acciones']
+  }
+}
+
 
   cargarTabla() {
     this.usuarioService.getUsuarios(this.token).subscribe({
@@ -73,9 +91,12 @@ export class TablaClientesComponent implements AfterViewInit {
           return {
             id: usuario.idUsuario?.toString() || '',
             nombre: usuario.nombre,
+            apellido:usuario.apellido,
             correo: usuario.credencial.email,
             telefono: usuario.credencial.telefono,
             rol: usuario.rolUsuario,
+            fechaNacimiento:usuario.fechaNacimiento,
+            estado:usuario.credencial.estado
           };
         });
         //this.dataSource.data = this.usuarios;

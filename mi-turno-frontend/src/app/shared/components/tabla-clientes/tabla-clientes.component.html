@@ -17,6 +17,12 @@
       <td mat-cell *matCellDef="let row" class="custom-cell">{{row.nombre}}</td>
     </ng-container>
 
+        <!-- Name Column -->
+        <ng-container matColumnDef="apellido">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Apellido</th>
+          <td mat-cell *matCellDef="let row" class="custom-cell">{{row.apellido}}</td>
+        </ng-container>
+
         <!-- Correo Column -->
         <ng-container matColumnDef="correo">
           <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Correo</th>
@@ -32,10 +38,24 @@
 
 
         <!-- ROL Column -->
-        <ng-container matColumnDef="rol">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Rol</th>
-          <td mat-cell *matCellDef="let row" class="custom-cell">{{row.rol}}</td>
-        </ng-container>
+
+
+           <ng-container matColumnDef="rol" >
+             <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Rol</th>
+             <td mat-cell *matCellDef="let row" class="custom-cell">{{row.rol}}</td>
+            </ng-container>
+
+            <!-- Name Column -->
+    <ng-container matColumnDef="fechaNacimiento">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Fecha Nacimiento</th>
+      <td mat-cell *matCellDef="let row" class="custom-cell">{{row.fechaNacimiento}}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Estado</th>
+      <td mat-cell *matCellDef="let row" class="custom-cell">{{row.estado}}</td>
+    </ng-container>
 
     <!-- Acciones Column -->
     <ng-container matColumnDef="acciones">
