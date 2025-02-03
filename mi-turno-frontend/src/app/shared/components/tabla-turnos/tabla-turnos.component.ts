@@ -42,8 +42,8 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
   clienteService = inject(ClienteService);
   profesionalService = inject(ProfesionalesServiceService);
   router = inject(Router);
-authService: AuthService = inject(AuthService);
-servicioService = inject(ServicioServiceService);
+  authService: AuthService = inject(AuthService);
+  servicioService = inject(ServicioServiceService);
   estado = estadoTurno;
   funteInfo!: MatTableDataSource<TablaTurnosItem>;
 
@@ -222,7 +222,9 @@ servicioService = inject(ServicioServiceService);
                       this.turnoTabla
                     );
                     this.dataSource.data = this.turnoTabla;
-                    this.dataSource.actualizarDatos();
+                     this.dataSource.actualizarDatos();
+                    //TODO: Verificar si esta solución mejora todo
+                    // this.funteInfo.data = this.turnoTabla;
 
 
                   },

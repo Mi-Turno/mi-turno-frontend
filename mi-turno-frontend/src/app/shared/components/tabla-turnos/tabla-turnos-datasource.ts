@@ -37,11 +37,6 @@ export class TablaTurnosDataSource extends DataSource<TablaTurnosItem> {
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
 
-  turnoService = inject(TurnoService);
-  clienteService = inject(ClienteService);
-  profesionalService = inject(ProfesionalesServiceService);
-  servicioService = Inject(ServicioServiceService);
-
   constructor() {
     super();
   }

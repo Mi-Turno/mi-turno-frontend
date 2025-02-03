@@ -2,8 +2,8 @@
 <div class="mat-elevation-z2 tabla-turnos">
 
 
-  <mat-form-field>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar" #input>
+  <mat-form-field class="filtrado">
+    <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar" #input class="filter-input">
   </mat-form-field>
   <table mat-table class="full-width-table" matSort aria-label="Elements">
     <!-- Estado Column -->
@@ -97,11 +97,14 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <mat-paginator #paginator
-      [length]="dataSource.data.length"
-      [pageIndex]="0"
-      [pageSize]="10"
-      [pageSizeOptions]="[5, 10, 20]"
-      aria-label="Select page">
+  <div class="paginador">
+
+    <mat-paginator #paginator
+    [length]="dataSource.data.length"
+    [pageIndex]="0"
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 20]"
+    aria-label="Select page">
   </mat-paginator>
+</div>
 </div>
