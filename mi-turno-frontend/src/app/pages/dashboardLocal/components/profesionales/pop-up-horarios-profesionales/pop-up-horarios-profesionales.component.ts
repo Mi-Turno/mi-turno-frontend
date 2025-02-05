@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, inject, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, inject, Input, OnInit, Output, signal } from "@angular/core";
 import { HorariosComponent } from "../../horarios/horarios.component";
 import { BotonComponent } from "../../../../../shared/components/boton/boton.component";
 import { MatIcon } from "@angular/material/icon";
@@ -61,7 +61,12 @@ export class PopUpHorariosProfesionalesComponent implements OnInit {
             this.horariosProfesional.obtenerHorariosPorIdProfesionalYDia(this.profesional.idNegocio!, this.profesional.idUsuario!, indiceDia).subscribe({
               next: (response) => {
                 if(response){
-                  this.horariosActuales[dia] = response.sort((a,b) => a.horaInicio.toString().localeCompare(b.horaInicio.toString()));
+                  if(response.length > 0||response != null||response != undefined){
+                    this.horariosActuales[dia] = response.sort((a,b) => a.horaInicio.toString().localeCompare(b.horaInicio.toString()));
+                  }else{
+                    console.log(`No hay horarios para el día ${dia}`);
+                  }
+
                 }
 
               },

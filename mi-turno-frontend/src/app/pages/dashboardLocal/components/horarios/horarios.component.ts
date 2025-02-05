@@ -3,7 +3,7 @@
 //todo: Hay que hacer que cuando el arreglo este con elementos, no se pueda desmarcar el toggle
 
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
+import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, signal, SimpleChanges } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatIcon } from "@angular/material/icon";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
@@ -38,7 +38,7 @@ ngOnChanges(changes: SimpleChanges): void {
   if (changes['horarios'] && this.horarios.length > 0) {
     this.toggleActivo = true;
   }
-  this.actualizarHorarios.emit();
+
 }
 
 cambiarToggle(){
@@ -105,14 +105,14 @@ crearHorario(horarioNuevo: string): HorarioProfesional {
     if(nuevoHorario){
      const horario = this.crearHorario(nuevoHorario)
       this.postHorarioToBackend(horario);
-      this.actualizarHorarios.emit()
+
     }
   }
   private postHorarioToBackend(horario:any):void{
     try {
       this.horarioService.postHorariosPorProfesional(this.profesional?.idNegocio!, this.profesional?.idUsuario!, horario).subscribe({
         next:(horario: HorarioProfesional) =>{
-
+          this.actualizarHorarios.emit()
         },
         error:(error)=>{
           console.log(error);
@@ -130,7 +130,7 @@ crearHorario(horarioNuevo: string): HorarioProfesional {
     try{
       this.horarioService.deleteHorarioDeProfesional(this.profesional?.idNegocio!, this.profesional?.idUsuario!, idServicio!).subscribe({
         next:(response: any) => {
-
+          this.actualizarHorarios.emit()
         },
         error:(error: Error) => {
           console.log(error);

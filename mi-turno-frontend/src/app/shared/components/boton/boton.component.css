@@ -39,6 +39,7 @@
 
 .botonConfirmar{
   background-color: var( --color-contraste1);
+  cursor: pointer;
   color: var(--color-background);
   border: none;
   border-radius: 0.4rem;
@@ -48,9 +49,15 @@
   width: 20rem;
 }
 
+.botonConfirmar:hover{
+
+  background-color: var(--color-confirmar-hover);
+}
+
 
 .botonExtra{
   background-color: var( --color-contraste2);
+  cursor: pointer;
   color: var(--color-background);
   border: none;
   border-radius: 0.4rem;
@@ -60,9 +67,13 @@
   width: 15rem;
 }
 
+.botonExtra:hover{
 
+  background-color: var(--color-contraste2-hover);
+}
 .botonEliminar{
   background-color: var( --color-eliminar1);
+  cursor: pointer;
   color: var(--color-background);
   border: none;
   border-radius: 0.4rem;
@@ -72,9 +83,14 @@
   width: 8rem;
 }
 
+.botonEliminar:hover{
+  background-color: var(--color-eliminar1-hover);
+}
+
 
 .botonConfirmarHorarios {
   background-color: var( --color-contraste1);
+  cursor: pointer;
   color: var(--color-background);
   border: none;
   border-radius: 0.4rem;
@@ -85,8 +101,14 @@
   margin-top:20px;
 }
 
+.botonConfirmarHorarios:hover{
+
+  background-color: var(--color-confirmar-hover);
+}
+
 .botonHorario{
   width: 200px;
+  cursor: pointer;
   background-color: var(--color-contraste1);
   color: var(--color-background);
   font-size: larger;
@@ -97,7 +119,7 @@
 }
 
 .botonHorario:hover{
-  cursor: pointer;
+
   background-color: rgb(40, 180, 40)
 }
 
