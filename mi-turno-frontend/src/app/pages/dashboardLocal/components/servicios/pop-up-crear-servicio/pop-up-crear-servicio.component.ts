@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, inject, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, inject, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { BotonComponent } from "../../../../../shared/components/boton/boton.component";
 import { InputComponent } from "../../../../../shared/components/input/input.component";
 import { MatIcon, MatIconModule } from "@angular/material/icon";
@@ -14,6 +14,7 @@ import { Router } from "@angular/router";
 import { HttpErrorResponse } from "@angular/common/http";
 import { codigoErrorHttp } from "../../../../../shared/models/httpError.constants";
 import { AuthService } from '../../../../../core/guards/auth/service/auth.service';
+import { ModalPreguntaComponent } from "../../../../../shared/components/modal-pregunta/modal-pregunta.component";
 
 @Component({
   selector: 'app-pop-up-crear-servicio',
@@ -25,7 +26,8 @@ import { AuthService } from '../../../../../core/guards/auth/service/auth.servic
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    ModalPreguntaComponent
   ],
   templateUrl: './pop-up-crear-servicio.component.html',
   styleUrl: './pop-up-crear-servicio.component.css',
@@ -150,6 +152,22 @@ export class PopUpCrearServicioComponent implements OnInit {
       }
     }
   }
+
+//Eliminar Servicio
+@ViewChild(ModalPreguntaComponent) modalPregunta!: ModalPreguntaComponent;
+preguntaEliminar = "¿Desea eliminar el servicio " + this.cardSeleccionada?.nombre + "?";
+abrirModal(){
+  this.modalPregunta.openDialog();
+}
+
+manejarRespuesta(respuesta: boolean){
+  console.log(respuesta);
+  if (!respuesta) {
+    this.eliminarServicio(this.cardSeleccionada?.idServicio,this.cardSeleccionada?.idNegocio)
+  } else {
+    console.log("No quiere cerra");
+  }
+}
 
   eliminarServicio(idServicio: number | undefined, idNegocio: number | undefined) {
 

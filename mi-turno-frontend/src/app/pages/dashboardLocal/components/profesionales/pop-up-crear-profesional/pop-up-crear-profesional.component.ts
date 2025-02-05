@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, inject, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, inject, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { provideNativeDateAdapter } from "@angular/material/core";
 import { BotonComponent } from "../../../../../shared/components/boton/boton.component";
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -15,13 +15,14 @@ import { ProfesionalInterface } from "../../../../../core/interfaces/profesional
 import { CredencialInterface } from "../../../../../core/interfaces/credencial.interface";
 import { codigoErrorHttp } from "../../../../../shared/models/httpError.constants";
 import { AuthService } from "../../../../../core/guards/auth/service/auth.service";
+import { ModalPreguntaComponent } from "../../../../../shared/components/modal-pregunta/modal-pregunta.component";
 
 
 @Component({
   selector: 'app-pop-up-crear-profesional',
   standalone: true,
   providers: [provideNativeDateAdapter()],
-  imports: [CommonModule, BotonComponent, ReactiveFormsModule, MatIconModule,MatFormFieldModule, MatInputModule, FormsModule,MatDatepickerModule],
+  imports: [CommonModule, BotonComponent, ReactiveFormsModule, MatIconModule,MatFormFieldModule, MatInputModule, FormsModule,MatDatepickerModule, ModalPreguntaComponent],
   templateUrl: './pop-up-crear-profesional.component.html',
   styleUrl: './pop-up-crear-profesional.component.css'
 })
@@ -196,6 +197,23 @@ abrirDiasYHorarios() {
   }
 
 
+}
+
+
+//Eliminar profesional con modal
+
+@ViewChild(ModalPreguntaComponent) modalPregunta!: ModalPreguntaComponent;
+
+
+preguntaEliminar = "¿Desea eliminar a " + this.cardSeleccionada?.nombre  +"?";
+abrirModal(){
+  this.modalPregunta.openDialog();
+}
+
+manejarRespuesta(respuesta: boolean){
+  if (!respuesta) {
+    this.eliminarProfesional()
+  }
 }
 
 eliminarProfesional() {
