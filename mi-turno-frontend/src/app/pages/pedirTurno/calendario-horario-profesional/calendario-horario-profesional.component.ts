@@ -6,6 +6,7 @@ import { BotonComponent } from "../../../shared/components/boton/boton.component
 import { ProfesionalesServiceService } from '../../../core/services/profesionalService/profesionales-service.service';
 import { TurnoInterface } from '../../../core/interfaces/turno-interface';
 import { CommonModule } from '@angular/common';
+import { estadoTurno } from '../../../shared/models/estadoTurnoEnum';
 
 @Component({
   selector: 'app-calendario-horario-profesional',
@@ -122,34 +123,39 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
 
               const fechaActual = new Date();
               const horaFormateada = fechaActual.toLocaleTimeString('es-AR', {
+                timeZone: 'America/Argentina/Buenos_Aires',
                 hour: '2-digit',
                 minute: '2-digit',
                 hour12: false,
               });
               const [horaInicio, minutosInicio] = unHorario.horaInicio.toString().split(':');
 
-              const tieneTurno = this.arregloTurnos.some(unTurno => {
 
+              const tieneTurno = this.arregloTurnos.some(unTurno => {
+                if (unTurno.estado === estadoTurno.CANCELADO|| unTurno.estado === estadoTurno.COBRADO) { // Si el turno está cancelado o cobrado, no lo consideramos porque afecta a todos los dias del profesional
+                  return false;
+                }
                 const fechaTurno = this.parsearFechaToDate(unTurno.fechaInicio.toString());
                 const [horaTurno, minutosTurno] = unTurno.horarioProfesional.horaInicio.toString().split(':');
+                // Verificamos si el horario coincide con un turno existente //TODO verificar que si pasa el horario no pueda seleccionarlo
 
 
-
-                // Verificamos si el horario coincide con un turno existente
                 return (
-                  fechaTurno.getDate() === this.fechaInicioTurnoSeleccionado.getDate() &&
+                  (fechaTurno.getDate() === this.fechaInicioTurnoSeleccionado.getDate() &&
                   horaInicio === horaTurno &&
-                  minutosInicio === minutosTurno ||
+                  minutosInicio === minutosTurno) ||
                   (this.fechaInicioTurnoSeleccionado.toDateString() === fechaActual.toDateString() &&
                    unHorario.horaInicio < horaFormateada))
               });
 
               // Marcamos el horario como ocupado si coincide con algún turno
+
               unHorario.estado = !tieneTurno;
             });
 
             this.arregloHorarios = horarios;
 
+            console.log(this.arregloHorarios);
             // Forzamos la detección de cambios para refrescar la vista
             this.cdr.detectChanges();
           },
