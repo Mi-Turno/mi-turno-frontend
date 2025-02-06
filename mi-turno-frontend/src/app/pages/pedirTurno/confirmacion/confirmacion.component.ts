@@ -22,6 +22,7 @@ import { TurnoService } from '../../../core/services/turnoService/turno.service'
 import { Router } from '@angular/router';
 import { estadoTurno } from '../../../shared/models/estadoTurnoEnum';
 import { AuthService } from '../../../core/guards/auth/service/auth.service';
+import { HorarioXprofesionalService } from '../../../core/services/horariosProfesionalService/horarioProfesional.service';
 
 @Component({
   selector: 'app-confirmacion',
@@ -49,6 +50,7 @@ export class ConfirmacionComponent implements OnInit {
   NegocioServiceService: NegocioServiceService = inject(NegocioServiceService);
   turnoService: TurnoService = inject(TurnoService);
   authService: AuthService = inject(AuthService);
+  horarioProfesionalService: HorarioXprofesionalService = inject(HorarioXprofesionalService);
 
   //interfaces
   usuario: UsuarioInterface = {} as UsuarioInterface;
@@ -223,8 +225,9 @@ export class ConfirmacionComponent implements OnInit {
     this.turnoService.postTurno(this.turnoCreado).subscribe({
       next: (respuesta) => {
         //si hay exito envio el mail
-        this.enviarEmailAlCliente();
+        this.reservarTurno();
 
+        this.enviarEmailAlCliente();
         setTimeout(() => {
           this.router.navigateByUrl('/dashboard-cliente');
         }, 3000);
@@ -237,7 +240,20 @@ export class ConfirmacionComponent implements OnInit {
 
   }
 
-
+  reservarTurno(){
+    const idHorario = this.turnoCreado.horarioProfesional.idHorario!;
+    const idNegocio = this.turnoCreado.idNegocio;
+    const idProfesional = this.turnoCreado.horarioProfesional.idProfesional;
+    const estado = false;
+    this.horarioProfesionalService.patchEstadoHorarioProfesional(idHorario, idNegocio, idProfesional, estado).subscribe({
+      next: (respuesta) => {
+        console.log(respuesta);
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
 
   enviarEmailAlCliente() {
     this.botonActivado = true;
