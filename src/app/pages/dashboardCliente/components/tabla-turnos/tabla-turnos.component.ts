@@ -11,6 +11,7 @@ import { TurnoService } from '../../../../core/services/turnoService/turno.servi
 import { estadoTurno } from '../../../../shared/models/estadoTurnoEnum';
 import { forkJoin, map, Observable, switchMap } from 'rxjs';
 import { AuthService } from '../../../../core/guards/auth/service/auth.service';
+import { HorarioXprofesionalService } from '../../../../core/services/horariosProfesionalService/horarioProfesional.service';
 
 
 interface mostrarTurnosInterface {
@@ -46,6 +47,7 @@ export class TablaTurnosComponent implements OnInit {
   turnoService: TurnoService = inject(TurnoService);
   servicioCliente: ClienteService = inject(ClienteService);
   authService: AuthService = inject(AuthService);
+  horarioProfesional: HorarioXprofesionalService = inject(HorarioXprofesionalService);
   //arreglos
   @Input() listadoNegocios: NegocioInterface[] = [];
   listadoTurnos: TurnoInterface[] = [];
@@ -157,8 +159,9 @@ export class TablaTurnosComponent implements OnInit {
 
       this.turnoService.updateTurno(idNegocio, idTurno,this.estado.CANCELADO).subscribe({
         next: (response) => {
+          console.log('Turno cancelado', response);
+          this.darDeAltaHorario(response.horarioProfesional.idHorario!,response.idNegocio,response.horarioProfesional.idProfesional,true);
           alert('Turno cancelado');
-
           window.location.reload();
         },
         error: (error) => {
@@ -168,6 +171,18 @@ export class TablaTurnosComponent implements OnInit {
     } else {
       alert('No se puede cancelar este turno. Está cobrando o ya fue cancelado.');
     }
+  }
+
+  darDeAltaHorario(idHorario:number,idNegocio:number,idProfesional:number,estado:boolean){
+    this.horarioProfesional.patchEstadoHorarioProfesional(idHorario,idNegocio,idProfesional,estado).subscribe({
+      next: (response) => {
+        console.log('Horario dado de alta', response);
+
+      },
+      error: (error) => {
+        console.error('Error al dar de alta horario', error);
+      }
+    });
   }
 }
 

@@ -27,6 +27,9 @@ export class HorarioXprofesionalService {
     return this.http.get<HorarioProfesional>(`${this.urlBase}/${idNegocio}/profesionales/${idProfesional}/horarios/${idHorario}`);
   }
 
+  public patchEstadoHorarioProfesional(idHorario: number,idNegocio: number,idProfesional: number,estado: boolean): Observable<HorarioProfesional> {
+    return this.http.patch<HorarioProfesional>(`${this.urlBase}/${idNegocio}/profesionales/${idProfesional}/horarios/modificar/${idHorario}`,{ estado });
+  }
 
   public deleteHorarioDeProfesional(idNegocio: number, idProfesional : number, idHorario: number) {
     return this.http.delete<HorarioProfesional>(`${this.urlBase}/${idNegocio}/profesionales/${idProfesional}/horarios/${idHorario}`)
