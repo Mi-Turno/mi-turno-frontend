@@ -41,8 +41,7 @@ iconos = ICONOS;
 
 
 redirigir(){
-  alert("Hay que hacer la navegación a la pantalla de negocios");
-  //this.router.navigateByUrl('');
+  this.router.navigate([`/admin`, 1, `negocio`]);
 }
 
 botones = [

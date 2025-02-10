@@ -20,11 +20,14 @@
   <li>
 
     <div [ngClass]="{'seleccionado': selecionado(rutaSalir)}" class="ultimo">
-      <a class="claseEnlace" [routerLink]="urlBaseNegocio + nombreNegocio + '/' + rutaSalir" (click)="cerrarSesion()">
+       <a class="claseEnlace"  (click)="abrirModal()">
+       <app-modal-pregunta [pregunta]="'¿Desea salir de Mi Turno?'" [tituloPregunta]="'Salir'"  [botonNegativo]="'No'" [botonPositivo]="'Si'"  (respuesta)="manejarRespuesta($event)"></app-modal-pregunta>
         <mat-icon class="claseIcono salir">{{iconos.logout}}</mat-icon>
         Salir
-      </a>
+       </a>
     </div>
   </li>
   </div>
 </nav>
+
+
