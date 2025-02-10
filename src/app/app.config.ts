@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http'; // Agrega `withInterceptors`
 import { AuthInterceptor } from './core/guards/auth/auth.interceptor';
+import { pendingRequestsInterceptor$ } from 'ng-http-loader';
 // Asegúrate de cambiar la ruta
 
 export const appConfig: ApplicationConfig = {
@@ -13,7 +14,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(
-      withInterceptors([AuthInterceptor]) // Aquí añades el interceptor
+      withInterceptors([AuthInterceptor, pendingRequestsInterceptor$]) // Aquí añades el interceptor
     ),
   ]
 };
