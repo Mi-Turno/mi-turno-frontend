@@ -4,6 +4,7 @@ import {
   Inject,
   inject,
   OnInit,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { MatTableModule, MatTable, MatTableDataSource } from '@angular/material/table';
@@ -26,13 +27,16 @@ import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../../core/guards/auth/service/auth.service';
 import { HorarioXprofesionalService } from '../../../core/services/horariosProfesionalService/horarioProfesional.service';
+import { EmailService } from '../../../core/services/emailService/email-service.service';
+import { EmailCancelacion } from '../../../core/interfaces/email-cancelacion-desde-negocio';
+import { NegocioServiceService } from '../../../core/services/negocioService/negocio-service.service';
 
 @Component({
   selector: 'app-tabla-turnos',
   templateUrl: './tabla-turnos.component.html',
   styleUrl: './tabla-turnos.component.css',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule, CommonModule,     MatFormFieldModule, MatInputModule],
+  imports: [MatTableModule, MatPaginatorModule, MatSortModule, CommonModule, MatFormFieldModule, MatInputModule],
 })
 export class TablaTurnosComponent implements AfterViewInit, OnInit {
   //tabla material
@@ -46,13 +50,14 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
 
   //Servicios
   turnoService: TurnoService = inject(TurnoService);
-  clienteService = inject(ClienteService);
-  profesionalService = inject(ProfesionalesServiceService);
-  router = inject(Router);
+  clienteService: ClienteService = inject(ClienteService);
+  profesionalService: ProfesionalesServiceService = inject(ProfesionalesServiceService);
+  router: Router = inject(Router);
   authService: AuthService = inject(AuthService);
-  servicioService = inject(ServicioServiceService);
-  horarioProfesional:HorarioXprofesionalService = inject(HorarioXprofesionalService);
-
+  servicioService: ServicioServiceService = inject(ServicioServiceService);
+  horarioProfesional: HorarioXprofesionalService = inject(HorarioXprofesionalService);
+  emailService: EmailService = inject(EmailService);
+  negocioService: NegocioServiceService = inject(NegocioServiceService);
   //Variables
   idNegocio = 0;
   estado = estadoTurno;
@@ -61,6 +66,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
   nombreProfesional: string = '';
   nombreServicio: string = '';
   idProfesional: number = 0;
+  cuerpoEmail: EmailCancelacion = {} as { 'nombreCliente': '', 'nombreNegocio': '', 'emailCliente': '', 'numeroSoporte': 0 };
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = [
@@ -78,6 +84,8 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {
 
     this.idNegocio = this.authService.getIdUsuario()!;
+    this.obtenerNumeroSoporteNegocio();//Obtengo el numero de soporte del negocio para el cuerpo del email
+    this.cuerpoEmail.nombreNegocio = this.authService.getNombreUsuario()!;
   }
   ngAfterViewInit(): void {
 
@@ -121,7 +129,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
     this.dataSource.data.forEach((turno) => {
       if (
         this.formatearHora(turno.hora) ==
-          this.formatearHora(this.horaActual(0)) &&
+        this.formatearHora(this.horaActual(0)) &&
         turno.estado != estadoTurno.CANCELADO
       ) {
         turno.estado = estadoTurno.EN_CURSO;
@@ -193,6 +201,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
     this.clienteService.getClienteById(unTurno.idCliente).subscribe({
       next: (cliente) => {
         this.nombreCliente = cliente.nombre;
+        this.cuerpoEmail.nombreCliente = cliente.nombre;//Agrego el nombre del cliente al cuerpo del email
 
         // Si obtengo el cliente ejecuto todo lo demas
         this.profesionalService
@@ -227,7 +236,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
                       this.turnoTabla
                     );
                     this.dataSource.data = this.turnoTabla;
-                     this.dataSource.actualizarDatos();
+                    this.dataSource.actualizarDatos();
                     //TODO: Verificar si esta solución mejora todo
                     // this.funteInfo.data = this.turnoTabla;
 
@@ -246,6 +255,16 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
       error: (error) => {
         console.error(error);
       },
+    });
+  }
+  obtenerNumeroSoporteNegocio() {
+    this.negocioService.getNumeroDeSoporte(this.authService.getIdUsuario()!).subscribe({
+      next: (numeroResponse) => {
+        this.cuerpoEmail.numeroSoporte = numeroResponse;
+        console.log(numeroResponse);
+      },
+      error: (error) => {
+      }
     });
   }
 
@@ -277,45 +296,72 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
     }
   }
 
-    //Filtros para los estados
-    cambiarEstado(idNegocio?: number, turno?: TablaTurnosItem) {
-      if (idNegocio && turno) {
-        if (turno.estado == estadoTurno.EN_CURSO) {
-          turno.estado = estadoTurno.COBRADO;
-          /**LOGICA PARA DAR DE BAJA EL TURNO Y HABILITAR EL TURNO EN EL HUB */
-          this.darDeAltaHorario(turno.numero!,idNegocio,this.idProfesional!,true);
-        } else if (turno.estado == estadoTurno.RESERVADO) {
-          turno.estado = estadoTurno.CANCELADO;
-          /**LOGICA PARA DAR DE BAJA EL TURNO Y HABILITAR EL TURNO EN EL HUB */
-          this.cancelarTurno(idNegocio, turno.numero!);
-        }
-      }
-      this.modificarEstado(turno!, idNegocio!);
-    }
-    cancelarTurno(idNegocio: number, idTurno: number) {
+  //Filtros para los estados
+  cambiarEstado(idNegocio?: number, turno?: TablaTurnosItem) {
+    if (idNegocio && turno) {
+      if (turno.estado == estadoTurno.EN_CURSO) {
+        turno.estado = estadoTurno.COBRADO;
+        this.darDeAltaHorario(turno.numero!, idNegocio, this.idProfesional!, true);
+      } else if (turno.estado == estadoTurno.RESERVADO) {
+        turno.estado = estadoTurno.CANCELADO;
 
-        this.turnoService.updateTurno(idNegocio, idTurno,this.estado.CANCELADO).subscribe({
-          next: (response) => {
-            console.log('Turno cancelado', response);
-            this.darDeAltaHorario(response.horarioProfesional.idHorario!,response.idNegocio,response.horarioProfesional.idProfesional,true);
-            alert('Turno cancelado');
-            window.location.reload();
+        /**LOGICA PARA DAR DE BAJA EL TURNO Y HABILITAR EL TURNO EN EL HUB */
+
+        this.cancelarTurno(idNegocio, turno.numero!);
+
+      }
+    }
+    this.modificarEstado(turno!, idNegocio!);
+  }
+  //! REVISAR ESTE METODO LO NARANJA
+  cancelarTurno(idNegocio: number, idTurno: number) {
+
+    /*1 ACTUALIZAMOS EL TURNO*/
+    this.turnoService.updateTurno(idNegocio, idTurno, this.estado.CANCELADO).subscribe({
+      next: (response) => {
+        /*2 Damos de alta el turno que ya se cancelo*/
+        this.darDeAltaHorario(response.horarioProfesional.idHorario!, response.idNegocio, response.horarioProfesional.idProfesional, true);
+
+        this.cuerpoEmail.nombreNegocio = this.authService.getNombreUsuario()!;
+        /*3 Obtenemos el email del cliente*/
+        this.clienteService.getEmailClienteById(response.idCliente).subscribe({//TODO a partir de aca no entra (en swagger funciona bien los metodos) hay que buscar la forma de que se obtenga el email del cliente o con una lista de emails quiza con un forkJoin
+          next: (email:String) => {
+            this.cuerpoEmail.emailCliente = email;
+            console.log(email);
+            /*4 Le avisamos al cliente que se cancelo su turno*/
+            this.emailService.postEnviarEmailDeCancelacionDesdeUnNegocio(this.cuerpoEmail).subscribe({
+              next: (responseEmail) => {
+                console.log(responseEmail);
+              },
+              error: (error) => {
+                console.error('Error al enviar email de cancelación', error);
+              }
+            });
           },
           error: (error) => {
-            console.error('Error al cancelar turno', error);
+            console.error('Error al obtener email del cliente', error);
           }
         });
+        alert('Turno cancelado');
+        window.location.reload();
 
-    }
-    darDeAltaHorario(idHorario:number,idNegocio:number,idProfesional:number,estado:boolean){
-      this.horarioProfesional.patchEstadoHorarioProfesional(idHorario,idNegocio,idProfesional,estado).subscribe({
-        next: (response) => {
-          console.log('Horario dado de alta', response);
+      },
+      error: (error) => {
+        console.error('Error al cancelar turno', error);
+      }
+    });
 
-        },
-        error: (error) => {
-          console.error('Error al dar de alta horario', error);
-        }
-      });
-    }
+  }
+
+  darDeAltaHorario(idHorario: number, idNegocio: number, idProfesional: number, estado: boolean) {
+    this.horarioProfesional.patchEstadoHorarioProfesional(idHorario, idNegocio, idProfesional, estado).subscribe({
+      next: (response) => {
+        console.log('Horario dado de alta', response);
+
+      },
+      error: (error) => {
+        console.error('Error al dar de alta horario', error);
+      }
+    });
+  }
 }
