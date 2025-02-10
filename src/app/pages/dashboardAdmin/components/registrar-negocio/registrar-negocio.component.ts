@@ -11,6 +11,7 @@ import { NegocioInterface } from "../../../../core/interfaces/negocio-interface"
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import Swal from 'sweetalert2'
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component
 ({
@@ -91,17 +92,24 @@ export class RegistrarNegocioComponent {
           //limpiar formulario
           this.formularioRegisterNegocio.reset();
         },
-        error:(error) =>{
+        error:(error:HttpErrorResponse) =>{
+          const mensaje = error.error['mensaje'];
 
-          if (error.error['email']) {
-            this.formularioRegisterNegocio.get('email')?.setErrors({ emailExiste: true });
+
+
+
+
+          if (mensaje.includes("email")) {
+            // Agrega el error personalizado al FormControl
+            this.formularioRegisterNegocio.get('emailRegister')?.setErrors({ emailExiste: true });
           }
-          else if (error.error['telefono']) {
+          else if (mensaje.includes("telefono")) {
             this.formularioRegisterNegocio.get('telefono')?.setErrors({ telefonoExiste: true });
-          }else if (error.error['nombreNegocio']) {
+          }
+          else if (mensaje.includes["nombreNegocio"]) {
             this.formularioRegisterNegocio.get('nombre')?.setErrors({ negocioExiste: true });
           }
-          //{nombre Negocio: 'El negocio con el nombre: asd ya existe.'}
+
         }
       })
     }else{

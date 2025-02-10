@@ -63,7 +63,7 @@
 
           </mat-form-field>
 
-          <mat-form-field appearance="outline">
+          <mat-form-field [className]="'passwordField'" appearance="outline">
             <mat-label>Contraseña</mat-label>
             <input
               [id]="'passwordRegister'"
@@ -88,7 +88,7 @@
             }
           </mat-form-field>
 
-          <mat-form-field [className]="'matFormField'" appearance="outline">
+          <mat-form-field [className]="'passwordField'" appearance="outline">
             <mat-label>Repetir Contraseña</mat-label>
             <input
               [id]="'repetirContraseniaInput'"
