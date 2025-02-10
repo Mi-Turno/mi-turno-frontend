@@ -16,6 +16,7 @@ import { TablaTurnosComponent } from './shared/components/tabla-turnos/tabla-tur
 import { TablaTurnosDataSource } from './shared/components/tabla-turnos/tabla-turnos-datasource';
 import { VerificacionMailComponent } from './pages/verificacion-mail/verificacion-mail.component';
 import { TablaClientesComponent } from './shared/components/tabla-clientes/tabla-clientes.component';
+import { ConfiguracionLocalComponent } from './pages/dashboardLocal/components/configuracion-local/configuracion-local.component';
 
 
 
@@ -51,7 +52,7 @@ export const routes: Routes = [{
   {path: 'staff', component:ProfesionalesMainComponent},
   {path: 'servicios', component:ServicioMainComponent},
   {path: 'clientes', component:TablaClientesComponent},
-  {path: 'configuracion', component:DashboardLocalPageComponent},
+  {path: 'configuracion', component:ConfiguracionLocalComponent},
   {path: 'salir', component:DashboardLocalPageComponent}
  ]
 },
