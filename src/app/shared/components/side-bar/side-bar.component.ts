@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core
 import { MatIcon } from "@angular/material/icon";
 import { Router, RouterModule } from "@angular/router";
 import { ICONOS } from '../../models/iconos.constants';
-import { ModalPreguntaComponent } from "../../../../../mi-turno-frontend/src/app/shared/components/modal-pregunta/modal-pregunta.component";
+import { ModalPreguntaComponent } from "../modal-pregunta/modal-pregunta.component";
 
 @Component({
   selector: 'app-side-bar',
@@ -49,7 +49,8 @@ export class SideBarComponent {
     }
   }
   selecionado(ruta: string): boolean {
-   return this.router.url.includes(`${this.urlBaseNegocio}${this.nombreNegocio}/${ruta}`);
+    const nombreNegocioURL = encodeURIComponent(this.nombreNegocio.trim());
+   return this.router.url.includes(`${this.urlBaseNegocio}${nombreNegocioURL}/${ruta}`);
   }
 
 

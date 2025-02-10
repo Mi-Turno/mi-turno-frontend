@@ -1,5 +1,5 @@
 import { Component, inject, Input, ViewChild } from "@angular/core";
-import { ModalPreguntaComponent } from "../../../../../../mi-turno-frontend/src/app/shared/components/modal-pregunta/modal-pregunta.component";
+import { ModalPreguntaComponent } from "../../../../shared/components/modal-pregunta/modal-pregunta.component";
 import { BotonComponent } from "../../../../shared/components/boton/boton.component";
 import { MatIcon } from "@angular/material/icon";
 import { RouterLink } from "@angular/router";

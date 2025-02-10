@@ -105,7 +105,7 @@ export class ConfirmacionComponent implements OnInit {
 
 
     this.metodoDePagoTexto = this.turnoCreado.metodosDePagoEnum.replace("_", " ").toLocaleLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());;
-    this.detalleTexto = 'Se enviará un mail de aviso 3 horas antes del servicio. En caso de cancelar el turno avisar 2 horas antes';
+    this.detalleTexto = 'Se enviará un mail de aviso 2 horas antes del servicio. En caso de cancelar el turno avisar 2 horas antes';
   }
   formatearFecha(fecha: Date): string {
     if (!fecha) return '';

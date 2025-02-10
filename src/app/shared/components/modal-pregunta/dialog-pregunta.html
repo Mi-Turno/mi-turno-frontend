@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>{{data.tituloPregunta}}</h2>
+<mat-dialog-content>
+  {{data.pregunta}}
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close] = "true"  (click)="cerrar(false)">{{data.botonPositivo}}</button>
+  <button mat-button [mat-dialog-close] = "false"  cdkFocusInitial (click)="cerrar(true)">{{data.botonNegativo}}</button>
+</mat-dialog-actions>

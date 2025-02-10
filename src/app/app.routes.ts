@@ -14,7 +14,7 @@ import { TablaTurnosComponent } from './shared/components/tabla-turnos/tabla-tur
 import { VerificacionMailComponent } from './pages/verificacion-mail/verificacion-mail.component';
 import { TablaClientesComponent } from './shared/components/tabla-clientes/tabla-clientes.component';
 import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno.component';
-import { ConfiguracionLocalComponent } from '../../mi-turno-frontend/src/app/pages/dashboardLocal/components/configuracion-local/configuracion-local.component';
+import { ConfiguracionLocalComponent } from './pages/dashboardLocal/components/configuracion-local/configuracion-local.component';
 
 
 
