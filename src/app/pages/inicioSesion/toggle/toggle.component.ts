@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, signal } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { InputComponent } from '../../../shared/components/input/input.component';
+import { ChangeDetectionStrategy,  Component, inject, signal } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ClienteInterface } from '../../../core/interfaces/cliente-interface';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -10,7 +9,6 @@ import { ROLES } from '../../../shared/models/rolesUsuario.constants';
 import { ICONOS } from '../../../shared/models/iconos.constants';
 import { PLACEHOLDERS } from '../../../shared/models/placeholderInicioSesion.constants';
 import { UsuarioService } from '../../../core/services/usuarioService/usuario.service';
-import { UsuarioInterface } from '../../../core/interfaces/usuario-interface';
 import { CredencialInterface } from '../../../core/interfaces/credencial.interface';
 import { AuthService } from '../../../core/guards/auth/service/auth.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -240,7 +238,7 @@ export class ToggleComponent {
             }
           },
           error: (error: HttpErrorResponse) => {
-            
+
             const mensaje = error.error;
             // Agrega el error personalizado al FormControl
             this.formularioLogin.get('passwordLogin')?.setErrors({ emailOContraseniaIncorrectos: true });

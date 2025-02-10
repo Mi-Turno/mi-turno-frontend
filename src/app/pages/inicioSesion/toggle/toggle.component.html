@@ -76,7 +76,7 @@
 
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" [className]="'matFormFieldNacimiento'">
           <mat-label>Fecha Nacimiento</mat-label>
           <input
             formControlName="fechaNacimiento"
@@ -112,7 +112,7 @@
           }
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" [className]="'matFormFieldPassword'">
           <mat-label>Contraseña</mat-label>
           <input
             [id]="'passwordRegister'"
@@ -137,7 +137,7 @@
           }
         </mat-form-field>
 
-        <mat-form-field [className]="'matFormField'" appearance="outline">
+        <mat-form-field [className]="'matFormField'" appearance="outline" [className]="'matFormFieldPassword'">
           <mat-label>Repetir Contraseña</mat-label>
           <input
             [id]="'repetirContraseniaInput'"
@@ -210,7 +210,7 @@
 
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" [className]="'matFormFieldPassword'">
           <mat-label>Contraseña</mat-label>
           <input
             [id]="'passwordLogin'"

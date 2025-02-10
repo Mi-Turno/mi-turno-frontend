@@ -1,14 +1,14 @@
 <div class="contenedor">
   <h5>{{textoTitulo}} </h5>
   <div class="cruz" (click)="cerrarPopUp()">
-    <mat-icon> close</mat-icon>
+    <mat-icon>close</mat-icon>
   </div>
   <div class="contenido">
     <div class="contenedor-imagen">
-      <img [src]="fotoProfesional" />
+      <img [src]="fotoProfesional" [alt]="'foto del profesional'"/>
     </div>
     <div class="contenedor-formulario">
-      <form [formGroup]="formularioRegister">
+      <form [className]="'form-registrar-profesional'" [formGroup]="formularioRegister">
         <mat-form-field appearance="outline">
           <mat-label>Nombre</mat-label>
           <input
@@ -66,7 +66,7 @@
           <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
           }@else if (formularioRegisterTieneError("telefono", "telefonoExiste")) {
             <mat-error>{{ mostrarMensajeError("telefonoExiste") }}</mat-error>
-            }
+          }
 
         </mat-form-field>
 
@@ -116,7 +116,7 @@
       [textoDentroBoton]="'Confirmar'"
       [type]="'submit'"
       (click)="confirmarUsuario()"
-      (click)="cerrarPopUp()"
-    ></app-boton>
+      ></app-boton>
+      <!-- (click)="cerrarPopUp()" -->
   </div>
 </div>

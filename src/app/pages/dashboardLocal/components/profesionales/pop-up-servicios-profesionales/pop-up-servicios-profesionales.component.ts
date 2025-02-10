@@ -35,6 +35,7 @@ export class PopUpServiciosProfesionalesComponent implements OnInit, OnChanges {
   authService: AuthService = inject(AuthService);
   //inputs
   @Input() profesional: ProfesionalInterface | null = null;
+
   ngOnInit() {
     this.cargarServicios();
     this.nombreProfesional = this.profesional?.nombre;
@@ -46,7 +47,8 @@ export class PopUpServiciosProfesionalesComponent implements OnInit, OnChanges {
 
   cargarServicios() {
 
-    this.idNegocio = this.authService.getIdUsuario()!; ;
+    this.idNegocio = this.authService.getIdUsuario() ?? 0;
+
       this.servicioNegocio.getNegocioById(this.idNegocio).subscribe({
         next: (responseNegocio) => {
           this.servicios.getServiciosPorIdNegocioYEstado(this.idNegocio, 'true')
