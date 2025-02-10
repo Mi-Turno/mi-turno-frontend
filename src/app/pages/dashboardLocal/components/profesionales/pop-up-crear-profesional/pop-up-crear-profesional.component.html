@@ -5,10 +5,10 @@
   </div>
   <div class="contenido">
     <div class="contenedor-imagen">
-      <img [src]="fotoProfesional" />
+      <img [src]="fotoProfesional" [alt]="'foto del profesional'"/>
     </div>
     <div class="contenedor-formulario">
-      <form [formGroup]="formularioRegister">
+      <form [className]="'form-registrar-profesional'" [formGroup]="formularioRegister">
         <mat-form-field appearance="outline">
           <mat-label>Nombre</mat-label>
           <input
