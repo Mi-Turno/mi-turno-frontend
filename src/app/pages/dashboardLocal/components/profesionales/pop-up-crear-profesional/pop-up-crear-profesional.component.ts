@@ -100,10 +100,7 @@ private postUsuarioToBackend(usuario:ProfesionalInterface):void{
 
       },
       error:(error)=>{
-        if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
-          alert('Error 404: Profesional no encontrado');
-
-        } else if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
+        if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
           alert('Error 500: Error del servidor');
 
         } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
@@ -150,14 +147,15 @@ confirmarUsuario() {
     }
     window.location.reload();
   } else {
-    let campoError: string = '';
-    Object.keys(this.formularioRegister.controls).forEach(campo => {
-      const control = this.formularioRegister.get(campo);
-      if (control?.invalid) {
-        campoError += (`${campo} es inválido, `);
-      }
-    });
-    alert(campoError);
+    this.formularioRegister.markAllAsTouched();
+    // let campoError: string = '';
+    // Object.keys(this.formularioRegister.controls).forEach(campo => {
+    //   const control = this.formularioRegister.get(campo);
+    //   if (control?.invalid) {
+    //     campoError += (`${campo} es inválido, `);
+    //   }
+    // });
+    // alert(campoError);
   }
 
 }
