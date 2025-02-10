@@ -15,7 +15,9 @@ export class NegocioServiceService {
   public getIdNegocioByNombre(nombre: string): Observable<number> {
     return this.http.get<number>(`${this.urlBase}/${nombre}`);
   }
-
+  public getNumeroDeSoporte(idNegocio: number): Observable<number> {
+    return this.http.get<number>(`${this.urlBase}/numero-soporte/${idNegocio}`);
+  }
   public getNegocioById(id: number): Observable<NegocioInterface> {
     return this.http.get<NegocioInterface>(`${this.urlBase}/id/${id}`);
   }
