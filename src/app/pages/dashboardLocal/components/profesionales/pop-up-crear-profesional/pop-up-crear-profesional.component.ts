@@ -15,8 +15,8 @@ import { ProfesionalInterface } from "../../../../../core/interfaces/profesional
 import { CredencialInterface } from "../../../../../core/interfaces/credencial.interface";
 import { codigoErrorHttp } from "../../../../../shared/models/httpError.constants";
 import { AuthService } from "../../../../../core/guards/auth/service/auth.service";
-import { ModalPreguntaComponent } from "../../../../../shared/components/modal-pregunta/modal-pregunta.component";
 import { HttpErrorResponse } from "@angular/common/http";
+import { ModalPreguntaComponent } from "../../../../../../../mi-turno-frontend/src/app/shared/components/modal-pregunta/modal-pregunta.component";
 
 
 

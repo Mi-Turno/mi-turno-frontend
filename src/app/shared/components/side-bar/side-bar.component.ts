@@ -3,8 +3,7 @@ import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core
 import { MatIcon } from "@angular/material/icon";
 import { Router, RouterModule } from "@angular/router";
 import { ICONOS } from '../../models/iconos.constants';
-import { DialogPregunta, ModalPreguntaComponent } from "../modal-pregunta/modal-pregunta.component";
-import { ModalComponent } from '../modal/modal.component';
+import { ModalPreguntaComponent } from "../../../../../mi-turno-frontend/src/app/shared/components/modal-pregunta/modal-pregunta.component";
 
 @Component({
   selector: 'app-side-bar',

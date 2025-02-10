@@ -96,6 +96,7 @@ li div:hover .claseEnlace {
 
 .salir {
   color: red;
+
 }
 
 .seleccionado {
@@ -113,6 +114,7 @@ li div:hover .claseEnlace {
 
 .ultimo {
   display: flex;
+  cursor: pointer;
   align-items: center;
   margin-top: auto;
 }

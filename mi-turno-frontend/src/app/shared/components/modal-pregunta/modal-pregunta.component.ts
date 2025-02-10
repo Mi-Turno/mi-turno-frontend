@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Inject, inject, Input, Output } from '@angular/core';
-import { BotonComponent } from '../boton/boton.component';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import {

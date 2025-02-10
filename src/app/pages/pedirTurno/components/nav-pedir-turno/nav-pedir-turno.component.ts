@@ -1,14 +1,13 @@
+import { Component, inject, Input, ViewChild } from "@angular/core";
+import { ModalPreguntaComponent } from "../../../../../../mi-turno-frontend/src/app/shared/components/modal-pregunta/modal-pregunta.component";
+import { BotonComponent } from "../../../../shared/components/boton/boton.component";
+import { MatIcon } from "@angular/material/icon";
+import { RouterLink } from "@angular/router";
+import { ModalComponent } from "../../../../shared/components/modal/modal.component";
+import { ModificarClienteComponent } from "../../../dashboardCliente/components/modificar-cliente/modificar-cliente.component";
+import { ICONOS } from "../../../../shared/models/iconos.constants";
+import { AuthService } from "../../../../core/guards/auth/service/auth.service";
 
-import { ICONOS } from './../../../shared/models/iconos.constants';
-import { Component, inject, Input, ViewChild } from '@angular/core';
-import { BotonComponent } from "../../../shared/components/boton/boton.component";
-import { MatIcon } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
-import { AuthService } from '../../../core/guards/auth/service/auth.service';
-import { ModalComponent } from "../../../shared/components/modal/modal.component";
-import { ModificarClienteComponent } from "../../dashboardCliente/components/modificar-cliente/modificar-cliente.component";
-import { ModalPreguntaComponent } from '../../../shared/components/modal-pregunta/modal-pregunta.component';
-import { SpinnerService } from '../../../shared/Service/Spinner.service';
 
 
 
@@ -21,7 +20,6 @@ import { SpinnerService } from '../../../shared/Service/Spinner.service';
 })
 export class NavPedirTurnoComponent {
   @ViewChild(ModalPreguntaComponent) modalPregunta!: ModalPreguntaComponent;
-  spinnerService:SpinnerService = inject(SpinnerService);
 
   iconos = ICONOS;
   modalLevantado:boolean = false;

@@ -7,16 +7,14 @@ import { ToggleComponent } from './pages/inicioSesion/toggle/toggle.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { RegistrarNegocioComponent } from './pages/dashboardAdmin/components/registrar-negocio/registrar-negocio.component';
 import { DashboardAdminPageComponent } from './pages/dashboardAdmin/dashboard-admin-page.component';
-import { UsuariosComponent } from './pages/dashboardAdmin/components/usuarios/usuarios.component';
 import { authGuardFn } from './core/guards/auth/guard/auth.guard-fn';
 import { rolGuardFn } from './core/guards/auth/guard/rol.guard-fn';
 import { DashboardLocalPageComponent } from './pages/dashboardLocal/dashboard-local-page.component';
 import { TablaTurnosComponent } from './shared/components/tabla-turnos/tabla-turnos.component';
-import { TablaTurnosDataSource } from './shared/components/tabla-turnos/tabla-turnos-datasource';
 import { VerificacionMailComponent } from './pages/verificacion-mail/verificacion-mail.component';
 import { TablaClientesComponent } from './shared/components/tabla-clientes/tabla-clientes.component';
-import { ConfiguracionLocalComponent } from './pages/dashboardLocal/components/configuracion-local/configuracion-local.component';
 import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno.component';
+import { ConfiguracionLocalComponent } from '../../mi-turno-frontend/src/app/pages/dashboardLocal/components/configuracion-local/configuracion-local.component';
 
 
 
