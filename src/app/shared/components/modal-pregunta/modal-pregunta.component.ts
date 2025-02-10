@@ -29,7 +29,8 @@ export class ModalPreguntaComponent {
    public openDialog(): void {
     const dialogRef = this.dialog.open(DialogPregunta, {
       width: '250px',
-      data: {pregunta: this.pregunta, tituloPregunta: this.tituloPregunta, botonPositivo: this.botonPositivo, botonNegativo: this.botonNegativo}
+      data: {pregunta: this.pregunta, tituloPregunta: this.tituloPregunta, botonPositivo: this.botonPositivo, botonNegativo: this.botonNegativo},
+      disableClose : true
     });
 
     dialogRef.afterClosed().subscribe(result => {
