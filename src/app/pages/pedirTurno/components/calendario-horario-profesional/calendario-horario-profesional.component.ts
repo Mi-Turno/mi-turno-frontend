@@ -1,12 +1,13 @@
-import { ChangeDetectorRef, Component, EventEmitter, inject, Input, NgZone, OnInit, Output } from '@angular/core';
-import { DiasEnum, DiasEnumOrdinal, obtenerDiaEnumPorNumero } from '../../../shared/models/diasEnum';
-import { HorarioXprofesionalService } from '../../../core/services/horariosProfesionalService/horarioProfesional.service';
-import { HorarioProfesional } from '../../../core/interfaces/horarioProfesional.interface';
-import { BotonComponent } from "../../../shared/components/boton/boton.component";
-import { ProfesionalesServiceService } from '../../../core/services/profesionalService/profesionales-service.service';
-import { TurnoInterface } from '../../../core/interfaces/turno-interface';
-import { CommonModule } from '@angular/common';
-import { estadoTurno } from '../../../shared/models/estadoTurnoEnum';
+import { CommonModule } from "@angular/common";
+import { Component, OnInit, inject, Input, Output, EventEmitter, ChangeDetectorRef, NgZone } from "@angular/core";
+import { HorarioProfesional } from "../../../../core/interfaces/horarioProfesional.interface";
+import { TurnoInterface } from "../../../../core/interfaces/turno-interface";
+import { HorarioXprofesionalService } from "../../../../core/services/horariosProfesionalService/horarioProfesional.service";
+import { ProfesionalesServiceService } from "../../../../core/services/profesionalService/profesionales-service.service";
+import { BotonComponent } from "../../../../shared/components/boton/boton.component";
+import { DiasEnum, obtenerDiaEnumPorNumero } from "../../../../shared/models/diasEnum";
+import { estadoTurno } from "../../../../shared/models/estadoTurnoEnum";
+
 
 @Component({
   selector: 'app-calendario-horario-profesional',

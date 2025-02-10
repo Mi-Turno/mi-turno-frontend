@@ -1,28 +1,29 @@
-import { NegocioServiceService } from './../../../core/services/negocioService/negocio-service.service';
-import { Component, EventEmitter, inject, Input, Output, OnInit } from '@angular/core';
-import { ICONOS } from '../../../shared/models/iconos.constants';
-import { TextoConIconoComponent } from "../../../shared/components/texto-con-icono/texto-con-icono.component";
-import { BotonComponent } from "../../../shared/components/boton/boton.component";
-import { EmailInterface } from '../../../core/interfaces/email-interface';
-import { EmailService } from '../../../core/services/emailService/email-service.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import { CommonModule } from "@angular/common";
+import { HttpErrorResponse } from "@angular/common/http";
+import { Component, OnInit, inject, Input, Output, EventEmitter } from "@angular/core";
+import { Router } from "@angular/router";
+import { AuthService } from "../../../../core/guards/auth/service/auth.service";
+import { EmailInterface } from "../../../../core/interfaces/email-interface";
+import { NegocioInterface } from "../../../../core/interfaces/negocio-interface";
+import { ServicioInterface } from "../../../../core/interfaces/servicio-interface";
+import { TurnoInterface } from "../../../../core/interfaces/turno-interface";
+import { UsuarioInterface } from "../../../../core/interfaces/usuario-interface";
+import { EmailService } from "../../../../core/services/emailService/email-service.service";
+import { HorarioXprofesionalService } from "../../../../core/services/horariosProfesionalService/horarioProfesional.service";
+import { NegocioServiceService } from "../../../../core/services/negocioService/negocio-service.service";
+import { ProfesionalesServiceService } from "../../../../core/services/profesionalService/profesionales-service.service";
+import { ServicioServiceService } from "../../../../core/services/servicioService/servicio-service.service";
+import { TurnoService } from "../../../../core/services/turnoService/turno.service";
+import { UsuarioService } from "../../../../core/services/usuarioService/usuario.service";
+import { BotonComponent } from "../../../../shared/components/boton/boton.component";
+import { TextoConIconoComponent } from "../../../../shared/components/texto-con-icono/texto-con-icono.component";
+import { obtenerDiaEnumPorNumero } from "../../../../shared/models/diasEnum";
+import { estadoTurno } from "../../../../shared/models/estadoTurnoEnum";
+import { codigoErrorHttp } from "../../../../shared/models/httpError.constants";
+import { ICONOS } from "../../../../shared/models/iconos.constants";
+import { obtenerMetodosDePagoPorNumero } from "../../../../shared/models/metodosDePago";
 import { PopUpConfirmacionComponent } from "../pop-up-confirmacion/pop-up-confirmacion.component";
-import { CommonModule } from '@angular/common';
-import { codigoErrorHttp } from '../../../shared/models/httpError.constants';
-import { UsuarioService } from '../../../core/services/usuarioService/usuario.service';
-import { UsuarioInterface } from '../../../core/interfaces/usuario-interface';
-import { ProfesionalesServiceService } from '../../../core/services/profesionalService/profesionales-service.service';
-import { ServicioServiceService } from '../../../core/services/servicioService/servicio-service.service';
-import { ServicioInterface } from '../../../core/interfaces/servicio-interface';
-import { TurnoInterface } from '../../../core/interfaces/turno-interface';
-import { obtenerDiaEnumPorNumero } from '../../../shared/models/diasEnum';
-import {  obtenerMetodosDePagoPorNumero } from '../../../shared/models/metodosDePago';
-import { NegocioInterface } from '../../../core/interfaces/negocio-interface';
-import { TurnoService } from '../../../core/services/turnoService/turno.service';
-import { Router } from '@angular/router';
-import { estadoTurno } from '../../../shared/models/estadoTurnoEnum';
-import { AuthService } from '../../../core/guards/auth/service/auth.service';
-import { HorarioXprofesionalService } from '../../../core/services/horariosProfesionalService/horarioProfesional.service';
+
 
 @Component({
   selector: 'app-confirmacion',

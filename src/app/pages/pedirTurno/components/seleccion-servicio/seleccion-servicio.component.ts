@@ -1,8 +1,8 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { ServicioServiceService } from '../../../core/services/servicioService/servicio-service.service';
-import { ServicioInterface } from '../../../core/interfaces/servicio-interface';
-import { CardComponent } from '../../../shared/components/card/card.component';
 import { CommonModule } from '@angular/common';
+import { ServicioInterface } from '../../../../core/interfaces/servicio-interface';
+import { ServicioServiceService } from '../../../../core/services/servicioService/servicio-service.service';
+import { CardComponent } from '../../../../shared/components/card/card.component';
 
 @Component({
   selector: 'app-seleccion-servicio',

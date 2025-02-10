@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { ICONOS } from '../../../shared/models/iconos.constants';
-import { TextoConIconoComponent } from "../../../shared/components/texto-con-icono/texto-con-icono.component";
+import { TextoConIconoComponent } from '../../../../shared/components/texto-con-icono/texto-con-icono.component';
+import { ICONOS } from '../../../../shared/models/iconos.constants';
 
 
 @Component({
