@@ -19,6 +19,10 @@ export class ClienteService {
         return this.http.get<ClienteInterface>(`${this.urlBase}/${idCliente}`);
     }
 
+    public getEmailClienteById(idCliente:number):Observable<String>{
+        return this.http.get<String>(`${this.urlBase}/email/${idCliente}`);
+    }
+
     public postCliente(cliente:ClienteInterface):Observable<ClienteInterface>{
         return this.http.post<ClienteInterface>(`${this.urlBase}/register`,cliente);
     }
