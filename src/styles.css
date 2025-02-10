@@ -24,13 +24,17 @@
   --titulo-h3: 1.5rem;
   --titulo-h4: 1.3rem;
   --titulo-h5:1.1rem;
-
+  --color-icono: #44474E;
 
   --bg-color: #fff;
   --text-color: #333;
   --main-color: #3f47ae;
 
 
+}
+
+mat-form-field mat-icon{
+  color: var(--color-icono);
 }
 
 html {
