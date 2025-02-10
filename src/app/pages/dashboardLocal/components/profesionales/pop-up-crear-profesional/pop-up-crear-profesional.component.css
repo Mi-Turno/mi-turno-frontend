@@ -34,13 +34,13 @@
 
 .contenedor-imagen {
   width:400px;
-  height: 350px;
+  height: 300px;
   display: flex;
   /* justify-content: center;
   align-items: center; */
   background-color: #f5f5f5;
   border-radius: 10px;
-  margin: 2% 50px 0 20px;
+  margin: 9% 50px 0 20px;
 }
 
 .contenedor-imagen img {

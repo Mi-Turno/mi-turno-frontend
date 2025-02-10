@@ -106,10 +106,10 @@ private postUsuarioToBackend(usuario:ProfesionalInterface):void{
           alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
         } else if(error.status === codigoErrorHttp.ERROR_REPETIDO){
           const mensaje = error.error['mensaje'];
-       
+
           if (mensaje.includes("email")) {
             // Agrega el error personalizado al FormControl
-            this.formularioRegister.get('emailRegister')?.setErrors({ emailExiste: true });
+            this.formularioRegister.get('email')?.setErrors({ emailExiste: true });
           }
           else if (mensaje.includes("telefono")) {
             this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
