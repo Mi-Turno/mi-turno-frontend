@@ -25,6 +25,7 @@ import { Router } from '@angular/router';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../../core/guards/auth/service/auth.service';
+import { HorarioXprofesionalService } from '../../../core/services/horariosProfesionalService/horarioProfesional.service';
 
 @Component({
   selector: 'app-tabla-turnos',
@@ -34,28 +35,32 @@ import { AuthService } from '../../../core/guards/auth/service/auth.service';
   imports: [MatTableModule, MatPaginatorModule, MatSortModule, CommonModule,     MatFormFieldModule, MatInputModule],
 })
 export class TablaTurnosComponent implements AfterViewInit, OnInit {
+  //tabla material
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<TablaTurnosItem>;
   dataSource = new TablaTurnosDataSource();
+  funteInfo!: MatTableDataSource<TablaTurnosItem>;
+  turnoTabla: TablaTurnosItem[] = [];
+  segmento: string = '';
+
+  //Servicios
   turnoService: TurnoService = inject(TurnoService);
   clienteService = inject(ClienteService);
   profesionalService = inject(ProfesionalesServiceService);
   router = inject(Router);
   authService: AuthService = inject(AuthService);
   servicioService = inject(ServicioServiceService);
-  estado = estadoTurno;
-  funteInfo!: MatTableDataSource<TablaTurnosItem>;
+  horarioProfesional:HorarioXprofesionalService = inject(HorarioXprofesionalService);
 
-
+  //Variables
   idNegocio = 0;
+  estado = estadoTurno;
   turnos: TurnoInterface[] = [];
   nombreCliente: string = '';
   nombreProfesional: string = '';
   nombreServicio: string = '';
-
-  turnoTabla: TablaTurnosItem[] = [];
-  segmento: string = '';
+  idProfesional: number = 0;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = [
@@ -198,7 +203,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
           .subscribe({
             next: (profesional) => {
               this.nombreProfesional = profesional.nombre;
-
+              this.idProfesional = profesional.idUsuario!;
 
               this.servicioService
                 .getServicioPorIdNegocio(this.idNegocio, unTurno.idServicio)
@@ -277,10 +282,40 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
       if (idNegocio && turno) {
         if (turno.estado == estadoTurno.EN_CURSO) {
           turno.estado = estadoTurno.COBRADO;
+          /**LOGICA PARA DAR DE BAJA EL TURNO Y HABILITAR EL TURNO EN EL HUB */
+          this.darDeAltaHorario(turno.numero!,idNegocio,this.idProfesional!,true);
         } else if (turno.estado == estadoTurno.RESERVADO) {
           turno.estado = estadoTurno.CANCELADO;
+          /**LOGICA PARA DAR DE BAJA EL TURNO Y HABILITAR EL TURNO EN EL HUB */
+          this.cancelarTurno(idNegocio, turno.numero!);
         }
       }
       this.modificarEstado(turno!, idNegocio!);
+    }
+    cancelarTurno(idNegocio: number, idTurno: number) {
+
+        this.turnoService.updateTurno(idNegocio, idTurno,this.estado.CANCELADO).subscribe({
+          next: (response) => {
+            console.log('Turno cancelado', response);
+            this.darDeAltaHorario(response.horarioProfesional.idHorario!,response.idNegocio,response.horarioProfesional.idProfesional,true);
+            alert('Turno cancelado');
+            window.location.reload();
+          },
+          error: (error) => {
+            console.error('Error al cancelar turno', error);
+          }
+        });
+
+    }
+    darDeAltaHorario(idHorario:number,idNegocio:number,idProfesional:number,estado:boolean){
+      this.horarioProfesional.patchEstadoHorarioProfesional(idHorario,idNegocio,idProfesional,estado).subscribe({
+        next: (response) => {
+          console.log('Horario dado de alta', response);
+
+        },
+        error: (error) => {
+          console.error('Error al dar de alta horario', error);
+        }
+      });
     }
 }
