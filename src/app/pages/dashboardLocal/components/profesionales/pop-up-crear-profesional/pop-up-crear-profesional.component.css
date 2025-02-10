@@ -58,7 +58,7 @@
 }
 
 .form-registrar-profesional mat-form-field{
-  margin-bottom: 5px;
+  margin: 5px 0 5px 0;
   width: 90%;
 }
 

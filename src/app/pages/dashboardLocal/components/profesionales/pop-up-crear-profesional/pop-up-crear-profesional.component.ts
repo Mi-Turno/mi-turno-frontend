@@ -15,6 +15,7 @@ import { ProfesionalInterface } from "../../../../../core/interfaces/profesional
 import { CredencialInterface } from "../../../../../core/interfaces/credencial.interface";
 import { codigoErrorHttp } from "../../../../../shared/models/httpError.constants";
 import { AuthService } from "../../../../../core/guards/auth/service/auth.service";
+import { HttpErrorResponse } from "@angular/common/http";
 
 
 @Component({
@@ -92,21 +93,28 @@ crearUnProfesional():ProfesionalInterface {
 }
 
 private postUsuarioToBackend(usuario:ProfesionalInterface):void{
-
-
-
     this.usuarioService.postProfesionalPorIdNegocio(this.idNegocio,usuario).subscribe({
       next:(usuario:ProfesionalInterface) =>{
 
       },
-      error:(error)=>{
+      error:(error:HttpErrorResponse)=>{
+
         if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
           alert('Error 500: Error del servidor');
 
         } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
           alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
         } else if(error.status === codigoErrorHttp.ERROR_REPETIDO){
-          alert('Error 409: Profesional ya existe en el sistema');
+          const mensaje = error.error['mensaje'];
+       
+          if (mensaje.includes("email")) {
+            // Agrega el error personalizado al FormControl
+            this.formularioRegister.get('emailRegister')?.setErrors({ emailExiste: true });
+          }
+          else if (mensaje.includes("telefono")) {
+            this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
+          }
+
         } else {
           alert('Error inesperado. Intente otra vez mas tarde.');
         }
@@ -134,7 +142,7 @@ putUsuarioToBackend(idProfesional: number | undefined, idNegocio: number | undef
         });
       }
     }
-  }
+}
 
 confirmarUsuario() {
   if (this.formularioRegister.valid) {
@@ -145,7 +153,7 @@ confirmarUsuario() {
     }else{
       this.postUsuarioToBackend(usuario);
     }
-    window.location.reload();
+    //window.location.reload();
   } else {
     this.formularioRegister.markAllAsTouched();
     // let campoError: string = '';
