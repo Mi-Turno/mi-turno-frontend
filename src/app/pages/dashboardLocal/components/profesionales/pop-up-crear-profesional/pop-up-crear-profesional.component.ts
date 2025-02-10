@@ -16,6 +16,8 @@ import { CredencialInterface } from "../../../../../core/interfaces/credencial.i
 import { codigoErrorHttp } from "../../../../../shared/models/httpError.constants";
 import { AuthService } from "../../../../../core/guards/auth/service/auth.service";
 import { ModalPreguntaComponent } from "../../../../../shared/components/modal-pregunta/modal-pregunta.component";
+import { HttpErrorResponse } from "@angular/common/http";
+
 
 
 @Component({
@@ -93,24 +95,28 @@ crearUnProfesional():ProfesionalInterface {
 }
 
 private postUsuarioToBackend(usuario:ProfesionalInterface):void{
-
-
-
     this.usuarioService.postProfesionalPorIdNegocio(this.idNegocio,usuario).subscribe({
       next:(usuario:ProfesionalInterface) =>{
 
       },
-      error:(error)=>{
-        if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
-          alert('Error 404: Profesional no encontrado');
+      error:(error:HttpErrorResponse)=>{
 
-        } else if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
+        if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
           alert('Error 500: Error del servidor');
 
         } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
           alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
         } else if(error.status === codigoErrorHttp.ERROR_REPETIDO){
-          alert('Error 409: Profesional ya existe en el sistema');
+          const mensaje = error.error['mensaje'];
+
+          if (mensaje.includes("email")) {
+            // Agrega el error personalizado al FormControl
+            this.formularioRegister.get('email')?.setErrors({ emailExiste: true });
+          }
+          else if (mensaje.includes("telefono")) {
+            this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
+          }
+
         } else {
           alert('Error inesperado. Intente otra vez mas tarde.');
         }
@@ -138,7 +144,7 @@ putUsuarioToBackend(idProfesional: number | undefined, idNegocio: number | undef
         });
       }
     }
-  }
+}
 
 confirmarUsuario() {
   if (this.formularioRegister.valid) {
@@ -149,16 +155,17 @@ confirmarUsuario() {
     }else{
       this.postUsuarioToBackend(usuario);
     }
-    window.location.reload();
+    //window.location.reload();
   } else {
-    let campoError: string = '';
-    Object.keys(this.formularioRegister.controls).forEach(campo => {
-      const control = this.formularioRegister.get(campo);
-      if (control?.invalid) {
-        campoError += (`${campo} es inválido, `);
-      }
-    });
-    alert(campoError);
+    this.formularioRegister.markAllAsTouched();
+    // let campoError: string = '';
+    // Object.keys(this.formularioRegister.controls).forEach(campo => {
+    //   const control = this.formularioRegister.get(campo);
+    //   if (control?.invalid) {
+    //     campoError += (`${campo} es inválido, `);
+    //   }
+    // });
+    // alert(campoError);
   }
 
 }

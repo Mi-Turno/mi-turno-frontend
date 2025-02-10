@@ -1,6 +1,5 @@
 import { TurnoInterface } from '../../core/interfaces/turno-interface';
 import { ChangeDetectorRef, Component, inject, OnInit  } from '@angular/core';
-import { NavPedirTurnoComponent } from "../pedirTurno/nav-pedir-turno/nav-pedir-turno.component";
 import { NegocioInterface } from '../../core/interfaces/negocio-interface';
 import { NegocioServiceService } from '../../core/services/negocioService/negocio-service.service';
 import { ClienteService } from '../../core/services/clienteService/cliente.service';
@@ -13,6 +12,7 @@ import { ModalComponent } from "../../shared/components/modal/modal.component";
 import { ElegirNegocioComponent } from "./components/elegir-negocio/elegir-negocio.component";
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../core/guards/auth/service/auth.service';
+import { NavPedirTurnoComponent } from "../pedirTurno/components/nav-pedir-turno/nav-pedir-turno.component";
 
 
 
@@ -21,7 +21,7 @@ import { AuthService } from '../../core/guards/auth/service/auth.service';
 @Component({
   selector: 'app-dashboard-cliente',
   standalone: true,
-  imports: [CommonModule, NavPedirTurnoComponent, WidgetBienvenidaComponent, TablaTurnosComponent, ModalComponent, ElegirNegocioComponent],
+  imports: [CommonModule, WidgetBienvenidaComponent, TablaTurnosComponent, ModalComponent, ElegirNegocioComponent, NavPedirTurnoComponent],
   templateUrl: './dashboard-cliente.component.html',
   styleUrl: './dashboard-cliente.component.css'
 })

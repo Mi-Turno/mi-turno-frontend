@@ -1,7 +1,8 @@
-import { ServicioServiceService } from './../../../core/services/servicioService/servicio-service.service';
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { ProfesionalInterface } from '../../../core/interfaces/profesional-interface';
-import { CardComponent } from "../../../shared/components/card/card.component";
+import { ProfesionalInterface } from '../../../../core/interfaces/profesional-interface';
+import { ServicioServiceService } from '../../../../core/services/servicioService/servicio-service.service';
+import { CardComponent } from '../../../../shared/components/card/card.component';
+
 
 @Component({
   selector: 'app-seleccion-profesional',

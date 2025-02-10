@@ -1,3 +1,4 @@
+
 import { ICONOS } from './../../../shared/models/iconos.constants';
 import { Component, inject, Input, ViewChild } from '@angular/core';
 import { BotonComponent } from "../../../shared/components/boton/boton.component";
@@ -8,6 +9,7 @@ import { ModalComponent } from "../../../shared/components/modal/modal.component
 import { ModificarClienteComponent } from "../../dashboardCliente/components/modificar-cliente/modificar-cliente.component";
 import { ModalPreguntaComponent } from '../../../shared/components/modal-pregunta/modal-pregunta.component';
 import { SpinnerService } from '../../../shared/Service/Spinner.service';
+
 
 
 @Component({

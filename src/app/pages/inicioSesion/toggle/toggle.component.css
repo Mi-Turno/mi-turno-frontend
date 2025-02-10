@@ -114,6 +114,14 @@ mat-form-field{
   margin: 12px 0;
 }
 
+.matFormFieldPassword mat-icon{
+  margin: 0 12px ;
+}
+
+.matFormFieldNacimiento mat-datepicker-toggle{
+  margin: 0 5px ;
+}
+
 .form-container {
   position: absolute;
   top: 0;

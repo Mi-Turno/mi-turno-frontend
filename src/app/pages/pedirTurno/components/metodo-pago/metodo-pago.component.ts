@@ -1,7 +1,8 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { MetodosDePagoServiceService } from '../../../core/services/metodosDePago/metodos-de-pago-service.service';
 import { CommonModule } from '@angular/common';
-import { CardComponent } from "../../../shared/components/card/card.component";
+import { MetodosDePagoServiceService } from '../../../../core/services/metodosDePago/metodos-de-pago-service.service';
+import { CardComponent } from '../../../../shared/components/card/card.component';
+
 
 
 @Component({

@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno/pedir-turno.component';
 import { ProfesionalesMainComponent } from './pages/dashboardLocal/components/profesionales/profesionales-main/profesionales-main.component';
 import { ServicioMainComponent } from './pages/dashboardLocal/components/servicios/servicio-main/servicio-main.component';
 import { DashboardClienteComponent } from './pages/dashboardCliente/dashboard-cliente.component';
@@ -17,6 +16,8 @@ import { TablaTurnosDataSource } from './shared/components/tabla-turnos/tabla-tu
 import { VerificacionMailComponent } from './pages/verificacion-mail/verificacion-mail.component';
 import { TablaClientesComponent } from './shared/components/tabla-clientes/tabla-clientes.component';
 import { ConfiguracionLocalComponent } from './pages/dashboardLocal/components/configuracion-local/configuracion-local.component';
+import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno.component';
+
 
 
 
