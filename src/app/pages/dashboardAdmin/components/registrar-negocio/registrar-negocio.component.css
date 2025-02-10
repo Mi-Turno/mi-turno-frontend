@@ -6,6 +6,10 @@
   height: 90%;
 
 }
+.passwordField mat-icon{
+  margin: 0 12px;
+
+}
 
 h2{
   font-size: var(--titulo-h2);
