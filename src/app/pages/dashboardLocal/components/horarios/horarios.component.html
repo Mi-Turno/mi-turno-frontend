@@ -20,6 +20,7 @@
         >
       </div>
     </div>
-    <button class="boton" (click)="agregarHorario()">+</button>
+    <button class="boton" (click)="abrirDialogoAgregarHorarios()">+</button>
+    <app-dialogo-horarios-profesional (respuesta)="manejarRespuesta($event)"></app-dialogo-horarios-profesional>
   </div>
 </div>

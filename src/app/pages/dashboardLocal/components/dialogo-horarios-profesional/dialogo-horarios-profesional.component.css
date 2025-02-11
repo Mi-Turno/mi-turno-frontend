@@ -1,0 +1,36 @@
+
+
+.cancelar{
+  background-color: var( --color-eliminar1);
+  cursor: pointer;
+  color: var(--color-background) !important;
+  border: none;
+  border-radius: 0.4rem;
+  height: 2.5rem;
+  font-size: medium;
+  text-align: center;
+  width: 6rem;
+}
+
+.cancelar:hover{
+  background-color: var(--color-eliminar1-hover);
+}
+
+
+.agregar {
+  background-color: var( --color-contraste1);
+  cursor: pointer;
+  color: var(--color-background) !important;
+  border: none;
+  border-radius: 0.4rem;
+  height: 2.5rem;
+  font-size: medium;
+  text-align: center;
+  width: 8rem;
+}
+
+.agregar:hover{
+
+  background-color: var(--color-confirmar-hover);
+}
+

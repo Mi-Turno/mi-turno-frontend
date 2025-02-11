@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Ingrese un horario</h2>
+<mat-dialog-content>
+
+
+  <mat-form-field appearance="outline">
+    <mat-label>HH:mm</mat-label>
+    <input matInput [(ngModel)]="horario" />
+
+    <mat-icon matSuffix>{{iconos.reloj}}</mat-icon>
+
+
+  </mat-form-field>
+
+<!-- TODO: Ver como poner el error -->
+  <!-- @if(horarioInvalido()){
+    <small>
+      {{ mostrarMensajeError() }}
+    </small>
+  } -->
+
+
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()" class="cancelar">Cancelar</button>
+  <button mat-button (click)="confirmarHorario()" cdkFocusInitial class="agregar">Agregar</button>
+</mat-dialog-actions>
