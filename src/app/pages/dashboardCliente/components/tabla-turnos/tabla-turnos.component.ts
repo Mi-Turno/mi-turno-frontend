@@ -9,9 +9,12 @@ import { TurnoInterface } from '../../../../core/interfaces/turno-interface';
 import { ClienteService } from '../../../../core/services/clienteService/cliente.service';
 import { TurnoService } from '../../../../core/services/turnoService/turno.service';
 import { estadoTurno } from '../../../../shared/models/estadoTurnoEnum';
-import { forkJoin, map, Observable, switchMap } from 'rxjs';
+import { catchError, defaultIfEmpty, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { AuthService } from '../../../../core/guards/auth/service/auth.service';
 import { HorarioXprofesionalService } from '../../../../core/services/horariosProfesionalService/horarioProfesional.service';
+import { EmailService } from '../../../../core/services/emailService/email-service.service';
+import { EmailCancelacion } from '../../../../core/interfaces/email-cancelacion-desde-negocio';
+import { NegocioServiceService } from '../../../../core/services/negocioService/negocio-service.service';
 
 
 interface mostrarTurnosInterface {
@@ -48,6 +51,9 @@ export class TablaTurnosComponent implements OnInit {
   servicioCliente: ClienteService = inject(ClienteService);
   authService: AuthService = inject(AuthService);
   horarioProfesional: HorarioXprofesionalService = inject(HorarioXprofesionalService);
+  emailService: EmailService = inject(EmailService);
+  cuerpoEmail: EmailCancelacion = {} as EmailCancelacion;
+  negocioService: NegocioServiceService = inject(NegocioServiceService);
   //arreglos
   @Input() listadoNegocios: NegocioInterface[] = [];
   listadoTurnos: TurnoInterface[] = [];
@@ -67,7 +73,16 @@ export class TablaTurnosComponent implements OnInit {
       }
     }
   }
-
+  obtenerNumeroSoporteNegocio(idNegocio: number) {
+    this.negocioService.getNumeroDeSoporte(this.authService.getIdUsuario()!).subscribe({
+      next: (numeroResponse) => {
+        this.cuerpoEmail.numeroSoporte = numeroResponse;
+        console.log(numeroResponse);
+      },
+      error: (error) => {
+      }
+    });
+  }
 
   setearTurnos() {
     this.listadoMostrarTurnos = []; // Limpiar antes de agregar nuevos turnos
@@ -94,15 +109,15 @@ export class TablaTurnosComponent implements OnInit {
     });
   }
 
-    ordenarArregloTurnos(arreglo: mostrarTurnosInterface[]) {
-      return arreglo.sort((a, b) => {
-        const fecha = a.fechaInicio.toString().localeCompare(b.fechaInicio.toString());
-        if (fecha !== 0) {
-          return fecha;
-        }
-        return a.horario.toString().localeCompare(b.horario.toString());
-      });
-    }
+  ordenarArregloTurnos(arreglo: mostrarTurnosInterface[]) {
+    return arreglo.sort((a, b) => {
+      const fecha = a.fechaInicio.toString().localeCompare(b.fechaInicio.toString());
+      if (fecha !== 0) {
+        return fecha;
+      }
+      return a.horario.toString().localeCompare(b.horario.toString());
+    });
+  }
 
   //Metodo combina las llamadas para un único turno
   obtenerDatosTurno(unTurno: TurnoInterface): Observable<mostrarTurnosInterface> {
@@ -153,28 +168,66 @@ export class TablaTurnosComponent implements OnInit {
   }
 
 
+
+
   cancelarTurno(idNegocio: number, idTurno: number) {
     const estadoTurno = this.determinarEstado({ estado: idTurno });
-    if (estadoTurno !== this.estado.COBRADO && estadoTurno !== this.estado.CANCELADO) {
 
-      this.turnoService.updateTurno(idNegocio, idTurno,this.estado.CANCELADO).subscribe({
+    if (estadoTurno !== this.estado.COBRADO && estadoTurno !== this.estado.CANCELADO) {
+      this.turnoService.updateTurno(idNegocio, idTurno, this.estado.CANCELADO).subscribe({
         next: (response) => {
-          console.log('Turno cancelado', response);
-          this.darDeAltaHorario(response.horarioProfesional.idHorario!,response.idNegocio,response.horarioProfesional.idProfesional,true);
-          alert('Turno cancelado');
-          window.location.reload();
+          this.darDeAltaHorario(response.horarioProfesional.idHorario!, response.idNegocio, response.horarioProfesional.idProfesional, true);
+
+          const nombreNegocio = this.listadoNegocios.find((negocio) => negocio.idUsuario === response.idNegocio)?.nombre || '';
+          const emailCliente = this.authService.getEmailUsuario()!;
+
+          // Obtener número de soporte con manejo de errores
+          const numeroSoporte$ = this.negocioService.getNumeroDeSoporte(response.idNegocio).pipe(
+            catchError((error) => {
+              console.error('Error obteniendo número de soporte', error);
+              return of(null); // Si falla, devuelve null
+            }),
+            defaultIfEmpty(null) // Si no hay respuesta, devuelve null
+          );
+
+          // Ejecutamos ambas llamadas en paralelo
+          forkJoin({ numeroSoporte: numeroSoporte$ }).subscribe({
+            next: ({ numeroSoporte }) => {
+              this.cuerpoEmail = {
+                nombreCliente: this.authService.getNombreUsuario()!,
+                nombreNegocio: nombreNegocio,
+                emailCliente: emailCliente,
+                numeroSoporte: typeof numeroSoporte === 'number' ? numeroSoporte : 0 // Si es null o no es número, usa 0 por defecto
+              };
+
+              this.emailService.enviarEmailCancelacionCliente(this.cuerpoEmail).subscribe({
+                next: (response) => {
+                  console.log('Email enviado', response);
+                },
+                error: (error) => {
+                  console.error('Error al enviar email', error);
+                }
+              });
+
+              alert('Turno cancelado');
+              window.location.reload();
+            },
+            error: (error) => {
+              console.error('Error en forkJoin', error);
+            }
+          });
         },
         error: (error) => {
           console.error('Error al cancelar turno', error);
         }
       });
     } else {
-      alert('No se puede cancelar este turno. Está cobrando o ya fue cancelado.');
+      alert('No se puede cancelar este turno. Está cobrado o ya fue cancelado.');
     }
   }
 
-  darDeAltaHorario(idHorario:number,idNegocio:number,idProfesional:number,estado:boolean){
-    this.horarioProfesional.patchEstadoHorarioProfesional(idHorario,idNegocio,idProfesional,estado).subscribe({
+  darDeAltaHorario(idHorario: number, idNegocio: number, idProfesional: number, estado: boolean) {
+    this.horarioProfesional.patchEstadoHorarioProfesional(idHorario, idNegocio, idProfesional, estado).subscribe({
       next: (response) => {
         console.log('Horario dado de alta', response);
 
