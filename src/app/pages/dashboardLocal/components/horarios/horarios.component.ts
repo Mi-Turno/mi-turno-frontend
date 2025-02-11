@@ -3,7 +3,7 @@
 //todo: Hay que hacer que cuando el arreglo este con elementos, no se pueda desmarcar el toggle
 
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, signal, SimpleChanges } from "@angular/core";
+import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, signal, SimpleChanges, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatIcon } from "@angular/material/icon";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
@@ -11,12 +11,13 @@ import { HorarioXprofesionalService } from "../../../../core/services/horariosPr
 import { HorarioProfesional } from "../../../../core/interfaces/horarioProfesional.interface";
 import { DiasEnum } from "../../../../shared/models/diasEnum";
 import { ProfesionalInterface } from "../../../../core/interfaces/profesional-interface";
+import { DialogoHorariosProfesionalComponent, DialogoPreguntaHorarios } from "../dialogo-horarios-profesional/dialogo-horarios-profesional.component";
 
 
 @Component({
   selector: 'app-horarios',
   standalone: true,
-  imports: [MatIcon, CommonModule, FormsModule, MatSlideToggleModule],
+  imports: [MatIcon, CommonModule, FormsModule, MatSlideToggleModule, DialogoHorariosProfesionalComponent],
   templateUrl: './horarios.component.html',
   styleUrl: './horarios.component.css'
 })
@@ -28,7 +29,7 @@ export class HorariosComponent  implements OnInit, OnChanges{
  @Input() horarios: HorarioProfesional [] = [];
  @Input() dia:DiasEnum= DiasEnum.LUNES;
  @Input() profesional: ProfesionalInterface | null = null;
-
+@ViewChild(DialogoHorariosProfesionalComponent) dialogoHorarios!: DialogoHorariosProfesionalComponent;
 
 ngOnInit(): void {
   this.toggleActivo = this.cambiarToggle();
@@ -100,14 +101,22 @@ crearHorario(horarioNuevo: string): HorarioProfesional {
 
 
   // Función para añadir un nuevo horario
-  agregarHorario() {
-    const nuevoHorario = prompt('Ingresa un nuevo horario (HH:mm):');
+  agregarHorario(nuevoHorario: string) {
     if(nuevoHorario){
      const horario = this.crearHorario(nuevoHorario)
       this.postHorarioToBackend(horario);
-
     }
   }
+
+  abrirDialogoAgregarHorarios(){
+    this.dialogoHorarios.openDialog();
+  }
+
+  manejarRespuesta(respuesta:string){
+    this.agregarHorario(respuesta);
+  }
+
+
   private postHorarioToBackend(horario:any):void{
     try {
       this.horarioService.postHorariosPorProfesional(this.profesional?.idNegocio!, this.profesional?.idUsuario!, horario).subscribe({

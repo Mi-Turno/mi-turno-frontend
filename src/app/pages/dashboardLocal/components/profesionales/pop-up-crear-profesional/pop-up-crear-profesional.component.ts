@@ -155,7 +155,7 @@ confirmarUsuario() {
     }else{
       this.postUsuarioToBackend(usuario);
     }
-    //window.location.reload();
+    window.location.reload();
   } else {
     this.formularioRegister.markAllAsTouched();
     // let campoError: string = '';
