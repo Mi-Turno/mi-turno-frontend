@@ -76,9 +76,7 @@ export class ProfesionalesMainComponent implements OnInit {
       this.profesionales.GETProfesionalesPorIdNegocioYEstado(this.idNegocio, "true").subscribe({
         next: (profesionales) => {
           this.idCards = [...profesionales];
-          console.log(this.idCards);
         }, error: (error) => {
-          console.log(error);
         }
       });
     });
@@ -101,7 +99,6 @@ export class ProfesionalesMainComponent implements OnInit {
   recibirCardActual(card: UsuarioInterface) {
     this.cardActual = card; // Almacena el valor recibido en cardActual
     this.cargarUsuarios();
-    console.log("Nashe");
   }
 
 

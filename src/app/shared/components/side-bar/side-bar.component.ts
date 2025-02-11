@@ -41,11 +41,8 @@ export class SideBarComponent {
   }
 
   manejarRespuesta(respuesta: boolean){
-    console.log(respuesta);
     if (!respuesta) {
       this.cerrarSesion()
-    } else {
-      console.log("No quiere cerra");
     }
   }
   selecionado(ruta: string): boolean {
