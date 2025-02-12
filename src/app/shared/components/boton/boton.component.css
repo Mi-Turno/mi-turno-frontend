@@ -148,3 +148,39 @@
   border:  none;
   font-size: var( --titulo-h5);
 }
+
+
+.botonAltaUsuario{
+  background-color: var( --color-contraste1);
+  cursor: pointer;
+  color: var(--color-background);
+  border: none;
+  border-radius: 0.4rem;
+  height: 2rem;
+  font-size: larger;
+  text-align: center;
+  width: 7rem;
+}
+
+.botonAltaUsuario:hover{
+
+  background-color: var(--color-confirmar-hover);
+}
+
+
+.botonBajaUsuario{
+  background-color: var( --color-eliminar1);
+  cursor: pointer;
+  color: var(--color-background);
+  border: none;
+  border-radius: 0.4rem;
+  height: 2rem;
+  font-size: larger;
+  text-align: center;
+  width: 7rem;
+}
+
+.botonBajaUsuario:hover{
+  background-color: var(--color-eliminar1-hover);
+}
+
