@@ -20,7 +20,7 @@ export class ClienteService {
     }
 
     public getEmailClienteById(idCliente:number):Observable<String>{
-        return this.http.get<String>(`${this.urlBase}/email/${idCliente}`);
+        return this.http.get<String>(`${this.urlBase}/email/${idCliente}`,{responseType: 'text' as 'json'});
     }
 
     public postCliente(cliente:ClienteInterface):Observable<ClienteInterface>{
