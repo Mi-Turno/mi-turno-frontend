@@ -1,5 +1,5 @@
 import { UsuarioService } from './../../core/services/usuarioService/usuario.service';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, Signal, signal } from '@angular/core';
 import { BotonComponent } from "../../shared/components/boton/boton.component";
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VerificarUsuarioInterface } from '../../core/interfaces/verificar-usuario.interface';
@@ -17,7 +17,7 @@ export class VerificacionMailComponent {
 
 
   fb:FormBuilder = inject(FormBuilder)//Forms reactives
-  loading = signal(false);
+  mensajeReenviandoMail = ""
   usuarioService:UsuarioService = inject(UsuarioService);
   router:Router = inject(Router);
 
@@ -58,12 +58,6 @@ export class VerificacionMailComponent {
   mensajeBoton = signal("Aceptar")
   exito = signal(false);
 
-
-  handleClickBoton() {
-    console.log('Botón clickeado');
-  }
-
-
   handleSubmit(e: Event) {
     e.preventDefault();
 
@@ -79,14 +73,13 @@ export class VerificacionMailComponent {
     .subscribe({
       next: (response) => {
 
-        //console.log(response, "email verificado!");
         this.exito.set(true);
         this.mensajeBoton.set("Email verificado");
 
         localStorage.removeItem('username'); //eliminamos el email del localstorage
         setTimeout(() => {
 
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/login');
 
         }, 2000);
 
@@ -106,30 +99,63 @@ export class VerificacionMailComponent {
   }
 
   handleReenviarCodigo() {
-    this.loading.set(true);
-
     const username= localStorage.getItem('username') || '';
 
     if(username.length === 0){
+      console.log("username vacio");
+      return;
+    }
+
+    //this.mensajeReenviandoMail="Reenviando correo con código de verificación...";
+
+    if(this.esperando()){
+      console.log("Esperando");
       return;
     }
 
     this.usuarioService.reenviarCodigoDeVerificacion(username).subscribe({
       next: (response) => {
-        console.log('Código reenviado:', response);
+
+
+        this.iniciarContador();
       },
       error: (error) => {
+        const mensaje = error.error['mensaje'];
+        console.log(mensaje);
+
+        if (mensaje.includes("verificada")) {
+          // Agrega el error personalizado al FormControl
+          this.formularioCodigo.get('codigo')?.setErrors({ cuentaVerificada: true });
+        }
         console.error('Error al reenviar código:', error);
-      },
-      complete: () => {
-        this.loading.set(false);
       }
     });
+  }
+
+  tiempoRestante: number = 60; // Tiempo de espera en segundos
+  esperando = signal(false);
+  intervalo: any;
+
+  iniciarContador() {
+    this.esperando = signal(true);
+    this.tiempoRestante = 60; // Reiniciar el contador cada vez que se hace clic en reenviar
+
+    this.intervalo = setInterval(() => {
+      this.mensajeReenviandoMail=`Código reenviado. Tiempo restante para poder reenviar codigo de verificacion: ${this.tiempoRestante } segundos`;
+      this.tiempoRestante--;
+      if (this.tiempoRestante <= 0) {
+        clearInterval(this.intervalo);
+        this.esperando = signal(false);
+        this.mensajeReenviandoMail="";
+      }
+    }, 1000);
   }
 
   mostrarMensajeError(error: string) {
 
     switch (error) {
+      case 'cuentaVerificada':
+      return 'Cuenta ya se encuentra verificada';
       case 'incorrect':
         return 'Código incorrecto';
       case 'required':

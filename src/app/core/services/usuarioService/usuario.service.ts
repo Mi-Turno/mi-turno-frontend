@@ -1,4 +1,4 @@
-import {  HttpClient } from '@angular/common/http';
+import {  HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UsuarioInterface } from '../../interfaces/usuario-interface';
@@ -30,15 +30,19 @@ export class UsuarioService {
     return this.http.post<string>(`${this.urlAuth}/verificar`,verificarUsuarioRequest);
   }
 
-  public reenviarCodigoDeVerificacion(emailAReenviar: string):Observable<string>{
-    return this.http.post<string>(`${this.urlAuth}/reenviar`,emailAReenviar);
+  public reenviarCodigoDeVerificacion(emailAReenviar: string):Observable<object>{
+    const nuevo: VerificarUsuarioInterface = {
+      email: emailAReenviar,
+      codigoVerificacion: ""
+    }
+    return this.http.post<object>(`${this.urlAuth}/reenviar`,nuevo);
   }
 
   public obtenerUsuarioPorId(id:number|undefined):Observable<UsuarioInterface>{
     return this.http.get<UsuarioInterface>(`${this.urlBase}/${id}`);
   }
 
-    //-------------JWT-------->>>>>>
+  //-------------JWT-------->>>>>>
 
   public getToken(email:string,password:string): Observable<string>{
     return this.http.post<string>(`${this.urlAuth}/login`,{email,password},{ responseType: 'text' as 'json' });
