@@ -119,7 +119,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
             window.location.reload();
           },
           error: (error: any) => {
-            console.error(error);
+
           },
         });
     }
@@ -172,7 +172,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
         });
       },
       error: (error: any) => {
-        console.error(error);
+
       },
     });
   }
@@ -243,17 +243,17 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
 
                   },
                   error: (error: Error) => {
-                    console.error(error);
+
                   },
                 });
             },
             error: (error) => {
-              console.error(error);
+
             },
           });
       },
       error: (error) => {
-        console.error(error);
+
       },
     });
   }
@@ -261,7 +261,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
     this.negocioService.getNumeroDeSoporte(this.authService.getIdUsuario()!).subscribe({
       next: (numeroResponse) => {
         this.cuerpoEmail.numeroSoporte = numeroResponse;
-        console.log(numeroResponse);
+
       },
       error: (error) => {
       }
@@ -310,6 +310,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
     }
     this.modificarEstado(turno!, idNegocio!);
   }
+
   cancelarTurno(idNegocio: number,idTurno: number) {
 
     //obtener turno
@@ -317,12 +318,12 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
 
     this.darDeAltaHorario(turno?.horarioProfesional.idHorario!, idNegocio, turno?.horarioProfesional.idProfesional!, true);
     this.clienteService.getEmailClienteById(turno?.idCliente!).subscribe({
-      next: (email:String) => {
-        this.cuerpoEmail.emailCliente = email;
-        console.log(email);
+      next: (responseEmail) => {
+        this.cuerpoEmail.emailCliente = responseEmail.email;
         /*4 Le avisamos al cliente que se cancelo su turno*/
         this.emailService.postEnviarEmailDeCancelacionDesdeUnNegocio(this.cuerpoEmail).subscribe({
           next: (responseEmail) => {
+            alert('Turno cancelado');
           },
           error: (error) => {
           }
@@ -337,11 +338,9 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
   darDeAltaHorario(idHorario: number, idNegocio: number, idProfesional: number, estado: boolean) {
     this.horarioProfesional.patchEstadoHorarioProfesional(idHorario, idNegocio, idProfesional, estado).subscribe({
       next: (response) => {
-        console.log('Horario dado de alta', response);
 
       },
       error: (error) => {
-        console.error('Error al dar de alta horario', error);
       }
     });
   }
