@@ -131,7 +131,7 @@ export class ToggleComponent {
       },
       error: (error:HttpErrorResponse) =>{
         const mensaje = error.error['mensaje'];
-        console.log(mensaje);
+        
 
         if (mensaje.includes("email")) {
           // Agrega el error personalizado al FormControl
