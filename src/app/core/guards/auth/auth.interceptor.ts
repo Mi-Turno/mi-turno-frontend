@@ -8,7 +8,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
   const authService = inject(AuthService);
   const token = authService.getToken(); // Obtengo el token desde el AuthService
 
-  const urlIgnoradas = ['/login', '/register'];
+  const urlIgnoradas = ['/login', '/register', '/auth/verificar', '/auth/reenviar']; // URLs que no requieren token
 
   const ignorar = urlIgnoradas.some(url => req.url.includes(url));
 
