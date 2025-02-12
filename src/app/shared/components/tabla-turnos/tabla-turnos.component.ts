@@ -304,50 +304,31 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
         this.darDeAltaHorario(turno.numero!, idNegocio, this.idProfesional!, true);
       } else if (turno.estado == estadoTurno.RESERVADO) {
         turno.estado = estadoTurno.CANCELADO;
-
         /**LOGICA PARA DAR DE BAJA EL TURNO Y HABILITAR EL TURNO EN EL HUB */
-
         this.cancelarTurno(idNegocio, turno.numero!);
-
       }
     }
     this.modificarEstado(turno!, idNegocio!);
   }
-  //! REVISAR ESTE METODO LO NARANJA
-  cancelarTurno(idNegocio: number, idTurno: number) {
+  cancelarTurno(idNegocio: number,idTurno: number) {
 
-    /*1 ACTUALIZAMOS EL TURNO*/
-    this.turnoService.updateTurno(idNegocio, idTurno, this.estado.CANCELADO).subscribe({
-      next: (response) => {
-        /*2 Damos de alta el turno que ya se cancelo*/
-        this.darDeAltaHorario(response.horarioProfesional.idHorario!, response.idNegocio, response.horarioProfesional.idProfesional, true);
+    //obtener turno
+    const turno = this.turnos.find((t) => t.idTurno == idTurno);
 
-        this.cuerpoEmail.nombreNegocio = this.authService.getNombreUsuario()!;
-        /*3 Obtenemos el email del cliente*/
-        this.clienteService.getEmailClienteById(response.idCliente).subscribe({//TODO a partir de aca no entra (en swagger funciona bien los metodos) hay que buscar la forma de que se obtenga el email del cliente o con una lista de emails quiza con un forkJoin
-          next: (email:String) => {
-            this.cuerpoEmail.emailCliente = email;
-            console.log(email);
-            /*4 Le avisamos al cliente que se cancelo su turno*/
-            this.emailService.postEnviarEmailDeCancelacionDesdeUnNegocio(this.cuerpoEmail).subscribe({
-              next: (responseEmail) => {
-                console.log(responseEmail);
-              },
-              error: (error) => {
-                console.error('Error al enviar email de cancelación', error);
-              }
-            });
+    this.darDeAltaHorario(turno?.horarioProfesional.idHorario!, idNegocio, turno?.horarioProfesional.idProfesional!, true);
+    this.clienteService.getEmailClienteById(turno?.idCliente!).subscribe({
+      next: (email:String) => {
+        this.cuerpoEmail.emailCliente = email;
+        console.log(email);
+        /*4 Le avisamos al cliente que se cancelo su turno*/
+        this.emailService.postEnviarEmailDeCancelacionDesdeUnNegocio(this.cuerpoEmail).subscribe({
+          next: (responseEmail) => {
           },
           error: (error) => {
-            console.error('Error al obtener email del cliente', error);
           }
         });
-        alert('Turno cancelado');
-        window.location.reload();
-
       },
       error: (error) => {
-        console.error('Error al cancelar turno', error);
       }
     });
 
