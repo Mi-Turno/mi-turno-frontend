@@ -57,6 +57,11 @@ export class UsuarioService {
   }
 
 
+  public modificarEstadoUsuario(id: number):Observable<void>{
+    return this.http.patch<void>(`${this.urlBase}/${id}/estado`, {});
+  }
+
+
   }
 
 

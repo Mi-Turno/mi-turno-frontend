@@ -16,6 +16,7 @@ import { UsuarioService } from '../../../core/services/usuarioService/usuario.se
 import { UsuarioInterface } from '../../../core/interfaces/usuario-interface';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
+import { BotonComponent } from '../boton/boton.component';
 
 @Component({
   selector: 'app-tabla-clientes',
@@ -27,7 +28,8 @@ import { Router } from '@angular/router';
     MatPaginatorModule,
     MatSortModule,
     MatFormFieldModule,
-     MatInputModule
+    MatInputModule,
+    BotonComponent,
   ],
 })
 export class TablaClientesComponent implements AfterViewInit {
@@ -40,11 +42,21 @@ export class TablaClientesComponent implements AfterViewInit {
   informacionUsuarios!: MatTableDataSource<TablaClientesItem>;
   usuarios: TablaClientesItem[] = [];
   token: string = '';
-  segmento: string = "";
+  segmento: string = '';
   usuarioService: UsuarioService = inject(UsuarioService);
-  router:Router = inject(Router);
+  router: Router = inject(Router);
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'nombre','apellido', 'correo','telefono','fechaNacimiento',  'rol','estado', 'acciones'];
+  displayedColumns = [
+    'id',
+    'nombre',
+    'apellido',
+    'correo',
+    'telefono',
+    'fechaNacimiento',
+    'rol',
+    'estado',
+    'acciones',
+  ];
 
   ngAfterViewInit(): void {
     this.funteInfo = new MatTableDataSource(this.dataSource.data);
@@ -52,7 +64,6 @@ export class TablaClientesComponent implements AfterViewInit {
     this.funteInfo.paginator = this.paginator;
     this.table.dataSource = this.funteInfo;
   }
-
 
   estadoMuestra = false;
 
@@ -69,20 +80,24 @@ export class TablaClientesComponent implements AfterViewInit {
     this.token = localStorage.getItem('token')!;
     this.cargarTabla();
 
-
-    this.confirmarTabla()
-
+    this.confirmarTabla();
   }
 
-  //Esta función renderiza la tabla según lo que se tenga que mostrar en cada pagina 
-confirmarTabla(){
-  const urlSegments = this.router.url.split('/'); // Divide la URL en segmentos
-  this.segmento = urlSegments[urlSegments.length - 1]; // Obtiene el último segmento
-  if(this.segmento == "clientes"){
-    this.displayedColumns = ['id', 'nombre','apellido', 'correo','telefono','fechaNacimiento','acciones']
+  //Esta función renderiza la tabla según lo que se tenga que mostrar en cada pagina
+  confirmarTabla() {
+    const urlSegments = this.router.url.split('/'); // Divide la URL en segmentos
+    this.segmento = urlSegments[urlSegments.length - 1]; // Obtiene el último segmento
+    if (this.segmento == 'clientes') {
+      this.displayedColumns = [
+        'id',
+        'nombre',
+        'apellido',
+        'correo',
+        'telefono',
+        'fechaNacimiento'
+      ];
+    }
   }
-}
-
 
   cargarTabla() {
     this.usuarioService.getUsuarios(this.token).subscribe({
@@ -91,24 +106,38 @@ confirmarTabla(){
           return {
             id: usuario.idUsuario?.toString() || '',
             nombre: usuario.nombre,
-            apellido:usuario.apellido,
+            apellido: usuario.apellido,
             correo: usuario.credencial.email,
             telefono: usuario.credencial.telefono,
             rol: usuario.rolUsuario,
-            fechaNacimiento:usuario.fechaNacimiento,
-            estado:usuario.credencial.estado
+            fechaNacimiento: usuario.fechaNacimiento,
+            estado: usuario.credencial.estado,
           };
         });
         //this.dataSource.data = this.usuarios;
 
         this.funteInfo.data = this.usuarios;
         this.funteInfo.paginator = this.paginator;
-       this.funteInfo.sort = this.sort;
+        this.funteInfo.sort = this.sort;
         this.table.dataSource = this.funteInfo;
       },
       error: (error) => {
         console.error(error);
       },
     });
+  }
+
+  modificarEstadoUsuario(usuario: TablaClientesItem) {
+    this.usuarioService
+      .modificarEstadoUsuario(Number.parseInt(usuario.id))
+      .subscribe({
+        next: () => {
+          this.cargarTabla();
+          this.confirmarTabla();
+        },
+        error: (err: Error) => {
+          console.error('Error al recargar la tabla');
+        },
+      });
   }
 }
