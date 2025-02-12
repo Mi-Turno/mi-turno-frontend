@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy,  Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ClienteInterface } from '../../../core/interfaces/cliente-interface';
@@ -23,7 +23,7 @@ import { NgClass } from '@angular/common';
   standalone: true,
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass,ReactiveFormsModule, MatIconModule,MatFormFieldModule, MatInputModule, FormsModule,MatDatepickerModule],
+  imports: [NgClass, ReactiveFormsModule, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, MatDatepickerModule],
   templateUrl: './toggle.component.html',
   styleUrl: './toggle.component.css',
 })
@@ -39,10 +39,10 @@ export class ToggleComponent {
   //servicios
   usuarioService = inject(UsuarioService);//Para poder obtener cualquier usuario del sistema sea CLIENTE, PROFESIONAL, NEGOCIO O ADMIN
   clienteService = inject(ClienteService);//Para poder hacer el login y el register de los clientes
-  fb:FormBuilder = inject(FormBuilder)//Forms reactives
+  fb: FormBuilder = inject(FormBuilder)//Forms reactives
   router: Router = inject(Router);//Para poder redirigir a las distintas paginas
   //auth
-  auth:AuthService = inject(AuthService);//Para poder loguear al usuario
+  auth: AuthService = inject(AuthService);//Para poder loguear al usuario
 
   //-----------------------------------TOGGLE-----------------------------------
 
@@ -55,29 +55,29 @@ export class ToggleComponent {
   }
 
   //-----------------------------------REGISTER-----------------------------------
-  formularioRegister:FormGroup = this.fb.nonNullable.group({
+  formularioRegister: FormGroup = this.fb.nonNullable.group({
     nombre: new FormControl('', Validators.required),
     apellido: new FormControl('', Validators.required),
     emailRegister: new FormControl('', [Validators.required, Validators.email]),
-    fechaNacimiento: new FormControl('',[Validators.required]),
+    fechaNacimiento: new FormControl('', [Validators.required]),
     telefono: new FormControl('', Validators.required),
     passwordRegister: new FormControl('', Validators.required),
     passwordRepetida: new FormControl('', Validators.required),
   });
 
   //metodo para crear un cliente
-   obtenerFormRegister():ClienteInterface {
-    const credencial:CredencialInterface = {
-      email:this.formularioRegister.get('emailRegister')?.value,
-      password:this.formularioRegister.get('passwordRegister')?.value,
-      telefono:this.formularioRegister.get('telefono')?.value,
-      estado:true,
-    } ;
+  obtenerFormRegister(): ClienteInterface {
+    const credencial: CredencialInterface = {
+      email: this.formularioRegister.get('emailRegister')?.value,
+      password: this.formularioRegister.get('passwordRegister')?.value,
+      telefono: this.formularioRegister.get('telefono')?.value,
+      estado: true,
+    };
     return {
-      nombre:this.capitalizarString(this.formularioRegister.get('nombre')?.value),
-      apellido:this.capitalizarString(this.formularioRegister.get('apellido')?.value),
-      fechaNacimiento:this.formularioRegister.get('fechaNacimiento')?.value,
-      credencial:credencial,
+      nombre: this.capitalizarString(this.formularioRegister.get('nombre')?.value),
+      apellido: this.capitalizarString(this.formularioRegister.get('apellido')?.value),
+      fechaNacimiento: this.formularioRegister.get('fechaNacimiento')?.value,
+      credencial: credencial,
       rolUsuario: 'CLIENTE',
 
     };
@@ -85,8 +85,8 @@ export class ToggleComponent {
   }
 
   //validaciones campos formularios
-  emailExiste:boolean = false;
-  telefonoExiste:boolean = false;
+  emailExiste: boolean = false;
+  telefonoExiste: boolean = false;
 
   //limpiar los campos del formulario
   limpiarCampos() {
@@ -97,39 +97,39 @@ export class ToggleComponent {
     return palabraFormatear.charAt(0).toUpperCase() + palabraFormatear.slice(1).toLowerCase();// 0 es la primera letra de la palabra y el resto es el resto de la palabra
   }
 
-  mensajeRegister:string= "Bienvenido de vuelta!";
-  subMensajeRegister:string = "Ingresa con tus datos personales";
+  mensajeRegister: string = "Bienvenido de vuelta!";
+  subMensajeRegister: string = "Ingresa con tus datos personales";
 
-  private postClienteToBackend(cliente:ClienteInterface):void{
+  private postClienteToBackend(cliente: ClienteInterface): void {
 
 
     this.clienteService.postCliente(cliente).subscribe({
-      next:() =>{
+      next: () => {
 
         this.mensajeRegister = "Usuario Registrado con exito!";
         this.subMensajeRegister = "Redirigiendo a la pagina de verificación...";
         this.exito.set(true); // Cambia el estado a éxito para mostrar el mensaje de éxito
 
 
-        localStorage.setItem('username',cliente.credencial.email);//Guardo el email en el local storage para poder verificarlo
+        localStorage.setItem('username', cliente.credencial.email);//Guardo el email en el local storage para poder verificarlo
 
-        setTimeout(()=>{
+        setTimeout(() => {
 
           this.router.navigateByUrl('/verificacion-email'); //redirigir a la pagina de verificación de email
 
           this.exito.set(false);
-          this.mensajeRegister= "Bienvenido de vuelta!";
+          this.mensajeRegister = "Bienvenido de vuelta!";
           this.subMensajeRegister = "Ingresa con tus datos personales";
 
           this.limpiarCampos() //limpia los campos del formulario
 
-         },2000)
+        }, 2000)
 
 
 
 
       },
-      error: (error:HttpErrorResponse) =>{
+      error: (error: HttpErrorResponse) => {
         const mensaje = error.error['mensaje'];
         console.log(mensaje);
 
@@ -140,7 +140,7 @@ export class ToggleComponent {
         else if (mensaje.includes("telefono")) {
           this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
         }
-    }
+      }
     })
 
   }
@@ -151,11 +151,11 @@ export class ToggleComponent {
   onRegister() {
     if (this.formularioRegister.valid) {
 
-      const cliente:ClienteInterface = this.obtenerFormRegister();
+      const cliente: ClienteInterface = this.obtenerFormRegister();
 
       this.postClienteToBackend(cliente);
 
-    }else{
+    } else {
       //marcamos todos como tocados para que se muestren los errores
       this.formularioRegister.markAllAsTouched();
     }
@@ -184,14 +184,18 @@ export class ToggleComponent {
   //-----------------------------------LOGIN-----------------------------------
 
   formularioLogin = new FormGroup({
-    emailLogin: new FormControl('', [Validators.required, Validators.email]),
+    emailLogin: new FormControl('', [Validators.required]),
     passwordLogin: new FormControl('', Validators.required)
   });
   //obtengo los datos del formulario reactivo
-  private obtenerDatosFormLogin(){
+  private obtenerDatosFormLogin() {
+    let emailForm = this.formularioLogin.get('emailLogin')?.value?.trim() || '';
 
+    if (emailForm && !emailForm.includes('@')) {
+      emailForm += '@gmail.com';
+    }
     return {
-      email: this.formularioLogin.get('emailLogin')?.value,
+      email: emailForm,
       password: this.formularioLogin.get('passwordLogin')?.value
     };
   }
@@ -205,9 +209,9 @@ export class ToggleComponent {
   onLogin() {
     if (this.formularioLogin.valid) {
 
-      const {email, password} = this.obtenerDatosFormLogin();
+      const { email, password } = this.obtenerDatosFormLogin();
 
-      if(email && password) {
+      if (email && password) {
         //obtengo el token
         this.usuarioService.getToken(email, password).subscribe({
           next: (token: string) => {
@@ -219,7 +223,7 @@ export class ToggleComponent {
             const nombreUsuario = this.auth.getNombreUsuario();
 
             //todo agregar el nombre del usuario
-            switch(rolUsuario){
+            switch (rolUsuario) {
               case ROLES.cliente:
                 this.router.navigateByUrl('/dashboard-cliente');
                 break;
@@ -247,7 +251,7 @@ export class ToggleComponent {
         })
       }
 
-    }else{
+    } else {
       //marcamos todos como tocados para mostrar los errores
       this.formularioLogin.markAllAsTouched();
     }
