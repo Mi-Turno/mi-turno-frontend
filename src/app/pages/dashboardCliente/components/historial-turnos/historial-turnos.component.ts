@@ -149,10 +149,7 @@ export class HistorialTurnosComponent {
     unTurnoAux.fecha = unTurno.fechaInicio.toString();
     unTurnoAux.hora = unTurno.horarioProfesional.horaInicio.toString();
     unTurnoAux.numero = unTurno.idTurno ?? 0;
-    unTurnoAux.metodoPago = unTurno.metodosDePagoEnum
-      .replace('_', ' ')
-      .toLocaleLowerCase()
-      .replace(/\b\w/g, (char) => char.toUpperCase());
+    unTurnoAux.metodoPago = unTurno.metodosDePagoEnum.replace('_', ' ').toLocaleLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
     unTurnoAux.estado = unTurno.estado!;
     //obtengo el cliente
     this.clienteService.getClienteById(this.authService.getIdUsuario()!).subscribe({
@@ -180,7 +177,7 @@ export class HistorialTurnosComponent {
 
                   if (unTurnoAux.estado || unTurnoAux.hora > this.horaActual(1)) {
 
-                    if (unTurnoAux.estado == estadoTurno.COBRADO || unTurnoAux.estado == estadoTurno.EN_CURSO) {
+                    if (unTurnoAux.estado == estadoTurno.COBRADO || unTurnoAux.estado == estadoTurno.EN_CURSO || unTurnoAux.estado == estadoTurno.CANCELADO) {
                       this.turnoTabla.push(unTurnoAux);
                     }
                   }
