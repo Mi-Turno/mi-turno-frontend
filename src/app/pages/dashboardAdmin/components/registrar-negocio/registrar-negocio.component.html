@@ -115,18 +115,21 @@
           </mat-form-field>
         </div>
         <div [className]="'containerInputs'">
-          <mat-form-field appearance="outline">
-            <mat-label>Rubro</mat-label>
-            <input
-              formControlName="rubro"
-              matInput
-              [placeholder]="'Rubro del negocio'"
-            />
-            <mat-icon matSuffix>{{ iconos.person }}</mat-icon>
-            @if (formularioRegisterNegocioTieneError("rubro", "required")) {
-            <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
-            }
-          </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Rubro</mat-label>
+        <mat-select formControlName="rubrosControl" required>
+          <mat-option>--</mat-option>
+            <mat-option *ngFor="let rubro of rubros" [value]="rubro">{{rubro}}</mat-option>
+
+        </mat-select>
+        <mat-icon matSuffix>{{ iconos.person }}</mat-icon>
+
+        @if (formularioRegisterNegocioTieneError("rubrosControl", "required")) {
+          <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+          }
+      </mat-form-field>
+
 
           <mat-form-field appearance="outline">
             <mat-label>Calle</mat-label>

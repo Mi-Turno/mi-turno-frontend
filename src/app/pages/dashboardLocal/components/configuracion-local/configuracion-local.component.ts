@@ -17,6 +17,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { Rubros } from '../../../../shared/models/rubrosEnum';
 
 @Component({
   selector: 'app-configuracion-local',
@@ -29,23 +30,46 @@ export class ConfiguracionLocalComponent implements OnInit {
 
 negocioService:NegocioServiceService = inject(NegocioServiceService);
 route: ActivatedRoute = inject(ActivatedRoute);
-nombreNegocio: string = "";
+nombreNegocio: string | null = null;
+negocio: NegocioInterface | null= null;
+idNegocio: number | undefined = 0;
+
 ngOnInit(): void {
-  this.obtenerNombreNegocio();
-    // this.obtenerNegocio();
+    // Accede al parámetro desde la ruta padre
+    this.route.parent?.paramMap.subscribe(params => {
+      this.nombreNegocio = params.get('nombreNegocio');
+    });
+
+    this.ObtenerNegocioPorNombre();
 }
 
-obtenerNombreNegocio(){
-
-
-
-}
 
 // Fuciones para obtener el negocio
 
-// obtenerNegocio(){
-//   this.negocioService.getIdNegocioByNombre(this.nombreNegocio).subscribe() =
-// }
+ObtenerNegocioPorNombre() {
+  this.negocioService.getIdNegocioByNombre(this.nombreNegocio!).subscribe({
+    next: (response: number) => {
+      this.negocioService.getNegocioById(response).subscribe({
+        next: (negocio: NegocioInterface) => {
+          this.negocio = negocio; // Ahora el negocio tiene datos
+          this.idNegocio = negocio.idUsuario;
+
+          this.actualizarValores(); // Llamamos a actualizar los valores aquí
+        },
+        error: (error: Error) => {
+          console.error('Error obteniendo el negocio:', error);
+        }
+      });
+    },
+    error: (error: Error) => {
+      console.error('Error obteniendo ID del negocio:', error);
+    }
+  });
+}
+
+
+
+
 
 
 
@@ -74,86 +98,79 @@ cambiarEstadoToggle3(event:MatSlideToggleChange){
 //   - - - - - -- - - - - -- - - - - -- -Formulario de modificación de negocio - - - - -- - - - -- - - - -- -
 
   formularioModificarNegocio:FormGroup = new FormGroup({
-    nombre: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
     telefono: new FormControl('', Validators.required),
-    rubro: new FormControl('', Validators.required),
+    rubrosControl: new FormControl('', Validators.required),
     calle: new FormControl('', Validators.required),
     altura: new FormControl('', Validators.required),
     detalle: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
-    passwordRepetida: new FormControl('', Validators.required),
   });
 
-    //metodo para crear un negocio
     obtenerNegocioForm() {
 
       const credencial:CredencialInterface = {
-        email:this.formularioModificarNegocio.get('email')?.value,
-        password:this.formularioModificarNegocio.get('password')?.value,
+        email:this.negocio?.credencial.email!,
+        password:this.negocio?.credencial.password!,
         telefono:this.formularioModificarNegocio.get('telefono')?.value,
         estado:true,
       } ;
 
         return {
-          nombre: this.formularioModificarNegocio.get('nombre')?.value,
-          apellido: this.formularioModificarNegocio.get('nombre')?.value,//es igual ya que un negocio no tiene apellido
-          fechaNacimiento: new Date().toISOString().slice(0, 10),//fecha de nacimiento por defecto que seria la fecha de hoy
+          nombre: this.negocio?.nombre || '',
+          apellido: this.negocio?.nombre || '', //es igual ya que un negocio no tiene apellido
+          fechaNacimiento: this.negocio?.fechaNacimiento || '', //fecha de nacimiento por defecto que seria la fecha de hoy
           credencial: credencial,
-          rubro: this.formularioModificarNegocio.get('rubro')?.value,
+          rubro: this.formularioModificarNegocio.get('rubrosControl')?.value,
           calle: this.formularioModificarNegocio.get('calle')?.value,
           altura: this.formularioModificarNegocio.get('altura')?.value,
           detalle: this.formularioModificarNegocio.get('detalle')?.value,
-          rolUsuario: ROLES.negocio
+          rolUsuario: this.negocio?.rolUsuario || ''
         }
+
+    }
+
+
+
+    actualizarValores() {
+
+      this.formularioModificarNegocio.patchValue({
+        telefono: this.negocio?.credencial.telefono,
+        rubrosControl: this.negocio?.rubro,
+        calle: this.negocio?.calle,
+        altura: this.negocio?.altura,
+        detalle: this.negocio?.detalle,
+      });
+
+
 
     }
 
     // Metodo para registrar un negocio haciendo el click
 
-    registrarNegocio() {
+    actualizarNegocioBack() {
 
       if(this.formularioModificarNegocio.valid){
-        const negocio:NegocioInterface = this.obtenerNegocioForm();
-        this.negocioService.postNegocio(negocio).subscribe({
+        const negocioForm:NegocioInterface = this.obtenerNegocioForm();
+        this.negocioService.putNegocio(this.idNegocio!,negocioForm).subscribe({
           next:(response) =>{
-
             //modal de negocio registrado correctamente
             Swal.fire({
-              title: 'Negocio registrado correctamente!',
-              // text: 'Do you want to continue',
+              title: 'Datos Actualizados Correctamente',
               icon: 'success',
               confirmButtonText: 'Ok'
             })
-
-
             //limpiar formulario
-            this.formularioModificarNegocio.reset();
           },
           error:(error:HttpErrorResponse) =>{
             const mensaje = error.error['mensaje'];
 
-
-
-
-
-            if (mensaje.includes("email")) {
-              // Agrega el error personalizado al FormControl
-              this.formularioModificarNegocio.get('emailRegister')?.setErrors({ emailExiste: true });
-            }
-            else if (mensaje.includes("telefono")) {
+            if (mensaje.includes("telefono")) {
               this.formularioModificarNegocio.get('telefono')?.setErrors({ telefonoExiste: true });
             }
-            else if (mensaje.includes["nombreNegocio"]) {
-              this.formularioModificarNegocio.get('nombre')?.setErrors({ negocioExiste: true });
-            }
-
           }
         })
       }else{
         this.formularioModificarNegocio.markAllAsTouched();
       }
-
     }
 
 
@@ -178,8 +195,7 @@ alert("Esto debería madarte a todo el fomrulario de cambiar contraseña")
 
 rubrosControl = new FormControl<String | null>(null, Validators.required);
 selectFormControl = new FormControl('', Validators.required);
-rubros: String[] = ["Peluquería", "Barbería", "Centro de Estética", "Veterinaria", "Dentista"];
-
+rubros = Object.values(Rubros);
 //- - - - - - -- - - - - - - Manejo de errores  -- - - - - - - - -- - - - - -
   formularioModificarNegocioTieneError(campo:string, error:string) {
     return this.formularioModificarNegocio.get(campo)?.hasError(error) && this.formularioModificarNegocio.get(campo)?.touched;
