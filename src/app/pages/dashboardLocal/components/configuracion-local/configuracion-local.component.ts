@@ -17,6 +17,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { Rubros } from '../../../../shared/models/rubrosEnum';
 
 @Component({
   selector: 'app-configuracion-local',
@@ -131,12 +132,6 @@ cambiarEstadoToggle3(event:MatSlideToggleChange){
 
     actualizarValores() {
 
-  // Si el rubro no está en la lista, agrégalo dinámicamente
-  if (this.negocio?.rubro && !this.rubros.includes(this.negocio.rubro)) {
-    this.rubros.push(this.negocio.rubro);
-  }
-
-      console.log("Este es el rubro" + this.negocio?.rubro)
       this.formularioModificarNegocio.patchValue({
         telefono: this.negocio?.credencial.telefono,
         rubrosControl: this.negocio?.rubro,
@@ -154,7 +149,7 @@ cambiarEstadoToggle3(event:MatSlideToggleChange){
     actualizarNegocioBack() {
 
       if(this.formularioModificarNegocio.valid){
-        const negocioForm:NegocioInterface= this.obtenerNegocioForm();
+        const negocioForm:NegocioInterface = this.obtenerNegocioForm();
         this.negocioService.putNegocio(this.idNegocio!,negocioForm).subscribe({
           next:(response) =>{
             //modal de negocio registrado correctamente
@@ -200,8 +195,7 @@ alert("Esto debería madarte a todo el fomrulario de cambiar contraseña")
 
 rubrosControl = new FormControl<String | null>(null, Validators.required);
 selectFormControl = new FormControl('', Validators.required);
-rubros: String[] = ["Peluquería", "Barbería", "Centro de Estética", "Veterinaria", "Dentista"];
-
+rubros = Object.values(Rubros);
 //- - - - - - -- - - - - - - Manejo de errores  -- - - - - - - - -- - - - - -
   formularioModificarNegocioTieneError(campo:string, error:string) {
     return this.formularioModificarNegocio.get(campo)?.hasError(error) && this.formularioModificarNegocio.get(campo)?.touched;

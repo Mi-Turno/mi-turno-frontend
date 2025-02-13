@@ -89,7 +89,7 @@
         </mat-select>
         <mat-icon matSuffix>{{ iconos.person }}</mat-icon>
 
-        @if (formularioModificarNegocioTieneError("rubro", "required")) {
+        @if (formularioModificarNegocioTieneError("rubrosControl", "required")) {
           <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
           }
       </mat-form-field>

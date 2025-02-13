@@ -12,12 +12,16 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import Swal from 'sweetalert2'
 import { HttpErrorResponse } from "@angular/common/http";
+import { Rubros } from "../../../../shared/models/rubrosEnum";
+import { MatSelectModule } from "@angular/material/select";
+import { MatOptionModule } from "@angular/material/core";
+import { CommonModule } from "@angular/common";
 
 @Component
 ({
   selector: 'app-registrar-negocio',
   standalone: true,
-  imports: [ReactiveFormsModule, BotonComponent, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule],
+  imports: [ReactiveFormsModule, BotonComponent, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, MatSelectModule, MatOptionModule, CommonModule],
   templateUrl: './registrar-negocio.component.html',
   styleUrl: './registrar-negocio.component.css'
 })
@@ -38,7 +42,7 @@ export class RegistrarNegocioComponent {
     nombre: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
     telefono: new FormControl('', Validators.required),
-    rubro: new FormControl('', Validators.required),
+    rubrosControl: new FormControl('', Validators.required),
     calle: new FormControl('', Validators.required),
     altura: new FormControl('', Validators.required),
     detalle: new FormControl('', Validators.required),
@@ -62,7 +66,7 @@ export class RegistrarNegocioComponent {
         apellido: this.formularioRegisterNegocio.get('nombre')?.value,//es igual ya que un negocio no tiene apellido
         fechaNacimiento: new Date().toISOString().slice(0, 10),//fecha de nacimiento por defecto que seria la fecha de hoy
         credencial: credencial,
-        rubro: this.formularioRegisterNegocio.get('rubro')?.value,
+        rubro: this.formularioRegisterNegocio.get('rubrosControl')?.value,
         calle: this.formularioRegisterNegocio.get('calle')?.value,
         altura: this.formularioRegisterNegocio.get('altura')?.value,
         detalle: this.formularioRegisterNegocio.get('detalle')?.value,
@@ -131,6 +135,11 @@ export class RegistrarNegocioComponent {
     this.ocultarContraseniaRepetida.set(!this.ocultarContraseniaRepetida());
     event.stopPropagation();
   }
+
+    //----------------Logica de rubros--------------
+
+selectFormControl = new FormControl('', Validators.required);
+rubros = Object.values(Rubros);
 
   //--------------verificacion de errores en el formulario----------------
 
