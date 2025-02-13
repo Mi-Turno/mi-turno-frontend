@@ -15,6 +15,7 @@ import { VerificacionMailComponent } from './pages/verificacion-mail/verificacio
 import { TablaClientesComponent } from './shared/components/tabla-clientes/tabla-clientes.component';
 import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno.component';
 import { ConfiguracionLocalComponent } from './pages/dashboardLocal/components/configuracion-local/configuracion-local.component';
+import { HistorialTurnosComponent } from './pages/dashboardCliente/components/historial-turnos/historial-turnos.component';
 
 
 
@@ -38,6 +39,9 @@ export const routes: Routes = [{
   path:"dashboard-cliente",
   component:DashboardClienteComponent,
   canActivate: [authGuardFn,()=>rolGuardFn(ROLES.cliente)],
+  children : [
+    {path:'historial', component:HistorialTurnosComponent},
+  ]
 },
 {
 

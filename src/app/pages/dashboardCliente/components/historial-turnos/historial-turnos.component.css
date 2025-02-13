@@ -1,0 +1,101 @@
+:host {
+  position: fixed;
+  top: var(--nav-height, 60px);
+  left: 0;
+  width: 100%;
+  height: calc(100% - var(--nav-height, 60px));
+  z-index: 1000;
+  overflow: hidden;
+}
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.tabla-turnos{
+  width: 82vw;
+  border-collapse: collapse;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+  margin: 2vh 3vh 2vh 1.5vh;
+  background-color: var(--color-background);
+
+}
+
+th,td {
+  padding: 10px;
+  text-align: center;
+  /* border-radius: 15px; */
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f5f5f5;
+}
+
+
+.estado-cobrado {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.estado-reservada {
+  background-color: #4caf50;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.estado-cancelado {
+  background-color: #ff5722;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.estado-libre {
+  background-color: #1e90ff;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.estado-en-curso {
+  background-color: #F09319;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.btn-cancelar {
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.btn-cancelar:hover {
+  background-color: #e64a19;
+}
+
+.btn-cancelar:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-cancelar:disabled:hover {
+  background-color: #6b1515;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
