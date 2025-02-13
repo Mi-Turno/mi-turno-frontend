@@ -10,3 +10,149 @@
   align-items: center;
  flex-wrap: wrap;
 }
+
+
+.header{
+  height: 15%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h4{
+  text-decoration: none;
+  font-size: var(--titulo-h1);
+  margin-left: 10px ;
+  height: 30px;
+}
+
+.contenedor{
+  height: 70%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.contenedor-izquierdo{
+  height: 100%;
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  align-items:  center;
+  gap: 20px;
+}
+
+
+.imagen-negocio{
+  width: 250px;
+  height: 300px;
+}
+
+.img-container{
+  margin-bottom: 70px;
+}
+
+.toggle-container{
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  gap: 10px;
+}
+
+.contenedor-general-toggle{
+ display: flex;
+ justify-content: center;
+ flex-direction: column;
+ gap: 20px;
+}
+
+p{
+  margin: 0;
+  font-size: var(--titulo-h4);
+}
+
+
+.contenedor-derecho{
+  height: 100%;
+  width: 65%;
+}
+
+.acciones{
+width: 100%;
+height: 15%;
+}
+
+
+hr{
+  height: 2px;
+  background-color: black;
+  border: none;
+}
+
+mat-form-field{
+  width: 250px !important;
+  height: 60px;
+  margin: 12px 0;
+  max-width: 250px;
+}
+
+ mat-icon{
+  margin: 0 12px;
+
+}
+
+.formularioNegocio{
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.botonOcultarContrasenia{
+  background-color: transparent;
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.campos-sensibles{
+  margin-top: 30px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+align-items: left;
+justify-content: top;
+gap: 20px;
+}
+
+
+.campos-genericos{
+margin-top: 30px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: top;
+  gap: 40px;
+
+}
+
+.textoAncho{
+  margin: 20px 0;
+}
+
+
+.boton-container{
+  margin-top: 30px;
+}
+
+
+.cambiar-contra{
+  text-decoration: none;
+  font-size: var(--titulo-h4);
+  color: black;
+
+}
+
+
+
