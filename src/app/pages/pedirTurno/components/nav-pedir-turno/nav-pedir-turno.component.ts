@@ -29,17 +29,22 @@ export class NavPedirTurnoComponent {
   @Input()
   imagenUsuario?:string;
 
-
+  textoHistorialLevantado:string = "Historial de turnos";
   @Output() botonHistorial: EventEmitter<Boolean> = new EventEmitter<Boolean>();
   private historialVisible: boolean = false;
 
   onHistorialClick(): void {
     this.historialVisible = !this.historialVisible;
-    console.log("Click en historial. Estado:", this.historialVisible);
     this.botonHistorial.emit(this.historialVisible);
+    if(this.historialVisible){
+      this.textoHistorialLevantado = "Volver al inicio";
+    }else{
+      this.textoHistorialLevantado = "Historial de Turnos";
+    }
   }
   cerrarHistorial(){
     this.historialVisible = false;
+    this.textoHistorialLevantado = "Historial de Turnos";
     this.botonHistorial.emit(this.historialVisible);
   }
 

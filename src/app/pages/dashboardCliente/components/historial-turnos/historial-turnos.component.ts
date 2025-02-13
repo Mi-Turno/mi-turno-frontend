@@ -121,7 +121,6 @@ export class HistorialTurnosComponent {
     this.clienteService.getListadoDeTurnosPorIdCliente(this.authService.getIdUsuario()!).subscribe({
       next: (turnos) => {
         this.listadoTurnos = turnos;
-        console.log(this.listadoTurnos);
         this.listadoTurnos.forEach((unTurno) => {
           this.settearAtributosTurno(unTurno);
         });
@@ -165,7 +164,6 @@ export class HistorialTurnosComponent {
             next: (profesional) => {
               this.nombreProfesional = profesional.nombre;
               this.idProfesional = profesional.idUsuario!;
-              console.log(unTurno.idNegocio, unTurno.idServicio);
               this.servicioService.getServicioPorIdNegocio(unTurno.idNegocio, unTurno.idServicio).subscribe({
                 next: (servicio: any) => {
                   this.nombreServicio = servicio.nombre;
