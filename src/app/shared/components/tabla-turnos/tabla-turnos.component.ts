@@ -89,6 +89,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
   }
   ngAfterViewInit(): void {
 
+    this.funteInfo = new MatTableDataSource(this.dataSource.data);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
@@ -103,11 +104,14 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
 
     const urlSegments = this.router.url.split('/'); // Divide la URL en segmentos
     this.segmento = urlSegments[urlSegments.length - 1]; // Obtiene el último segmento
-    this.funteInfo = new MatTableDataSource(this.dataSource.data);
 
 
   }
 
+  confirmarTabla() {
+
+
+  }
 
 
   modificarEstado(turno: TablaTurnosItem, idNegocio: number) {
@@ -170,6 +174,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
         this.turnos.forEach((unTurno) => {
           this.settearAtributosTurno(unTurno);
         });
+
       },
       error: (error: any) => {
 
@@ -180,14 +185,14 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
   settearAtributosTurno(unTurno: TurnoInterface) {
 
     const unTurnoAux: TablaTurnosItem = {
+      estado: estadoTurno.LIBRE,
       numero: 0,
+      fecha: '',
+      hora: '',
       cliente: '',
       profesional: '',
       servicio: '',
       metodoPago: MetodosDePago.credito,
-      hora: '',
-      fecha: '',
-      estado: estadoTurno.LIBRE,
     };
     unTurnoAux.fecha = unTurno.fechaInicio.toString();
     unTurnoAux.hora = unTurno.horarioProfesional.horaInicio.toString();
@@ -238,7 +243,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
                     this.dataSource.data = this.turnoTabla;
                     this.dataSource.actualizarDatos();
                     //TODO: Verificar si esta solución mejora todo
-                    // this.funteInfo.data = this.turnoTabla;
+                     this.funteInfo.data = this.turnoTabla;
 
 
                   },
@@ -251,6 +256,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
 
             },
           });
+
       },
       error: (error) => {
 
