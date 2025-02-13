@@ -1,29 +1,38 @@
-<div [className]="'backgroundContainer'">
+<div class="backgroundContainer">
   <div class="wave"></div>
   <div class="wave"></div>
   <div class="wave"></div>
 </div>
-<div [className]="estiloGeneralContainer">
 
-  <div [className]="'navContainer'">
-    <app-nav-pedir-turno></app-nav-pedir-turno>
+<div class="estiloGeneralContainer">
+
+  <div class="navContainer" #navContainer>
+    <app-nav-pedir-turno (botonCerrar)="cerrarHistorial($event)" (botonHistorial)="manejarBotonHistorial($event)"></app-nav-pedir-turno>
   </div>
-  <app-widget-bienvenida [nombreCliente]="clienteActual.nombre" [apellidoCliente]="clienteActual.apellido" (clickBoton)="abrirModal()"></app-widget-bienvenida>
-  <app-tabla-turnos [listadoNegocios]="listadoNegocios"></app-tabla-turnos>
 
-  @if (modalLevantado) {
+  <!-- Contenido del padre -->
+  <ng-container *ngIf="!historialLevantado">
+    <app-widget-bienvenida
+    [nombreCliente]="clienteActual.nombre"
+    [apellidoCliente]="clienteActual.apellido"
+    (clickBoton)="abrirModal()">
+  </app-widget-bienvenida>
+  </ng-container>
+
+  <router-outlet *ngIf="historialLevantado"></router-outlet>
+
+ <!-- <app-tabla-turnos [listadoNegocios]="listadoNegocios"></app-tabla-turnos>-->
+  <!--Aqui va la tabla con turnos reservados unicamente con opcion de cancelar-->
+
+  <ng-container *ngIf="modalLevantado">
     <app-modal [modal]="'modalSeleccionarNegocio'" (cerrarModal)="cerrarModal()">
       <ng-container modal-header>
-        <h5 [className]="'tituloModal'">Selecciona un negocio</h5>
-        </ng-container>
+        <h5 class="tituloModal">Selecciona un negocio</h5>
+      </ng-container>
       <ng-container modal-content>
         <app-elegir-negocio [listadoNegocios]="listadoNegocios"></app-elegir-negocio>
       </ng-container>
-
     </app-modal>
-    <!-- <app-popup-elegir-negocio (clickBoton)="cerrarModal()" [listadoNegocios]="listadoNegocios"></app-popup-elegir-negocio> -->
-  }
+  </ng-container>
+
 </div>
-
-
-<!-- (emitirIdNegocio)="recibirIdNegocio($event) -->
