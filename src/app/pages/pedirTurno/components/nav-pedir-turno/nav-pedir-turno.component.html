@@ -1,10 +1,10 @@
 <nav>
-  <a [routerLink]="'/dashboard-cliente'" >
+  <a [routerLink]="'/dashboard-cliente'" (click)="cerrarHistorial()">
     <img [className]="'claseImagenIcono'" [src]="imagenIcono" alt="icono mi turno">
   </a>
 
   <ul>
-    <li><app-boton [routerLink]="'/dashboard-cliente'" [class]="claseBoton" [textoDentroBoton]="'Historial de Turnos'"></app-boton></li>
+    <li><app-boton [routerLink]="'/dashboard-cliente/historial'" [class]="claseBoton" (click)="onHistorialClick()" [textoDentroBoton]="'Historial de Turnos'"></app-boton></li>
     <li><app-boton [class]="claseBoton" [textoDentroBoton]="'Cerrar sesion'" (click)="abrirModalCierre()"></app-boton></li>
     <app-modal-pregunta [pregunta]="'¿Desea salir de Mi Turno?'" [tituloPregunta]="'Salir'"  [botonNegativo]="'No'" [botonPositivo]="'Si'"  (respuesta)="manejarRespuesta($event)"></app-modal-pregunta>
 
