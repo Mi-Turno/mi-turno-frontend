@@ -22,12 +22,14 @@ export class NegocioServiceService {
     return this.http.get<NegocioInterface>(`${this.urlBase}/id/${id}`);
   }
   public postNegocio(negocio: NegocioInterface): Observable<NegocioInterface> {
-
     return this.http.post<NegocioInterface>(`${this.urlBase}/register`, negocio);
   }
 
   public getTodosLosNegocios(): Observable<NegocioInterface[]> {
-
     return this.http.get<NegocioInterface[]>(this.urlBase);
+  }
+
+  public putNegocio(id:number, negocio:NegocioInterface): Observable<NegocioInterface>{
+    return this.http.put<NegocioInterface>(`${this.urlBase}/${id}`, negocio);
   }
 }

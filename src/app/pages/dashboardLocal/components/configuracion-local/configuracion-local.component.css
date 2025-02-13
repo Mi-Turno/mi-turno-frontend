@@ -154,5 +154,7 @@ margin-top: 30px;
 
 }
 
-
+.textareaDetalle{
+  max-height: 100px;
+}
 
