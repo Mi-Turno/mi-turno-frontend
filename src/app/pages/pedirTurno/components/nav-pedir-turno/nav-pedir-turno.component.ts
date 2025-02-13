@@ -1,4 +1,4 @@
-import { Component, inject, Input, ViewChild } from "@angular/core";
+import { Component, EventEmitter, inject, Input, Output, ViewChild } from "@angular/core";
 import { ModalPreguntaComponent } from "../../../../shared/components/modal-pregunta/modal-pregunta.component";
 import { BotonComponent } from "../../../../shared/components/boton/boton.component";
 import { MatIcon } from "@angular/material/icon";
@@ -28,6 +28,20 @@ export class NavPedirTurnoComponent {
 
   @Input()
   imagenUsuario?:string;
+
+
+  @Output() botonHistorial: EventEmitter<Boolean> = new EventEmitter<Boolean>();
+  private historialVisible: boolean = false;
+
+  onHistorialClick(): void {
+    this.historialVisible = !this.historialVisible;
+    console.log("Click en historial. Estado:", this.historialVisible);
+    this.botonHistorial.emit(this.historialVisible);
+  }
+  cerrarHistorial(){
+    this.historialVisible = false;
+    this.botonHistorial.emit(this.historialVisible);
+  }
 
   claseBoton:string = "boton-nav";
 
