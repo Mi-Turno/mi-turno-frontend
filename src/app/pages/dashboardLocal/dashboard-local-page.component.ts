@@ -3,7 +3,7 @@ import { Component, inject } from "@angular/core";
 import { NavBarComponent } from "../../shared/components/nav-bar/nav-bar.component";
 import { SideBarComponent } from "../../shared/components/side-bar/side-bar.component";
 import { FormsModule } from "@angular/forms";
-import { ActivatedRoute, RouterOutlet } from "@angular/router";
+import { ActivatedRoute, Router, RouterOutlet } from "@angular/router";
 import { AuthService } from "../../core/guards/auth/service/auth.service";
 import { ICONOS } from "../../shared/models/iconos.constants";
 
@@ -23,6 +23,7 @@ export class DashboardLocalPageComponent {
     this.nombreNegocio = this.ruta.snapshot.params['nombreNegocio'];
   }
   auth:AuthService = inject(AuthService);
+  router:Router = inject(Router);
   cerrarSesion(event:boolean){
     if(event){
       this.auth.logOut();
@@ -34,8 +35,8 @@ export class DashboardLocalPageComponent {
   }
 
   redirigir(){
-    alert("Hay que hacer la navegación a una pantalla que nos permita crear un turno como negocio");
-  }
+    this.router.navigate([`/negocios`, this.nombreNegocio, `reservas`]);
+    }
 iconos = ICONOS;
 
 
@@ -44,6 +45,7 @@ iconos = ICONOS;
 
     {texto: 'Recepción', icono: this.iconos.home , ruta: 'recepcion'},
     {texto: 'Turnos', icono: this.iconos.eventNote, ruta: 'turnos'},
+    {texto: 'Reservar', icono: this.iconos.calendario, ruta: 'reservas'},
     {texto: 'Staff', icono: this.iconos.badge, ruta: 'staff'},
     {texto: 'Servicios', icono: this.iconos.star, ruta: 'servicios'},
     {texto: 'Clientes', icono: this.iconos.people,  ruta: 'clientes'},
