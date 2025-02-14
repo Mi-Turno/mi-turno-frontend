@@ -42,6 +42,8 @@ export class ModalPreguntaComponent {
 @Component({
   selector: 'dialog-pregunta',
   templateUrl: './dialog-pregunta.html',
+  styleUrl: './modal-pregunta.component.css',
+
   standalone: true,
   imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent],
   changeDetection: ChangeDetectionStrategy.OnPush,

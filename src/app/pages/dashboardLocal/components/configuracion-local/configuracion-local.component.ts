@@ -80,19 +80,30 @@ ObtenerNegocioPorNombre() {
 
 
   //- - - - - - -- - - - --   TOggles de configuraciones - - -- - - - - - - - - - -- - -
-  toggleActivo1: boolean = true;
-  toggleActivo2: boolean = true;
-  toggleActivo3: boolean = true;
-cambiarEstadoToggle1(event:MatSlideToggleChange){
-      this.toggleActivo1 = event.checked; // Obtiene el estado del toggle desde el evento
+  toggleActivoMP: boolean = true;
+  toggleActivoDebito: boolean = true;
+  toggleActivoCredito: boolean = true;
+  toggleActivoTransferencia: boolean = true;
+  toggleActivoEfectivo: boolean = true;
+
+cambiarEstadoToggleMP(event:MatSlideToggleChange){
+      this.toggleActivoMP = event.checked; // Obtiene el estado del toggle desde el evento
 }
 
-cambiarEstadoToggle2(event:MatSlideToggleChange){
-  this.toggleActivo2 = event.checked; // Obtiene el estado del toggle desde el evento
+cambiarEstadoToggleDebito(event:MatSlideToggleChange){
+  this.toggleActivoDebito= event.checked; // Obtiene el estado del toggle desde el evento
 }
 
-cambiarEstadoToggle3(event:MatSlideToggleChange){
-  this.toggleActivo3 = event.checked; // Obtiene el estado del toggle desde el evento
+cambiarEstadoToggleCredito(event:MatSlideToggleChange){
+  this.toggleActivoCredito = event.checked; // Obtiene el estado del toggle desde el evento
+}
+
+cambiarEstadoToggleTransferencia(event:MatSlideToggleChange){
+  this.toggleActivoTransferencia = event.checked; // Obtiene el estado del toggle desde el evento
+}
+
+cambiarEstadoToggleEfectivo(event:MatSlideToggleChange){
+  this.toggleActivoEfectivo = event.checked; // Obtiene el estado del toggle desde el evento
 }
 
 //   - - - - - -- - - - - -- - - - - -- -Formulario de modificación de negocio - - - - -- - - - -- - - - -- -

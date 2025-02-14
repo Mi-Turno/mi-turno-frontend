@@ -1,25 +1,11 @@
 .tabla-turnos{
   width: 82vw;
-  border-collapse: collapse;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
   margin: 2vh 3vh 2vh 1.5vh;
-  background-color: var(--color-background);
-
+  box-shadow: none;
 }
 
 
 
-th,
-td {
-  padding: 10px;
-  text-align: center;
-  /* border-radius: 15px; */
-  border: 1px solid #ddd;
-}
-
-th {
-  background-color: #f5f5f5;
-}
 
 
 .estado-cobrado {
@@ -80,4 +66,66 @@ th {
   background-color: #6b1515;
   cursor: not-allowed;
   opacity: 0.6;
+}
+
+
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+  /* border-radius: 15px; */
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f5f5f5;
+}
+
+/* Estilos para el encabezado */
+.custom-header {
+  background-color: #3f51b5 !important;
+  color: white !important;
+  font-weight: bold;
+  text-align: center;
+  padding: 12px;
+}
+
+.border-especial-left{
+  border-top-left-radius: 11px;
+
+}
+
+.border-especial-right{
+  border-top-right-radius: 11px;
+}
+
+
+/* Estilos para el row del encabezado */
+.custom-header-row {
+  background-color: #283593 !important; /* Un azul más oscuro */
+}
+
+/* Estilos generales para la tabla */
+.custom-table {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+   margin-bottom: 10px;
+}
+
+/* Filas impares */
+.custom-row:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+/* Filas pares */
+.custom-row:nth-child(even) {
+  background-color: #ffffff;
+}
+
+/* Efecto hover */
+.custom-row:hover {
+  background-color: #e3f2fd !important;
+  transition: background-color 0.3s ease-in-out;
 }

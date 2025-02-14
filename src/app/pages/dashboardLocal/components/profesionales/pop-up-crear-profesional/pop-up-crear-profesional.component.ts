@@ -214,7 +214,12 @@ abrirDiasYHorarios() {
 
 preguntaEliminar = "¿Desea eliminar a " + this.cardSeleccionada?.nombre  +"?";
 abrirModal(){
+  if (this.cardSeleccionada?.idUsuario) {
   this.modalPregunta.openDialog();
+  }else
+  alert("No se creo el profesional todavia")
+
+
 }
 
 manejarRespuesta(respuesta: boolean){
@@ -226,6 +231,7 @@ manejarRespuesta(respuesta: boolean){
 eliminarProfesional() {
 
   if (this.cardSeleccionada?.idUsuario) {
+
     this.usuarioService.deleteUsuario(this.cardSeleccionada.idNegocio!, this.cardSeleccionada.idUsuario!).subscribe({
       next: (response) => {
         this.cerrarPopUp();
@@ -237,9 +243,7 @@ eliminarProfesional() {
       },
     });
   }
-  else{
-    alert("Todavía no se creo el profesional ");
-  }
+
 }
 
 

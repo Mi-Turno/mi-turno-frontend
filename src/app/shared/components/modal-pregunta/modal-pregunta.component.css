@@ -1,3 +1,38 @@
 button {
   margin-right: 8px;
 }
+
+
+.negativo{
+  background-color: var( --color-eliminar1);
+  cursor: pointer;
+  color: var(--color-background) !important;
+  border: none;
+  border-radius: 0.4rem;
+  height: 2rem;
+  font-size: medium;
+  text-align: center;
+  width: 8rem;
+}
+
+.negativo:hover{
+  background-color: var(--color-eliminar1-hover);
+}
+
+
+.positivo {
+  background-color: var( --color-contraste1);
+  cursor: pointer;
+  color: var(--color-background) !important;
+  border: none;
+  border-radius: 0.4rem;
+  height: 2rem;
+  font-size: medium;
+  text-align: center;
+  width: 4rem;
+}
+
+.positivo:hover{
+
+  background-color: var(--color-confirmar-hover);
+}
