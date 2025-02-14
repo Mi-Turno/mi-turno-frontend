@@ -16,34 +16,64 @@
 
     <section class="contenedor-general-toggle">
       <hr>
+      <h5 class="texto-metodos-pago">Metodos de pago</h5>
+
+      <div class="contenedor-intermedio-toggle">
+
+      <div class="toggle-container-izquierda">
 
       <div class="toggle-container">
-        <p> Los clientes pueden sacar turnos</p>
+        <p> Mercado Pago</p>
         <mat-slide-toggle
-        (change)="cambiarEstadoToggle1($event)"
-        [checked]="toggleActivo1"
+        (change)="cambiarEstadoToggleMP($event)"
+        [checked]="toggleActivoMP"
         color="primary"
         ></mat-slide-toggle>
       </div>
 
       <div class="toggle-container">
-        <p> Segunda personalización</p>
+        <p> Efectivo</p>
       <mat-slide-toggle
-      (change)="cambiarEstadoToggle2($event)"
-      [checked]="toggleActivo2"
+      (change)="cambiarEstadoToggleEfectivo($event)"
+      [checked]="toggleActivoEfectivo"
       color="primary"
     ></mat-slide-toggle>
   </div>
 
     <div class="toggle-container">
-      <p> Tercera personalización</p>
+      <p>  Credito</p>
       <mat-slide-toggle
-      (change)="cambiarEstadoToggle3($event)"
-      [checked]="toggleActivo3"
+      (change)="cambiarEstadoToggleCredito($event)"
+      [checked]="toggleActivoCredito"
       color="primary"
       ></mat-slide-toggle>
     </div>
+
+  </div>
+
+  <div class="toggle-container-derecha">
+    <div class="toggle-container">
+      <p> Debito</p>
+      <mat-slide-toggle
+      (change)="cambiarEstadoToggleDebito($event)"
+      [checked]="toggleActivoDebito"
+      color="primary"
+      ></mat-slide-toggle>
+    </div>
+
+    <div class="toggle-container">
+      <p> Transferencia</p>
+      <mat-slide-toggle
+      (change)="cambiarEstadoToggleTransferencia($event)"
+      [checked]="toggleActivoTransferencia"
+      color="primary"
+      ></mat-slide-toggle>
+    </div>
+  </div>
+</div>
+
   </section>
+
 
   </section>
 
