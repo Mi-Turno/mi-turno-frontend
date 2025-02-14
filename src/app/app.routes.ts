@@ -16,6 +16,7 @@ import { TablaClientesComponent } from './shared/components/tabla-clientes/tabla
 import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno.component';
 import { ConfiguracionLocalComponent } from './pages/dashboardLocal/components/configuracion-local/configuracion-local.component';
 import { HistorialTurnosComponent } from './pages/dashboardCliente/components/historial-turnos/historial-turnos.component';
+import { ReservarTurnoLocalComponent } from './pages/dashboardLocal/components/reservar-turno-local/reservar-turno-local.component';
 
 
 
@@ -52,6 +53,7 @@ export const routes: Routes = [{
   { path: '', redirectTo: 'recepcion', pathMatch: 'full' },
   {path: 'recepcion', component:TablaTurnosComponent},
   {path: 'turnos', component:TablaTurnosComponent},
+  {path: 'reservas', component:ReservarTurnoLocalComponent},
   {path: 'staff', component:ProfesionalesMainComponent},
   {path: 'servicios', component:ServicioMainComponent},
   {path: 'clientes', component:TablaClientesComponent},
