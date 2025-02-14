@@ -157,15 +157,14 @@ export class PopUpCrearServicioComponent implements OnInit {
 @ViewChild(ModalPreguntaComponent) modalPregunta!: ModalPreguntaComponent;
 preguntaEliminar = "¿Desea eliminar el servicio " + this.cardSeleccionada?.nombre + "?";
 abrirModal(){
+  if (this.cardSeleccionada) {
   this.modalPregunta.openDialog();
+  }
 }
 
 manejarRespuesta(respuesta: boolean){
-  console.log(respuesta);
   if (!respuesta) {
     this.eliminarServicio(this.cardSeleccionada?.idServicio,this.cardSeleccionada?.idNegocio)
-  } else {
-    console.log("No quiere cerra");
   }
 }
 
