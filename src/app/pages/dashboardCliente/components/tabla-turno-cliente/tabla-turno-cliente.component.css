@@ -17,30 +17,40 @@
   background-color: #ff4d4d;
   color: white;
   padding: 5px;
+  border-radius: 5px;
+
 }
 
 .estado-reservada {
   background-color: #4caf50;
   color: white;
   padding: 5px;
+  border-radius: 5px;
+
 }
 
 .estado-cancelado {
   background-color: #ff5722;
   color: white;
   padding: 5px;
+  border-radius: 5px;
+
 }
 
 .estado-libre {
   background-color: #1e90ff;
   color: white;
   padding: 5px;
+  border-radius: 5px;
+
 }
 
 .estado-en-curso {
   background-color: #F09319;
   color: white;
   padding: 5px;
+  border-radius: 5px;
+
 }
 
 .btn-cancelar {
@@ -49,6 +59,8 @@
   border: none;
   padding: 5px 10px;
   cursor: pointer;
+  border-radius: 5px;
+
 }
 
 .btn-cancelar:hover {
@@ -89,8 +101,14 @@ th {
   padding: 12px;
 }
 
+.border-especial-left{
+  border-top-left-radius: 11px;
 
+}
 
+.border-especial-right{
+  border-top-right-radius: 11px;
+}
 
 
 /* Estilos para el row del encabezado */

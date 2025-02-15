@@ -9,7 +9,7 @@
       <!-- Estado Column -->
       <ng-container matColumnDef="estado">
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Estado</th>
-        <td mat-cell *matCellDef="let row">
+        <td mat-cell *matCellDef="let row" class="custom-cell">
 
           <span [ngClass]="{
           'estado-cancelado': row.estado === estado.CANCELADO,
@@ -34,60 +34,60 @@
       <!-- Numero Column -->
       <ng-container matColumnDef="numero" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Numero</th>
-        <td mat-cell *matCellDef="let row">{{row.numero}}</td>
+        <td mat-cell *matCellDef="let row" class="custom-cell">{{row.numero}}</td>
       </ng-container>
       <!-- negocio Column -->
       <ng-container matColumnDef="negocio" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Negocio</th>
-        <td mat-cell *matCellDef="let row">{{row.negocio}}</td>
+        <td mat-cell *matCellDef="let row" class="custom-cell">{{row.negocio}}</td>
       </ng-container>
       <!-- Fecha Column -->
       <ng-container matColumnDef="fecha" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Fecha</th>
-        <td mat-cell *matCellDef="let row">{{row.fecha}}</td>
+        <td mat-cell *matCellDef="let row" class="custom-cell">{{row.fecha}}</td>
       </ng-container>
 
       <!-- Hora Column -->
       <ng-container matColumnDef="hora" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Hora</th>
-        <td mat-cell *matCellDef="let row">{{row.hora}}</td>
+        <td mat-cell *matCellDef="let row" class="custom-cell">{{row.hora}}</td>
       </ng-container>
 
       <!-- Cliente Column -->
       <ng-container matColumnDef="cliente" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Cliente</th>
-        <td mat-cell *matCellDef="let row">{{row.cliente}}</td>
+        <td mat-cell *matCellDef="let row" class="custom-cell">{{row.cliente}}</td>
       </ng-container>
 
       <!-- Profesional Column -->
       <ng-container matColumnDef="profesional" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Profesional</th>
-        <td mat-cell *matCellDef="let row">{{row.profesional}}</td>
+        <td mat-cell *matCellDef="let row" class="custom-cell">{{row.profesional}}</td>
       </ng-container>
 
       <!-- Servicio Column -->
       <ng-container matColumnDef="servicio" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Servicio</th>
-        <td mat-cell *matCellDef="let row">{{row.servicio}}</td>
+        <td mat-cell *matCellDef="let row" class="custom-cell">{{row.servicio}}</td>
       </ng-container>
       <!-- precio Column -->
       <ng-container matColumnDef="precio" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Precio</th>
-        <td mat-cell *matCellDef="let row">{{row.precio}}</td>
+        <td mat-cell *matCellDef="let row" class="custom-cell">{{row.precio}}</td>
       </ng-container>
       <!-- Metodo De Pago Column -->
       <ng-container matColumnDef="metodoPago" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Metodo Pago</th>
-        <td mat-cell *matCellDef="let row">{{row.metodoPago}}</td>
+        <td mat-cell *matCellDef="let row" class="custom-cell">{{row.metodoPago}}</td>
       </ng-container>
 
            <!-- Cancelar Column -->
            <ng-container matColumnDef="cancelar" *ngIf="modo !== 'historial'">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Cancelar</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header ">Cancelar</th>
             <td mat-cell *matCellDef="let row" class="custom-cell">
 
               <button class="btn-cancelar" (click)="cambiarEstado(row.negocio, row)"
-              [disabled]="row.estado === estado.COBRADO || row.estado === estado.CANCELADO">
+              [disabled]="row.estado === estado.COBRADO || row.estado === estado.CANCELADO || row.estado === estado.EN_CURSO">
               {{
                 row.estado === estado.EN_CURSO ? 'Cobrar' :
                 row.estado === estado.RESERVADO ? 'Cancelar' :
@@ -105,10 +105,16 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <div class="paginador">
+    <div class="paginador" *ngIf="modo === 'historial'">
 
       <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10"
-        [pageSizeOptions]="[5, 10, 20]" aria-label="Select page">
+        [pageSizeOptions]="[5, 10]" aria-label="Select page">
+      </mat-paginator>
+    </div>
+    <div class="paginador" *ngIf="modo !== 'historial'">
+
+      <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="4"
+        [pageSizeOptions]="[4]" aria-label="Select page">
       </mat-paginator>
     </div>
   </div>
