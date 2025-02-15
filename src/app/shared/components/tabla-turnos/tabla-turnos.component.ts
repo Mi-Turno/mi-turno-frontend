@@ -131,13 +131,12 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
   //Funciones para cambiar los estados segun la hora
   verificarEstadoTurno() {
     this.dataSource.data.forEach((turno) => {
-      if (
-        this.formatearHora(turno.hora) ==
-        this.formatearHora(this.horaActual(0)) &&
-        turno.estado != estadoTurno.CANCELADO
-      ) {
-        turno.estado = estadoTurno.EN_CURSO;
-        this.modificarEstado(turno, this.idNegocio);
+
+      if (turno.fecha == new Date().toISOString().split('T')[0]) {
+        if (this.formatearHora(turno.hora) ==this.formatearHora(this.horaActual(0)) &&turno.estado != estadoTurno.CANCELADO) {
+          turno.estado = estadoTurno.EN_CURSO;
+          this.modificarEstado(turno, this.idNegocio);
+        }
       }
     });
   }
@@ -243,7 +242,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
                     this.dataSource.data = this.turnoTabla;
                     this.dataSource.actualizarDatos();
                     //TODO: Verificar si esta solución mejora todo
-                     this.funteInfo.data = this.turnoTabla;
+                    this.funteInfo.data = this.turnoTabla;
 
 
                   },
@@ -317,7 +316,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
     this.modificarEstado(turno!, idNegocio!);
   }
 
-  cancelarTurno(idNegocio: number,idTurno: number) {
+  cancelarTurno(idNegocio: number, idTurno: number) {
 
     //obtener turno
     const turno = this.turnos.find((t) => t.idTurno == idTurno);
