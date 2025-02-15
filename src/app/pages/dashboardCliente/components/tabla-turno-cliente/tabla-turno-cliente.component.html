@@ -82,7 +82,7 @@
       </ng-container>
 
            <!-- Cancelar Column -->
-           <ng-container matColumnDef="cancelar">
+           <ng-container matColumnDef="cancelar" *ngIf="modo !== 'historial'">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header border-especial-right">Cancelar</th>
             <td mat-cell *matCellDef="let row" class="custom-cell">
 

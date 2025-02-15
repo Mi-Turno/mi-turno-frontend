@@ -16,10 +16,12 @@
     <app-widget-bienvenida [nombreCliente]="clienteActual.nombre" [apellidoCliente]="clienteActual.apellido"
       (clickBoton)="abrirModal()">
     </app-widget-bienvenida>
-    <app-tabla-turno-cliente [listadoNegocios]="listadoNegocios"></app-tabla-turno-cliente>
+    <app-tabla-turno-cliente [modo]="'dashboard'" [listadoNegocios]="listadoNegocios"></app-tabla-turno-cliente>
   </ng-container>
 
-  <router-outlet *ngIf="historialLevantado"></router-outlet>
+  <app-tabla-turno-cliente *ngIf="historialLevantado" [modo]="'historial'" [listadoNegocios]="listadoNegocios"></app-tabla-turno-cliente>
+
+  <!--<router-outlet *ngIf="historialLevantado"></router-outlet>-->
 
   <!-- <app-tabla-turnos [listadoNegocios]="listadoNegocios"></app-tabla-turnos>-->
   <!--Aqui va la tabla con turnos reservados unicamente con opcion de cancelar-->
