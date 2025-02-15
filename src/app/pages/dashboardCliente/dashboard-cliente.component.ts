@@ -14,6 +14,7 @@ import { AuthService } from '../../core/guards/auth/service/auth.service';
 import { NavPedirTurnoComponent } from "../pedirTurno/components/nav-pedir-turno/nav-pedir-turno.component";
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
+import { TablaTurnoClienteComponent } from "./components/tabla-turno-cliente/tabla-turno-cliente.component";
 
 
 
@@ -22,7 +23,7 @@ import { filter } from 'rxjs';
 @Component({
   selector: 'app-dashboard-cliente',
   standalone: true,
-  imports: [RouterModule,CommonModule, WidgetBienvenidaComponent, ModalComponent, ElegirNegocioComponent, NavPedirTurnoComponent],
+  imports: [RouterModule, CommonModule, WidgetBienvenidaComponent, ModalComponent, ElegirNegocioComponent, NavPedirTurnoComponent, TablaTurnoClienteComponent],
   templateUrl: './dashboard-cliente.component.html',
   styleUrl: './dashboard-cliente.component.css'
 })
