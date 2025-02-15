@@ -7,23 +7,22 @@
 <div class="estiloGeneralContainer">
 
   <div class="navContainer" #navContainer>
-    <app-nav-pedir-turno (botonCerrar)="cerrarHistorial($event)" (botonHistorial)="manejarBotonHistorial($event)"></app-nav-pedir-turno>
+    <app-nav-pedir-turno (botonCerrar)="cerrarHistorial($event)"
+      (botonHistorial)="manejarBotonHistorial($event)"></app-nav-pedir-turno>
   </div>
 
   <!-- Contenido del padre -->
   <ng-container *ngIf="!historialLevantado">
-    <app-widget-bienvenida
-    [nombreCliente]="clienteActual.nombre"
-    [apellidoCliente]="clienteActual.apellido"
-    (clickBoton)="abrirModal()">
-  </app-widget-bienvenida>
+    <app-widget-bienvenida [nombreCliente]="clienteActual.nombre" [apellidoCliente]="clienteActual.apellido"
+      (clickBoton)="abrirModal()">
+    </app-widget-bienvenida>
+    <app-tabla-turno-cliente [listadoNegocios]="listadoNegocios"></app-tabla-turno-cliente>
   </ng-container>
 
   <router-outlet *ngIf="historialLevantado"></router-outlet>
 
- <!-- <app-tabla-turnos [listadoNegocios]="listadoNegocios"></app-tabla-turnos>-->
+  <!-- <app-tabla-turnos [listadoNegocios]="listadoNegocios"></app-tabla-turnos>-->
   <!--Aqui va la tabla con turnos reservados unicamente con opcion de cancelar-->
-
   <ng-container *ngIf="modalLevantado">
     <app-modal [modal]="'modalSeleccionarNegocio'" (cerrarModal)="cerrarModal()">
       <ng-container modal-header>
