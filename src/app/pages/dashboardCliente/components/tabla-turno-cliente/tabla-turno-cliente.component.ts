@@ -99,14 +99,34 @@ export class TablaTurnoClienteComponent {
     this.table.dataSource = this.dataSource;
     //Verifico el estado por primera vez
     //  Se configura el intervalo para chequar de manera recurrente
+    this.verificarEstadoTurno();
 
     const urlSegments = this.router.url.split('/'); // Divide la URL en segmentos
     this.segmento = urlSegments[urlSegments.length - 1]; // Obtiene el último segmento
-
+    setInterval(() => {
+      this.verificarEstadoTurno();
+    }, 30000);
 
   }
 
   //Funciones para cambiar los estados segun la hora
+
+  verificarEstadoTurno() {
+    this.dataSource.data.forEach((turno) => {
+      if (turno.fecha == new Date().toISOString().split('T')[0]) {
+        if (this.formatearHora(turno.hora) == this.formatearHora(this.horaActual(0)) && turno.estado != estadoTurno.CANCELADO) {
+          turno.estado = estadoTurno.EN_CURSO;
+          this.negocioService.getIdNegocioByNombre(turno.negocio).subscribe({
+            next: (responseIdNegocio) => {
+              this.modificarEstado(turno, responseIdNegocio);
+            }
+          });
+        }
+      }
+
+    });
+  }
+
 
   formatearHora(hora: string): string {
     const [horas, minutos] = hora.split(':');
@@ -189,6 +209,7 @@ export class TablaTurnoClienteComponent {
                     unTurnoAux.negocio = this.nombreNegocio;
 
                     unTurnoAux.cliente = this.nombreCliente;
+
                     //Agrego segun el modo de la tabla si es el historial o si es el dashboard principal
                     if (this.modo === 'historial') {
                       // En modo historial se agregan solo turnos que ya ocurrieron:
@@ -228,6 +249,7 @@ export class TablaTurnoClienteComponent {
       }
     });
   }
+
 
 
   ordenarArregloTurnos(arreglo: TablaTurnoClienteItem[]) {
