@@ -8,7 +8,7 @@
     <table mat-table class="full-width-table" matSort aria-label="Elements">
       <!-- Estado Column -->
       <ng-container matColumnDef="estado">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Estado</th>
         <td mat-cell *matCellDef="let row">
 
           <span [ngClass]="{
@@ -32,58 +32,58 @@
       </ng-container>
 
       <!-- Numero Column -->
-      <ng-container matColumnDef="numero">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Numero</th>
+      <ng-container matColumnDef="numero" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Numero</th>
         <td mat-cell *matCellDef="let row">{{row.numero}}</td>
       </ng-container>
       <!-- negocio Column -->
-      <ng-container matColumnDef="negocio">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Negocio</th>
+      <ng-container matColumnDef="negocio" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Negocio</th>
         <td mat-cell *matCellDef="let row">{{row.negocio}}</td>
       </ng-container>
       <!-- Fecha Column -->
-      <ng-container matColumnDef="fecha">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+      <ng-container matColumnDef="fecha" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Fecha</th>
         <td mat-cell *matCellDef="let row">{{row.fecha}}</td>
       </ng-container>
 
       <!-- Hora Column -->
-      <ng-container matColumnDef="hora">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Hora</th>
+      <ng-container matColumnDef="hora" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Hora</th>
         <td mat-cell *matCellDef="let row">{{row.hora}}</td>
       </ng-container>
 
       <!-- Cliente Column -->
-      <ng-container matColumnDef="cliente">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</th>
+      <ng-container matColumnDef="cliente" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Cliente</th>
         <td mat-cell *matCellDef="let row">{{row.cliente}}</td>
       </ng-container>
 
       <!-- Profesional Column -->
-      <ng-container matColumnDef="profesional">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Profesional</th>
+      <ng-container matColumnDef="profesional" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Profesional</th>
         <td mat-cell *matCellDef="let row">{{row.profesional}}</td>
       </ng-container>
 
       <!-- Servicio Column -->
-      <ng-container matColumnDef="servicio">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Servicio</th>
+      <ng-container matColumnDef="servicio" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Servicio</th>
         <td mat-cell *matCellDef="let row">{{row.servicio}}</td>
       </ng-container>
       <!-- precio Column -->
-      <ng-container matColumnDef="precio">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio</th>
+      <ng-container matColumnDef="precio" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Precio</th>
         <td mat-cell *matCellDef="let row">{{row.precio}}</td>
       </ng-container>
       <!-- Metodo De Pago Column -->
-      <ng-container matColumnDef="metodoPago">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Metodo Pago</th>
+      <ng-container matColumnDef="metodoPago" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Metodo Pago</th>
         <td mat-cell *matCellDef="let row">{{row.metodoPago}}</td>
       </ng-container>
 
            <!-- Cancelar Column -->
            <ng-container matColumnDef="cancelar" *ngIf="modo !== 'historial'">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header border-especial-right">Cancelar</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Cancelar</th>
             <td mat-cell *matCellDef="let row" class="custom-cell">
 
               <button class="btn-cancelar" (click)="cambiarEstado(row.negocio, row)"

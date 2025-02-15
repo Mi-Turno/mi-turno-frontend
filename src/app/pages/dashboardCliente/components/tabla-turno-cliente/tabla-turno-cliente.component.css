@@ -9,58 +9,38 @@
 }
 .tabla-turnos{
   width: 82vw;
-  border-collapse: collapse;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
   margin: 2vh 3vh 2vh 1.5vh;
-  background-color: var(--color-background);
-
+  box-shadow: none;
 }
-
-th,td {
-  padding: 10px;
-  text-align: center;
-  /* border-radius: 15px; */
-  border: 1px solid #ddd;
-}
-
-th {
-  background-color: #f5f5f5;
-}
-
 
 .estado-cobrado {
   background-color: #ff4d4d;
   color: white;
   padding: 5px;
-  border-radius: 5px;
 }
 
 .estado-reservada {
   background-color: #4caf50;
   color: white;
   padding: 5px;
-  border-radius: 5px;
 }
 
 .estado-cancelado {
   background-color: #ff5722;
   color: white;
   padding: 5px;
-  border-radius: 5px;
 }
 
 .estado-libre {
   background-color: #1e90ff;
   color: white;
   padding: 5px;
-  border-radius: 5px;
 }
 
 .estado-en-curso {
   background-color: #F09319;
   color: white;
   padding: 5px;
-  border-radius: 5px;
 }
 
 .btn-cancelar {
@@ -69,7 +49,6 @@ th {
   border: none;
   padding: 5px 10px;
   cursor: pointer;
-  border-radius: 5px;
 }
 
 .btn-cancelar:hover {
@@ -87,3 +66,60 @@ th {
   cursor: not-allowed;
   opacity: 0.6;
 }
+
+
+
+th,td {
+  padding: 10px;
+  text-align: center;
+  /* border-radius: 15px; */
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f5f5f5;
+}
+
+/* Estilos para el encabezado */
+.custom-header {
+  background-color: #3f51b5 !important;
+  color: white !important;
+  font-weight: bold;
+  text-align: center;
+  padding: 12px;
+}
+
+
+
+
+
+/* Estilos para el row del encabezado */
+.custom-header-row {
+  background-color: #283593 !important; /* Un azul más oscuro */
+}
+
+/* Estilos generales para la tabla */
+.custom-table {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+   margin-bottom: 10px;
+}
+
+/* Filas impares */
+.custom-row:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+/* Filas pares */
+.custom-row:nth-child(even) {
+  background-color: #ffffff;
+}
+
+/* Efecto hover */
+.custom-row:hover {
+  background-color: #e3f2fd !important;
+  transition: background-color 0.3s ease-in-out;
+}
+
+
