@@ -50,11 +50,15 @@ export class TablaTurnoClienteComponent {
   horarioProfesional: HorarioXprofesionalService = inject(HorarioXprofesionalService);
   emailService: EmailService = inject(EmailService);
   negocioService: NegocioServiceService = inject(NegocioServiceService);
+
+  //Inputs
+  @Input() listadoNegocios: NegocioInterface[] = [];
+  @Input() modo: 'dashboard' | 'historial' = 'dashboard';
+
   //Variables
   idNegocio = 0;
   estado = estadoTurno;
   turnos: TurnoInterface[] = [];
-  @Input() listadoNegocios: NegocioInterface[] = [];
   nombreCliente: string = '';
   nombreProfesional: string = '';
   nombreServicio: string = '';
@@ -77,9 +81,14 @@ export class TablaTurnoClienteComponent {
     'metodoPago',
     'cancelar'
   ];
-negocio: string|String = '';
+  negocio: string | String = '';
 
   ngOnInit(): void {
+    if (this.modo === 'historial') {
+      this.displayedColumns = this.displayedColumns.filter(
+        (columna) => columna !== 'cancelar'
+      );
+    }
     this.cargarTurnos();
   }
   ngAfterViewInit(): void {
@@ -90,14 +99,34 @@ negocio: string|String = '';
     this.table.dataSource = this.dataSource;
     //Verifico el estado por primera vez
     //  Se configura el intervalo para chequar de manera recurrente
+    this.verificarEstadoTurno();
 
     const urlSegments = this.router.url.split('/'); // Divide la URL en segmentos
     this.segmento = urlSegments[urlSegments.length - 1]; // Obtiene el último segmento
-
+    setInterval(() => {
+      this.verificarEstadoTurno();
+    }, 30000);
 
   }
 
   //Funciones para cambiar los estados segun la hora
+
+  verificarEstadoTurno() {
+    this.dataSource.data.forEach((turno) => {
+      if (turno.fecha == new Date().toISOString().split('T')[0]) {
+        if (this.formatearHora(turno.hora) == this.formatearHora(this.horaActual(0)) && turno.estado != estadoTurno.CANCELADO) {
+          turno.estado = estadoTurno.EN_CURSO;
+          this.negocioService.getIdNegocioByNombre(turno.negocio).subscribe({
+            next: (responseIdNegocio) => {
+              this.modificarEstado(turno, responseIdNegocio);
+            }
+          });
+        }
+      }
+
+    });
+  }
+
 
   formatearHora(hora: string): string {
     const [horas, minutos] = hora.split(':');
@@ -137,83 +166,94 @@ negocio: string|String = '';
 
   }
 
-  settearAtributosTurno(unTurno: TurnoInterface) {
-
+  settearAtributosTurno(unTurno: TurnoInterface): void {
     const unTurnoAux: TablaTurnoClienteItem = {
-      estado: estadoTurno.LIBRE,
-      numero: 0,
-      fecha: '',
+      estado: unTurno.estado ?? estadoTurno.LIBRE,
+      numero: unTurno.idTurno ?? 0,
+      fecha: unTurno.fechaInicio.toString(),
       negocio: '',
-      hora: '',
+      hora: unTurno.horarioProfesional.horaInicio.toString(),
       cliente: '',
       profesional: '',
       servicio: '',
       precio: 0,
-      metodoPago: MetodosDePago.credito,
+      metodoPago: unTurno.metodosDePagoEnum
+        .replace('_', ' ')
+        .toLocaleLowerCase()
+        .replace(/\b\w/g, (char) => char.toUpperCase())
     };
-    unTurnoAux.fecha = unTurno.fechaInicio.toString();
-    unTurnoAux.hora = unTurno.horarioProfesional.horaInicio.toString();
-    unTurnoAux.numero = unTurno.idTurno ?? 0;
-    unTurnoAux.metodoPago = unTurno.metodosDePagoEnum.replace('_', ' ').toLocaleLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
-    unTurnoAux.estado = unTurno.estado!;
-    //obtengo el cliente
+
+    // Obtengo el cliente
     this.clienteService.getClienteById(this.authService.getIdUsuario()!).subscribe({
       next: (cliente) => {
         this.nombreCliente = cliente.nombre;
-        // Si obtengo el cliente ejecuto todo lo demas
+
+        // Obtengo el profesional
         this.profesionalService.getProfesionalPorIdNegocio(unTurno.idNegocio, unTurno.horarioProfesional.idProfesional).subscribe({
           next: (profesional) => {
             this.nombreProfesional = profesional.nombre;
             this.idProfesional = profesional.idUsuario!;
+            unTurnoAux.profesional = this.nombreProfesional;
+            // Obtengo el servicio
             this.servicioService.getServicioPorIdNegocio(unTurno.idNegocio, unTurno.idServicio).subscribe({
               next: (servicio) => {
                 this.nombreServicio = servicio.nombre;
                 this.precio = servicio.precio!;
+                unTurnoAux.servicio = this.nombreServicio;
                 unTurnoAux.precio = this.precio;
+
+                // Obtengo el negocio
                 this.negocioService.getNegocioById(unTurno.idNegocio).subscribe({
                   next: (negocio) => {
-                    this.nombreNegocio =  negocio.nombre;
-                    unTurnoAux.negocio =this.nombreNegocio;
-                    unTurnoAux.cliente = this.nombreCliente;
-                    unTurnoAux.profesional = this.nombreProfesional;
-                    unTurnoAux.servicio = this.nombreServicio;
+                    this.nombreNegocio = negocio.nombre;
+                    unTurnoAux.negocio = this.nombreNegocio;
 
+                    unTurnoAux.cliente = this.nombreCliente;
+
+                    //Agrego segun el modo de la tabla si es el historial o si es el dashboard principal
+                    if (this.modo === 'historial') {
+                      // En modo historial se agregan solo turnos que ya ocurrieron:
+                      if (unTurnoAux.estado === estadoTurno.COBRADO || unTurnoAux.estado === estadoTurno.EN_CURSO || unTurnoAux.estado === estadoTurno.CANCELADO) {
+                        this.turnoTabla.push(unTurnoAux);
+
+                      }
+                    } else {
+                      if (unTurnoAux.estado || unTurnoAux.hora > this.horaActual(1)) {
+                        this.turnoTabla.push(unTurnoAux);
+                      }
+                    }
+
+                    // Ordeno y actualizo la tabla
+                    this.turnoTabla = this.ordenarArregloTurnos(this.turnoTabla);
+                    this.dataSource.data = this.turnoTabla;
+                    this.dataSource.actualizarDatos();
+                    this.funteInfo.data = this.turnoTabla;
                   },
                   error: (error) => {
-                  },
+                    console.error('Error al obtener el negocio:', error);
+                  }
                 });
-                // Cuando tengo todo lo asigno
-                if (unTurnoAux.estado || unTurnoAux.hora > this.horaActual(1)) {
-                  this.turnoTabla.push(unTurnoAux);
-
-                }
-
-
-                this.turnoTabla = this.ordenarArregloTurnos(this.turnoTabla);
-                this.dataSource.data = this.turnoTabla;
-                this.dataSource.actualizarDatos();
-                this.funteInfo.data = this.turnoTabla;
-
               },
               error: (error: Error) => {
-
-              },
+                console.error('Error al obtener el servicio:', error);
+              }
             });
           },
           error: (error) => {
-
-          },
+            console.error('Error al obtener el profesional:', error);
+          }
         });
-
       },
       error: (error) => {
-
-      },
+        console.error('Error al obtener el cliente:', error);
+      }
     });
   }
 
+
+
   ordenarArregloTurnos(arreglo: TablaTurnoClienteItem[]) {
-    if (this.segmento == 'dashboard-cliente') {
+    if (this.modo == 'dashboard') {
       arreglo = arreglo.filter(
         (a) =>
           a.estado == estadoTurno.RESERVADO || a.estado == estadoTurno.EN_CURSO
@@ -239,7 +279,7 @@ negocio: string|String = '';
       this.funteInfo.paginator.firstPage();
     }
   }
-  cambiarEstado(nombreNegocio: String|string, turno: TablaTurnoClienteItem) {
+  cambiarEstado(nombreNegocio: String | string, turno: TablaTurnoClienteItem) {
     const idNegocio = this.listadoNegocios.find((n) => n.nombre == nombreNegocio)?.idUsuario;
     if (idNegocio && turno) {
       if (turno.estado == estadoTurno.EN_CURSO) {
@@ -248,7 +288,7 @@ negocio: string|String = '';
       } else if (turno.estado == estadoTurno.RESERVADO) {
         turno.estado = estadoTurno.CANCELADO;
         /**LOGICA PARA DAR DE BAJA EL TURNO Y HABILITAR EL TURNO EN EL HUB */
-        this.cancelarTurno(idNegocio, turno.numero!);
+        this.cancelarTurno(idNegocio, turno.numero!, nombreNegocio);
       }
     }
     this.modificarEstado(turno!, idNegocio!);
@@ -265,14 +305,14 @@ negocio: string|String = '';
       });
     }
   }
-  cancelarTurno(idNegocio: number, idTurno: number) {
+  cancelarTurno(idNegocio: number, idTurno: number, nombreNegocio: String) {
     //obtener turno
     this.turnoService.getTurno(idNegocio, idTurno).subscribe({
       next: (turnoResponse) => {
         this.darDeAltaHorario(turnoResponse?.horarioProfesional.idHorario!, idNegocio, turnoResponse?.horarioProfesional.idProfesional!, true);
         this.negocioService.getNumeroDeSoporte(idNegocio).subscribe({
           next: (responseNumeroSoporte) => {
-            this.cuerpoEmail.nombreNegocio = ''
+            this.cuerpoEmail.nombreNegocio = nombreNegocio;
             this.cuerpoEmail.nombreCliente = this.authService.getNombreUsuario()!;
             this.cuerpoEmail.emailCliente = this.authService.getEmailUsuario()!;
             this.cuerpoEmail.numeroSoporte = responseNumeroSoporte;

@@ -4,7 +4,7 @@
   </a>
 
   <ul>
-    <li><app-boton [routerLink]="'/dashboard-cliente/historial'" [class]="claseBoton" (click)="onHistorialClick()" [textoDentroBoton]="textoHistorialLevantado"></app-boton></li>
+    <li><app-boton [routerLink]="'/dashboard-cliente'" [class]="claseBoton" (click)="onHistorialClick()" [textoDentroBoton]="textoHistorialLevantado"></app-boton></li>
     <li><app-boton [class]="claseBoton" [textoDentroBoton]="'Cerrar sesion'" (click)="abrirModalCierre()"></app-boton></li>
     <app-modal-pregunta [pregunta]="'¿Desea salir de Mi Turno?'" [tituloPregunta]="'Salir'"  [botonNegativo]="'No'" [botonPositivo]="'Si'"  (respuesta)="manejarRespuesta($event)"></app-modal-pregunta>
 
