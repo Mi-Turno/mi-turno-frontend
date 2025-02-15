@@ -178,15 +178,15 @@ negocio: string|String = '';
                     unTurnoAux.profesional = this.nombreProfesional;
                     unTurnoAux.servicio = this.nombreServicio;
 
-                    if (unTurnoAux.estado || unTurnoAux.hora > this.horaActual(1)) {
-                      this.turnoTabla.push(unTurnoAux);
-
-                    }
                   },
                   error: (error) => {
                   },
                 });
                 // Cuando tengo todo lo asigno
+                if (unTurnoAux.estado || unTurnoAux.hora > this.horaActual(1)) {
+                  this.turnoTabla.push(unTurnoAux);
+
+                }
 
 
                 this.turnoTabla = this.ordenarArregloTurnos(this.turnoTabla);
@@ -266,20 +266,24 @@ negocio: string|String = '';
     }
   }
   cancelarTurno(idNegocio: number, idTurno: number) {
-
     //obtener turno
-    const turno = this.turnos.find((t) => t.idTurno == idTurno);
-
-    this.darDeAltaHorario(turno?.horarioProfesional.idHorario!, idNegocio, turno?.horarioProfesional.idProfesional!, true);
-    this.negocioService.getNumeroDeSoporte(turno?.idNegocio!).subscribe({
-      next: (responseNumeroSoporte) => {
-        this.cuerpoEmail.emailCliente = this.authService.getEmailUsuario()!;
-        this.cuerpoEmail.numeroSoporte = responseNumeroSoporte;
-        console.log(this.cuerpoEmail);
-        /*4 Le avisamos al cliente que se cancelo su turno*/
-        this.emailService.enviarEmailCancelacionCliente(this.cuerpoEmail).subscribe({
-          next: (responseEmail) => {
-            alert('Turno cancelado');
+    this.turnoService.getTurno(idNegocio, idTurno).subscribe({
+      next: (turnoResponse) => {
+        this.darDeAltaHorario(turnoResponse?.horarioProfesional.idHorario!, idNegocio, turnoResponse?.horarioProfesional.idProfesional!, true);
+        this.negocioService.getNumeroDeSoporte(idNegocio).subscribe({
+          next: (responseNumeroSoporte) => {
+            this.cuerpoEmail.nombreNegocio = ''
+            this.cuerpoEmail.nombreCliente = this.authService.getNombreUsuario()!;
+            this.cuerpoEmail.emailCliente = this.authService.getEmailUsuario()!;
+            this.cuerpoEmail.numeroSoporte = responseNumeroSoporte;
+            /*4 Le avisamos al cliente que se cancelo su turno*/
+            this.emailService.enviarEmailCancelacionCliente(this.cuerpoEmail).subscribe({
+              next: (responseEmail) => {
+                alert('Turno cancelado');
+              },
+              error: (error) => {
+              }
+            });
           },
           error: (error) => {
           }
@@ -288,6 +292,7 @@ negocio: string|String = '';
       error: (error) => {
       }
     });
+
 
   }
 
