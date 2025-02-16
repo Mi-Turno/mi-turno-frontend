@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { NegocioInterface } from '../../interfaces/negocio-interface';
+import { TablaClientesItem } from '../../../shared/components/tabla-clientes/tabla-clientes-datasource';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,9 @@ export class NegocioServiceService {
   }
   public getNegocioById(id: number): Observable<NegocioInterface> {
     return this.http.get<NegocioInterface>(`${this.urlBase}/id/${id}`);
+  }
+  public getClientesByNegocio(idNegocio: number): Observable<TablaClientesItem[]> {
+    return this.http.get<TablaClientesItem[]>(`${this.urlBase}/${idNegocio}/clientes`);
   }
   public postNegocio(negocio: NegocioInterface): Observable<NegocioInterface> {
     return this.http.post<NegocioInterface>(`${this.urlBase}/register`, negocio);
