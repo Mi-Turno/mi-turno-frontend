@@ -6,7 +6,7 @@
 
 <div class="principal">
   <!-- <app-side-bar-admin [idAdmin]="idAdmin.toString()" (salir)="cerrarSesion($event)"></app-side-bar-admin> -->
-  <app-side-bar [nombreNegocio]="'1'" (salir)="cerrarSesion($event)" [botones]="botones" [urlBaseNegocio]="'/admin/'"/>
+  <app-side-bar [nombreNegocio]="nombreAdmin" (salir)="cerrarSesion($event)" [botones]="botones" [urlBaseNegocio]="'/admin/'"/>
 
   <div class="secundario">
     <app-nav-bar [textoBoton]="texto" (evento)="redirigir()"></app-nav-bar>
