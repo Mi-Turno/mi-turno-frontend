@@ -1,0 +1,9 @@
+<div [className]="'contenedor-input-archivo'">
+  <mat-icon>{{icono}}</mat-icon>
+  <label for="input-archivo">{{textoLabel}}</label>
+  <input
+    type="file"
+    id="input-archivo"
+    (change)="seleccionarArchivo($event)"
+    [accept]="tipoArchivo"/>
+</div>

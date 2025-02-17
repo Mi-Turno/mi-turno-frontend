@@ -71,6 +71,7 @@ export class RegistrarNegocioComponent {
         altura: this.formularioRegisterNegocio.get('altura')?.value,
         detalle: this.formularioRegisterNegocio.get('detalle')?.value,
         rolUsuario: ROLES.negocio
+        //fotoPerfil: this.formularioRegisterNegocio.get('fotoPerfil')?.value
       }
 
   }

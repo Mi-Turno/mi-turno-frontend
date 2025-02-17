@@ -17,6 +17,9 @@ import { codigoErrorHttp } from "../../../../../shared/models/httpError.constant
 import { AuthService } from "../../../../../core/guards/auth/service/auth.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { ModalPreguntaComponent } from "../../../../../shared/components/modal-pregunta/modal-pregunta.component";
+import { InputArchivoComponent } from "../../../../../shared/components/input-archivo/input-archivo.component";
+import { ArchivosServiceService } from "../../../../../core/services/archivosService/archivos-service.service";
+import { forkJoin } from "rxjs";
 
 
 
@@ -24,7 +27,7 @@ import { ModalPreguntaComponent } from "../../../../../shared/components/modal-p
   selector: 'app-pop-up-crear-profesional',
   standalone: true,
   providers: [provideNativeDateAdapter()],
-  imports: [CommonModule, BotonComponent, ReactiveFormsModule, MatIconModule,MatFormFieldModule, MatInputModule, FormsModule,MatDatepickerModule, ModalPreguntaComponent],
+  imports: [CommonModule, BotonComponent, ReactiveFormsModule, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, MatDatepickerModule, ModalPreguntaComponent, InputArchivoComponent],
   templateUrl: './pop-up-crear-profesional.component.html',
   styleUrl: './pop-up-crear-profesional.component.css'
 })
@@ -37,14 +40,18 @@ iconos = ICONOS;
 placeholders = PLACEHOLDERS;
 
 //servicios
-usuarioService = inject(ProfesionalesServiceService);
+profesionalService = inject(ProfesionalesServiceService);
 authService:AuthService = inject(AuthService);
+archivosService:ArchivosServiceService = inject(ArchivosServiceService);
 
 //inputs
 @Input() fotoProfesional = "img-default.png";
 @Input() textoTitulo:string = "";
-@Input() cardSeleccionada?: ProfesionalInterface | null = null;
+@Input() cardSeleccionada?: ProfesionalInterface | null;
 
+//variables
+esNuevoProfesional:boolean = false;
+idNegocio:number= 0;
 
 formularioRegister = new FormGroup ({
   nombre: new FormControl('', Validators.required),
@@ -52,27 +59,44 @@ formularioRegister = new FormGroup ({
   email: new FormControl('', [Validators.required, Validators.email]),
   fechaNacimiento: new FormControl('',Validators.required),
   telefono: new FormControl('', Validators.required),
+  fotoPerfil: new FormControl()
 });
 
 
-idNegocio:number= 0;
 ngOnInit(): void {
-  this.idNegocio = this.authService.getIdUsuario()!;;
+  this.idNegocio = this.authService.getIdUsuario()!;
   this.actualizarValores();
 
 }
 
 actualizarValores() {
-  this.formularioRegister.patchValue({
-    nombre: this.cardSeleccionada?.nombre,
-    apellido: this.cardSeleccionada?.apellido,
-    email: this.cardSeleccionada?.credencial.email,
-    fechaNacimiento: this.cardSeleccionada?.fechaNacimiento,
-    telefono: this.cardSeleccionada?.credencial.telefono,
-  });
+
+  if(this.cardSeleccionada == null){
+    this.esNuevoProfesional = true;
+
+  }else{
+
+    this.formularioRegister.patchValue({
+      nombre: this.cardSeleccionada?.nombre,
+      apellido: this.cardSeleccionada?.apellido,
+      email: this.cardSeleccionada?.credencial.email,
+      fechaNacimiento: this.cardSeleccionada?.fechaNacimiento,
+      telefono: this.cardSeleccionada?.credencial.telefono,
+      fotoPerfil: this.cardSeleccionada?.fotoPerfil,
+    });
+
+
+    if(this.cardSeleccionada?.fotoPerfil && typeof this.cardSeleccionada?.fotoPerfil === 'string'){
+      //mostramos la foto de perfil en el formulario
+      this.fotoProfesional = this.cardSeleccionada?.fotoPerfil;
+    }
+
+
+  }
+
+
+
 }
-
-
 
 crearUnProfesional():ProfesionalInterface {
 
@@ -80,6 +104,7 @@ crearUnProfesional():ProfesionalInterface {
 
   const credencial:CredencialInterface = {
     email:this.formularioRegister.get('email')?.value||'',
+    //Todo: cambiar la contraseña por defecto, a una generada aleatoriamente
     password:"profesional",
     telefono:this.formularioRegister.get('telefono')?.value||'',
     estado:true
@@ -90,14 +115,17 @@ crearUnProfesional():ProfesionalInterface {
     fechaNacimiento:this.formularioRegister.get('fechaNacimiento')?.value||'',
     credencial:credencial,
     rolUsuario:ROLES.profesional,
-
+    fotoPerfil:this.formularioRegister.get('fotoPerfil')?.value|| null,
   };
 }
 
-private postUsuarioToBackend(usuario:ProfesionalInterface):void{
-    this.usuarioService.postProfesionalPorIdNegocio(this.idNegocio,usuario).subscribe({
-      next:(usuario:ProfesionalInterface) =>{
+private postUsuarioToBackend(usuario:ProfesionalInterface): ProfesionalInterface | null {
 
+    let nuevoUsuario:ProfesionalInterface | null= null;
+
+    this.profesionalService.postProfesionalPorIdNegocio(this.idNegocio,usuario).subscribe({
+      next:(response:ProfesionalInterface) =>{
+        nuevoUsuario = response
       },
       error:(error:HttpErrorResponse)=>{
 
@@ -118,24 +146,27 @@ private postUsuarioToBackend(usuario:ProfesionalInterface):void{
           }
 
         } else {
-          alert('Error inesperado. Intente otra vez mas tarde.');
+          alert('Error inesperado. Intente mas tarde.');
         }
       }
     })
 
+    return nuevoUsuario;
   }
 
 
-putUsuarioToBackend(idProfesional: number | undefined, idNegocio: number | undefined, ) {
+putUsuarioToBackend(idProfesional: number | undefined, idNegocio: number | undefined ) {
     if (this.formularioRegister.valid) {
       const profesionalActualizado: ProfesionalInterface = this.crearUnProfesional();
 
-
       if (idProfesional) {
-        this.usuarioService.putUsuarioPorIdNegocio(this.idNegocio!, idProfesional!, profesionalActualizado).subscribe({
+
+        this.profesionalService.putUsuarioPorIdNegocio(this.idNegocio, idProfesional, profesionalActualizado).subscribe({
           next: (response: ProfesionalInterface) => {
-            this.cerrarPopUp();
-            window.location.reload();
+
+            if (this.archivoSeleccionado) {
+              this.postArchivoToBackend(idProfesional, this.archivoSeleccionado);
+            }
 
           },
           error: (e: Error) => {
@@ -148,27 +179,90 @@ putUsuarioToBackend(idProfesional: number | undefined, idNegocio: number | undef
 
 confirmarUsuario() {
   if (this.formularioRegister.valid) {
-    const usuario:ProfesionalInterface = this.crearUnProfesional();
+
+    let profesional: ProfesionalInterface | null = null;
 
     if(this.cardSeleccionada?.idUsuario){
+      profesional = this.cardSeleccionada;
       this.putUsuarioToBackend(this.cardSeleccionada.idUsuario, this.cardSeleccionada.idNegocio);
     }else{
-      this.postUsuarioToBackend(usuario);
+      const usuario:ProfesionalInterface = this.crearUnProfesional();
+      profesional= this.postUsuarioToBackend(usuario);
     }
+
+    if(profesional && profesional.idUsuario){
+
+      if(this.archivoSeleccionado != null){
+        this.postArchivoToBackend(profesional.idUsuario, this.archivoSeleccionado);
+      }else{
+        this.eliminarArchivoBackend(profesional.idUsuario);
+
+      }
+    }
+
+    this.cerrarPopUp();
     window.location.reload();
   } else {
     this.formularioRegister.markAllAsTouched();
-    // let campoError: string = '';
-    // Object.keys(this.formularioRegister.controls).forEach(campo => {
-    //   const control = this.formularioRegister.get(campo);
-    //   if (control?.invalid) {
-    //     campoError += (`${campo} es inválido, `);
-    //   }
-    // });
-    // alert(campoError);
   }
 
 }
+
+postArchivoToBackend(idProfesional:number, archivoNuevo:File){
+  this.archivosService.postArchivo(idProfesional,archivoNuevo).subscribe({
+    next: (exito: Boolean)=>{
+      console.log("El archivo se subio con exito: "+exito);
+    },
+    error: (error: HttpErrorResponse) => {
+      console.log(error);
+    }
+  });
+}
+
+
+//--------------archivo----------------
+archivoSeleccionado:File | null = null;
+
+seleccionarArchivo(archivoNuevo:File): void{
+
+
+
+
+  if(archivoNuevo.size > 0  && archivoNuevo != null){
+
+    this.archivoSeleccionado = archivoNuevo;
+
+    this.formularioRegister.patchValue({
+      fotoPerfil:this.archivoSeleccionado
+    })
+
+    this.fotoProfesional = URL.createObjectURL(this.archivoSeleccionado);
+
+  }
+
+}
+
+private eliminarArchivoBackend(idProfesional:number):void{
+  this.archivosService.eliminarArchivo(idProfesional).subscribe({
+    next:(exito:Boolean)=>{
+      console.log("El archivo se elimino con exito: "+exito);
+    },
+    error:(error:HttpErrorResponse)=>{
+      console.error(error);
+    }
+  })
+}
+
+eliminarArchivo():void{
+
+  this.archivoSeleccionado = null;
+  this.formularioRegister.patchValue({
+    fotoPerfil:null
+  })
+  this.fotoProfesional = "img-default.png";
+}
+
+
 
 //--------------emisores de eventos----------------
 
@@ -232,7 +326,7 @@ eliminarProfesional() {
 
   if (this.cardSeleccionada?.idUsuario) {
 
-    this.usuarioService.deleteUsuario(this.cardSeleccionada.idNegocio!, this.cardSeleccionada.idUsuario!).subscribe({
+    this.profesionalService.deleteUsuario(this.cardSeleccionada.idNegocio!, this.cardSeleccionada.idUsuario!).subscribe({
       next: (response) => {
         this.cerrarPopUp();
 
