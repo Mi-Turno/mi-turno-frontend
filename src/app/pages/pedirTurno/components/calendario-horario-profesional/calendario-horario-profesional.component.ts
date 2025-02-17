@@ -12,7 +12,7 @@ import { estadoTurno } from "../../../../shared/models/estadoTurnoEnum";
 @Component({
   selector: 'app-calendario-horario-profesional',
   standalone: true,
-  imports: [CommonModule,BotonComponent],
+  imports: [CommonModule, BotonComponent],
   templateUrl: './calendario-horario-profesional.component.html',
   styleUrl: './calendario-horario-profesional.component.css'
 })
@@ -39,7 +39,7 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
   diaSiguiente: number = 0;
   diaDeLaSemanaSeleccionado: number = this.hoy.getDay();
 
-  constructor(private cdr: ChangeDetectorRef,private zone: NgZone) {}
+  constructor(private cdr: ChangeDetectorRef, private zone: NgZone) { }
   //funcionalidades boton horario para el OUTPUT
   obtenerIdHorario(idEvent: number) {
     //esto me va a retornar el horario seleccionado
@@ -63,7 +63,7 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
   manejarDiaSeleccionado(diaSeleccionadoEvent: number) {
     this.otroDiaActivo = false;
 
-    if(this.diaDeLaSemanaSeleccionado === diaSeleccionadoEvent){
+    if (this.diaDeLaSemanaSeleccionado === diaSeleccionadoEvent) {
       return;
     }
 
@@ -111,52 +111,49 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
     // Reiniciamos los arreglos para evitar estados anteriores
     this.arregloHorarios = [];
 
-    // Esperamos obtener primero los turnos
+    // Obtenemos los turnos primero
     this.profesionalService.getListadoTurnosPorIdNegocioYIdProfesional(this.idNegocio, this.idDelProfesional).subscribe({
       next: (turnos) => {
         this.arregloTurnos = turnos;
 
-        // Después de obtener los turnos, buscamos los horarios para el día dado
+        // Luego obtenemos los horarios para el día dado
         this.horarioProfesionalService.obtenerHorariosPorIdProfesionalYDia(this.idNegocio, this.idDelProfesional, dia).subscribe({
           next: (horarios) => {
-            // Iteramos para actualizar el estado según los turnos
             horarios.forEach(unHorario => {
-
               const fechaActual = new Date();
-              const horaFormateada = fechaActual.toLocaleTimeString('es-AR', {
-                timeZone: 'America/Argentina/Buenos_Aires',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false,
-              });
-              const [horaInicio, minutosInicio] = unHorario.horaInicio.toString().split(':');
+              const fechaSeleccionada = this.fechaInicioTurnoSeleccionado; // Fecha seleccionada en el calendario
 
+              // Convierto la hora de inicio a números para comparar
+              const [horaInicioStr, minutosInicioStr] = unHorario.horaInicio.toString().split(':');
+              const horaInicioNum = Number(horaInicioStr);
+              const minutosInicioNum = Number(minutosInicioStr);
 
+              // Hago un Date combinando la fecha seleccionada y la hora del horario
+              const horarioDate = new Date(fechaSeleccionada.getFullYear(),fechaSeleccionada.getMonth(),fechaSeleccionada.getDate(),horaInicioNum,minutosInicioNum,0);
+
+              // Verifico si existe un turno para este horario
               const tieneTurno = this.arregloTurnos.some(unTurno => {
-                if (unTurno.estado === estadoTurno.CANCELADO|| unTurno.estado === estadoTurno.COBRADO) { // Si el turno está cancelado o cobrado, no lo consideramos porque afecta a todos los dias del profesional
+                // Si el turno está cancelado o cobrado, lo descarto porque no me interesa analizarlo
+                if (unTurno.estado === estadoTurno.CANCELADO || unTurno.estado === estadoTurno.COBRADO) {
                   return false;
                 }
                 const fechaTurno = this.parsearFechaToDate(unTurno.fechaInicio.toString());
+
+                // Obtenemos la hora del turno para comparar
                 const [horaTurno, minutosTurno] = unTurno.horarioProfesional.horaInicio.toString().split(':');
-                // Verificamos si el horario coincide con un turno existente //TODO verificar que si pasa el horario no pueda seleccionarlo
 
-
-                return (
-                  (fechaTurno.getDate() === this.fechaInicioTurnoSeleccionado.getDate() &&
-                  horaInicio === horaTurno &&
-                  minutosInicio === minutosTurno) ||
-                  (this.fechaInicioTurnoSeleccionado.toDateString() === fechaActual.toDateString() &&
-                   unHorario.horaInicio < horaFormateada))
+                // Verificamos que la fecha y la hora coincidan con el horario en cuestión
+                return (fechaTurno.toDateString() === fechaSeleccionada.toDateString() && horaTurno === horaInicioStr && minutosTurno === minutosInicioStr);
               });
 
-              // Marcamos el horario como ocupado si coincide con algún turno
+              // Si el día seleccionado es el actual, deshabilitamos los horarios que ya pasaron
+              const fechaPasada = fechaSeleccionada.toDateString() === fechaActual.toDateString() && horarioDate < fechaActual;
 
-              unHorario.estado = !tieneTurno;
+              // Pongo el horario en ocupado para que no se pueda seleccionar //TODO ver si se puede poner que esta fuera fecha o libre para que no se vea reservado ya que no es verdad
+              unHorario.estado = !(tieneTurno || fechaPasada);
             });
 
             this.arregloHorarios = horarios;
-
-            console.log(this.arregloHorarios);
             // Forzamos la detección de cambios para refrescar la vista
             this.cdr.detectChanges();
           },
@@ -166,6 +163,7 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
       error: (error) => console.error('Error al obtener turnos:', error)
     });
   }
+
 
 
   // Método para formatear un objeto Date a 'HH:mm'
