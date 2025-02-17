@@ -119,13 +119,14 @@ crearUnProfesional():ProfesionalInterface {
   };
 }
 
-private postUsuarioToBackend(usuario:ProfesionalInterface): ProfesionalInterface | null {
+private postUsuarioToBackend(usuario:ProfesionalInterface): number | null {
 
     let nuevoUsuario:ProfesionalInterface | null= null;
 
     this.profesionalService.postProfesionalPorIdNegocio(this.idNegocio,usuario).subscribe({
       next:(response:ProfesionalInterface) =>{
-        nuevoUsuario = response
+        nuevoUsuario = response;
+
       },
       error:(error:HttpErrorResponse)=>{
 
@@ -177,36 +178,55 @@ putUsuarioToBackend(idProfesional: number | undefined, idNegocio: number | undef
     }
 }
 
+profesional: ProfesionalInterface | null = null;
 confirmarUsuario() {
   if (this.formularioRegister.valid) {
 
-    let profesional: ProfesionalInterface | null = null;
+
 
     if(this.cardSeleccionada?.idUsuario){
-      profesional = this.cardSeleccionada;
+      this.profesional = this.cardSeleccionada;
       this.putUsuarioToBackend(this.cardSeleccionada.idUsuario, this.cardSeleccionada.idNegocio);
     }else{
       const usuario:ProfesionalInterface = this.crearUnProfesional();
-      profesional= this.postUsuarioToBackend(usuario);
+      this.profesional = this.postUsuarioToBackend(usuario);
     }
 
-    if(profesional && profesional.idUsuario){
 
-      if(this.archivoSeleccionado != null){
-        this.postArchivoToBackend(profesional.idUsuario, this.archivoSeleccionado);
+
+    console.log("profesional: "+this.profesional);
+    //verifico si existe el id
+    if(this.profesional && this.profesional.idUsuario){
+
+      console.log("archivo seleccionado es distinto de null?");
+      //verifico si se selecciono un archivo o quiere eliminar
+      if(this.archivoSeleccionado != null ){
+
+        console.log("archivo seleccionado: "+this.archivoSeleccionado);
+
+        //verifico si el archivo seleccionado es distinto al que ya tenia, para no subirlo de nuevo
+        if(URL.createObjectURL(this.archivoSeleccionado) != this.cardSeleccionada?.fotoPerfil){
+
+          console.log("URL CREADA: "+URL.createObjectURL(this.archivoSeleccionado));
+
+          this.postArchivoToBackend(this.profesional.idUsuario, this.archivoSeleccionado);
+
+        }
       }else{
-        this.eliminarArchivoBackend(profesional.idUsuario);
-
+        this.eliminarArchivoBackend(this.profesional.idUsuario);
       }
     }
 
-    this.cerrarPopUp();
-    window.location.reload();
+    // this.cerrarPopUp();
+    // window.location.reload();
   } else {
     this.formularioRegister.markAllAsTouched();
   }
 
 }
+
+
+
 
 postArchivoToBackend(idProfesional:number, archivoNuevo:File){
   this.archivosService.postArchivo(idProfesional,archivoNuevo).subscribe({
@@ -227,8 +247,8 @@ seleccionarArchivo(archivoNuevo:File): void{
 
 
 
-
   if(archivoNuevo.size > 0  && archivoNuevo != null){
+
 
     this.archivoSeleccionado = archivoNuevo;
 
@@ -253,7 +273,7 @@ private eliminarArchivoBackend(idProfesional:number):void{
   })
 }
 
-eliminarArchivo():void{
+eliminarArchivo(event:Event):void{
 
   this.archivoSeleccionado = null;
   this.formularioRegister.patchValue({

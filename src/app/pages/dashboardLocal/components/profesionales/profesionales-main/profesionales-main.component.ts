@@ -75,6 +75,7 @@ export class ProfesionalesMainComponent implements OnInit {
       //obtengo el arreglo de profesionales del negocio y lo guardo en la variable profesionales
       this.profesionales.GETProfesionalesPorIdNegocioYEstado(this.idNegocio, "true").subscribe({
         next: (profesionales) => {
+          console.log(profesionales);
           this.idCards = [...profesionales];
         }, error: (error) => {
         }

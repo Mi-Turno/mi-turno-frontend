@@ -93,3 +93,26 @@
 background-color: #f5f5f5;
 }
 
+.contenedor-funciones-imagen{
+  display: flex;
+  align-items: center;
+}
+.contenedor-funciones-imagen app-input-archivo{
+  width: 100%;
+}
+
+.icono-eliminar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  padding: 10px;
+}
+
+.icono-eliminar:hover{
+  background-color: var(--color-eliminar1);
+  cursor: pointer;
+  color: whitesmoke;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}

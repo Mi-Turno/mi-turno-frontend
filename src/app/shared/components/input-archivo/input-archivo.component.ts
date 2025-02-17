@@ -9,7 +9,7 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './input-archivo.component.css'
 })
 export class InputArchivoComponent {
-  @Input() tipoArchivo: string = '.jpg, .png, .jpeg';
+  @Input() tipoArchivo: string = 'image/*';
   @Input() textoLabel: string = 'Seleccionar archivo';
   @Input() icono: string = 'upload';
   @Output() emitirArchivo: EventEmitter<File> = new EventEmitter<File>();
@@ -27,7 +27,7 @@ export class InputArchivoComponent {
       this.archivoSeleccionado = input.files[0];
       this.emitirArchivo.emit(this.archivoSeleccionado);
 
-    
+
 
     }
 

@@ -14,7 +14,7 @@ export class ArchivosServiceService {
     const formData = new FormData();
     formData.append('id', id.toString());  // Convertimos el ID a string
     formData.append('archivo', archivo);   // Agregamos el archivo
-
+    console.log(formData);
     return this.http.post<Boolean>(`${this.urlBase}/subir`, formData);
   }
 

@@ -1,13 +1,36 @@
 .contenedor-input-archivo{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    border: 1px solid #ccc;
-    background-color: var(--color-primario);
-    color: white;
-    border-radius: 5px;
-    padding: 10px;
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  position: relative;
+  transition: background-color 0.3s;
+  cursor: pointer;
 }
+
+.contenedor-input-archivo:hover{
+  background-color: var(--main-color);
+  color: whitesmoke;
+
+}
+
+.contenedor-input-archivo mat-icon , .contenedor-input-archivo .label-input-archivo, .input-archivo:hover{
+  cursor: pointer;
+}
+
+.input-archivo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+
