@@ -3,5 +3,5 @@ export interface CredencialInterface {
   email: string;
   estado: boolean;
   password: string;
-  telefono: string;
+  telefono: string | null;
 }
