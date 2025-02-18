@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, createEnvironmentInjector, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -35,6 +35,9 @@ import { ROLES } from '../../../../shared/models/rolesUsuario.constants';
 import { CredencialInterface } from '../../../../core/interfaces/credencial.interface';
 import { HorarioProfesional } from '../../../../core/interfaces/horarioProfesional.interface';
 import { TurnoService } from '../../../../core/services/turnoService/turno.service';
+import { HorarioXprofesionalService } from '../../../../core/services/horariosProfesionalService/horarioProfesional.service';
+import { DiasEnum, DiasEnumOrdinal, obtenerDiaEnumPorNumero } from '../../../../shared/models/diasEnum';
+import { estadoTurno } from '../../../../shared/models/estadoTurnoEnum';
 
 @Component({
   selector: 'app-reservar-turno-local',
@@ -60,14 +63,27 @@ export class ReservarTurnoLocalComponent implements OnInit {
   iconos = ICONOS;
 
 //Variables
-
 nombreNegocio: string | null = "";
 negocio: NegocioInterface | null = null
+
+//Variables para generar un turno
 idNegocio: number = 0;
+idServicio: number = 0;
+idProfesional: number = 0;
+idMetodoPago: number = 0;
+idDiaSeleccionado: number = 0;
+idHorario: number = 0;
+
+
+//Arreglos con los datos que se obtienen
 profesionales: ProfesionalInterface[] | undefined = undefined;
 servicios: ServicioInterface[] | undefined = undefined;
 metodosDePago?: MetodosDePago[] | undefined = undefined;
 horariosProfesional: HorarioProfesional[] | undefined = undefined;
+turnosNegocio: TurnoInterface[] | undefined = undefined;
+
+
+
 //Variables del cliente invitado
 idClienteInvitado :number = 0 ;
 mailClienteInvitado: string = "";
@@ -86,7 +102,8 @@ metodoPagoSeleccionado = true;
   profesionalService: ProfesionalesServiceService = inject(ProfesionalesServiceService);
   servicioService: ServicioServiceService = inject(ServicioServiceService);
   usuarioService: UsuarioService = inject(UsuarioService);
-
+  horarioService: HorarioXprofesionalService = inject(HorarioXprofesionalService);
+  turnoService: TurnoService = inject (TurnoService);
 
 
 //On init
@@ -97,10 +114,11 @@ ngOnInit(): void {
   });
 
   this.ObtenerNegocioPorNombre();
+  this.manejadorHabilitacionCampos();
 }
 
 
-// Fuciones para obtener el negocio
+// Fuciones para obtener todos los datos relacionadaos al negocio
 
 ObtenerNegocioPorNombre() {
   this.negocioService.getIdNegocioByNombre(this.nombreNegocio!).subscribe({
@@ -133,8 +151,8 @@ ObtenerServiciosNegocio(){
   });
 }
 
-ObtenerProfesionalesNegocio() {
-  this.profesionalService.GETProfesionalesPorIdNegocioYEstado(this.idNegocio,"true" ).subscribe({
+ObtenerProfesionalesConServicioDeNegocio() {
+  this.servicioService.getListadoDeProfesionalesPorIdServicioYIdNegocio(this.idServicio, this.idNegocio,).subscribe({
     next:(response) => {
       this.profesionales = [...response];
     },error:(err) =>  {
@@ -148,15 +166,43 @@ this.metodosDePago =  [MetodosDePago.debito, MetodosDePago.efectivo, MetodosDePa
 }
 
 ObtenerHorarioProfesional(){
-  //Aca hay que obtener todos los horarios del profesional seleccionado 
+  this.horarioService.getHorariosPorIdProfesionalYDia(this.idNegocio, this.idProfesional, this.idDiaSeleccionado).subscribe({
+    next:(response) => {
+      this.horariosProfesional = [...response];
+    }, error:(err)=> {
+      console.error("Error al obtener los porfesionales del negocio" + err);
+    }
+  })
 }
 
 
+ObtenerTurnosNegocio(){
+  this.turnoService.getTurnos(this.idNegocio).subscribe({
+    next:(response) => {
+      response.forEach(turno => {
+          if(turno.estado !== estadoTurno.RESERVADO){
+            this.turnosNegocio?.push(turno);
+          }
+      });
+        console.log(this.turnosNegocio);
+
+    }, error:(err) =>{
+      console.error("Error"+ err );
+    }
+  })
+}
+
+
+//Aca hay que usar la fecha que se eligío y fijarse de que id le corresponde al día
+ObtenerIdDia(fecha: Date){
+  return fecha.getDay();
+}
+
 actualizarValores() {
-  //Va  a hacer las peticiones para actualizar los toggle
-  this.ObtenerServiciosNegocio();
-  this.ObtenerProfesionalesNegocio();
-  this.ObtenerMetodosPagoNegocio();
+  //Va  a hacer las peticiones para actualizar los select
+ // this.ObtenerServiciosNegocio();
+  //this.ObtenerProfesionalesConServicioDeNegocio();
+  //this.ObtenerMetodosPagoNegocio();
 }
 
   //Formulario
@@ -169,6 +215,59 @@ formularioTurno: FormGroup = new FormGroup({
   fechaTurno : new FormControl({value: '', disabled: this.metodoPagoSeleccionado}, Validators.required),
   horaTurno: new FormControl({value: '', disabled: this.fechaSeleccionada}, Validators.required)
 });
+
+
+
+manejadorHabilitacionCampos() : void {
+  const campos = ["nombre", "servicio", "profesional", "metodoPago", "fechaTurno", "horaTurno"];
+
+  campos.forEach((campo, indice) => {
+    if(indice < campos.length - 1){
+      this.formularioTurno.get(campo)?.valueChanges.subscribe(valor => {
+        const proximoCampo = campos[indice + 1];
+        if(valor && valor.toString().trim() !== ' ') {
+          this.formularioTurno.get(proximoCampo)?.enable();
+          this.peticionesDatosFormulario(campo, valor);
+        }else{
+          this.formularioTurno.get(proximoCampo)?.disable();
+        }
+      })
+    }
+  })
+}
+
+peticionesDatosFormulario(campo: string, valor: any){
+console.log(valor);
+  switch(campo){
+    case "nombre":
+      this.ObtenerServiciosNegocio();
+      break;
+    case "servicio":
+      this.idServicio = (valor as ServicioInterface).idServicio!;
+      this.ObtenerProfesionalesConServicioDeNegocio();
+      break;
+    case "profesional":
+      this.idProfesional = (valor as ProfesionalInterface).idUsuario!;
+      this.ObtenerMetodosPagoNegocio();
+      break;
+    case "metodoPago":
+      this.idMetodoPago = valor.idMetodoPago;
+      break;
+      case "fechaTurno":
+      this.idDiaSeleccionado = this.ObtenerIdDia(valor as Date);
+      this.ObtenerHorarioProfesional()
+      this.ObtenerTurnosNegocio();
+      break;
+      case "horaTurno":
+      this.idHorario = valor.horario;
+      break;
+  }
+
+}
+
+
+
+
 
 crearClienteInvitado(nombre: string, email:string | null){
 

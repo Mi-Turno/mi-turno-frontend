@@ -108,7 +108,7 @@ export class TablaClientesComponent implements AfterViewInit {
             nombre: usuario.nombre,
             apellido: usuario.apellido,
             correo: usuario.credencial.email,
-            telefono: usuario.credencial.telefono,
+            telefono: usuario.credencial.telefono!,
             rol: usuario.rolUsuario,
             fechaNacimiento: usuario.fechaNacimiento,
             estado: usuario.credencial.estado,

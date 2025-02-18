@@ -123,7 +123,7 @@
         <mat-label>Horario del turno</mat-label>
         <mat-select formControlName="horaTurno" required >
           <mat-option>--</mat-option>
-            <mat-option *ngFor="let metodoPago of metodosDePago" [value]="metodoPago">{{metodoPago}}</mat-option>
+            <mat-option *ngFor="let horario of horariosProfesional" [value]="horario">{{horario.horaInicio}}</mat-option>
 
         </mat-select>
         <mat-icon matSuffix>{{ iconos.reloj }}</mat-icon>
