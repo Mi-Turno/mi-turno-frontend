@@ -2,6 +2,8 @@ import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular
 import { CommonModule } from '@angular/common';
 import { MetodosDePagoServiceService } from '../../../../core/services/metodosDePago/metodos-de-pago-service.service';
 import { CardComponent } from '../../../../shared/components/card/card.component';
+import { MetodosDePago } from '../../../../shared/models/metodosDePago';
+import { NegocioServiceService } from '../../../../core/services/negocioService/negocio-service.service';
 
 
 
@@ -14,12 +16,12 @@ import { CardComponent } from '../../../../shared/components/card/card.component
 })
 export class MetodoPagoComponent implements OnInit {
   metodosDePagoServicio: MetodosDePagoServiceService = inject(MetodosDePagoServiceService);
-
+  negocioService: NegocioServiceService = inject(NegocioServiceService);
   textoBoton = "Seleccionar";
   textoTitulo = "Metodo de pago";
   referenciaChip:string = '';
   metodosDePago:string[] = [];
-
+  @Input() idNegocio = 0;
 
   @Output() emitirInformacion = new EventEmitter<number>();
   enviarIdMetodoDePago(metodoDePagoId: number) {
@@ -35,7 +37,12 @@ export class MetodoPagoComponent implements OnInit {
 
 
   cargarMetodosDePago() {
-    this.metodosDePagoServicio.getMetodosDePago().subscribe({
+    this.negocioService.getMetodosDePagoPorNegocioId(this.idNegocio).subscribe({
+      next: (response) => {
+        this.metodosDePago = response;
+      }
+    });
+    /*this.metodosDePagoServicio.getMetodosDePago().subscribe({
       next: (response) => {
 
         this.metodosDePago = response;
@@ -44,7 +51,7 @@ export class MetodoPagoComponent implements OnInit {
       error: (error) => {
         console.error('Error al obtener servicios:', error);
       }
-    });
+    });*/
 
   }
 
@@ -56,15 +63,15 @@ export class MetodoPagoComponent implements OnInit {
 
   getRutaImagen(metodoDePago: string): string {
     switch (metodoDePago) {
-      case 'EFECTIVO':
+      case MetodosDePago.efectivo:
         return 'efectivo.png';
-      case 'MERCADO_PAGO':
+      case MetodosDePago.mercadoPago:
         return 'mercado-pago.png';
-      case 'TARJETA_CREDITO':
+      case MetodosDePago.credito:
         return 'tarjeta.png';
-      case 'TARJETA_DEBITO':
+      case MetodosDePago.debito:
         return 'tarjeta.png';
-      case 'TRANSFERENCIA':
+      case MetodosDePago.transferencia:
         return 'transferencia.png';
       default:
         return 'img-default.png'; // Imagen por defecto

@@ -9,15 +9,15 @@ export enum MetodosDePago {
 export function obtenerMetodosDePagoPorNumero(metodoDePago:number): MetodosDePago{
   switch(metodoDePago){
     case 0:
-      return MetodosDePago.efectivo;
-    case 1:
       return MetodosDePago.mercadoPago;
+    case 1:
+      return MetodosDePago.efectivo;
     case 2:
       return MetodosDePago.credito;
     case 3:
-      return MetodosDePago.debito;
-    case 4:
       return MetodosDePago.transferencia;
+    case 4:
+      return MetodosDePago.debito;
     default:
       return MetodosDePago.efectivo;
   }
