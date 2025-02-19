@@ -36,6 +36,11 @@ export class NegocioServiceService {
   public putNegocio(id:number, negocio:NegocioInterface): Observable<NegocioInterface>{
     return this.http.put<NegocioInterface>(`${this.urlBase}/${id}`, negocio);
   }
+
+  public getMetodosDePagoPorNegocioId (idNegocio: number): Observable<string[]> {
+    return this.http.get<string[]>(`${this.urlBase}/${idNegocio}/metodos-de-pago`);
+  }
+
   public patchDarDeAltaMetodoDePago(idNegocio: number, metodoDePagoId: number): Observable<NegocioInterface> {
     const params = new HttpParams().set('metodoDePagoId', metodoDePagoId.toString());
     return this.http.patch<NegocioInterface>(`${this.urlBase}/${idNegocio}/metodos-de-pago/alta`, null, { params });
