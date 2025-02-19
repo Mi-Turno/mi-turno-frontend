@@ -49,7 +49,7 @@
 
         }
         @case (4) {
-          <app-metodo-pago
+          <app-metodo-pago [idNegocio]="idNegocio"
           (emitirInformacion)="recibirIdInformacion($event)"></app-metodo-pago>
         }
         @case (5) {
