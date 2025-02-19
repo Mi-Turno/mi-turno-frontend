@@ -12,7 +12,7 @@ export class ArchivosServiceService {
 
   public postArchivoUsuario(id:number, archivo:File):Observable<Boolean>{
     const formData = new FormData();
-    formData.append('id', id.toString());  // Convertimos el ID a string
+    formData.append('idUsuario', id.toString());  // Convertimos el ID a string
     formData.append('archivo', archivo);   // Agregamos el archivo
 
     return this.http.post<Boolean>(`${this.urlBase}/subirArchivoUsuario`, formData);
