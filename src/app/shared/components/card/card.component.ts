@@ -12,12 +12,12 @@ export class CardComponent implements OnInit{
 
 
 ngOnInit(): void {
+
   //si la ruta esta vacia o es null, se asigna la imagen default
-  if(this.ruta == null || this.ruta == ""){
+  if(this.ruta == null || this.ruta == "" ){
     this.ruta = "img-default.png";
     this.textoAlt = "Imagen default";
   }else{
-    console.log(this.ruta);
     this.textoAlt = this.ruta.toString();
   }
 

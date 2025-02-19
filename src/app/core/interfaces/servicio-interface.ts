@@ -4,5 +4,5 @@ export interface ServicioInterface {
   nombre:string;
   duracion?:number;
   precio?:Number;
-  fotoServicio:string | File;
+  fotoServicio?:string | File;
 }

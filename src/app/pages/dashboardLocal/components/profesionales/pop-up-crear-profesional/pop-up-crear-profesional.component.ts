@@ -22,6 +22,7 @@ import { ArchivosServiceService } from "../../../../../core/services/archivosSer
 import { catchError, forkJoin, Observable, of, switchMap, throwError } from "rxjs";
 import { UsuarioInterface } from "../../../../../core/interfaces/usuario-interface";
 import { entidadEnum } from "../../../../../shared/models/entidadEnum";
+import generarContraseniaAleatoria from "../../../../../shared/utils/generarContraseniaAleatoria";
 
 
 
@@ -73,11 +74,7 @@ ngOnInit(): void {
 
 actualizarValores() {
 
-  if(this.cardSeleccionada == null){
-    this.esNuevoProfesional = true;
-    this.fotoProfesional = "img-default.png";
-  }else{
-
+  if(this.cardSeleccionada != null){
     this.formularioRegister.patchValue({
       nombre: this.cardSeleccionada?.nombre,
       apellido: this.cardSeleccionada?.apellido,
@@ -86,28 +83,23 @@ actualizarValores() {
       telefono: this.cardSeleccionada?.credencial.telefono,
       fotoPerfil: this.cardSeleccionada?.fotoPerfil,
     });
-
-
-    if(this.cardSeleccionada?.fotoPerfil){
-      //mostramos la foto de perfil en el formulario
-      this.fotoProfesional = this.cardSeleccionada?.fotoPerfil;
-    }else{
-      this.fotoProfesional = "img-default.png";
-    }
-
-
+  }else{
+    this.esNuevoProfesional = true;
   }
 
-
-
+  if(this.cardSeleccionada?.fotoPerfil){
+    //mostramos la foto de perfil en el formulario
+    this.fotoProfesional = this.cardSeleccionada?.fotoPerfil;
+  }else{
+    this.fotoProfesional = "img-default.png";
+  }
 }
 
 crearUnProfesional():ProfesionalInterface {
 
   const credencial:CredencialInterface = {
     email:this.formularioRegister.get('email')?.value||'',
-    //Todo: cambiar la contraseña por defecto, a una generada aleatoriamente
-    password:"profesional",
+    password: generarContraseniaAleatoria(10),
     telefono:this.formularioRegister.get('telefono')?.value||'',
     estado:true
   } ;
@@ -122,7 +114,6 @@ crearUnProfesional():ProfesionalInterface {
 }
 
 private postUsuarioToBackend(usuario:ProfesionalInterface): Observable<UsuarioInterface> {
-
   return this.profesionalService.postProfesionalPorIdNegocio(this.idNegocio,usuario)
   .pipe(catchError((error) => this.manejarErrores(error))); // Manejo de errores
 }
@@ -161,7 +152,6 @@ putUsuarioToBackend(idProfesional: number, idNegocio: number): Observable<Usuari
   const profesionalActualizado: ProfesionalInterface = this.crearUnProfesional();
   return this.profesionalService.putUsuarioPorIdNegocio(idNegocio, idProfesional, profesionalActualizado)
   .pipe(catchError((error) => this.manejarErrores(error)));
-
 }
 
 
@@ -179,8 +169,6 @@ confirmarUsuario() {
       usuarioObservable = this.postUsuarioToBackend(usuario);
     }
 
-
-
     usuarioObservable.pipe(
       switchMap((response: UsuarioInterface) => {
         if (response.idUsuario) {
@@ -190,6 +178,7 @@ confirmarUsuario() {
       })
     ).subscribe({
       next: () => {
+
         this.cerrarPopUp();
         window.location.reload();
       },
@@ -207,54 +196,35 @@ confirmarUsuario() {
 verificarFotoPerfil(idUsuario: number | null): Observable<Boolean | null>{
   //verifico si existe el id
   if(idUsuario){
-
-    //verifico si se selecciono un archivo o quiere eliminar
+    //verifico si se selecciono un archivo
     if(this.archivoSeleccionado){
-      const asd = this.archivoSeleccionado == this.cardSeleccionada?.fotoPerfil
-
-      console.log("SON IGUALES: "+asd);
-      //verifico si el archivo seleccionado es distinto al que ya tenia, para no subirlo de nuevo
-      if(URL.createObjectURL(this.archivoSeleccionado) != this.cardSeleccionada?.fotoPerfil){
-
-        return this.postArchivoToBackend(idUsuario, this.archivoSeleccionado);
-
-      }
+      return this.postArchivoToBackend(idUsuario, this.archivoSeleccionado);
     }
-
-    if(this.quiereEliminarArchivo){
+    else if(this.quiereEliminarArchivo && this.cardSeleccionada?.fotoPerfil){
       return this.eliminarArchivoBackend(idUsuario);
     }
-
-
-
   }
   return of(null)
 }
 
-
-
-
-
-
 //--------------archivo----------------
-archivoSeleccionado:File | null = null;
 
+archivoSeleccionado:File | null = null;
+seleccionoUnArchivo:boolean = true;
 postArchivoToBackend(idProfesional:number, archivoNuevo:File): Observable<Boolean>{
 
-  return this.archivosService.postArchivo(idProfesional,archivoNuevo,entidadEnum.USUARIO.toString())
+  return this.archivosService.postArchivoUsuario(idProfesional,archivoNuevo,)
   .pipe(catchError((error) => this.manejarErrores(error)));
 }
 
 
+
 seleccionarArchivo(archivoNuevo:File): void{
-
-
 
   if(archivoNuevo.size > 0  && archivoNuevo != null){
 
     this.archivoSeleccionado = archivoNuevo;
     this.quiereEliminarArchivo = false;
-
     this.formularioRegister.patchValue({
       fotoPerfil:this.archivoSeleccionado
     })
@@ -266,7 +236,7 @@ seleccionarArchivo(archivoNuevo:File): void{
 }
 
 private eliminarArchivoBackend(idProfesional:number):Observable<Boolean>{
-  return this.archivosService.eliminarArchivo(idProfesional)
+  return this.archivosService.eliminarArchivoUsuario(idProfesional)
   .pipe(catchError((error) => this.manejarErrores(error)));
 }
 

@@ -1,7 +1,7 @@
 <main class="main">
   <div *ngFor="let card of idCards">
     <app-card
-      [ruta]="rutaImg"
+      [ruta]="card.fotoServicio"
       [titulo]="card.nombre"
       [texto]="'Duracion: ' + card.duracion"
       [textoBoton]="textoBoton"

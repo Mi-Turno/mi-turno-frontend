@@ -81,9 +81,10 @@ export class ProfesionalesMainComponent implements OnInit {
           //obtenemos las fotos de perfil de los profesionales
           profesionales.map(profesional =>{
             console.log(profesional);
+
             if(profesional.fotoPerfil){
 
-              this.archivosService.getArchivo(profesional.idUsuario!).subscribe({
+              this.archivosService.getArchivoUsuario(profesional.idUsuario!).subscribe({
                next: (response) => {
                  const reader = new FileReader();
 

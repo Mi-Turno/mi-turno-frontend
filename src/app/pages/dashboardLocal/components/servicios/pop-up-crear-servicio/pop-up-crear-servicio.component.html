@@ -47,10 +47,17 @@
           formControlName="duracion"
           matInput
           [placeholder]="placeholders.duracion"
+          [min]="1"
         />
         <mat-icon matSuffix>{{ iconos.reloj }}</mat-icon>
         @if (formularioServicioTieneError("duracion", "required")) {
         <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+        }
+        @else if (formularioServicioTieneError("duracion", "min")) {
+          <mat-error>{{ mostrarMensajeError("min") }}</mat-error>
+        }
+        @else if (formularioServicioTieneError("duracion", "max")) {
+          <mat-error>{{ mostrarMensajeError("max") }}</mat-error>
         }
       </mat-form-field>
 
@@ -61,10 +68,13 @@
           formControlName="precio"
           matInput
           [placeholder]="placeholders.precio"
+          [min]="1"
         />
         <mat-icon matSuffix>{{ iconos.dinero }}</mat-icon>
         @if (formularioServicioTieneError("precio", "required")) {
         <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+        }@else if (formularioServicioTieneError("precio", "min")) {
+          <mat-error>{{ mostrarMensajeError("precioInvalido") }}</mat-error>
         }
       </mat-form-field>
 
@@ -74,7 +84,7 @@
 
   <div class="contenedor-fondo">
 
-    @if (esNuevoServicio) {
+    @if (!esNuevoServicio) {
       <app-boton
         [class]="'botonEliminar'"
         [textoDentroBoton]="'Eliminar'"
@@ -88,14 +98,20 @@
       [botonPositivo]="'Si'"
       (respuesta)="manejarRespuesta($event)">
     </app-modal-pregunta>
+    }@else{
+      <app-boton
+        [class]="'botonEliminar'"
+        [textoDentroBoton]="'Cancelar'"
+        [type]="'button'"
+        (click)="cerrarPopUp()"
+      ></app-boton>
     }
-
 
     <app-boton
       [class]="'botonConfirmar'"
       [textoDentroBoton]="'Confirmar'"
       [type]="'button'"
-      (click)="manejarServicio()"
+      (click)="confirmarServicio()"
     ></app-boton>
   </div>
 </div>

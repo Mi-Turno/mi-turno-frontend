@@ -139,15 +139,22 @@
         [type]="'button'"
         (click)="abrirModal()"
       ></app-boton>
+      <app-modal-pregunta
+      [pregunta]="'¿Desea eliminar al profesional ' + this.cardSeleccionada?.nombre + '?'"
+      [tituloPregunta]="'Eliminar'"
+      [botonNegativo]="'No'"
+      [botonPositivo]="'Si'"
+      (respuesta)="manejarRespuesta($event)">
+    </app-modal-pregunta>
+    }@else{
+      <app-boton
+        [class]="'botonEliminar'"
+        [textoDentroBoton]="'Cancelar'"
+        [type]="'button'"
+        (click)="cerrarPopUp()"
+      ></app-boton>
     }
 
-    <app-modal-pregunta
-    [pregunta]="'¿Desea eliminar al profesional ' + this.cardSeleccionada?.nombre + '?'"
-    [tituloPregunta]="'Eliminar'"
-    [botonNegativo]="'No'"
-    [botonPositivo]="'Si'"
-    (respuesta)="manejarRespuesta($event)">
-  </app-modal-pregunta>
 
     <app-boton
       [class]="'botonConfirmar'"
