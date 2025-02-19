@@ -90,7 +90,6 @@ crearUnProfesional():ProfesionalInterface {
     fechaNacimiento:this.formularioRegister.get('fechaNacimiento')?.value||'',
     credencial:credencial,
     rolUsuario:ROLES.profesional,
-
   };
 }
 
