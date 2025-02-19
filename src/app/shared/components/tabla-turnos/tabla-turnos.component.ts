@@ -206,6 +206,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
       next: (cliente) => {
         this.nombreCliente = cliente.nombre;
         this.cuerpoEmail.nombreCliente = cliente.nombre;//Agrego el nombre del cliente al cuerpo del email
+        unTurnoAux.cliente = this.nombreCliente;
 
         // Si obtengo el cliente ejecuto todo lo demas
         this.profesionalService
@@ -217,6 +218,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
             next: (profesional) => {
               this.nombreProfesional = profesional.nombre;
               this.idProfesional = profesional.idUsuario!;
+              unTurnoAux.profesional = this.nombreProfesional;
 
               this.servicioService
                 .getServicioPorIdNegocio(this.idNegocio, unTurno.idServicio)
@@ -225,8 +227,6 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
                     this.nombreServicio = servicio.nombre;
 
                     // Cuando tengo todo lo asigno
-                    unTurnoAux.cliente = this.nombreCliente;
-                    unTurnoAux.profesional = this.nombreProfesional;
                     unTurnoAux.servicio = this.nombreServicio;
 
                     //Lo agrego a la tabla AL FINNN...:)
@@ -241,7 +241,6 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
                     );
                     this.dataSource.data = this.turnoTabla;
                     this.dataSource.actualizarDatos();
-                    //TODO: Verificar si esta solución mejora todo
                     this.funteInfo.data = this.turnoTabla;
 
 
