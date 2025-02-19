@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChipComponent } from '../chip/chip.component';
 
 @Component({
@@ -8,11 +8,24 @@ import { ChipComponent } from '../chip/chip.component';
   templateUrl: './card.component.html',
   styleUrl: './card.component.css'
 })
-export class CardComponent {
+export class CardComponent implements OnInit{
 
-@Input() ruta:string = "img-default.png";
+
+ngOnInit(): void {
+
+  //si la ruta esta vacia o es null, se asigna la imagen default
+  if(this.ruta == null || this.ruta == "" ){
+    this.ruta = "img-default.png";
+    this.textoAlt = "Imagen default";
+  }else{
+    this.textoAlt = this.ruta.toString();
+  }
+
+}
+
+@Input() ruta?:string | File = "img-default.png";
 @Input() claseImg:string = "claseImg";
-@Input() textoAlt:string = "Sin Imagen";
+textoAlt:string = "Imagen default";
 @Input() claseCuerpo:string = "claseCuerpo";
 @Input() claseTitulo:string = "claseTitulo";
 @Input() claseTexto:string = "claseTexto";

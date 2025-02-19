@@ -6,6 +6,6 @@ export interface UsuarioInterface {
   credencial: CredencialInterface;
   fechaNacimiento: string;
   rolUsuario:string//4-NEGOCIO |3-PROFESIONAL| 2-CLIENTE | 1-ADMIN
-
+  fotoPerfil?:string | File;
 
 }

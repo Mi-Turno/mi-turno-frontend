@@ -17,6 +17,12 @@ import { codigoErrorHttp } from "../../../../../shared/models/httpError.constant
 import { AuthService } from "../../../../../core/guards/auth/service/auth.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { ModalPreguntaComponent } from "../../../../../shared/components/modal-pregunta/modal-pregunta.component";
+import { InputArchivoComponent } from "../../../../../shared/components/input-archivo/input-archivo.component";
+import { ArchivosServiceService } from "../../../../../core/services/archivosService/archivos-service.service";
+import { catchError, forkJoin, Observable, of, switchMap, throwError } from "rxjs";
+import { UsuarioInterface } from "../../../../../core/interfaces/usuario-interface";
+import { entidadEnum } from "../../../../../shared/models/entidadEnum";
+import generarContraseniaAleatoria from "../../../../../shared/utils/generarContraseniaAleatoria";
 
 
 
@@ -24,7 +30,7 @@ import { ModalPreguntaComponent } from "../../../../../shared/components/modal-p
   selector: 'app-pop-up-crear-profesional',
   standalone: true,
   providers: [provideNativeDateAdapter()],
-  imports: [CommonModule, BotonComponent, ReactiveFormsModule, MatIconModule,MatFormFieldModule, MatInputModule, FormsModule,MatDatepickerModule, ModalPreguntaComponent],
+  imports: [CommonModule, BotonComponent, ReactiveFormsModule, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, MatDatepickerModule, ModalPreguntaComponent, InputArchivoComponent],
   templateUrl: './pop-up-crear-profesional.component.html',
   styleUrl: './pop-up-crear-profesional.component.css'
 })
@@ -37,14 +43,18 @@ iconos = ICONOS;
 placeholders = PLACEHOLDERS;
 
 //servicios
-usuarioService = inject(ProfesionalesServiceService);
+profesionalService = inject(ProfesionalesServiceService);
 authService:AuthService = inject(AuthService);
+archivosService:ArchivosServiceService = inject(ArchivosServiceService);
 
 //inputs
-@Input() fotoProfesional = "img-default.png";
+@Input() fotoProfesional: string | File | undefined; //string para img-default
 @Input() textoTitulo:string = "";
-@Input() cardSeleccionada?: ProfesionalInterface | null = null;
+@Input() cardSeleccionada?: ProfesionalInterface | null;
 
+//variables
+esNuevoProfesional:boolean = false;
+idNegocio:number= 0;
 
 formularioRegister = new FormGroup ({
   nombre: new FormControl('', Validators.required),
@@ -52,35 +62,44 @@ formularioRegister = new FormGroup ({
   email: new FormControl('', [Validators.required, Validators.email]),
   fechaNacimiento: new FormControl('',Validators.required),
   telefono: new FormControl('', Validators.required),
+  fotoPerfil: new FormControl()
 });
 
 
-idNegocio:number= 0;
 ngOnInit(): void {
-  this.idNegocio = this.authService.getIdUsuario()!;;
+  this.idNegocio = this.authService.getIdUsuario()!;
   this.actualizarValores();
 
 }
 
 actualizarValores() {
-  this.formularioRegister.patchValue({
-    nombre: this.cardSeleccionada?.nombre,
-    apellido: this.cardSeleccionada?.apellido,
-    email: this.cardSeleccionada?.credencial.email,
-    fechaNacimiento: this.cardSeleccionada?.fechaNacimiento,
-    telefono: this.cardSeleccionada?.credencial.telefono,
-  });
+
+  if(this.cardSeleccionada != null){
+    this.formularioRegister.patchValue({
+      nombre: this.cardSeleccionada?.nombre,
+      apellido: this.cardSeleccionada?.apellido,
+      email: this.cardSeleccionada?.credencial.email,
+      fechaNacimiento: this.cardSeleccionada?.fechaNacimiento,
+      telefono: this.cardSeleccionada?.credencial.telefono,
+      fotoPerfil: this.cardSeleccionada?.fotoPerfil,
+    });
+  }else{
+    this.esNuevoProfesional = true;
+  }
+
+  if(this.cardSeleccionada?.fotoPerfil){
+    //mostramos la foto de perfil en el formulario
+    this.fotoProfesional = this.cardSeleccionada?.fotoPerfil;
+  }else{
+    this.fotoProfesional = "img-default.png";
+  }
 }
-
-
 
 crearUnProfesional():ProfesionalInterface {
 
-
-
   const credencial:CredencialInterface = {
     email:this.formularioRegister.get('email')?.value||'',
-    password:"profesional",
+    password: generarContraseniaAleatoria(10),
     telefono:this.formularioRegister.get('telefono')?.value||'',
     estado:true
   } ;
@@ -90,85 +109,150 @@ crearUnProfesional():ProfesionalInterface {
     fechaNacimiento:this.formularioRegister.get('fechaNacimiento')?.value||'',
     credencial:credencial,
     rolUsuario:ROLES.profesional,
-
+    fotoPerfil:this.formularioRegister.get('fotoPerfil')?.value|| null,
   };
 }
 
-private postUsuarioToBackend(usuario:ProfesionalInterface):void{
-    this.usuarioService.postProfesionalPorIdNegocio(this.idNegocio,usuario).subscribe({
-      next:(usuario:ProfesionalInterface) =>{
+private postUsuarioToBackend(usuario:ProfesionalInterface): Observable<UsuarioInterface> {
+  return this.profesionalService.postProfesionalPorIdNegocio(this.idNegocio,usuario)
+  .pipe(catchError((error) => this.manejarErrores(error))); // Manejo de errores
+}
 
-      },
-      error:(error:HttpErrorResponse)=>{
-
-        if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
-          alert('Error 500: Error del servidor');
-
-        } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
-          alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
-        } else if(error.status === codigoErrorHttp.ERROR_REPETIDO){
-          const mensaje = error.error['mensaje'];
-
-          if (mensaje.includes("email")) {
-            // Agrega el error personalizado al FormControl
-            this.formularioRegister.get('email')?.setErrors({ emailExiste: true });
-          }
-          else if (mensaje.includes("telefono")) {
-            this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
-          }
-
-        } else {
-          alert('Error inesperado. Intente otra vez mas tarde.');
-        }
+private manejarErrores(error: HttpErrorResponse) {
+  console.log(error.status);
+  switch (error.status) {
+    case codigoErrorHttp.ERROR_SERVIDOR:
+      alert('Error 500: Error del servidor');
+      break;
+    case 0:
+      alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
+    break;
+    case codigoErrorHttp.ERROR_REPETIDO:
+      const mensaje = error.error['mensaje'];
+      if (mensaje.includes("email")) {
+        this.formularioRegister.get('email')?.setErrors({ emailExiste: true });
+      } else if (mensaje.includes("telefono")) {
+        this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
       }
-    })
+    break;
+    case codigoErrorHttp.NO_ENCONTRADO:
+      console.log("Not found");
+    break;
+    default:
+      alert('Error inesperado. Intente más tarde.');
+    break;
 
   }
 
+  return throwError(() => error);
 
-putUsuarioToBackend(idProfesional: number | undefined, idNegocio: number | undefined, ) {
-    if (this.formularioRegister.valid) {
-      const profesionalActualizado: ProfesionalInterface = this.crearUnProfesional();
-
-
-      if (idProfesional) {
-        this.usuarioService.putUsuarioPorIdNegocio(this.idNegocio!, idProfesional!, profesionalActualizado).subscribe({
-          next: (response: ProfesionalInterface) => {
-            this.cerrarPopUp();
-            window.location.reload();
-
-          },
-          error: (e: Error) => {
-            console.log(e.message);
-          },
-        });
-      }
-    }
 }
+
+putUsuarioToBackend(idProfesional: number, idNegocio: number): Observable<UsuarioInterface>{
+  const profesionalActualizado: ProfesionalInterface = this.crearUnProfesional();
+  return this.profesionalService.putUsuarioPorIdNegocio(idNegocio, idProfesional, profesionalActualizado)
+  .pipe(catchError((error) => this.manejarErrores(error)));
+}
+
 
 confirmarUsuario() {
   if (this.formularioRegister.valid) {
-    const usuario:ProfesionalInterface = this.crearUnProfesional();
 
-    if(this.cardSeleccionada?.idUsuario){
-      this.putUsuarioToBackend(this.cardSeleccionada.idUsuario, this.cardSeleccionada.idNegocio);
-    }else{
-      this.postUsuarioToBackend(usuario);
+    let usuarioObservable;
+
+    if (this.cardSeleccionada?.idUsuario) {
+      // Si el usuario ya existe, actualizarlo con PUT
+      usuarioObservable = this.putUsuarioToBackend(this.cardSeleccionada.idUsuario, this.idNegocio);
+    } else {
+      // Si no existe, crearlo con POST
+      const usuario: ProfesionalInterface = this.crearUnProfesional();
+      usuarioObservable = this.postUsuarioToBackend(usuario);
     }
-    window.location.reload();
+
+    usuarioObservable.pipe(
+      switchMap((response: UsuarioInterface) => {
+        if (response.idUsuario) {
+          return this.verificarFotoPerfil(response.idUsuario); // Retorna un Observable para encadenarlo
+        }
+        return of(null); // Si no hay idUsuario, se retorna un Observable vacío
+      })
+    ).subscribe({
+      next: () => {
+
+        this.cerrarPopUp();
+        window.location.reload();
+      },
+      error: (error) => {
+        // console.error("Error en el proceso de guardar al profesional:", error);
+      }
+    });
+
   } else {
     this.formularioRegister.markAllAsTouched();
-    // let campoError: string = '';
-    // Object.keys(this.formularioRegister.controls).forEach(campo => {
-    //   const control = this.formularioRegister.get(campo);
-    //   if (control?.invalid) {
-    //     campoError += (`${campo} es inválido, `);
-    //   }
-    // });
-    // alert(campoError);
   }
 
 }
+
+verificarFotoPerfil(idUsuario: number | null): Observable<Boolean | null>{
+  //verifico si existe el id
+  if(idUsuario){
+    //verifico si se selecciono un archivo
+    if(this.archivoSeleccionado){
+      return this.postArchivoToBackend(idUsuario, this.archivoSeleccionado);
+    }
+    else if(this.quiereEliminarArchivo && this.cardSeleccionada?.fotoPerfil){
+      return this.eliminarArchivoBackend(idUsuario);
+    }
+  }
+  return of(null)
+}
+
+//--------------archivo----------------
+
+archivoSeleccionado:File | null = null;
+seleccionoUnArchivo:boolean = true;
+postArchivoToBackend(idProfesional:number, archivoNuevo:File): Observable<Boolean>{
+
+  return this.archivosService.postArchivoUsuario(idProfesional,archivoNuevo,)
+  .pipe(catchError((error) => this.manejarErrores(error)));
+}
+
+
+
+seleccionarArchivo(archivoNuevo:File): void{
+
+  if(archivoNuevo.size > 0  && archivoNuevo != null){
+
+    this.archivoSeleccionado = archivoNuevo;
+    this.quiereEliminarArchivo = false;
+    this.formularioRegister.patchValue({
+      fotoPerfil:this.archivoSeleccionado
+    })
+
+    this.fotoProfesional = URL.createObjectURL(this.archivoSeleccionado);
+
+  }
+
+}
+
+private eliminarArchivoBackend(idProfesional:number):Observable<Boolean>{
+  return this.archivosService.eliminarArchivoUsuario(idProfesional)
+  .pipe(catchError((error) => this.manejarErrores(error)));
+}
+
+quiereEliminarArchivo:boolean = false
+
+eliminarArchivo(event:Event):void{
+
+  this.fotoProfesional = "img-default.png";
+  this.quiereEliminarArchivo = true;
+  this.archivoSeleccionado = null;
+  this.formularioRegister.patchValue({
+    fotoPerfil:null
+  })
+}
+
+
 
 //--------------emisores de eventos----------------
 
@@ -182,7 +266,6 @@ confirmarUsuario() {
 cerrarPopUp() {
   this.desactivarOverlay.emit();
   if(this.cardSeleccionada){
-
     this.cardActual.emit(this.cardSeleccionada);
   }
 }
@@ -232,7 +315,7 @@ eliminarProfesional() {
 
   if (this.cardSeleccionada?.idUsuario) {
 
-    this.usuarioService.deleteUsuario(this.cardSeleccionada.idNegocio!, this.cardSeleccionada.idUsuario!).subscribe({
+    this.profesionalService.deleteUsuario(this.cardSeleccionada.idNegocio!, this.cardSeleccionada.idUsuario!).subscribe({
       next: (response) => {
         this.cerrarPopUp();
 
