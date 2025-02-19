@@ -55,7 +55,7 @@ export class ConfirmacionComponent implements OnInit {
 
   //interfaces
   usuario: UsuarioInterface = {} as UsuarioInterface;
-  servicio: ServicioInterface = { nombre: '', duracion: 0, precio: 0 };
+  servicio: ServicioInterface = {} as ServicioInterface;
   profesional: UsuarioInterface = {} as UsuarioInterface;
   negocio: NegocioInterface = {} as NegocioInterface;
 

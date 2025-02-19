@@ -15,6 +15,10 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { codigoErrorHttp } from "../../../../../shared/models/httpError.constants";
 import { AuthService } from '../../../../../core/guards/auth/service/auth.service';
 import { ModalPreguntaComponent } from "../../../../../shared/components/modal-pregunta/modal-pregunta.component";
+import { InputArchivoComponent } from "../../../../../shared/components/input-archivo/input-archivo.component";
+import { ArchivosServiceService } from "../../../../../core/services/archivosService/archivos-service.service";
+import { catchError, Observable, of, throwError } from "rxjs";
+import { entidadEnum } from "../../../../../shared/models/entidadEnum";
 
 @Component({
   selector: 'app-pop-up-crear-servicio',
@@ -27,8 +31,9 @@ import { ModalPreguntaComponent } from "../../../../../shared/components/modal-p
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    ModalPreguntaComponent
-  ],
+    ModalPreguntaComponent,
+    InputArchivoComponent
+],
   templateUrl: './pop-up-crear-servicio.component.html',
   styleUrl: './pop-up-crear-servicio.component.css',
 })
@@ -39,6 +44,8 @@ export class PopUpCrearServicioComponent implements OnInit {
   iconos = ICONOS;
   placeholders = PLACEHOLDERS;
   tipoPopUp = 'servicios';
+  esNuevoServicio:boolean = false;
+  idNegocio: number = 0;
 
   //Servicios
   servicioService: ServicioServiceService = inject(ServicioServiceService);
@@ -59,24 +66,39 @@ export class PopUpCrearServicioComponent implements OnInit {
     this.desactivarOverlay.emit();
   }
 
+  //formulario
+
   formularioServicio = new FormGroup({
     nombre: new FormControl('', Validators.required),
     duracion: new FormControl('', [Validators.required, Validators.min(0)]),
     precio: new FormControl('', Validators.required),
+    fotoServicioFormulario: new FormControl()
   });
-  idNegocio: number = 0;
+
+
+
+  //init y constructor
+
+  constructor(private router: Router) { }
+
   ngOnInit(): void {
     this.idNegocio = this.authService.getIdUsuario()!;
     this.actualizarValores();
   }
 
   actualizarValores() {
-    this.formularioServicio.patchValue({
-      nombre: this.cardSeleccionada?.nombre,
-      duracion: this.cardSeleccionada?.duracion?.toString(),
-      precio: this.cardSeleccionada?.precio?.toString(),
-    });
 
+    if(!this.cardSeleccionada){
+      this.esNuevoServicio = true;
+      this.fotoServicio = 'img-default.png';
+    }else{
+      this.formularioServicio.patchValue({
+        nombre: this.cardSeleccionada?.nombre,
+        duracion: this.cardSeleccionada?.duracion?.toString(),
+        precio: this.cardSeleccionada?.precio?.toString(),
+        fotoServicioFormulario: this.cardSeleccionada?.fotoServicio
+      });
+    }
   }
 
   crearUnServicio(): ServicioInterface {
@@ -87,86 +109,51 @@ export class PopUpCrearServicioComponent implements OnInit {
     const precio = parseFloat(
       this.formularioServicio.get('precio')?.value || '0'
     );
+
+    const fotoServicio = this.formularioServicio.get('fotoServicioFormulario')?.value || 'img-default.png';
+
     return {
       nombre,
       duracion,
       precio,
+      fotoServicio
     };
   }
-  constructor(private router: Router) { }
 
-  postServicioToBackend() {
-    if (this.formularioServicio.valid) {
+
+  postServicioToBackend(): Observable<ServicioInterface> {
+
       const servicioNuevo: ServicioInterface = this.crearUnServicio();
 
-      this.servicioService.postCrearUnServicio(servicioNuevo, this.idNegocio).subscribe({//todo deberia tener el id del negocio
-        next: (response) => {
-          this.cerrarPopUp();
-          window.location.reload();
+      return this.servicioService.postCrearUnServicio(servicioNuevo, this.idNegocio)
+      .pipe(catchError((error) => this.manejarErrores(error)))
 
-        },
-        error: (error: HttpErrorResponse) => {
-          if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
-            alert('Error 404: Servicio no encontrado');
-          } else if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
-            alert('Error 500: Error del servidor');
-          } else if (
-            error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR
-          ) {
-            alert(
-              'Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)'
-            );
-          } else if (error.status === codigoErrorHttp.ERROR_REPETIDO) {
-            alert('Error 409: Servicio ya existe en el sistema');
-          } else {
-            alert('Error inesperado. Intente otra vez mas tarde.');
-          }
-        },
-      });
-    } else {
-      let campoError: string = '';
-      Object.keys(this.formularioServicio.controls).forEach((campo) => {
-        const control = this.formularioServicio.get(campo);
-        if (control?.invalid) {
-          campoError += `${campo} es inválido, `;
-        }
-      });
-    }
   }
 
-  putServicio(idServicio: number | undefined, idNegocio: number | undefined) {
+  putServicio(idServicio: number | undefined, idNegocio: number | undefined): Observable<ServicioInterface | null> {
 
-    if (this.formularioServicio.valid) {
+    if (idServicio) {
       const servicioActualizado: ServicioInterface = this.crearUnServicio();
-      if (idServicio) {
-        this.servicioService.putServicio(idServicio!, idNegocio!, servicioActualizado).subscribe({
-          next: (response) => {
-            this.cerrarPopUp();
-            window.location.reload();
-
-          },
-          error: (e: Error) => {
-            console.log(e.message);
-          },
-        });
+        return this.servicioService.putServicio(idServicio!, idNegocio!, servicioActualizado)
+        .pipe(catchError((error) => this.manejarErrores(error)))
       }
+      return of(null);
+  }
+
+  // - - - Eliminar Servicio - - -
+  @ViewChild(ModalPreguntaComponent) modalPregunta!: ModalPreguntaComponent;
+  preguntaEliminar = "¿Desea eliminar el servicio " + this.cardSeleccionada?.nombre + "?";
+  abrirModal(){
+    if (this.cardSeleccionada) {
+    this.modalPregunta.openDialog();
     }
   }
 
-//Eliminar Servicio
-@ViewChild(ModalPreguntaComponent) modalPregunta!: ModalPreguntaComponent;
-preguntaEliminar = "¿Desea eliminar el servicio " + this.cardSeleccionada?.nombre + "?";
-abrirModal(){
-  if (this.cardSeleccionada) {
-  this.modalPregunta.openDialog();
+  manejarRespuesta(respuesta: boolean){
+    if (!respuesta) {
+      this.eliminarServicio(this.cardSeleccionada?.idServicio,this.cardSeleccionada?.idNegocio)
+    }
   }
-}
-
-manejarRespuesta(respuesta: boolean){
-  if (!respuesta) {
-    this.eliminarServicio(this.cardSeleccionada?.idServicio,this.cardSeleccionada?.idNegocio)
-  }
-}
 
   eliminarServicio(idServicio: number | undefined, idNegocio: number | undefined) {
 
@@ -185,13 +172,20 @@ manejarRespuesta(respuesta: boolean){
   }
 
   manejarServicio() {
-    if (this.cardSeleccionada) {
+    if (this.formularioServicio.valid) {
+      if (this.cardSeleccionada) {
+        this.putServicio(this.cardSeleccionada.idServicio, this.cardSeleccionada.idNegocio);
+      } else if (!this.cardSeleccionada) {
+        this.postServicioToBackend();
+      }
 
-      this.putServicio(this.cardSeleccionada.idServicio, this.cardSeleccionada.idNegocio);
-    } else if (!this.cardSeleccionada) {
-      this.postServicioToBackend();
+    }else{
+      this.formularioServicio.markAllAsTouched();
     }
   }
+
+
+  // - - - Manejar Errores - - -
 
   formularioServicioTieneError(campo:string, error:string) {
     return this.formularioServicio.get(campo)?.hasError(error) && this.formularioServicio.get(campo)?.touched;
@@ -202,25 +196,91 @@ manejarRespuesta(respuesta: boolean){
     switch (error) {
       case 'required':
         return 'Campo requerido';
-      case 'email':
-        return 'Email invalido';
-      case 'emailExiste':
-        return 'Email ya registrado';
-      case 'telefonoExiste':
-        return 'Nro Telefono ya registrado';
-      case 'negocioExiste':
-        return 'Nombre de negocio ya registrado';
-      case 'maxlength':
-        return 'Máximo 15 caracteres';
-      case 'pattern':
-        return 'Debe contener al menos una letra y un número';
-      case 'passwordsDiferentes':
-        return 'Las contraseñas no coinciden';
+      case 'servicioYaExiste':
+        return 'Servicio ya existe';
+      case 'precioInvalido':
+        return 'Precio inválido';
+      case 'nombreInvalido':
+        return 'Nombre inválido';
       default:
         return 'Error';
     }
 
   }
+
+private manejarErrores(error: HttpErrorResponse) {
+  console.log(error.status);
+  switch (error.status) {
+    case codigoErrorHttp.ERROR_SERVIDOR:
+      alert('Error 500: Error del servidor');
+      break;
+    case 0:
+      alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
+    break;
+    case codigoErrorHttp.ERROR_REPETIDO:
+      const mensaje = error.error['mensaje'];
+      // if (mensaje.includes("email")) {
+      //   this.formularioRegister.get('email')?.setErrors({ emailExiste: true });
+      // } else if (mensaje.includes("telefono")) {
+      //   this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
+      // }
+    break;
+    case codigoErrorHttp.NO_ENCONTRADO:
+      console.log("Not found");
+    break;
+    default:
+      alert('Error inesperado. Intente más tarde.');
+    break;
+
+  }
+
+  return throwError(() => error);
+
+}
+
+
+// - - - Archivos - - - -
+
+archivosService: ArchivosServiceService = inject(ArchivosServiceService);
+archivoSeleccionado : File | null = null;
+
+
+postArchivoToBackend(idProfesional:number, archivoNuevo:File): Observable<Boolean>{
+  return this.archivosService.postArchivo(idProfesional,archivoNuevo, entidadEnum.SERVICIO)
+  .pipe(catchError((error) => this.manejarErrores(error)));
+}
+
+
+seleccionarArchivo(archivoNuevo:File): void{
+
+  if(archivoNuevo.size > 0  && archivoNuevo != null){
+
+
+    this.archivoSeleccionado = archivoNuevo;
+
+    this.formularioServicio.patchValue({
+      fotoServicioFormulario: this.archivoSeleccionado
+    })
+
+    this.fotoServicio = URL.createObjectURL(this.archivoSeleccionado);
+
+  }
+
+}
+
+private eliminarArchivoBackend(idProfesional:number):Observable<Boolean>{
+  return this.archivosService.eliminarArchivo(idProfesional)
+  .pipe(catchError((error) => this.manejarErrores(error)));
+}
+
+eliminarArchivo(event:Event):void{
+
+  this.fotoServicio = "img-default.png";
+  this.archivoSeleccionado = null;
+  this.formularioServicio.patchValue({
+    fotoServicioFormulario:null
+  })
+}
 
 }
 

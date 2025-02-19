@@ -36,6 +36,7 @@
 
     <app-pop-up-crear-profesional
       class="posicionPopUp"
+      [fotoProfesional]="cardSeleccionada?.fotoPerfil"
       [textoTitulo]="textoTituloPop"
       [cardSeleccionada]="cardSeleccionada"
       (desactivarOverlay)="cambiarSobreposicion('', null)"

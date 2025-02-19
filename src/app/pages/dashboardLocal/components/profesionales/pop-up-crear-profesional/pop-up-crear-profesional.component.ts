@@ -19,7 +19,9 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { ModalPreguntaComponent } from "../../../../../shared/components/modal-pregunta/modal-pregunta.component";
 import { InputArchivoComponent } from "../../../../../shared/components/input-archivo/input-archivo.component";
 import { ArchivosServiceService } from "../../../../../core/services/archivosService/archivos-service.service";
-import { forkJoin } from "rxjs";
+import { catchError, forkJoin, Observable, of, switchMap, throwError } from "rxjs";
+import { UsuarioInterface } from "../../../../../core/interfaces/usuario-interface";
+import { entidadEnum } from "../../../../../shared/models/entidadEnum";
 
 
 
@@ -45,7 +47,7 @@ authService:AuthService = inject(AuthService);
 archivosService:ArchivosServiceService = inject(ArchivosServiceService);
 
 //inputs
-@Input() fotoProfesional = "img-default.png";
+@Input() fotoProfesional: string | File | undefined; //string para img-default
 @Input() textoTitulo:string = "";
 @Input() cardSeleccionada?: ProfesionalInterface | null;
 
@@ -73,7 +75,7 @@ actualizarValores() {
 
   if(this.cardSeleccionada == null){
     this.esNuevoProfesional = true;
-
+    this.fotoProfesional = "img-default.png";
   }else{
 
     this.formularioRegister.patchValue({
@@ -86,9 +88,11 @@ actualizarValores() {
     });
 
 
-    if(this.cardSeleccionada?.fotoPerfil && typeof this.cardSeleccionada?.fotoPerfil === 'string'){
+    if(this.cardSeleccionada?.fotoPerfil){
       //mostramos la foto de perfil en el formulario
       this.fotoProfesional = this.cardSeleccionada?.fotoPerfil;
+    }else{
+      this.fotoProfesional = "img-default.png";
     }
 
 
@@ -99,8 +103,6 @@ actualizarValores() {
 }
 
 crearUnProfesional():ProfesionalInterface {
-
-
 
   const credencial:CredencialInterface = {
     email:this.formularioRegister.get('email')?.value||'',
@@ -119,129 +121,130 @@ crearUnProfesional():ProfesionalInterface {
   };
 }
 
-private postUsuarioToBackend(usuario:ProfesionalInterface): number | null {
+private postUsuarioToBackend(usuario:ProfesionalInterface): Observable<UsuarioInterface> {
 
-    let nuevoUsuario:ProfesionalInterface | null= null;
-
-    this.profesionalService.postProfesionalPorIdNegocio(this.idNegocio,usuario).subscribe({
-      next:(response:ProfesionalInterface) =>{
-        nuevoUsuario = response;
-
-      },
-      error:(error:HttpErrorResponse)=>{
-
-        if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
-          alert('Error 500: Error del servidor');
-
-        } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
-          alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
-        } else if(error.status === codigoErrorHttp.ERROR_REPETIDO){
-          const mensaje = error.error['mensaje'];
-
-          if (mensaje.includes("email")) {
-            // Agrega el error personalizado al FormControl
-            this.formularioRegister.get('email')?.setErrors({ emailExiste: true });
-          }
-          else if (mensaje.includes("telefono")) {
-            this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
-          }
-
-        } else {
-          alert('Error inesperado. Intente mas tarde.');
-        }
-      }
-    })
-
-    return nuevoUsuario;
-  }
-
-
-putUsuarioToBackend(idProfesional: number | undefined, idNegocio: number | undefined ) {
-    if (this.formularioRegister.valid) {
-      const profesionalActualizado: ProfesionalInterface = this.crearUnProfesional();
-
-      if (idProfesional) {
-
-        this.profesionalService.putUsuarioPorIdNegocio(this.idNegocio, idProfesional, profesionalActualizado).subscribe({
-          next: (response: ProfesionalInterface) => {
-
-            if (this.archivoSeleccionado) {
-              this.postArchivoToBackend(idProfesional, this.archivoSeleccionado);
-            }
-
-          },
-          error: (e: Error) => {
-            console.log(e.message);
-          },
-        });
-      }
-    }
+  return this.profesionalService.postProfesionalPorIdNegocio(this.idNegocio,usuario)
+  .pipe(catchError((error) => this.manejarErrores(error))); // Manejo de errores
 }
 
-profesional: ProfesionalInterface | null = null;
+private manejarErrores(error: HttpErrorResponse) {
+  console.log(error.status);
+  switch (error.status) {
+    case codigoErrorHttp.ERROR_SERVIDOR:
+      alert('Error 500: Error del servidor');
+      break;
+    case 0:
+      alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
+    break;
+    case codigoErrorHttp.ERROR_REPETIDO:
+      const mensaje = error.error['mensaje'];
+      if (mensaje.includes("email")) {
+        this.formularioRegister.get('email')?.setErrors({ emailExiste: true });
+      } else if (mensaje.includes("telefono")) {
+        this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
+      }
+    break;
+    case codigoErrorHttp.NO_ENCONTRADO:
+      console.log("Not found");
+    break;
+    default:
+      alert('Error inesperado. Intente más tarde.');
+    break;
+
+  }
+
+  return throwError(() => error);
+
+}
+
+putUsuarioToBackend(idProfesional: number, idNegocio: number): Observable<UsuarioInterface>{
+  const profesionalActualizado: ProfesionalInterface = this.crearUnProfesional();
+  return this.profesionalService.putUsuarioPorIdNegocio(idNegocio, idProfesional, profesionalActualizado)
+  .pipe(catchError((error) => this.manejarErrores(error)));
+
+}
+
+
 confirmarUsuario() {
   if (this.formularioRegister.valid) {
 
+    let usuarioObservable;
 
-
-    if(this.cardSeleccionada?.idUsuario){
-      this.profesional = this.cardSeleccionada;
-      this.putUsuarioToBackend(this.cardSeleccionada.idUsuario, this.cardSeleccionada.idNegocio);
-    }else{
-      const usuario:ProfesionalInterface = this.crearUnProfesional();
-      this.profesional = this.postUsuarioToBackend(usuario);
+    if (this.cardSeleccionada?.idUsuario) {
+      // Si el usuario ya existe, actualizarlo con PUT
+      usuarioObservable = this.putUsuarioToBackend(this.cardSeleccionada.idUsuario, this.idNegocio);
+    } else {
+      // Si no existe, crearlo con POST
+      const usuario: ProfesionalInterface = this.crearUnProfesional();
+      usuarioObservable = this.postUsuarioToBackend(usuario);
     }
 
 
 
-    console.log("profesional: "+this.profesional);
-    //verifico si existe el id
-    if(this.profesional && this.profesional.idUsuario){
-
-      console.log("archivo seleccionado es distinto de null?");
-      //verifico si se selecciono un archivo o quiere eliminar
-      if(this.archivoSeleccionado != null ){
-
-        console.log("archivo seleccionado: "+this.archivoSeleccionado);
-
-        //verifico si el archivo seleccionado es distinto al que ya tenia, para no subirlo de nuevo
-        if(URL.createObjectURL(this.archivoSeleccionado) != this.cardSeleccionada?.fotoPerfil){
-
-          console.log("URL CREADA: "+URL.createObjectURL(this.archivoSeleccionado));
-
-          this.postArchivoToBackend(this.profesional.idUsuario, this.archivoSeleccionado);
-
+    usuarioObservable.pipe(
+      switchMap((response: UsuarioInterface) => {
+        if (response.idUsuario) {
+          return this.verificarFotoPerfil(response.idUsuario); // Retorna un Observable para encadenarlo
         }
-      }else{
-        this.eliminarArchivoBackend(this.profesional.idUsuario);
+        return of(null); // Si no hay idUsuario, se retorna un Observable vacío
+      })
+    ).subscribe({
+      next: () => {
+        this.cerrarPopUp();
+        window.location.reload();
+      },
+      error: (error) => {
+        // console.error("Error en el proceso de guardar al profesional:", error);
       }
-    }
+    });
 
-    // this.cerrarPopUp();
-    // window.location.reload();
   } else {
     this.formularioRegister.markAllAsTouched();
   }
 
 }
 
+verificarFotoPerfil(idUsuario: number | null): Observable<Boolean | null>{
+  //verifico si existe el id
+  if(idUsuario){
 
+    //verifico si se selecciono un archivo o quiere eliminar
+    if(this.archivoSeleccionado){
+      const asd = this.archivoSeleccionado == this.cardSeleccionada?.fotoPerfil
 
+      console.log("SON IGUALES: "+asd);
+      //verifico si el archivo seleccionado es distinto al que ya tenia, para no subirlo de nuevo
+      if(URL.createObjectURL(this.archivoSeleccionado) != this.cardSeleccionada?.fotoPerfil){
 
-postArchivoToBackend(idProfesional:number, archivoNuevo:File){
-  this.archivosService.postArchivo(idProfesional,archivoNuevo).subscribe({
-    next: (exito: Boolean)=>{
-      console.log("El archivo se subio con exito: "+exito);
-    },
-    error: (error: HttpErrorResponse) => {
-      console.log(error);
+        return this.postArchivoToBackend(idUsuario, this.archivoSeleccionado);
+
+      }
     }
-  });
+
+    if(this.quiereEliminarArchivo){
+      return this.eliminarArchivoBackend(idUsuario);
+    }
+
+
+
+  }
+  return of(null)
 }
+
+
+
+
 
 
 //--------------archivo----------------
 archivoSeleccionado:File | null = null;
+
+postArchivoToBackend(idProfesional:number, archivoNuevo:File): Observable<Boolean>{
+
+  return this.archivosService.postArchivo(idProfesional,archivoNuevo,entidadEnum.USUARIO.toString())
+  .pipe(catchError((error) => this.manejarErrores(error)));
+}
+
 
 seleccionarArchivo(archivoNuevo:File): void{
 
@@ -249,8 +252,8 @@ seleccionarArchivo(archivoNuevo:File): void{
 
   if(archivoNuevo.size > 0  && archivoNuevo != null){
 
-
     this.archivoSeleccionado = archivoNuevo;
+    this.quiereEliminarArchivo = false;
 
     this.formularioRegister.patchValue({
       fotoPerfil:this.archivoSeleccionado
@@ -262,24 +265,21 @@ seleccionarArchivo(archivoNuevo:File): void{
 
 }
 
-private eliminarArchivoBackend(idProfesional:number):void{
-  this.archivosService.eliminarArchivo(idProfesional).subscribe({
-    next:(exito:Boolean)=>{
-      console.log("El archivo se elimino con exito: "+exito);
-    },
-    error:(error:HttpErrorResponse)=>{
-      console.error(error);
-    }
-  })
+private eliminarArchivoBackend(idProfesional:number):Observable<Boolean>{
+  return this.archivosService.eliminarArchivo(idProfesional)
+  .pipe(catchError((error) => this.manejarErrores(error)));
 }
+
+quiereEliminarArchivo:boolean = false
 
 eliminarArchivo(event:Event):void{
 
+  this.fotoProfesional = "img-default.png";
+  this.quiereEliminarArchivo = true;
   this.archivoSeleccionado = null;
   this.formularioRegister.patchValue({
     fotoPerfil:null
   })
-  this.fotoProfesional = "img-default.png";
 }
 
 
@@ -296,7 +296,6 @@ eliminarArchivo(event:Event):void{
 cerrarPopUp() {
   this.desactivarOverlay.emit();
   if(this.cardSeleccionada){
-
     this.cardActual.emit(this.cardSeleccionada);
   }
 }

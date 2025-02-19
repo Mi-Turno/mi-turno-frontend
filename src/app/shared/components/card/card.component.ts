@@ -17,6 +17,7 @@ ngOnInit(): void {
     this.ruta = "img-default.png";
     this.textoAlt = "Imagen default";
   }else{
+    console.log(this.ruta);
     this.textoAlt = this.ruta.toString();
   }
 
