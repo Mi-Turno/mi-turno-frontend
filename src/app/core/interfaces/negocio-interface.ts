@@ -4,4 +4,5 @@ export interface NegocioInterface extends UsuarioInterface{
   calle:string;
   altura:string;
   detalle:string;
+  metodosDePago?: string[];
 }
