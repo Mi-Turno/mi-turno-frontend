@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ClienteInterface } from '../../interfaces/cliente-interface';
@@ -36,10 +36,24 @@ export class ClienteService {
         return this.http.delete<ClienteInterface>(`${this.urlBase}/${idCliente}`);
     }
 
-
     public getListadoDeTurnosPorIdCliente(idCliente:number):Observable<TurnoInterface[]>{
-
       return this.http.get<TurnoInterface[]>(`${this.urlBase}/${idCliente}/turnos`);
+    }
+
+    // Clientes Invitados
+
+    public postClienteInvitado(nombreCliente: string, nombreNegocio: string): Observable<ClienteInterface> {
+      const params = new HttpParams()
+      .set('nombreCliente', nombreCliente)
+      .set('nombreNegocio', nombreNegocio);
+      return this.http.post<ClienteInterface>(`${this.urlBase}/${nombreCliente}/invitado/${nombreNegocio}`, params)
+    }
+
+
+    public getLastClienteInvitado(nombreNegocio: string): Observable<ClienteInterface> {
+      const params = new HttpParams()
+      .set('nombreNegocio', nombreNegocio)
+      return this.http.get<ClienteInterface>(`${this.urlBase}/ultimo-invitado`, { params })
     }
 
 }

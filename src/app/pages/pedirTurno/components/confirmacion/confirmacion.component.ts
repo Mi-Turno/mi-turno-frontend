@@ -221,8 +221,6 @@ export class ConfirmacionComponent implements OnInit {
   router = inject(Router);
 
   confirmarTurno() {
-
-
     this.turnoService.postTurno(this.turnoCreado).subscribe({
       next: (respuesta) => {
         //si hay exito envio el mail
