@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular
 import { CommonModule } from '@angular/common';
 import { MetodosDePagoServiceService } from '../../../../core/services/metodosDePago/metodos-de-pago-service.service';
 import { CardComponent } from '../../../../shared/components/card/card.component';
-import { MetodosDePago } from '../../../../shared/models/metodosDePago';
+import { MetodosDePago, obtenerIdDePagoPorNombre } from '../../../../shared/models/metodosDePago';
 import { NegocioServiceService } from '../../../../core/services/negocioService/negocio-service.service';
 
 
@@ -22,10 +22,13 @@ export class MetodoPagoComponent implements OnInit {
   referenciaChip:string = '';
   metodosDePago:string[] = [];
   @Input() idNegocio = 0;
-
   @Output() emitirInformacion = new EventEmitter<number>();
+
   enviarIdMetodoDePago(metodoDePagoId: number) {
-    this.emitirInformacion.emit(metodoDePagoId);
+
+    const metodoSeleccionado = this.metodosDePago[metodoDePagoId];
+    const idRealMetodoPago = obtenerIdDePagoPorNombre(metodoSeleccionado);
+    this.emitirInformacion.emit(idRealMetodoPago);
   }
 
 
