@@ -43,6 +43,12 @@ export class MetodoPagoComponent implements OnInit {
     this.negocioService.getMetodosDePagoPorNegocioId(this.idNegocio).subscribe({
       next: (response) => {
         this.metodosDePago = response;
+        // Si no hay metodos de pago, se agrega el metodo de pago "otro"
+        if(this.metodosDePago.length == 0){
+          if(this.metodosDePago.length == 0){
+            this.metodosDePago.push(MetodosDePago.otro);
+          }
+        }
       }
     });
     /*this.metodosDePagoServicio.getMetodosDePago().subscribe({
@@ -76,6 +82,8 @@ export class MetodoPagoComponent implements OnInit {
         return 'tarjeta.png';
       case MetodosDePago.transferencia:
         return 'transferencia.png';
+      case MetodosDePago.otro:
+        return 'otro_no_bg.png';
       default:
         return 'img-default.png'; // Imagen por defecto
     }
