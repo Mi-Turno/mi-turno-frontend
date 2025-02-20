@@ -137,12 +137,13 @@ ngOnInit(): void {
     this.nombreNegocio = params.get('nombreNegocio');
   });
 
+  
   this.ObtenerNegocioPorNombre();
   this.manejadorHabilitacionCampos();
 }
 
 
-// Fuciones para obtener todos los datos relacionadaos al negocio
+// Fuciones para obtener todos los datos 
 
 ObtenerNegocioPorNombre() {
   this.negocioService.getIdNegocioByNombre(this.nombreNegocio!).subscribe({
@@ -184,7 +185,11 @@ ObtenerProfesionalesConServicioDeNegocio() {
 }
 
 ObtenerMetodosPagoNegocio(){
-this.metodosDePago =  [MetodosDePago.debito, MetodosDePago.efectivo, MetodosDePago.mercadoPago, MetodosDePago.transferencia]
+ console.log(this.negocio?.metodosDePago);
+  this.metodosDePago = this.negocio?.metodosDePago!
+  .map(metodo => Object.values(MetodosDePago).find(enumValue => enumValue === metodo))
+  .filter((metodo): metodo is MetodosDePago => metodo !== undefined);
+
 }
 
 ObtenerHorariosProfesional(){
@@ -246,7 +251,7 @@ reservarTurno(){
   const estado = false;
   this.horarioProfesionalService.patchEstadoHorarioProfesional(idHorario, idNegocio, idProfesional, estado).subscribe({
     next: (respuesta) => {
-      console.log(respuesta);
+      this.resetFormulario()
     },
     error: (error) => {
       console.error(error);
@@ -260,7 +265,6 @@ reservarTurno(){
   //Formulario
 formularioTurno: FormGroup = new FormGroup({
   nombre: new FormControl('', Validators.required),
-  email: new FormControl('', [Validators.required, Validators.email]),
   servicio: new FormControl({value: '', disabled: this.datosClienteCompletos}, Validators.required),
   profesional: new FormControl({value: '', disabled: this.servicioSeleccionado}, Validators.required),
   metodoPago: new FormControl({value: '', disabled: this.profesionalSeleccionado}, Validators.required),
@@ -315,19 +319,9 @@ console.log(valor);
   }
 }
 
-crearClienteInvitado(nombre: string, email:string | null) {
-  let credencialAux: CredencialInterface | null = null;
-  if (!email || email.trim() === "") {
+crearClienteInvitado(nombre: string) {
     return this.clienteService.postClienteInvitado(nombre, this.nombreNegocio!);
-  } else {
-    credencialAux = {
-      email: email,
-      estado: true,
-      password: "Usar generador de contraseña",
-      telefono: null
-    };
-    return this.clienteService.postClienteInvitado(nombre, this.nombreNegocio!); // Adjust this line as needed
-  }
+
 }
 
 
@@ -337,8 +331,8 @@ crearTurno(): void {
   const fechaInicio = this.formularioTurno.get('fechaTurno')?.value as Date;
   const metodoPago = this.formularioTurno.get('metodoPago')?.value as MetodosDePago;
 
-  this.crearClienteInvitado( this.formularioTurno.get('nombre')?.value, this.formularioTurno.get('email')?.value || ''
-  ).pipe(
+  this.crearClienteInvitado( this.formularioTurno.get('nombre')?.value)
+  .pipe(
     switchMap(cliente => {
       this.clienteInvitado = cliente; // Guardamos el cliente recién creado
       this.turnoCreado.idCliente = cliente.idUsuario!;
@@ -359,6 +353,21 @@ crearTurno(): void {
   });
 }
 
+
+resetFormulario(): void {
+  this.formularioTurno.reset({
+    nombre: '',
+    servicio: { value: '', disabled: this.datosClienteCompletos },
+    profesional: { value: '', disabled: this.servicioSeleccionado },
+    metodoPago: { value: '', disabled: this.profesionalSeleccionado },
+    fechaTurno: { value: '', disabled: this.metodoPagoSeleccionado },
+    horaTurno: { value: '', disabled: this.fechaSeleccionada }
+  });
+
+  // Opcional: Marcar el formulario como "pristine" y "untouched" para que no aparezcan errores
+  this.formularioTurno.markAsPristine();
+  this.formularioTurno.markAsUntouched();
+}
 
 
   //Manejo de errores

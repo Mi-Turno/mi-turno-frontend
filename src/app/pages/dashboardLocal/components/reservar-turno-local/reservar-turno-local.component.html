@@ -26,24 +26,6 @@
           }
         </mat-form-field>
 
-        <!-- Campo Email -->
-        <mat-form-field appearance="outline">
-          <mat-label>Email</mat-label>
-          <input
-            [type]="'email'"
-            formControlName="email"
-            matInput
-            placeholder="Ingresa tu email"
-          />
-          <mat-icon matSuffix>{{ iconos.email }}</mat-icon>
-          @if (tieneErrorTurnoNegocio("email", "emailExiste")) {
-            <mat-error>{{mostrarMensajeError('emailExiste')}}</mat-error>
-          }
-          @else if (tieneErrorTurnoNegocio("email", "email")) {
-            <mat-error>{{mostrarMensajeError('email')}}</mat-error>
-          }
-
-        </mat-form-field>
       </div>
 
 
@@ -93,7 +75,7 @@
             <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
             }
         </mat-form-field>
-        <app-boton formControlName = "botonAgendar"    [disabled]="botonAgregarTurno"    [textoDentroBoton]="'Agendar turno'" [class]="'botonConfirmarTurno'" (click)="crearTurno()"></app-boton>
+        <app-boton  [textoDentroBoton]="'Agendar turno'" [disabled]="botonAgregarTurno" [class]="'botonConfirmarTurno'" (click)="crearTurno()"></app-boton>
 
       </div>
 
