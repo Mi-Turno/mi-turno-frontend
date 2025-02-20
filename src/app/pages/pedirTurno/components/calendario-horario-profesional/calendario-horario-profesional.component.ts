@@ -116,8 +116,8 @@ export class CalendarioHorarioProfesionalComponent implements OnInit {
       next: (turnos) => {
         this.arregloTurnos = turnos;
 
-        // Luego obtenemos los horarios para el día dado
-        this.horarioProfesionalService.obtenerHorariosPorIdProfesionalYDia(this.idNegocio, this.idDelProfesional, dia).subscribe({
+        // Después de obtener los turnos, buscamos los horarios para el día dado
+        this.horarioProfesionalService.getHorariosPorIdProfesionalYDia(this.idNegocio, this.idDelProfesional, dia).subscribe({
           next: (horarios) => {
             horarios.forEach(unHorario => {
               const fechaActual = new Date();

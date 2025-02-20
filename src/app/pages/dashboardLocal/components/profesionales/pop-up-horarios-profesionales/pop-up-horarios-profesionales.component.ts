@@ -58,7 +58,7 @@ export class PopUpHorariosProfesionalesComponent implements OnInit {
         dias.forEach((dia) => {
           const indiceDia = this.obtenerIndiceDia(dia); // Obtener el índice del día en el enum
           if (this.profesional?.idUsuario) {
-            this.horariosProfesional.obtenerHorariosPorIdProfesionalYDia(this.profesional.idNegocio!, this.profesional.idUsuario!, indiceDia).subscribe({
+            this.horariosProfesional.getHorariosPorIdProfesionalYDia(this.profesional.idNegocio!, this.profesional.idUsuario!, indiceDia).subscribe({
               next: (response) => {
                 if(response){
                   if(response.length > 0||response != null||response != undefined){
