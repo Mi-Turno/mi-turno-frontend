@@ -43,6 +43,7 @@ export class ConfiguracionLocalComponent implements OnInit {
   toggleActivoCredito: boolean = false;
   toggleActivoTransferencia: boolean = false;
   toggleActivoEfectivo: boolean = false;
+  toggleActivoOtro: boolean = false;
 
   // Inyección de dependencias
   negocioService: NegocioServiceService = inject(NegocioServiceService);
@@ -123,7 +124,14 @@ export class ConfiguracionLocalComponent implements OnInit {
       this.darDeBajaMetodoDePago(1);
     }
   }
-
+  cambiarEstadoToggleOtro(event: MatSlideToggleChange) {
+    this.toggleActivoOtro = event.checked; // Obtiene el estado del toggle desde el evento
+    if (this.toggleActivoOtro) {
+      this.darDeAltaMetodoDePago(6);
+    } else {
+      this.darDeBajaMetodoDePago(6);
+    }
+  }
   // Dar de alta/baja metodo de pago x negocio
   darDeAltaMetodoDePago(idMetodoDePago: number ) {
     this.negocioService.patchDarDeAltaMetodoDePago(this.authService.getIdUsuario()!, idMetodoDePago).subscribe({
@@ -208,6 +216,9 @@ export class ConfiguracionLocalComponent implements OnInit {
         case MetodosDePago.mercadoPago:
           this.toggleActivoMP = true;
           break;
+          case MetodosDePago.otro:
+            this.toggleActivoOtro = true;
+            break;
         default:
       }
     });
