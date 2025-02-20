@@ -4,7 +4,9 @@ export enum MetodosDePago {
   debito = 'TARJETA_DEBITO',
   mercadoPago = 'MERCADO_PAGO',
   transferencia = 'TRANSFERENCIA',
+  otro = 'OTRO'
 }
+
 
 export function obtenerMetodosDePagoPorNumero(metodoDePago:number): MetodosDePago{
   switch(metodoDePago){
@@ -19,6 +21,22 @@ export function obtenerMetodosDePagoPorNumero(metodoDePago:number): MetodosDePag
     case 4:
       return MetodosDePago.debito;
     default:
-      return MetodosDePago.efectivo;
+      return MetodosDePago.otro;
+  }
+}
+export function obtenerIdDePagoPorNombre(metodoDePago:string): number{
+  switch(metodoDePago){
+    case MetodosDePago.mercadoPago:
+      return 0;
+    case MetodosDePago.efectivo:
+      return 1;
+    case MetodosDePago.credito:
+      return 2;
+    case MetodosDePago.transferencia:
+      return 3;
+    case MetodosDePago.debito:
+      return 4;
+    default:
+      return 5;
   }
 }
