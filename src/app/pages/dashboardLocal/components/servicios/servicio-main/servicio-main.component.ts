@@ -8,6 +8,7 @@ import { PopUpCrearServicioComponent } from '../pop-up-crear-servicio/pop-up-cre
 import { NegocioServiceService } from '../../../../../core/services/negocioService/negocio-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../../../core/guards/auth/service/auth.service';
+import { ArchivosServiceService } from '../../../../../core/services/archivosService/archivos-service.service';
 
 @Component({
   selector: 'app-servicio-main',
@@ -18,8 +19,14 @@ import { AuthService } from '../../../../../core/guards/auth/service/auth.servic
 })
 export class ServicioMainComponent implements OnInit {
 
+  //servicios
   authService:AuthService = inject(AuthService);
+  archivosService: ArchivosServiceService = inject(ArchivosServiceService);
+  servicios: ServicioServiceService = inject(ServicioServiceService);
+  servicioNegocio: NegocioServiceService = inject(NegocioServiceService);
 
+
+  //variables
   textoBoton = "Modificar";
   rutaImg = "img-default.png";
   textoAlternativo = "Img del servicio";
@@ -27,23 +34,45 @@ export class ServicioMainComponent implements OnInit {
   idCards: ServicioInterface[] = [];
   maxCards = 6;
   cardSeleccionada: ServicioInterface | null = null;
-  servicios: ServicioServiceService = inject(ServicioServiceService);
   idNegocio: number = 0;
+  rutaBotonChip = ""
+  estaSobrepuesto: boolean = false;
+
+
+  @Output() activarOverlay: EventEmitter<void> = new EventEmitter<void>();
+
+  //init y constructor
+
   ngOnInit() {
     this.idNegocio = this.authService.getIdUsuario()!;
     this.cargarServicios();
   }
-  servicioNegocio: NegocioServiceService = inject(NegocioServiceService);
   constructor(private ruta: ActivatedRoute) { }
 
   cargarServicios() {
     this.ruta.parent?.params.subscribe(params => {
-      const nombreNegocio = params['nombreNegocio'];
-
 
       //obtengo el arreglo de servicios del negocio y lo guardo en la variable idCards
       this.servicios.getServiciosPorIdNegocioYEstado(this.idNegocio, "true").subscribe({
         next: (response) => {
+
+          response.map((servicio) => {
+            if(servicio.idServicio && servicio.idNegocio)
+            {
+              this.archivosService.getArchivoServicio(servicio.idServicio, servicio.idNegocio).subscribe({
+                next: (response) => {
+                  let reader = new FileReader();
+                  reader.readAsDataURL(response);
+                  reader.onload = () => {
+                    servicio.fotoServicio = reader.result as string;
+                  }
+                },
+                error: (err) => {},
+              });
+            }
+          });
+
+
 
           this.idCards = [...response];
         },
@@ -54,11 +83,6 @@ export class ServicioMainComponent implements OnInit {
 
     });
   }
-  rutaBotonChip = ""
-
-  estaSobrepuesto: boolean = false;
-
-  @Output() activarOverlay: EventEmitter<void> = new EventEmitter<void>();
 
 
   cambiarSobreposicion(texto: string, card: ServicioInterface | null) {

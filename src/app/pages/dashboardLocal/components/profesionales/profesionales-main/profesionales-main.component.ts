@@ -9,6 +9,7 @@ import { ProfesionalesServiceService } from "../../../../../core/services/profes
 import { ActivatedRoute } from "@angular/router"
 import { NegocioServiceService } from "../../../../../core/services/negocioService/negocio-service.service"
 import { AuthService } from "../../../../../core/guards/auth/service/auth.service"
+import { ArchivosServiceService } from "../../../../../core/services/archivosService/archivos-service.service"
 
 @Component({
   selector: 'app-profesionales-main',
@@ -19,6 +20,10 @@ import { AuthService } from "../../../../../core/guards/auth/service/auth.servic
 })
 export class ProfesionalesMainComponent implements OnInit {
 
+  //servicios
+  profesionales: ProfesionalesServiceService = inject(ProfesionalesServiceService)
+  servicioNegocio: NegocioServiceService = inject(NegocioServiceService);
+  archivosService : ArchivosServiceService = inject(ArchivosServiceService);
   authService: AuthService = inject(AuthService);
 
   nombre = "Juan"
@@ -37,14 +42,14 @@ export class ProfesionalesMainComponent implements OnInit {
   textoTituloPop = "";
   cardSeleccionada: UsuarioInterface | null = null;
 
+
+
   //Hacemos que cambiar sobreposición reciba lo que quiere hacer y la card, en caso de que sea modificar
   cambiarSobreposicion(titulo: string, card: UsuarioInterface | null) {
     this.estaSobrepuesto = !this.estaSobrepuesto;
     this.textoTituloPop = titulo;
     this.cardSeleccionada = card;
   }
-
-
 
   cambiar_SobreposicionHorarios(card: UsuarioInterface | null) {
     this.verHorarios = !this.verHorarios;
@@ -57,42 +62,60 @@ export class ProfesionalesMainComponent implements OnInit {
   }
 
 
-  profesionales: ProfesionalesServiceService = inject(ProfesionalesServiceService)
-
   constructor(private ruta: ActivatedRoute) { }
   idNegocio: number = 0;
+
   ngOnInit() {
     this.idNegocio = this.authService.getIdUsuario()!;
     this.cargarUsuarios();
 
   }
-  servicioNegocio: NegocioServiceService = inject(NegocioServiceService);
-
   cargarUsuarios() {
 
     this.ruta.parent?.params.subscribe(params => {
-      const nombreNegocio = params['nombreNegocio'];
+      // const nombreNegocio = params['nombreNegocio'];
       //obtengo el arreglo de profesionales del negocio y lo guardo en la variable profesionales
       this.profesionales.GETProfesionalesPorIdNegocioYEstado(this.idNegocio, "true").subscribe({
         next: (profesionales) => {
+
+          //obtenemos las fotos de perfil de los profesionales
+          profesionales.map(profesional =>{
+            console.log(profesional);
+
+            if(profesional.fotoPerfil){
+
+              this.archivosService.getArchivoUsuario(profesional.idUsuario!).subscribe({
+               next: (response) => {
+                 const reader = new FileReader();
+
+                 reader.readAsDataURL(response);
+
+                 reader.onload = () => {
+                   return profesional.fotoPerfil = reader.result as string;
+                 };
+
+               },
+               error: (error) => {
+
+                 return profesional.fotoPerfil = "img-default.png"
+
+                 //console.error('Error al obtener la imagen:', error);
+               }
+             });
+            }
+
+
+          });
+
+
           this.idCards = [...profesionales];
         }, error: (error) => {
+
         }
       });
     });
 
-    /*this.profesionales.getProfesionalesPorIdNegocio(1).subscribe({
-          next: (response) => {
-        this.idCards = response.slice(0, this.maxCards);
-       // console.log(this.idCards[0].rolEntidad);
-      },
-      error: (error) => {
-        console.error('Error al obtener usuarios:', error);
-      }
-    });*/
   }
-
-
 
   cardActual: UsuarioInterface | null = null;
 

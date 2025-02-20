@@ -309,23 +309,26 @@ export class TablaTurnoClienteComponent {
     //obtener turno
     this.turnoService.getTurno(idNegocio, idTurno).subscribe({
       next: (turnoResponse) => {
+
         this.darDeAltaHorario(turnoResponse?.horarioProfesional.idHorario!, idNegocio, turnoResponse?.horarioProfesional.idProfesional!, true);
         this.negocioService.getNumeroDeSoporte(idNegocio).subscribe({
           next: (responseNumeroSoporte) => {
+
             this.cuerpoEmail.nombreNegocio = nombreNegocio;
             this.cuerpoEmail.nombreCliente = this.authService.getNombreUsuario()!;
             this.cuerpoEmail.emailCliente = this.authService.getEmailUsuario()!;
             this.cuerpoEmail.numeroSoporte = responseNumeroSoporte;
             /*4 Le avisamos al cliente que se cancelo su turno*/
+
             this.emailService.enviarEmailCancelacionCliente(this.cuerpoEmail).subscribe({
-              next: (responseEmail) => {
-                alert('Turno cancelado');
+              next: (response) => {
               },
               error: (error) => {
               }
             });
           },
           error: (error) => {
+
           }
         });
       },

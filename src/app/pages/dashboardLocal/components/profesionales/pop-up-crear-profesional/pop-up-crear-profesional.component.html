@@ -1,14 +1,33 @@
 <div class="contenedor">
   <h5>{{textoTitulo}} </h5>
-  <div class="cruz" (click)="cerrarPopUp()">
+  <div [className]="'cruzCerrar'" (click)="cerrarPopUp()">
     <mat-icon>close</mat-icon>
   </div>
-  <div class="contenido">
-    <div class="contenedor-imagen">
-      <img [src]="fotoProfesional" [alt]="'foto del profesional'"/>
-    </div>
-    <div class="contenedor-formulario">
-      <form [className]="'form-registrar-profesional'" [formGroup]="formularioRegister">
+
+    <form [className]="'form-registrar-profesional'" [formGroup]="formularioRegister">
+
+      <div [className]="'contenedor-imagen'">
+        <img [src]="fotoProfesional" [alt]="'foto del profesional'"/>
+
+        <div [className]="'contenedor-funciones-imagen'">
+
+          @if (fotoProfesional != 'img-default.png') {
+            <div [className]="'icono-eliminar'" (click)="eliminarArchivo($event)" >
+              <mat-icon>delete</mat-icon>
+            </div>
+          }
+
+          <app-input-archivo
+          [textoLabel]="'Subir foto'"
+          [tipoArchivo]="'image/*'"
+          (emitirArchivo)="seleccionarArchivo($event)"
+          ></app-input-archivo>
+        </div>
+      </div>
+
+
+
+      <div [className]="'contenedor-formulario'" >
         <mat-form-field appearance="outline">
           <mat-label>Nombre</mat-label>
           <input
@@ -88,35 +107,61 @@
           }
         </mat-form-field>
 
-      </form>
+      </div>
+    </form>
 
+    @if (!esNuevoProfesional) {
+
+      <div [className]="'contenedor-botones'">
+        <app-boton
+          [class]="'botonExtra'"
+          [textoDentroBoton]="'Servicios que ofrece'"
+          [type]="'button'"
+          (click)="abrirServicios()"
+        ></app-boton>
+        <app-boton
+          [class]="'botonExtra'"
+          [textoDentroBoton]="'Días y horarios'"
+          [type]="'button'"
+          (click)="abrirDiasYHorarios()"
+        ></app-boton>
+
+      </div>
+    }
+
+
+  <div [className]="'contenedor-botones'">
+
+    @if (!esNuevoProfesional) {
       <app-boton
-        [class]="'botonExtra'"
-        [textoDentroBoton]="'Servicios que ofrece'"
+        [class]="'botonEliminar'"
+        [textoDentroBoton]="'Eliminar'"
         [type]="'button'"
-        (click)="abrirServicios()"
+        (click)="abrirModal()"
       ></app-boton>
+      <app-modal-pregunta
+      [pregunta]="'¿Desea eliminar al profesional ' + this.cardSeleccionada?.nombre + '?'"
+      [tituloPregunta]="'Eliminar'"
+      [botonNegativo]="'No'"
+      [botonPositivo]="'Si'"
+      (respuesta)="manejarRespuesta($event)">
+    </app-modal-pregunta>
+    }@else{
       <app-boton
-        [class]="'botonExtra'"
-        [textoDentroBoton]="'Días y horarios'"
+        [class]="'botonEliminar'"
+        [textoDentroBoton]="'Cancelar'"
         [type]="'button'"
-        (click)="abrirDiasYHorarios()"
+        (click)="cerrarPopUp()"
       ></app-boton>
-    </div>
-  </div>
-  <div class="contenedor-fondo">
-    <app-boton
-      [class]="'botonEliminar'"
-      [textoDentroBoton]="'Eliminar'"
-      [type]="'button'"
-      (click)="abrirModal()"
-    ></app-boton>
-    <app-modal-pregunta [pregunta]="'¿Desea eliminar al profesional ' + this.cardSeleccionada?.nombre + '?'" [tituloPregunta]="'Eliminar'"  [botonNegativo]="'No'" [botonPositivo]="'Si'"  (respuesta)="manejarRespuesta($event)"></app-modal-pregunta>
+    }
+
+
     <app-boton
       [class]="'botonConfirmar'"
       [textoDentroBoton]="'Confirmar'"
       [type]="'submit'"
       (click)="confirmarUsuario()"
+
       ></app-boton>
       <!-- (click)="cerrarPopUp()" -->
   </div>

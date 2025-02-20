@@ -12,14 +12,14 @@
   position: relative;
 }
 
-.cruz {
+.cruzCerrar {
   position: absolute;
   top: 20px;
   right: 30px;
   cursor: pointer;
 }
 
-.cruz mat-icon{
+.cruzCerrar mat-icon{
   font-size: 30px;
   font-weight: bold;
 }
@@ -33,9 +33,10 @@
 }
 
 .contenedor-imagen {
-  width:400px;
-  height: 300px;
+  width: 300px;
+  height: 350px;
   display: flex;
+  flex-direction: column;
   /* justify-content: center;
   align-items: center; */
   background-color: #f5f5f5;
@@ -48,23 +49,38 @@
   height: 100%;
   aspect-ratio: 3 / 2;
   object-fit: cover;
+  border-radius: 5px;
 }
 
 .contenedor-formulario {
   display: flex;
   flex-direction: column;
   gap: 10px; /* Espacio entre los botones */
+  /* width: 100%; */
+}
+
+.form-registrar-profesional{
   width: 100%;
+  display: flex;
 }
 
 .form-registrar-profesional mat-form-field{
   margin: 5px 0 5px 0;
   width: 90%;
 }
+.contenedor-botones{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
 
 .contenedor-formulario app-boton{
   width: min-content;
 }
+
+
 
 .contenedor-fondo {
   margin-top: 40px;
@@ -72,9 +88,32 @@
   flex-direction: row;
   justify-content: space-between;
   width: 80%;
-  margin-right: 40px;
+  /* margin-right: 40px; */
 }
 .botonConfirmar:hover{
 background-color: #f5f5f5;
 }
 
+.contenedor-funciones-imagen{
+  display: flex;
+  align-items: center;
+}
+.contenedor-funciones-imagen app-input-archivo{
+  width: 100%;
+}
+
+.icono-eliminar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  padding: 10px;
+}
+
+.icono-eliminar:hover{
+  background-color: var(--color-eliminar1);
+  cursor: pointer;
+  color: whitesmoke;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}

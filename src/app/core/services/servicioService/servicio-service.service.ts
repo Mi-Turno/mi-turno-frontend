@@ -14,8 +14,10 @@ export class ServicioServiceService {
   servicio:ServicioInterface ={
     nombre:'',
     duracion:0,
-    precio:0
+    precio:0,
+    fotoServicio:''
   };
+  
   //me retorna todos los servicios//todo luego habria que filtrar por local etc...
   public getServiciosPorIdNegocio(idNegocio:number):Observable<ServicioInterface[]>{
       return this.http.get<ServicioInterface[]>(`${this.urlBase}/${idNegocio}/servicios`);
