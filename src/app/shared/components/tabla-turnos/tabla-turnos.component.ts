@@ -133,7 +133,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
     this.dataSource.data.forEach((turno) => {
 
       if (turno.fecha == new Date().toISOString().split('T')[0]) {
-        if (this.formatearHora(turno.hora) ==this.formatearHora(this.horaActual(0)) &&turno.estado != estadoTurno.CANCELADO) {
+        if (this.formatearHora(turno.hora) == this.formatearHora(this.horaActual(0)) && turno.estado != estadoTurno.CANCELADO) {
           turno.estado = estadoTurno.EN_CURSO;
           this.modificarEstado(turno, this.idNegocio);
         }
@@ -325,13 +325,18 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
       next: (responseEmail) => {
         this.cuerpoEmail.emailCliente = responseEmail.email;
         /*4 Le avisamos al cliente que se cancelo su turno*/
-        this.emailService.postEnviarEmailDeCancelacionDesdeUnNegocio(this.cuerpoEmail).subscribe({
-          next: (responseEmail) => {
-            alert('Turno cancelado');
-          },
-          error: (error) => {
-          }
-        });
+        if (!this.cuerpoEmail.emailCliente.toLowerCase().includes('invitado')) {
+          this.emailService.postEnviarEmailDeCancelacionDesdeUnNegocio(this.cuerpoEmail).subscribe({
+            next: (responseEmail) => {
+              alert('Turno cancelado');
+            },
+            error: (error) => {
+            }
+          });
+        }else{
+          console.log('Es invitado');
+          alert('Turno cancelado es invitado igual');
+        }
       },
       error: (error) => {
       }
