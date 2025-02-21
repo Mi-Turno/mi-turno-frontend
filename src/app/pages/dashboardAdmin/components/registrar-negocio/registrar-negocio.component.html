@@ -6,9 +6,23 @@
     <div [className]="'containerPrincipal'">
       <div [className]="'containerPrincipalDeInputs'">
 
-        <div>
-          <img src="/img-default.png" alt="Imagen negocio" />
-          <!-- Imagen del negocio con drag and drop -->
+        <div [className]="'contenedor-imagen'">
+          <img [src]="fotoNegocio" [alt]="'foto del profesional'"/>
+
+          <div [className]="'contenedor-funciones-imagen'">
+
+            @if (fotoNegocio != 'img-default.png') {
+              <div [className]="'icono-eliminar'" (click)="eliminarArchivo($event)" >
+                <mat-icon>delete</mat-icon>
+              </div>
+            }
+
+            <app-input-archivo
+            [textoLabel]="'Subir foto'"
+            [tipoArchivo]="'image/*'"
+            (emitirArchivo)="seleccionarArchivo($event)"
+            ></app-input-archivo>
+          </div>
         </div>
 
 

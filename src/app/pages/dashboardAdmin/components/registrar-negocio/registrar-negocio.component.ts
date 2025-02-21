@@ -16,12 +16,16 @@ import { Rubros } from "../../../../shared/models/rubrosEnum";
 import { MatSelectModule } from "@angular/material/select";
 import { MatOptionModule } from "@angular/material/core";
 import { CommonModule } from "@angular/common";
+import { InputArchivoComponent } from "../../../../shared/components/input-archivo/input-archivo.component";
+import { catchError, Observable, throwError } from "rxjs";
+import { codigoErrorHttp } from "../../../../shared/models/httpError.constants";
+import { ArchivosServiceService } from "../../../../core/services/archivosService/archivos-service.service";
 
 @Component
 ({
   selector: 'app-registrar-negocio',
   standalone: true,
-  imports: [ReactiveFormsModule, BotonComponent, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, MatSelectModule, MatOptionModule, CommonModule],
+  imports: [ReactiveFormsModule, BotonComponent, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, MatSelectModule, MatOptionModule, CommonModule, InputArchivoComponent],
   templateUrl: './registrar-negocio.component.html',
   styleUrl: './registrar-negocio.component.css'
 })
@@ -33,7 +37,7 @@ export class RegistrarNegocioComponent {
   roles = ROLES;
   //services
   negocioService:NegocioServiceService = inject(NegocioServiceService);
-
+  archivosService: ArchivosServiceService = inject(ArchivosServiceService);
 
   placeholders = PLACEHOLDERS;
   //---------------------------Formulario de registro de negocio---------------------------
@@ -75,6 +79,8 @@ export class RegistrarNegocioComponent {
       }
 
   }
+
+
 
   // Metodo para registrar un negocio haciendo el click
 
@@ -123,6 +129,53 @@ export class RegistrarNegocioComponent {
 
   }
 
+  // - - - Archivos - - -
+fotoNegocio: string | File | undefined = "img-default.png";
+archivoSeleccionado:File | null = null;
+seleccionoUnArchivo:boolean = true;
+postArchivoToBackend(idProfesional:number, archivoNuevo:File): Observable<Boolean>{
+
+  return this.archivosService.postArchivoUsuario(idProfesional,archivoNuevo,)
+  .pipe(catchError((error) => this.manejarErrores(error)));
+}
+
+
+
+seleccionarArchivo(archivoNuevo:File): void{
+
+  if(archivoNuevo.size > 0  && archivoNuevo != null){
+
+    this.archivoSeleccionado = archivoNuevo;
+    this.quiereEliminarArchivo = false;
+    this.formularioRegisterNegocio.patchValue({
+      fotoPerfil:this.archivoSeleccionado
+    })
+
+    this.fotoNegocio = URL.createObjectURL(this.archivoSeleccionado);
+
+  }
+
+}
+
+private eliminarArchivoBackend(idProfesional:number):Observable<Boolean>{
+  return this.archivosService.eliminarArchivoUsuario(idProfesional)
+  .pipe(catchError((error) => this.manejarErrores(error)));
+}
+
+quiereEliminarArchivo:boolean = false
+
+eliminarArchivo(event:Event):void{
+
+  this.fotoNegocio = "img-default.png";
+  this.quiereEliminarArchivo = true;
+  this.archivoSeleccionado = null;
+  this.formularioRegisterNegocio.patchValue({
+    fotoPerfil:null
+  })
+
+}
+
+
   //metodos para ocultar las contraseñas
 
   ocultarContrasenia = signal(true);
@@ -143,6 +196,36 @@ selectFormControl = new FormControl('', Validators.required);
 rubros = Object.values(Rubros);
 
   //--------------verificacion de errores en el formulario----------------
+
+  private manejarErrores(error: HttpErrorResponse) {
+    console.log(error.status);
+    switch (error.status) {
+      case codigoErrorHttp.ERROR_SERVIDOR:
+        alert('Error 500: Error del servidor');
+        break;
+      case 0:
+        alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
+      break;
+      case codigoErrorHttp.ERROR_REPETIDO:
+        const mensaje = error.error['mensaje'];
+        if (mensaje.includes("email")) {
+          this.formularioRegisterNegocio.get('email')?.setErrors({ emailExiste: true });
+        } else if (mensaje.includes("telefono")) {
+          this.formularioRegisterNegocio.get('telefono')?.setErrors({ telefonoExiste: true });
+        }
+      break;
+      case codigoErrorHttp.NO_ENCONTRADO:
+        console.log("Not found");
+      break;
+      default:
+        alert('Error inesperado. Intente más tarde.');
+      break;
+
+    }
+
+    return throwError(() => error);
+
+  }
 
   formularioRegisterNegocioTieneError(campo:string, error:string) {
     return this.formularioRegisterNegocio.get(campo)?.hasError(error) && this.formularioRegisterNegocio.get(campo)?.touched;
