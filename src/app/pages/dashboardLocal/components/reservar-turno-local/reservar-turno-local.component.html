@@ -25,25 +25,6 @@
             <mat-error>{{mostrarMensajeError('required')}}</mat-error>
           }
         </mat-form-field>
-
-        <!-- Campo Email -->
-        <mat-form-field appearance="outline">
-          <mat-label>Email</mat-label>
-          <input
-            [type]="'email'"
-            formControlName="email"
-            matInput
-            placeholder="Ingresa tu email"
-          />
-          <mat-icon matSuffix>{{ iconos.email }}</mat-icon>
-          @if (tieneErrorTurnoNegocio("email", "emailExiste")) {
-            <mat-error>{{mostrarMensajeError('emailExiste')}}</mat-error>
-          }
-          @else if (tieneErrorTurnoNegocio("email", "email")) {
-            <mat-error>{{mostrarMensajeError('email')}}</mat-error>
-          }
-
-        </mat-form-field>
       </div>
 
 
@@ -93,7 +74,7 @@
             <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
             }
         </mat-form-field>
-        <app-boton formControlName = "botonAgendar"    [disabled]="botonAgregarTurno"    [textoDentroBoton]="'Agendar turno'" [class]="'botonConfirmarTurno'" (click)="crearTurno()"></app-boton>
+        <app-boton    [disabled]="botonAgregarTurno"    [textoDentroBoton]="'Agendar turno'" [class]="'botonConfirmarTurno'" (click)="crearTurno()"></app-boton>
 
       </div>
 
@@ -107,11 +88,13 @@
           formControlName="fechaTurno"
           matInput
           [matDatepicker]="picker"
+          [min] = "ObtenerFechaMinimaCalendario() "
        />
         <mat-hint>dd/MM/yyyy</mat-hint>
         <mat-datepicker-toggle
           matIconSuffix
           [for]="picker"
+          
         ></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         @if (tieneErrorTurnoNegocio("fechaTurno", "required")) {

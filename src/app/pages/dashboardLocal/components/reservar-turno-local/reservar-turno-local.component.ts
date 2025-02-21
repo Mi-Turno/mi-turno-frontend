@@ -85,11 +85,13 @@ servicios: ServicioInterface[] = [];
 metodosDePago?: MetodosDePago[]  = [];
 horariosProfesional: HorarioProfesional[] = [];
 horariosProfesionalDisponibles: HorarioProfesional[]  = [];
+turnosNegocio: TurnoInterface[] = [];
+arregloTurnosDeHoy: TurnoInterface[] = [];
+fechaInicio: Date = new Date();
 
+fechaSeleccionadaTurno: String = "";
 
 //Variables del cliente invitado
-idClienteInvitado :number = 0 ;
-mailClienteInvitado: string = "";
 clienteInvitado: ClienteInterface  | undefined= undefined; 
 
 //Variables para deshabilitar los inputs
@@ -102,7 +104,6 @@ botonAgregarTurno = true;
 
 
   //Servicios
-  fb: FormBuilder = inject(FormBuilder); //Forms reactives
   route: ActivatedRoute = inject(ActivatedRoute);
   negocioService: NegocioServiceService = inject(NegocioServiceService);
   profesionalService: ProfesionalesServiceService = inject(ProfesionalesServiceService);
@@ -137,13 +138,13 @@ ngOnInit(): void {
     this.nombreNegocio = params.get('nombreNegocio');
   });
 
+
   this.ObtenerNegocioPorNombre();
   this.manejadorHabilitacionCampos();
 }
 
 
-// Fuciones para obtener todos los datos relacionadaos al negocio
-
+// Fuciones para obtener todos los datos 
 ObtenerNegocioPorNombre() {
   this.negocioService.getIdNegocioByNombre(this.nombreNegocio!).subscribe({
     next: (response: number) => {
@@ -183,35 +184,105 @@ ObtenerProfesionalesConServicioDeNegocio() {
   })
 }
 
-ObtenerMetodosPagoNegocio(){
-this.metodosDePago =  [MetodosDePago.debito, MetodosDePago.efectivo, MetodosDePago.mercadoPago, MetodosDePago.transferencia]
-}
-
 ObtenerHorariosProfesional(){
   this.horarioService.getHorariosPorIdProfesionalYDia(this.idNegocio, this.idProfesional, this.idDiaSeleccionado).subscribe({
     next:(response) => {
       this.horariosProfesional = [...response];
-      this.ObtenerHorariosProfesionalDisponibles();
+      this.ObtenerHorariosDisponibles();
     }, error: (err) => {
       console.error("Hubo un error" + err);
     }
   })
 }
 
-ObtenerHorariosProfesionalDisponibles() {
-  const horariosSet = new Set<HorarioProfesional>();
-  this.horariosProfesional!.forEach(horario => {
-    if(horario.estado == true){
-      horariosSet.add(horario);
-    }
-  })
-  this.horariosProfesionalDisponibles = Array.from(horariosSet);
+ObtenerMetodosPagoNegocio(){
+  this.metodosDePago = this.negocio?.metodosDePago!
+  .map(metodo => Object.values(MetodosDePago).find(enumValue => enumValue === metodo))
+  .filter((metodo): metodo is MetodosDePago => metodo !== undefined);
 }
 
-//Aca hay que usar la fecha que se eligío y fijarse de que id le corresponde al día
+obtenerHorariosDelDiaConTurnos() {
+
+  //Limpio los arreglos necesarios
+  this.horariosProfesionalDisponibles = [];
+  this.horariosProfesional = [];
+  this.turnosNegocio = [];
+  this.arregloTurnosDeHoy = [];
+
+  // Obtenemos los turnos primero
+  this.profesionalService.getListadoTurnosPorIdNegocioYIdProfesional(this.idNegocio, this.idProfesional).subscribe({
+    next: (turnos) => {
+      this.turnosNegocio = turnos;
+      this.ObtenerTurnosDeLaFechaProfesional();
+    },
+    error: (error) => console.error('Error al obtener turnos:', error)
+  });
+}
+
+ObtenerTurnosDeLaFechaProfesional() {
+  this.turnosNegocio!.forEach(turno => {
+    if(turno.fechaInicio.toString() === this.fechaSeleccionadaTurno){
+      this.arregloTurnosDeHoy.push(turno);
+    }
+  }) 
+
+  this.ObtenerHorariosProfesional();
+}
+
+ObtenerHorariosDisponibles(){
+
+  this.horariosProfesionalDisponibles = [];
+  //Hago un foreach para recorrer todos los turnos
+  this.horariosProfesional.forEach(horario => {
+    //Me fijo si hay un turno con el mismo horario
+    const tieneTurno = this.arregloTurnosDeHoy.find(turno => turno.horarioProfesional.idHorario === horario.idHorario);
+    
+    let esHoy = false;
+    esHoy = this.fechaSeleccionadaTurno === this.ObtenerFechaActual();
+
+    //Si el horario no tiene turno y la hora es después que la actual 
+    if(!tieneTurno ){
+      if(!esHoy || horario.horaInicio >= this.ObtenerHoraActual()){
+        this.horariosProfesionalDisponibles.push(horario);
+      }
+    }
+  })
+}
+
+// Funciones para obtener datos de fechas y horas 
+
 ObtenerIdDia(fecha: Date){
   return fecha.getDay();
 }
+
+ObtenerHoraActual(){
+  const ahora = new Date();
+  const formato = new Intl.DateTimeFormat('es-ES', {
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hour12: false
+}).format(ahora);
+
+return formato;
+}
+
+ObtenerFechaActual(){
+  return  new Date().toISOString().split("T")[0];
+}
+
+ObtenerFechaMinimaCalendario(){
+  const fecha = new Date();
+  fecha.setDate(fecha.getDate() + 1);
+  return  fecha.toISOString().split("T")[0];
+
+}
+
+
+
+
+
+//Funciones de Cliente invitado
 
 postClienteInvitado(nombreCliente: string){
 
@@ -219,17 +290,20 @@ postClienteInvitado(nombreCliente: string){
     next:(response) => {
       this.clienteInvitado = response;
       this.confirmarTurno();
-      console.log(response);
     }, error:(err) => {
       console.error("Error al crear al cliente invitado" + err);
     }
   })
 }
 
+crearClienteInvitado(nombre: string) {
+  return this.clienteService.postClienteInvitado(nombre, this.nombreNegocio!);
+
+}
+
 confirmarTurno() {
   this.turnoService.postTurno(this.turnoCreado).subscribe({
     next: (respuesta) => {
-      console.log(respuesta)
     },
     error: (error) => {
       console.error(error, "Error al confirmar el turno");
@@ -246,15 +320,13 @@ reservarTurno(){
   const estado = false;
   this.horarioProfesionalService.patchEstadoHorarioProfesional(idHorario, idNegocio, idProfesional, estado).subscribe({
     next: (respuesta) => {
-      console.log(respuesta);
+        this.resetFormulario();
     },
     error: (error) => {
       console.error(error);
     }
   });
 }
-
-
 
 
   //Formulario
@@ -288,7 +360,6 @@ manejadorHabilitacionCampos() : void {
 }
 
 peticionesDatosFormulario(campo: string, valor: any){
-console.log(valor);
   switch(campo){
     case "nombre":
       this.ObtenerServiciosNegocio();
@@ -305,8 +376,9 @@ console.log(valor);
       this.idMetodoPago = valor.idMetodoPago;
       break;
       case "fechaTurno":
+        this.fechaSeleccionadaTurno = this.ParsearFechaSeleccionadaTurno(valor as Date);
       this.idDiaSeleccionado = this.ObtenerIdDia(valor as Date);
-      this.ObtenerHorariosProfesional();
+      this.obtenerHorariosDelDiaConTurnos();
       this.botonAgregarTurno = false;
       break;
       case "horaTurno":
@@ -315,50 +387,52 @@ console.log(valor);
   }
 }
 
-crearClienteInvitado(nombre: string, email:string | null) {
-  let credencialAux: CredencialInterface | null = null;
-  if (!email || email.trim() === "") {
-    return this.clienteService.postClienteInvitado(nombre, this.nombreNegocio!);
-  } else {
-    credencialAux = {
-      email: email,
-      estado: true,
-      password: "Usar generador de contraseña",
-      telefono: null
-    };
-    return this.clienteService.postClienteInvitado(nombre, this.nombreNegocio!); // Adjust this line as needed
-  }
+ParsearFechaSeleccionadaTurno(fecha: Date){
+   return  fecha.toISOString().split("T")[0];
 }
 
-
 crearTurno(): void { 
+
   const servicio = this.formularioTurno.get('servicio')?.value as ServicioInterface;
   const horarioProfesional = this.formularioTurno.get('horaTurno')?.value as HorarioProfesional;
-  const fechaInicio = this.formularioTurno.get('fechaTurno')?.value as Date;
+  this.fechaInicio = this.formularioTurno.get('fechaTurno')?.value as Date;
   const metodoPago = this.formularioTurno.get('metodoPago')?.value as MetodosDePago;
 
-  this.crearClienteInvitado( this.formularioTurno.get('nombre')?.value, this.formularioTurno.get('email')?.value || ''
-  ).pipe(
+  this.crearClienteInvitado( this.formularioTurno.get('nombre')?.value)
+  .pipe(
     switchMap(cliente => {
       this.clienteInvitado = cliente; // Guardamos el cliente recién creado
       this.turnoCreado.idCliente = cliente.idUsuario!;
       this.turnoCreado.idNegocio = this.idNegocio;
       this.turnoCreado.horarioProfesional = horarioProfesional;
       this.turnoCreado.idServicio = servicio.idServicio!;
-      this.turnoCreado.fechaInicio = fechaInicio;
+      this.turnoCreado.fechaInicio = this.fechaInicio;
       this.turnoCreado.metodosDePagoEnum = metodoPago;
       return this.turnoService.postTurno(this.turnoCreado);
     }),
     switchMap(turnoCreado => {
-      console.log('Turno creado:', turnoCreado);
       return of(this.reservarTurno()); 
     })
   ).subscribe({
-    next: () => console.log('Turno confirmado y horario reservado'),
+    next: () => console.log(""),
     error: (error: Error) => console.error("Error en la creación del turno:", error)
   });
 }
 
+resetFormulario(): void {
+  this.formularioTurno.reset({
+    nombre: '',
+    servicio: { value: '', disabled: this.datosClienteCompletos },
+    profesional: { value: '', disabled: this.servicioSeleccionado },
+    metodoPago: { value: '', disabled: this.profesionalSeleccionado },
+    fechaTurno: { value: '', disabled: this.metodoPagoSeleccionado },
+    horaTurno: { value: '', disabled: this.fechaSeleccionada }
+  });
+
+  // Opcional: Marcar el formulario como "pristine" y "untouched" para que no aparezcan errores
+  this.formularioTurno.markAsPristine();
+  this.formularioTurno.markAsUntouched();
+}
 
 
   //Manejo de errores
