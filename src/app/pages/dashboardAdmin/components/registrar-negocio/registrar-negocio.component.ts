@@ -106,10 +106,6 @@ export class RegistrarNegocioComponent {
         error:(error:HttpErrorResponse) =>{
           const mensaje = error.error['mensaje'];
 
-
-
-
-
           if (mensaje.includes("email")) {
             // Agrega el error personalizado al FormControl
             this.formularioRegisterNegocio.get('emailRegister')?.setErrors({ emailExiste: true });
@@ -120,7 +116,7 @@ export class RegistrarNegocioComponent {
           else if (mensaje.includes["nombreNegocio"]) {
             this.formularioRegisterNegocio.get('nombre')?.setErrors({ negocioExiste: true });
           }
-
+          this.resetFormulario();
         }
       })
     }else{
@@ -128,6 +124,7 @@ export class RegistrarNegocioComponent {
     }
 
   }
+
 
   // - - - Archivos - - -
 fotoNegocio: string | File | undefined = "img-default.png";
@@ -174,6 +171,23 @@ eliminarArchivo(event:Event):void{
   })
 
 }
+
+  resetFormulario(): void {
+    this.formularioRegisterNegocio.reset({
+      nombre: '',
+      servicio: { value: '' },
+      profesional: { value: '' },
+      metodoPago: { value: ''},
+      fechaTurno: { value: '' },
+      horaTurno: { value: '' }
+    });
+  
+    // Opcional: Marcar el formulario como "pristine" y "untouched" para que no aparezcan errores
+    this.formularioRegisterNegocio.markAsPristine();
+    this.formularioRegisterNegocio.markAsUntouched();
+  }
+  
+
 
 
   //metodos para ocultar las contraseñas

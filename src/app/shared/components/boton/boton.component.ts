@@ -1,12 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-boton',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './boton.component.html',
-  styleUrl: './boton.component.css'
+  styleUrl: './boton.component.css',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => BotonComponent),
+      multi: true
+    }
+  ]
 })
 export class BotonComponent {
 

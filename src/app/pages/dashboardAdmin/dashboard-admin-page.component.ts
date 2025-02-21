@@ -16,20 +16,19 @@ import { SideBarComponent } from '../../shared/components/side-bar/side-bar.comp
 })
 export class DashboardAdminPageComponent implements OnInit {
   estaSobrepuesto: boolean = false;
-  idAdmin:number = 0;
-
-  auth:AuthService = inject(AuthService);
-  ruta:ActivatedRoute = inject(ActivatedRoute);
-texto = "Crear negocio"
+  nombreAdmin: string = "Admin";
+  auth: AuthService = inject(AuthService);
+  ruta: ActivatedRoute = inject(ActivatedRoute);
+  texto = "Crear negocio"
   ngOnInit(): void {
-    this.idAdmin = Number(localStorage.getItem('idUsuario'));
+    this.nombreAdmin = this.auth.getNombreUsuario()!;
   }
 
   router = inject(Router);
-iconos = ICONOS;
-  cerrarSesion(event:boolean){
+  iconos = ICONOS;
+  cerrarSesion(event: boolean) {
 
-    if(event){
+    if (event) {
       this.auth.logOut();
     }
 
@@ -40,16 +39,16 @@ iconos = ICONOS;
   }
 
 
-redirigir(){
-  this.router.navigate([`/admin`, 1, `negocio`]);
-}
+  redirigir() {
+    this.router.navigate([`/admin`, 1, `negocio`]);
+  }
 
-botones = [
-  {texto: 'Inicio', icono: this.iconos.home , ruta: 'inicio'},
-  {texto: 'Negocios', icono: this.iconos.badge, ruta: 'negocio'},
-  {texto: 'Usuarios', icono: this.iconos.eventNote, ruta: 'usuarios'},
-  {texto: 'Configuración', icono: this.iconos.settings, ruta: 'configuracion'},
-]
+  botones = [
+    // { texto: 'Inicio', icono: this.iconos.home, ruta: 'inicio' },
+    { texto: 'Negocios', icono: this.iconos.badge, ruta: 'negocio' },
+    { texto: 'Usuarios', icono: this.iconos.eventNote, ruta: 'usuarios' },
+    { texto: 'Configuración', icono: this.iconos.settings, ruta: 'configuracion' },
+  ]
 
 }
 

@@ -1,18 +1,129 @@
-<div class="main">
 
+<div class="main">
   <header class="header">
 
-    <h4>Configuración</h4>
+    <h4>Reservar turno</h4>
   </header>
 
   <section class="contenedores" >
+    <form [formGroup]="formularioTurno"     [className]="'formularioTurno'">
 
-    <div class="contenedor-inputs">
 
-    </div>
+    <div class="contenedor-datos-personales">
+      <p>Datos del cliente</p>
+      <hr>
+  <!-- Campo nombre -->
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre</mat-label>
+    <input
+            formControlName="nombre"
+            matInput
+            placeholder="Ingresa tu nombre"
+          />
+          <mat-icon matSuffix>{{ iconos.person }}</mat-icon>
+          @if (tieneErrorTurnoNegocio("nombre", "required")) {
+            <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+          }
+        </mat-form-field>
+
+      </div>
+
+
+      <div class="contenedor-inputs">
+        <p>Información del Turno</p>
+        <hr>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Servicio</mat-label>
+          <mat-select formControlName="servicio" required>
+            <mat-option>--</mat-option>
+              <mat-option *ngFor="let servicio of servicios" [value]="servicio">{{servicio.nombre}}</mat-option>
+
+          </mat-select>
+          <mat-icon matSuffix>{{ iconos.tijera }}</mat-icon>
+
+          @if (tieneErrorTurnoNegocio("servicio", "required")) {
+            <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+            }
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+          <mat-label>Profesional</mat-label>
+          <mat-select formControlName="profesional" required>
+            <mat-option>--</mat-option>
+              <mat-option *ngFor="let profesional of profesionales" [value]="profesional">{{profesional.nombre}}</mat-option>
+
+          </mat-select>
+          <mat-icon matSuffix>{{ iconos.badge }}</mat-icon>
+
+          @if (tieneErrorTurnoNegocio("profesional", "required")) {
+            <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Metodo de pago</mat-label>
+          <mat-select formControlName="metodoPago" required>
+            <mat-option>--</mat-option>
+              <mat-option *ngFor="let metodoPago of metodosDePago" [value]="metodoPago">{{metodoPago}}</mat-option>
+
+          </mat-select>
+          <mat-icon matSuffix>{{ iconos.dinero}}</mat-icon>
+
+          @if (tieneErrorTurnoNegocio("metodoPago", "required")) {
+            <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+            }
+        </mat-form-field>
+
+        <app-boton  [textoDentroBoton]="'Agendar turno'" [disabled]="botonAgregarTurno" [class]="'botonConfirmarTurno'" (click)="crearTurno()"></app-boton>
+
+      </div>
+
 
     <div class="contenedor-calendario">
+      <p>Fecha y hora</p>
+      <hr>
+      <mat-form-field appearance="outline" >
+        <mat-label>Fecha del turno</mat-label>
+        <input
+          formControlName="fechaTurno"
+          matInput
+          [matDatepicker]="picker"
+          [min] = "ObtenerFechaMinimaCalendario() "
+       />
+        <mat-hint>dd/MM/yyyy</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+          
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        @if (tieneErrorTurnoNegocio("fechaTurno", "required")) {
+          <mat-error>{{mostrarMensajeError('required')}}</mat-error>
+        }
+      </mat-form-field>
+
+
+      <mat-form-field appearance="outline">
+        <mat-label>Horario del turno</mat-label>
+        <mat-select formControlName="horaTurno" required >
+          <mat-option>--</mat-option>
+            <mat-option *ngFor="let horario of horariosProfesionalDisponibles" [value]="horario">{{horario.horaInicio}}</mat-option>
+
+        </mat-select>
+        <mat-icon matSuffix>{{ iconos.reloj }}</mat-icon>
+
+        @if (tieneErrorTurnoNegocio("horaTurno", "required")) {
+          <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
+          }
+      </mat-form-field>
+
 
     </div>
+  </form>
+
   </section>
+
+
    </div>
