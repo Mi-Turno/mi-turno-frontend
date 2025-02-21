@@ -6,37 +6,29 @@
     [className]="'contenedor-formulario'"
     [formGroup]="formularioRegisterNegocio"
   >
+  <div [className]="'contenedor-imagen'">
+    <img [src]="fotoNegocio" [alt]="'foto del negocio'"/>
 
-    <div [className]="'containerPrincipal'">
-      <div [className]="'containerPrincipalDeInputs'">
+    <div [className]="'contenedor-funciones-imagen'">
 
-        <div [className]="'contenedor-imagen'">
-          <img [src]="fotoNegocio" [alt]="'foto del profesional'"/>
-
-          <div [className]="'contenedor-funciones-imagen'">
-
-            @if (fotoNegocio != 'img-default.png') {
-              <div [className]="'icono-eliminar'" (click)="eliminarArchivo($event)" >
-                <mat-icon>delete</mat-icon>
-              </div>
-            }
-
-            <app-input-archivo
-            [textoLabel]="'Subir foto'"
-            [tipoArchivo]="'image/*'"
-            (emitirArchivo)="seleccionarArchivo($event)"
-            ></app-input-archivo>
-          </div>
+      @if (fotoNegocio != 'img-default.png' && fotoNegocio != null) {
+        <div [className]="'icono-eliminar'" (click)="eliminarArchivo($event)" >
+          <mat-icon>delete</mat-icon>
         </div>
+      }
 
-
-
-
+      <app-input-archivo
+      [textoLabel]="'Subir foto'"
+      [tipoArchivo]="'image/*'"
+      (emitirArchivo)="seleccionarArchivo($event)"
+      ></app-input-archivo>
+    </div>
+  </div>
 
     <div class="contenedor-campos-basicos">
       <p>Datos basicos</p>
       <hr />
-      <mat-form-field appearance="outline">
+      <mat-form-field [className]="'input-form'" appearance="outline">
         <mat-label>Nombre del negocio</mat-label>
         <input
           formControlName="nombre"
@@ -52,7 +44,7 @@
         }
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field [className]="'input-form'" appearance="outline">
         <mat-label>Email</mat-label>
         <input
           formControlName="email"
@@ -68,7 +60,7 @@
         }
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field [className]="'input-form'" appearance="outline">
         <mat-label>Telefono</mat-label>
         <input
           formControlName="telefono"
@@ -85,13 +77,14 @@
         }
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field [className]="'input-form'" appearance="outline">
         <mat-label>Rubro</mat-label>
-        <mat-select formControlName="rubrosControl" required>
-          <mat-option>--</mat-option>
-          <mat-option *ngFor="let rubro of rubros" [value]="rubro">{{
-            rubro
-          }}</mat-option>
+        <mat-select formControlName="rubrosControl" required (selectionChange)="onSelectionChange($event)">
+          <mat-option>Ninguno Seleccionado</mat-option>
+          <mat-option *ngFor="let rubro of rubros" [value]="rubro">
+            {{rubro}}
+          </mat-option>
+
         </mat-select>
         <mat-icon matSuffix>{{ iconos.person }}</mat-icon>
 
@@ -99,11 +92,21 @@
         <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
         }
       </mat-form-field>
+      @if (otroRubroFlag) {
+        <!-- Input visible solo si el usuario elige "Otro" -->
+        <mat-form-field [className]="'input-form'" appearance="outline" required>
+          <mat-label>Ingrese su rubro</mat-label>
+          <input matInput #inputField (blur)="setCustomValue(inputField.value)">
+        </mat-form-field>
+      }
+
+
+
     </div>
     <div class="contenedor-contrasenia">
       <p>Datos del sensibles</p>
       <hr />
-      <mat-form-field [className]="'passwordField'" appearance="outline">
+      <mat-form-field [className]="'input-form'" [className]="'passwordField'" appearance="outline">
         <mat-label>Contraseña</mat-label>
         <input
           [id]="'passwordRegister'"
@@ -128,7 +131,7 @@
         }
       </mat-form-field>
 
-      <mat-form-field [className]="'passwordField'" appearance="outline">
+      <mat-form-field [className]="'input-form'" [className]="'passwordField'" appearance="outline">
         <mat-label>Repetir Contraseña</mat-label>
         <input
           [id]="'repetirContraseniaInput'"
@@ -159,7 +162,7 @@
       <p>Dirección</p>
       <hr />
 
-      <mat-form-field appearance="outline">
+      <mat-form-field [className]="'input-form'" appearance="outline">
         <mat-label>Calle</mat-label>
         <input
           formControlName="calle"
@@ -172,7 +175,7 @@
         }
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field [className]="'input-form'" appearance="outline">
         <mat-label>Altura</mat-label>
         <input
           formControlName="altura"
@@ -185,7 +188,7 @@
         }
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field [className]="'input-form'" appearance="outline">
         <mat-label>Detalle del negocio</mat-label>
         <textarea
           [className]="'textareaDetalle'"
