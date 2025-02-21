@@ -145,6 +145,7 @@ ngOnInit(): void {
 
 
 // Fuciones para obtener todos los datos 
+
 ObtenerNegocioPorNombre() {
   this.negocioService.getIdNegocioByNombre(this.nombreNegocio!).subscribe({
     next: (response: number) => {
@@ -183,6 +184,7 @@ ObtenerProfesionalesConServicioDeNegocio() {
     }
   })
 }
+
 
 ObtenerHorariosProfesional(){
   this.horarioService.getHorariosPorIdProfesionalYDia(this.idNegocio, this.idProfesional, this.idDiaSeleccionado).subscribe({
@@ -321,6 +323,7 @@ reservarTurno(){
   this.horarioProfesionalService.patchEstadoHorarioProfesional(idHorario, idNegocio, idProfesional, estado).subscribe({
     next: (respuesta) => {
         this.resetFormulario();
+
     },
     error: (error) => {
       console.error(error);
@@ -332,7 +335,6 @@ reservarTurno(){
   //Formulario
 formularioTurno: FormGroup = new FormGroup({
   nombre: new FormControl('', Validators.required),
-  email: new FormControl('', [Validators.required, Validators.email]),
   servicio: new FormControl({value: '', disabled: this.datosClienteCompletos}, Validators.required),
   profesional: new FormControl({value: '', disabled: this.servicioSeleccionado}, Validators.required),
   metodoPago: new FormControl({value: '', disabled: this.profesionalSeleccionado}, Validators.required),
@@ -389,6 +391,10 @@ peticionesDatosFormulario(campo: string, valor: any){
 
 ParsearFechaSeleccionadaTurno(fecha: Date){
    return  fecha.toISOString().split("T")[0];
+
+crearClienteInvitado(nombre: string) {
+    return this.clienteService.postClienteInvitado(nombre, this.nombreNegocio!);
+
 }
 
 crearTurno(): void { 
@@ -417,6 +423,21 @@ crearTurno(): void {
     next: () => console.log(""),
     error: (error: Error) => console.error("Error en la creación del turno:", error)
   });
+}
+
+resetFormulario(): void {
+  this.formularioTurno.reset({
+    nombre: '',
+    servicio: { value: '', disabled: this.datosClienteCompletos },
+    profesional: { value: '', disabled: this.servicioSeleccionado },
+    metodoPago: { value: '', disabled: this.profesionalSeleccionado },
+    fechaTurno: { value: '', disabled: this.metodoPagoSeleccionado },
+    horaTurno: { value: '', disabled: this.fechaSeleccionada }
+  });
+
+  // Opcional: Marcar el formulario como "pristine" y "untouched" para que no aparezcan errores
+  this.formularioTurno.markAsPristine();
+  this.formularioTurno.markAsUntouched();
 }
 
 resetFormulario(): void {

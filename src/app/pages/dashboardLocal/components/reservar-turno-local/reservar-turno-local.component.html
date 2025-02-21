@@ -25,6 +25,7 @@
             <mat-error>{{mostrarMensajeError('required')}}</mat-error>
           }
         </mat-form-field>
+
       </div>
 
 
@@ -74,7 +75,8 @@
             <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
             }
         </mat-form-field>
-        <app-boton    [disabled]="botonAgregarTurno"    [textoDentroBoton]="'Agendar turno'" [class]="'botonConfirmarTurno'" (click)="crearTurno()"></app-boton>
+
+        <app-boton  [textoDentroBoton]="'Agendar turno'" [disabled]="botonAgregarTurno" [class]="'botonConfirmarTurno'" (click)="crearTurno()"></app-boton>
 
       </div>
 
