@@ -7,5 +7,6 @@ export enum Rubros {
   FISIOTERAPIA = "Fisioterapia",
   QUIROPRAXIA = "Quiropráctico",
   MASAJES = "Masajes",
-  PODOLOGIA = "Podología"
+  PODOLOGIA = "Podología",
+  OTRO = "Otro..."
 }

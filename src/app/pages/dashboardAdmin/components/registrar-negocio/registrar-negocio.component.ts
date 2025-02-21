@@ -17,7 +17,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatOptionModule } from "@angular/material/core";
 import { CommonModule } from "@angular/common";
 import { InputArchivoComponent } from "../../../../shared/components/input-archivo/input-archivo.component";
-import { catchError, Observable, throwError } from "rxjs";
+import { catchError, Observable, of, throwError } from "rxjs";
 import { codigoErrorHttp } from "../../../../shared/models/httpError.constants";
 import { ArchivosServiceService } from "../../../../core/services/archivosService/archivos-service.service";
 
@@ -74,8 +74,8 @@ export class RegistrarNegocioComponent {
         calle: this.formularioRegisterNegocio.get('calle')?.value,
         altura: this.formularioRegisterNegocio.get('altura')?.value,
         detalle: this.formularioRegisterNegocio.get('detalle')?.value,
-        rolUsuario: ROLES.negocio
-        //fotoPerfil: this.formularioRegisterNegocio.get('fotoPerfil')?.value
+        rolUsuario: ROLES.negocio,
+        fotoPerfil: this.formularioRegisterNegocio.get('fotoPerfil')?.value
       }
 
   }
@@ -94,7 +94,6 @@ export class RegistrarNegocioComponent {
           //modal de negocio registrado correctamente
           Swal.fire({
             title: 'Negocio registrado correctamente!',
-            // text: 'Do you want to continue',
             icon: 'success',
             confirmButtonText: 'Ok'
           })
@@ -125,11 +124,31 @@ export class RegistrarNegocioComponent {
 
   }
 
+  resetFormulario(): void {
+    this.formularioRegisterNegocio.reset({
+      nombre: '',
+      servicio: { value: '' },
+      profesional: { value: '' },
+      metodoPago: { value: ''},
+      fechaTurno: { value: '' },
+      horaTurno: { value: '' },
+      fotoPerfil: { value: null}
+    });
 
-  // - - - Archivos - - -
+    // Opcional: Marcar el formulario como "pristine" y "untouched" para que no aparezcan errores
+    this.formularioRegisterNegocio.markAsPristine();
+    this.formularioRegisterNegocio.markAsUntouched();
+  }
+
+
+  //-------------- Archivos --------------
+quiereEliminarArchivo:boolean = false
 fotoNegocio: string | File | undefined = "img-default.png";
 archivoSeleccionado:File | null = null;
 seleccionoUnArchivo:boolean = true;
+
+
+
 postArchivoToBackend(idProfesional:number, archivoNuevo:File): Observable<Boolean>{
 
   return this.archivosService.postArchivoUsuario(idProfesional,archivoNuevo,)
@@ -154,17 +173,9 @@ seleccionarArchivo(archivoNuevo:File): void{
 
 }
 
-private eliminarArchivoBackend(idProfesional:number):Observable<Boolean>{
-  return this.archivosService.eliminarArchivoUsuario(idProfesional)
-  .pipe(catchError((error) => this.manejarErrores(error)));
-}
-
-quiereEliminarArchivo:boolean = false
-
 eliminarArchivo(event:Event):void{
 
   this.fotoNegocio = "img-default.png";
-  this.quiereEliminarArchivo = true;
   this.archivoSeleccionado = null;
   this.formularioRegisterNegocio.patchValue({
     fotoPerfil:null
@@ -172,21 +183,7 @@ eliminarArchivo(event:Event):void{
 
 }
 
-  resetFormulario(): void {
-    this.formularioRegisterNegocio.reset({
-      nombre: '',
-      servicio: { value: '' },
-      profesional: { value: '' },
-      metodoPago: { value: ''},
-      fechaTurno: { value: '' },
-      horaTurno: { value: '' }
-    });
-  
-    // Opcional: Marcar el formulario como "pristine" y "untouched" para que no aparezcan errores
-    this.formularioRegisterNegocio.markAsPristine();
-    this.formularioRegisterNegocio.markAsUntouched();
-  }
-  
+
 
 
 
@@ -204,10 +201,32 @@ eliminarArchivo(event:Event):void{
     event.stopPropagation();
   }
 
-    //----------------Logica de rubros--------------
+//----------------Logica de rubros--------------
 
-selectFormControl = new FormControl('', Validators.required);
 rubros = Object.values(Rubros);
+
+inputOtroRubro: string = '';
+
+otroRubroFlag: boolean = false;
+onSelectionChange(event: any) {
+  if (event.value !== Rubros.OTRO.toString()) {
+    this.otroRubroFlag = false;
+    this.inputOtroRubro = ''; // Reset input si no elige "Otro"
+  }else{
+    this.otroRubroFlag = true;
+  }
+}
+
+setCustomValue(value: string) {
+  if (value.trim() !== '' && value) {
+    this.inputOtroRubro = value; // Se asigna el valor ingresado al select
+    this.formularioRegisterNegocio.get('rubrosControl')?.setValue(this.inputOtroRubro);
+  }else{
+
+    this.inputOtroRubro = '';
+    this.formularioRegisterNegocio.get('rubrosControl')?.setErrors({ required: true });
+  }
+}
 
   //--------------verificacion de errores en el formulario----------------
 
