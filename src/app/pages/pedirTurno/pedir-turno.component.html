@@ -19,6 +19,7 @@
           <app-seleccion-servicio
           [idNegocio]="idNegocio"
           (idServicioSeleccionado)="recibirIdInformacion($event)"
+          class="contenedor-servicio"
           ></app-seleccion-servicio>
 
 
@@ -36,6 +37,7 @@
             [idNegocio]="idNegocio"
             [idServicio]="turno.idServicio"
             (idProfesionalSeleccionado)="recibirIdInformacion($event)"
+            class="contenedor-profesional"
           ></app-seleccion-profesional>
         }
         @case (3) {
@@ -50,7 +52,9 @@
         }
         @case (4) {
           <app-metodo-pago [idNegocio]="idNegocio"
-          (emitirInformacion)="recibirIdInformacion($event)"></app-metodo-pago>
+          (emitirInformacion)="recibirIdInformacion($event)"
+          class="contenedor-metodo-pago"
+          ></app-metodo-pago>
         }
         @case (5) {
           <app-confirmacion [turnoCreado]="turno" (oscurecerFondo)="manejadorOscurecer($event)"></app-confirmacion>
