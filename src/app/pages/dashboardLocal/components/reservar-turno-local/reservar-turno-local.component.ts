@@ -41,6 +41,7 @@ import { estadoTurno } from '../../../../shared/models/estadoTurnoEnum';
 import { forkJoin, of, switchMap } from 'rxjs';
 import { ClienteService } from '../../../../core/services/clienteService/cliente.service';
 import { ClienteInterface } from '../../../../core/interfaces/cliente-interface';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reservar-turno-local',
@@ -323,7 +324,12 @@ reservarTurno(){
   this.horarioProfesionalService.patchEstadoHorarioProfesional(idHorario, idNegocio, idProfesional, estado).subscribe({
     next: (respuesta) => {
         this.resetFormulario();
-
+        //modal de negocio registrado correctamente
+          Swal.fire({
+            title: 'Turno registrado correctamente!',
+            icon: 'success',
+            confirmButtonText: 'Ok'
+            });
     },
     error: (error) => {
       console.error(error);
