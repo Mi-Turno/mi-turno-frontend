@@ -11,10 +11,10 @@ import { ModalComponent } from "../../shared/components/modal/modal.component";
 import { ElegirNegocioComponent } from "./components/elegir-negocio/elegir-negocio.component";
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../core/guards/auth/service/auth.service';
-import { NavPedirTurnoComponent } from "../pedirTurno/components/nav-pedir-turno/nav-pedir-turno.component";
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 import { TablaTurnoClienteComponent } from "./components/tabla-turno-cliente/tabla-turno-cliente.component";
+import { NavPedirTurnoComponent } from './components/nav-cliente/nav-cliente';
 
 
 

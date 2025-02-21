@@ -4,7 +4,7 @@ import { BotonComponent } from "../../../../shared/components/boton/boton.compon
 import { MatIcon } from "@angular/material/icon";
 import { RouterLink } from "@angular/router";
 import { ModalComponent } from "../../../../shared/components/modal/modal.component";
-import { ModificarClienteComponent } from "../../../dashboardCliente/components/modificar-cliente/modificar-cliente.component";
+import { ModificarClienteComponent } from "../modificar-cliente/modificar-cliente.component";
 import { ICONOS } from "../../../../shared/models/iconos.constants";
 import { AuthService } from "../../../../core/guards/auth/service/auth.service";
 
@@ -15,8 +15,8 @@ import { AuthService } from "../../../../core/guards/auth/service/auth.service";
   selector: 'app-nav-pedir-turno',
   standalone: true,
   imports: [BotonComponent, MatIcon, RouterLink, ModalPreguntaComponent, ModalComponent, ModificarClienteComponent],
-  templateUrl: './nav-pedir-turno.component.html',
-  styleUrl: './nav-pedir-turno.component.css'
+  templateUrl: './nav-cliente.html',
+  styleUrl: './nav-cliente.css'
 })
 export class NavPedirTurnoComponent {
   @ViewChild(ModalPreguntaComponent) modalPregunta!: ModalPreguntaComponent;

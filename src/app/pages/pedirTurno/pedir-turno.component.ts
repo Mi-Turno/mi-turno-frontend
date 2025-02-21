@@ -10,9 +10,9 @@ import { CalendarioHorarioProfesionalComponent } from './components/calendario-h
 import { ConfirmacionComponent } from './components/confirmacion/confirmacion.component';
 import { MetodoPagoComponent } from './components/metodo-pago/metodo-pago.component';
 import { NavPasosComponent } from './components/nav-pasos/nav-pasos.component';
-import { NavPedirTurnoComponent } from './components/nav-pedir-turno/nav-pedir-turno.component';
 import { SeleccionProfesionalComponent } from './components/seleccion-profesional/seleccion-profesional.component';
 import { SeleccionServicioComponent } from './components/seleccion-servicio/seleccion-servicio.component';
+import { NavPedirTurnoComponent } from '../dashboardCliente/components/nav-cliente/nav-cliente';
 
 
 
