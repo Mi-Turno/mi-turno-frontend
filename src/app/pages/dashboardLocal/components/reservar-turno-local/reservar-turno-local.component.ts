@@ -391,11 +391,8 @@ peticionesDatosFormulario(campo: string, valor: any){
 
 ParsearFechaSeleccionadaTurno(fecha: Date){
    return  fecha.toISOString().split("T")[0];
-
-crearClienteInvitado(nombre: string) {
-    return this.clienteService.postClienteInvitado(nombre, this.nombreNegocio!);
-
 }
+
 
 crearTurno(): void { 
 
@@ -425,20 +422,7 @@ crearTurno(): void {
   });
 }
 
-resetFormulario(): void {
-  this.formularioTurno.reset({
-    nombre: '',
-    servicio: { value: '', disabled: this.datosClienteCompletos },
-    profesional: { value: '', disabled: this.servicioSeleccionado },
-    metodoPago: { value: '', disabled: this.profesionalSeleccionado },
-    fechaTurno: { value: '', disabled: this.metodoPagoSeleccionado },
-    horaTurno: { value: '', disabled: this.fechaSeleccionada }
-  });
 
-  // Opcional: Marcar el formulario como "pristine" y "untouched" para que no aparezcan errores
-  this.formularioTurno.markAsPristine();
-  this.formularioTurno.markAsUntouched();
-}
 
 resetFormulario(): void {
   this.formularioTurno.reset({
