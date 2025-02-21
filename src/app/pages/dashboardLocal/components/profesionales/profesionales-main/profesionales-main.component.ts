@@ -80,9 +80,7 @@ export class ProfesionalesMainComponent implements OnInit {
 
           //obtenemos las fotos de perfil de los profesionales
           profesionales.map(profesional =>{
-            console.log(profesional);
-
-            if(profesional.fotoPerfil){
+            if(profesional.fotoPerfil && profesional.fotoPerfil !== "img-default.png"){
 
               this.archivosService.getArchivoUsuario(profesional.idUsuario!).subscribe({
                next: (response) => {
@@ -96,21 +94,16 @@ export class ProfesionalesMainComponent implements OnInit {
 
                },
                error: (error) => {
-
-                 return profesional.fotoPerfil = "img-default.png"
-
-                 //console.error('Error al obtener la imagen:', error);
-               }
+                  return profesional.fotoPerfil = "img-default.png"
+                }
              });
             }
-
-
           });
 
-
           this.idCards = [...profesionales];
-        }, error: (error) => {
 
+        }, error: (error) => {
+          
         }
       });
     });
