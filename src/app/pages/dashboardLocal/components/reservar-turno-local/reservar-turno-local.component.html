@@ -75,6 +75,7 @@
             <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
             }
         </mat-form-field>
+
         <app-boton  [textoDentroBoton]="'Agendar turno'" [disabled]="botonAgregarTurno" [class]="'botonConfirmarTurno'" (click)="crearTurno()"></app-boton>
 
       </div>
@@ -89,11 +90,13 @@
           formControlName="fechaTurno"
           matInput
           [matDatepicker]="picker"
+          [min] = "ObtenerFechaMinimaCalendario() "
        />
         <mat-hint>dd/MM/yyyy</mat-hint>
         <mat-datepicker-toggle
           matIconSuffix
           [for]="picker"
+          
         ></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         @if (tieneErrorTurnoNegocio("fechaTurno", "required")) {
