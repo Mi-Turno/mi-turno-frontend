@@ -6,12 +6,32 @@
     [className]="'contenedor-formulario'"
     [formGroup]="formularioRegisterNegocio"
   >
-    <div class="contenedor-imagen">
-      <p>Logo del negocio</p>
-      <hr />
-      <img src="/img-default.png" alt="Imagen negocio" />
-      <!-- Imagen del negocio con drag and drop -->
-    </div>
+
+    <div [className]="'containerPrincipal'">
+      <div [className]="'containerPrincipalDeInputs'">
+
+        <div [className]="'contenedor-imagen'">
+          <img [src]="fotoNegocio" [alt]="'foto del profesional'"/>
+
+          <div [className]="'contenedor-funciones-imagen'">
+
+            @if (fotoNegocio != 'img-default.png') {
+              <div [className]="'icono-eliminar'" (click)="eliminarArchivo($event)" >
+                <mat-icon>delete</mat-icon>
+              </div>
+            }
+
+            <app-input-archivo
+            [textoLabel]="'Subir foto'"
+            [tipoArchivo]="'image/*'"
+            (emitirArchivo)="seleccionarArchivo($event)"
+            ></app-input-archivo>
+          </div>
+        </div>
+
+
+
+
 
     <div class="contenedor-campos-basicos">
       <p>Datos basicos</p>

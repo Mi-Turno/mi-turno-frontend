@@ -18,7 +18,6 @@ import { ModalPreguntaComponent } from "../../../../../shared/components/modal-p
 import { InputArchivoComponent } from "../../../../../shared/components/input-archivo/input-archivo.component";
 import { ArchivosServiceService } from "../../../../../core/services/archivosService/archivos-service.service";
 import { catchError, Observable, of, switchMap, throwError } from "rxjs";
-import { entidadEnum } from "../../../../../shared/models/entidadEnum";
 
 @Component({
   selector: 'app-pop-up-crear-servicio',
@@ -64,6 +63,15 @@ export class PopUpCrearServicioComponent implements OnInit {
 
     this.estadoPopUp = false;
     this.desactivarOverlay.emit();
+  }
+
+
+  verificarTieneFotoPerfil():boolean{
+    let flag = false;
+    if(this.cardSeleccionada?.fotoServicio != 'img-default.png' && this.cardSeleccionada?.fotoServicio != null){
+      flag = true;
+    }
+    return flag;
   }
 
   //formulario
@@ -189,6 +197,7 @@ export class PopUpCrearServicioComponent implements OnInit {
           servicioObservable.pipe(
             switchMap((response: ServicioInterface ) => {
               if (response.idServicio) {
+
                 return this.verificarFotoPerfil(response.idServicio); // Retorna un Observable para encadenarlo
               }
               return of(null); // Si no hay idUsuario, se retorna un Observable vacío
@@ -255,8 +264,8 @@ export class PopUpCrearServicioComponent implements OnInit {
 
   }
 
-  private eliminarArchivoBackend(idProfesional:number):Observable<Boolean>{
-    return this.archivosService.eliminarArchivoServicio(idProfesional)
+  private eliminarArchivoBackend(idServicio:number):Observable<Boolean>{
+    return this.archivosService.eliminarArchivoServicio(idServicio)
     .pipe(catchError((error) => this.manejarErrores(error)));
   }
 
@@ -264,6 +273,7 @@ export class PopUpCrearServicioComponent implements OnInit {
 
     this.fotoServicio = "img-default.png";
     this.archivoSeleccionado = null;
+    this.quiereEliminarArchivo = true;
     this.formularioServicio.patchValue({
       fotoServicioFormulario:null
     })

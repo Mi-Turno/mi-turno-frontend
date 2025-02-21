@@ -118,36 +118,6 @@ private postUsuarioToBackend(usuario:ProfesionalInterface): Observable<UsuarioIn
   .pipe(catchError((error) => this.manejarErrores(error))); // Manejo de errores
 }
 
-private manejarErrores(error: HttpErrorResponse) {
-  console.log(error.status);
-  switch (error.status) {
-    case codigoErrorHttp.ERROR_SERVIDOR:
-      alert('Error 500: Error del servidor');
-      break;
-    case 0:
-      alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
-    break;
-    case codigoErrorHttp.ERROR_REPETIDO:
-      const mensaje = error.error['mensaje'];
-      if (mensaje.includes("email")) {
-        this.formularioRegister.get('email')?.setErrors({ emailExiste: true });
-      } else if (mensaje.includes("telefono")) {
-        this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
-      }
-    break;
-    case codigoErrorHttp.NO_ENCONTRADO:
-      console.log("Not found");
-    break;
-    default:
-      alert('Error inesperado. Intente más tarde.');
-    break;
-
-  }
-
-  return throwError(() => error);
-
-}
-
 putUsuarioToBackend(idProfesional: number, idNegocio: number): Observable<UsuarioInterface>{
   const profesionalActualizado: ProfesionalInterface = this.crearUnProfesional();
   return this.profesionalService.putUsuarioPorIdNegocio(idNegocio, idProfesional, profesionalActualizado)
@@ -193,6 +163,7 @@ confirmarUsuario() {
 
 }
 
+//--------------archivo----------------
 verificarFotoPerfil(idUsuario: number | null): Observable<Boolean | null>{
   //verifico si existe el id
   if(idUsuario){
@@ -207,7 +178,6 @@ verificarFotoPerfil(idUsuario: number | null): Observable<Boolean | null>{
   return of(null)
 }
 
-//--------------archivo----------------
 
 archivoSeleccionado:File | null = null;
 seleccionoUnArchivo:boolean = true;
@@ -331,6 +301,36 @@ eliminarProfesional() {
 
 
 //--------------verificacion de errores en el formulario----------------
+
+private manejarErrores(error: HttpErrorResponse) {
+  console.log(error.status);
+  switch (error.status) {
+    case codigoErrorHttp.ERROR_SERVIDOR:
+      alert('Error 500: Error del servidor');
+      break;
+    case 0:
+      alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
+    break;
+    case codigoErrorHttp.ERROR_REPETIDO:
+      const mensaje = error.error['mensaje'];
+      if (mensaje.includes("email")) {
+        this.formularioRegister.get('email')?.setErrors({ emailExiste: true });
+      } else if (mensaje.includes("telefono")) {
+        this.formularioRegister.get('telefono')?.setErrors({ telefonoExiste: true });
+      }
+    break;
+    case codigoErrorHttp.NO_ENCONTRADO:
+      console.log("Not found");
+    break;
+    default:
+      alert('Error inesperado. Intente más tarde.');
+    break;
+
+  }
+
+  return throwError(() => error);
+
+}
 
 formularioRegisterTieneError(campo:string, error:string) {
   return this.formularioRegister.get(campo)?.hasError(error) && this.formularioRegister.get(campo)?.touched;

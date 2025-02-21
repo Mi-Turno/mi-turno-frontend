@@ -57,7 +57,8 @@ export class ServicioMainComponent implements OnInit {
         next: (response) => {
 
           response.map((servicio) => {
-            if(servicio.idServicio && servicio.idNegocio)
+            if(servicio.idServicio && servicio.idNegocio && servicio.fotoServicio
+              && servicio.fotoServicio !== "img-default.png")
             {
               this.archivosService.getArchivoServicio(servicio.idServicio, servicio.idNegocio).subscribe({
                 next: (response) => {
@@ -67,7 +68,10 @@ export class ServicioMainComponent implements OnInit {
                     servicio.fotoServicio = reader.result as string;
                   }
                 },
-                error: (err) => {},
+                error: (err) => {
+
+                  servicio.fotoServicio = "img-default.png";
+                },
               });
             }
           });
