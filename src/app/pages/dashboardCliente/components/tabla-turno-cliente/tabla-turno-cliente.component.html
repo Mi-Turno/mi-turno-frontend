@@ -107,14 +107,18 @@
 
     <div class="paginador" *ngIf="modo === 'historial'">
 
-      <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10"
-        [pageSizeOptions]="[5, 10]" aria-label="Select page">
+      <mat-paginator #paginator [length]="dataSource.data.length" 
+        [pageIndex]="0"
+        [pageSize]="15"
+        aria-label="Select page">
       </mat-paginator>
     </div>
     <div class="paginador" *ngIf="modo !== 'historial'">
 
-      <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="4"
-        [pageSizeOptions]="[4]" aria-label="Select page">
+      <mat-paginator #paginator [length]="dataSource.data.length" 
+        [pageIndex]="0"
+        [pageSize]="5"
+        aria-label="Select page">
       </mat-paginator>
     </div>
   </div>
