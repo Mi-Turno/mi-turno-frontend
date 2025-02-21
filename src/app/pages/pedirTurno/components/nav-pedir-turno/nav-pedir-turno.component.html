@@ -16,7 +16,7 @@
       }
     </li>
     @if (modalLevantado) {
-      <app-modal [modal]="'modalSeleccionarNegocio'" (cerrarModal)="cerrarModal()"><!--TODO MODIFICAR EL MODALSELECCIOANRNEGOCIO POR UNO ESPECIFICO DE CLIENTE-->
+      <app-modal [modal]="'modalConfiguracionCliente'" (cerrarModal)="cerrarModal()"><!--TODO MODIFICAR EL MODALSELECCIOANRNEGOCIO POR UNO ESPECIFICO DE CLIENTE-->
         <ng-container modal-header>
           <h5 [className]="'tituloModal'">Modificar perfil de {{nombreCliente}}</h5>
         </ng-container>
