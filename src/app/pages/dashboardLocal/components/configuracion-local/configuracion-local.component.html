@@ -19,18 +19,6 @@
         [class]="'botonPredeterminado'">
       </app-boton>
 
-      @if (QRactivo) {
-      <app-modal [modal]="'modalSeleccionarNegocio'" (cerrarModal)="generarQRPedirTurno()">
-        <ng-container modal-header>
-          <h5 class="tituloModal">QR PEDIR UN TURNO </h5>
-        </ng-container>
-        <ng-container modal-content>
-          <app-generador-qr [url]="this.urlNegocioQr"></app-generador-qr>
-        </ng-container>
-      </app-modal>
-
-      }
-
       <section class="contenedor-general-toggle">
         <hr>
         <h5 class="texto-metodos-pago">Metodos de pago</h5>
@@ -181,9 +169,19 @@
 
   </div>
   <div class="acciones">
-
-
-
+        //todo: No borrar
   </div>
-
 </div>
+
+
+@if (QRactivo) {
+  <app-modal [modal]="'modalSeleccionarNegocio'" (cerrarModal)="generarQRPedirTurno()">
+    <ng-container modal-header>
+      <h5 class="tituloModal">QR Pedir un turno </h5>
+    </ng-container>
+    <ng-container modal-content>
+      <app-generador-qr [url]="this.urlNegocioQr"></app-generador-qr>
+    </ng-container>
+  </app-modal>
+
+  }
