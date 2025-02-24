@@ -27,7 +27,9 @@
           <h5 [className]="'tituloModal'">Modificar perfil de {{nombreCliente}}</h5>
         </ng-container>
         <ng-container modal-content>
-          <app-modificar-cliente></app-modificar-cliente>
+          <app-modificar-cliente
+          (emitirCerrarModal)="cerrarModal()"
+          ></app-modificar-cliente>
         </ng-container>
       </app-modal>
     }
