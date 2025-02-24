@@ -1,39 +1,48 @@
-<nav>
-  <a [routerLink]="'/dashboard-cliente'" (click)="cerrarHistorial()">
-    <img [className]="'claseImagenIcono'" [src]="imagenIcono" alt="icono mi turno">
-  </a>
+<nav class= "contenedor">
+  <div class="contenedor-logo">
 
-  <ul>
-    <li><app-boton [routerLink]="'/dashboard-cliente'" [class]="claseBoton" (click)="onHistorialClick()" [textoDentroBoton]="textoHistorialLevantado"></app-boton></li>
-    <li><app-boton [class]="claseBoton" [textoDentroBoton]="'Cerrar sesion'" (click)="abrirModalCierre()"></app-boton></li>
-    <app-modal-pregunta
-    [pregunta]="'¿Desea salir de Mi Turno?'"
-    [tituloPregunta]="'Salir'"
-    [botonNegativo]="'No'"
-    [botonPositivo]="'Si'"
-    (respuesta)="manejarRespuesta($event)">
-  </app-modal-pregunta>
+    <a [routerLink]="'/dashboard-cliente'" (click)="cerrarHistorial()">
+      <img class="logo-mi-turno" [src]="imagenIcono" alt="icono mi turno">
+    </a>
+  </div>
 
-    <li (click)="abrirModal()">
-      @if (!imagenUsuario) {
-        <mat-icon>{{iconos.perfil}}</mat-icon>
-      }@else {
-        <img [src]="imagenUsuario" alt="imagen de usuario">
-      }
-    </li>
-    @if (modalLevantado) {
-      <app-modal [modal]="'modalConfiguracionCliente'" (cerrarModal)="cerrarModal()"><!--TODO MODIFICAR EL MODALSELECCIOANRNEGOCIO POR UNO ESPECIFICO DE CLIENTE-->
-        <ng-container modal-header>
-          <h5 [className]="'tituloModal'">Modificar perfil de {{nombreCliente}}</h5>
-        </ng-container>
-        <ng-container modal-content>
-          <app-modificar-cliente
-          (emitirCerrarModal)="cerrarModal()"
-          ></app-modificar-cliente>
-        </ng-container>
-      </app-modal>
+
+<div class = "contenedor-botones">
+
+  <app-boton class="boton" [class]="claseBoton" [textoDentroBoton]="'Negocios'" ></app-boton>
+  <app-boton class="boton" [routerLink]="'/dashboard-cliente'" [class]="claseBoton" (click)="onHistorialClick()" [textoDentroBoton]="textoHistorialLevantado"></app-boton>
+  <mat-icon [className]="'claseIcono'" (click)="abrirModalCierre()" >{{iconos.logout}}</mat-icon>
+  <app-modal-pregunta [pregunta]="'¿Desea salir de Mi Turno?'" [tituloPregunta]="'Salir'"  [botonNegativo]="'No'" [botonPositivo]="'Si'"  (respuesta)="manejarRespuesta($event)"></app-modal-pregunta>
+
+  <div (click)="abrirModal()">
+  @if(!imagenUsuario){
+     <mat-icon class="icono-perfil" >{{iconos.perfil}}</mat-icon>
     }
+  @else{
+    <img [src]="imagenUsuario" alt="imagen de usuario">
+    }
+  </div>
+  
+  <!-- Borrar cuando lo necesites fabri de mi corazon  -->
 
-  </ul>
+  <!-- <li (click)="abrirModal()">
+    @if (!imagenUsuario) {
+      <mat-icon class="iconoPerfil">{{iconos.perfil}}</mat-icon>
+    }@else {
+      <img [src]="imagenUsuario" alt="imagen de usuario">
+    }
+  </li> -->
+</div>
 
 </nav>
+
+@if (modalLevantado) {
+  <app-modal [modal]="'modalConfiguracionCliente'" (cerrarModal)="cerrarModal()">
+    <ng-container modal-header>
+      <h5 [className]="'tituloModal'">Modificar perfil de {{nombreCliente}}</h5>
+    </ng-container>
+    <ng-container modal-content>
+      <app-modificar-cliente></app-modificar-cliente>
+    </ng-container>
+  </app-modal>
+}

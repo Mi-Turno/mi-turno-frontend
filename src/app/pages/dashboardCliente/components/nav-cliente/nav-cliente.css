@@ -1,36 +1,51 @@
 nav{
   display: flex;
   justify-content: space-between;
-  padding: 0 0 0 2vw;
-  max-height: 100px;
+  max-height: 80px;
   background-color: var(--color-background);
 }
 
-.claseImagenIcono{
-  height: 100px;
-  width: 200px;
-  object-fit: contain;
-  overflow: hidden;
-}
-
-
-ul{
-  display: flex;
-  list-style: none;
-  padding: 0;
-}
-
-ul li{
-
+.contenedor{
+  max-height: 80px;
+  width: 100%;
+  background-color: var(--color-background);
   display: flex;
   align-items: center;
-  padding-right: 10px;
+  justify-content: space-between;
 }
 
-ul li mat-icon{
-  width: 10vw;
-  height: 10vh;
-  font-size: 10vh;
-  cursor:pointer;
+.contenedor-botones{
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  margin-right: 25px;
 }
 
+
+.logo-mi-turno{
+  width: auto;
+  height: 70px;
+  margin-left: 25px ;
+}
+
+
+.icono-perfil{
+  font-size: 60px;
+  height: auto;
+  width: auto;
+}
+
+.boton{
+  margin: 0 15px;
+}
+
+
+.claseIcono{
+  font-size: 48px;
+margin: 10px;
+  color: var(--color-eliminar1);
+}
+
+.claseIcono:hover{
+  color: var(--color-eliminar1-hover);
+}

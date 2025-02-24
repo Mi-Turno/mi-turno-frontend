@@ -12,7 +12,12 @@
     <section class="contenedor-izquierdo">
       <div class="img-container">
         <img src="/img-default.png" class="imagen-negocio" alt="Imagen negocio" />
+
       </div>
+
+      <app-boton [textoDentroBoton]="'Generar QR para pedir un turno'" [type]="'submit'" (click)="generarQRPedirTurno()"
+        [class]="'botonPredeterminado'">
+      </app-boton>
 
       <section class="contenedor-general-toggle">
         <hr>
@@ -164,9 +169,19 @@
 
   </div>
   <div class="acciones">
-
-
-
+        //todo: No borrar
   </div>
-
 </div>
+
+
+@if (QRactivo) {
+  <app-modal [modal]="'modalSeleccionarNegocio'" (cerrarModal)="generarQRPedirTurno()">
+    <ng-container modal-header>
+      <h5 class="tituloModal">QR Pedir un turno </h5>
+    </ng-container>
+    <ng-container modal-content>
+      <app-generador-qr [url]="this.urlNegocioQr"></app-generador-qr>
+    </ng-container>
+  </app-modal>
+
+  }

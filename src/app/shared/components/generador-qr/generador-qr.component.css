@@ -1,0 +1,18 @@
+.claseQr {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+
+}
+
+.claseQr img {
+  max-width: 90%;
+  max-height: 300px;
+  width: auto;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
