@@ -1,8 +1,9 @@
+import { ServicioInterface } from './../../../../core/interfaces/servicio-interface';
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ServicioInterface } from '../../../../core/interfaces/servicio-interface';
 import { ServicioServiceService } from '../../../../core/services/servicioService/servicio-service.service';
 import { CardComponent } from '../../../../shared/components/card/card.component';
+import { ArchivosServiceService } from '../../../../core/services/archivosService/archivos-service.service';
 
 @Component({
   selector: 'app-seleccion-servicio',
@@ -23,17 +24,17 @@ export class SeleccionServicioComponent implements OnInit{
 
   //servicios
   servicioServicios: ServicioServiceService = inject(ServicioServiceService);
-
-
+  archivosService: ArchivosServiceService = inject(ArchivosServiceService);
 
   ngOnInit(): void {
-
     this.obtenerServiciosPorIdNegocio(this.idNegocio);
   }
 
   obtenerServiciosPorIdNegocio(idNegocio: number) {
     this.servicioServicios.getServiciosPorIdNegocioYEstado(idNegocio, "true").subscribe({
       next: (servicios) => {
+        //antes de settear el arreglo de servicios, busco las imagenes de los servicios si es que tienen
+        this.setImagenesServicio(servicios)
 
         this.arregloServicios= servicios;
       },
@@ -46,4 +47,28 @@ export class SeleccionServicioComponent implements OnInit{
   enviarIdInformacion($event: number) {
     this.idServicioSeleccionado.emit($event);
   }
+
+  setImagenesServicio(servicios: ServicioInterface[]){
+    servicios.map(servicio => {
+      if(servicio.fotoServicio && servicio.idNegocio && servicio.idServicio){
+
+        this.archivosService.getArchivoServicio(servicio.idServicio,servicio.idNegocio).subscribe({
+          next: (response) => {
+
+            let reader = new FileReader();
+            reader.readAsDataURL(response);
+            reader.onload = () => {
+              servicio.fotoServicio = reader.result as string;
+            }
+          },
+          error: (err) => {
+            servicio.fotoServicio = "img-default.png";
+          },
+        })
+      }
+    })
+  }
+
 }
+
+

@@ -164,6 +164,10 @@
   font-size: var( --titulo-h5);
 }
 
+.botonNavBar:hover{
+  cursor: pointer;
+}
+
 
 .botonAltaUsuario{
   background-color: var( --color-contraste1);

@@ -39,6 +39,7 @@ export class PedirTurnoComponent implements OnInit{
   idCliente: number = -1; // ID del cliente que pide el turno
 
   ngOnInit(): void {
+    
     //todo, sacarlo del jwt
     this.idCliente= Number(localStorage.getItem('idUsuario'));
 
