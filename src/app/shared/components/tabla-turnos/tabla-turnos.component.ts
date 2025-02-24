@@ -30,6 +30,7 @@ import { HorarioXprofesionalService } from '../../../core/services/horariosProfe
 import { EmailService } from '../../../core/services/emailService/email-service.service';
 import { EmailCancelacion } from '../../../core/interfaces/email-cancelacion-desde-negocio';
 import { NegocioServiceService } from '../../../core/services/negocioService/negocio-service.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-tabla-turnos',
@@ -120,7 +121,7 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
         .updateTurno(idNegocio, turno.numero!, turno?.estado)
         .subscribe({
           next: (response) => {
-            window.location.reload();
+              this.cargarTurnos();
           },
           error: (error: any) => {
 
@@ -169,10 +170,19 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
     this.turnoService.getTurnos(this.idNegocio).subscribe({
 
       next: (turnosResponse: TurnoInterface[]) => {
+
+        this.turnoTabla = [];
+        this.dataSource.data = [];
+
+
         this.turnos = [...turnosResponse];
         this.turnos.forEach((unTurno) => {
           this.settearAtributosTurno(unTurno);
         });
+
+        this.dataSource.data = [...this.turnoTabla];
+        this.dataSource.actualizarDatos();
+        this.funteInfo.data = this.turnoTabla;
 
       },
       error: (error: any) => {
@@ -328,14 +338,21 @@ export class TablaTurnosComponent implements AfterViewInit, OnInit {
         if (!this.cuerpoEmail.emailCliente.toLowerCase().includes('invitado')) {
           this.emailService.postEnviarEmailDeCancelacionDesdeUnNegocio(this.cuerpoEmail).subscribe({
             next: (responseEmail) => {
-              alert('Turno cancelado');
+              Swal.fire({
+                title: 'Turno cancelado correctamente!',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+              })
             },
             error: (error) => {
             }
           });
         }else{
-          console.log('Es invitado');
-          alert('Turno cancelado es invitado igual');
+          Swal.fire({
+            title: 'Turno cancelado correctamente!',
+            icon: 'success',
+            confirmButtonText: 'Ok'
+          })
         }
       },
       error: (error) => {
