@@ -1,3 +1,6 @@
-  <img *ngIf="codigoQR" [src]="codigoQR" alt="Codigo QR" class="claseQr" />
+  <div class="claseQr">
+    <img *ngIf="codigoQR" [src]="codigoQR" alt="Codigo QR"  />
+    <app-boton [textoDentroBoton]="'Descargar QR'" [type]="'submit'" (click)="descargarQR()"[class]="'botonPredeterminado'"></app-boton>
 
+  </div>
 
