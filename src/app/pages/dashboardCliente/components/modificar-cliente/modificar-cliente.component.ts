@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, signal } from '@angular/core';
 import { ClienteInterface } from '../../../../core/interfaces/cliente-interface';
 import { CredencialInterface } from '../../../../core/interfaces/credencial.interface';
 import {
@@ -28,6 +28,11 @@ import {
   MatCheckboxModule,
 } from '@angular/material/checkbox';
 import Swal from 'sweetalert2';
+import { InputArchivoComponent } from "../../../../shared/components/input-archivo/input-archivo.component";
+import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
+import { ArchivosServiceService } from '../../../../core/services/archivosService/archivos-service.service';
+import { codigoErrorHttp } from '../../../../shared/models/httpError.constants';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-modificar-cliente',
@@ -42,15 +47,19 @@ import Swal from 'sweetalert2';
     FormsModule,
     MatDatepickerModule,
     BotonComponent,
-  ],
+    InputArchivoComponent
+],
   templateUrl: './modificar-cliente.component.html',
   styleUrl: './modificar-cliente.component.css',
 })
 export class ModificarClienteComponent implements OnInit {
+
   //servicios
   fb: FormBuilder = inject(FormBuilder); //Forms reactives
   auth: AuthService = inject(AuthService); //Para poder loguear al usuario
   clienteService: ClienteService = inject(ClienteService); //Para poder modificar al cliente
+  archivosService: ArchivosServiceService = inject(ArchivosServiceService);
+
   //variables
   iconos = ICONOS;
   roles = ROLES;
@@ -58,49 +67,59 @@ export class ModificarClienteComponent implements OnInit {
   idCliente = 0;
   cliente: ClienteInterface = {} as ClienteInterface;
 
+  //Input output
+  @Input() fotoCliente: File | string = "img-default.png";
+
+  //init
+  ngOnInit(): void {
+    this.setIdCliente();
+    this.obtenerCliente();
+  }
+
+  setIdCliente() {
+    let idAux = this.auth.getIdUsuario();
+    if (idAux != null){
+      this.idCliente = idAux;
+    }
+  }
+
+  obtenerCliente() {
+    this.clienteService.getClienteById(this.idCliente).subscribe({
+      next: (clienteResponse: ClienteInterface) => {
+
+        this.cliente = clienteResponse;
+        this.establecerDatosCliente(clienteResponse);
+
+      },
+      error: (error: any) => {
+        throw new Error('Error al obtener el cliente');
+      },
+    });
+  }
+
+  @Output() emitirCerrarModal = new EventEmitter<void>();
+  cerrarPopUp() {
+    this.emitirCerrarModal.emit();
+  }
+
   //-----------------------------------MODIFICAR-----------------------------------
-  formularioRegister: FormGroup = this.fb.nonNullable.group({
-    nombre: new FormControl(''),
-    apellido: new FormControl(''),
-    fechaNacimiento: new FormControl(''),
-  });
 
-  obtenerFormRegister(): ClienteInterface {
-    const credencial: CredencialInterface = {
-      email: this.formularioRegister.get('emailRegister')?.value,
-      password: this.formularioRegister.get('passwordRegister')?.value,
-      telefono: this.formularioRegister.get('telefono')?.value,
-      estado: true,
-    };
-    return {
-      nombre: this.capitalizarString(
-        this.formularioRegister.get('nombre')?.value
-      ),
-      apellido: this.capitalizarString(
-        this.formularioRegister.get('apellido')?.value
-      ),
-      fechaNacimiento: this.formularioRegister.get('fechaNacimiento')?.value,
-      credencial: credencial,
-      rolUsuario: 'CLIENTE',
-    };
-  }
-
-  filtrarDatos(cliente: Partial<ClienteInterface>): Partial<ClienteInterface> {
-    return {
-      ...(cliente.credencial?.email && {
-        // Utilizamos spreed operator junto al && para que luego sobreescribimos el email que se encuentra en credencial y no chillen las interfaces por falta de recursos
-        credencial: {
-          ...cliente.credencial,
-          email: cliente.credencial.email,
-        },
-      }),
-      ...(cliente.nombre && {
-        nombre: cliente.nombre,
-        apellido: cliente.apellido,
-        fechaNacimiento: cliente.fechaNacimiento,
-      }),
-    };
-  }
+  // filtrarDatos(cliente: Partial<ClienteInterface>): Partial<ClienteInterface> {
+    //   return {
+  //     ...(cliente.credencial?.email && {
+    //       // Utilizamos spreed operator junto al && para que luego sobreescribimos el email que se encuentra en credencial y no chillen las interfaces por falta de recursos
+  //       credencial: {
+  //         ...cliente.credencial,
+  //         email: cliente.credencial.email,
+  //       },
+  //     }),
+  //     ...(cliente.nombre && {
+    //       nombre: cliente.nombre,
+    //       apellido: cliente.apellido,
+    //       fechaNacimiento: cliente.fechaNacimiento,
+    //     }),
+    //   };
+    // }
 
   manejarEventoCheckBoxCorreos(event: MatCheckboxChange) {
     if (event.checked) {
@@ -112,49 +131,88 @@ export class ModificarClienteComponent implements OnInit {
     }
   }
 
-  modificarCliente() {
-    if (this.formularioRegister.valid) {
-      const clienteModificado = this.filtrarDatos(this.obtenerFormRegister());
-      this.clienteService
-        .patchCliente(clienteModificado, this.auth.getIdUsuario()!)
-        .subscribe({
-          next: (clienteResponse: ClienteInterface) => {
-            Swal.fire({
-              title: 'Datos actualizados con exito!',
-              icon: 'success',
-              confirmButtonText: 'Ok',
-            });
-          },
-          error: (error: any) => {
-            throw new Error('Error al modificar el cliente');
-          },
-        });
+  //--------------------Servicio cliente--------------------
+  botonConfirmarActualizar() {
+    if (this.formularioUpdate.valid) {
+      let clienteObservable: Observable<ClienteInterface> = this.actualizarClienteBackend();
+
+      clienteObservable.pipe(
+            switchMap((response: ClienteInterface) => {
+              Swal.fire({
+                title: 'Datos actualizados con exito!',
+                icon: 'success',
+                confirmButtonText: 'Ok',
+              });
+
+              if (response.idUsuario) {
+                return this.verificarFotoPerfil(response.idUsuario); // Retorna un Observable para encadenarlo
+              }
+              return of(null); // Si no hay idUsuario, se retorna un Observable vacío
+            })
+          ).subscribe({
+            next: () => {
+
+              this.cerrarPopUp();
+            },
+            error: (error) => {
+             console.error("Error en el proceso de guardar al cliente:", error);
+            }
+          });
+
+
+    }else{
+      this.formularioUpdate.markAllAsTouched();
     }
   }
-  obtenerCliente() {
-    this.clienteService.getClienteById(this.auth.getIdUsuario()!).subscribe({
-      next: (clienteResponse: ClienteInterface) => {
-        this.establecerDatosCliente(clienteResponse);
-      },
-      error: (error: any) => {
-        throw new Error('Error al obtener el cliente');
-      },
-    });
+
+
+  actualizarClienteBackend(): Observable<ClienteInterface>{
+    const clienteModificado = this.obtenerFormRegister()
+    return this.clienteService.patchCliente(clienteModificado, this.idCliente)
+    .pipe(catchError((error) => this.manejarErrores(error)));
   }
 
-  ngOnInit(): void {
-    this.obtenerCliente();
+
+  //--------------------Actualizar cliente--------------------
+
+    formularioUpdate: FormGroup = this.fb.nonNullable.group({
+      nombre: new FormControl(''),
+      apellido: new FormControl(''),
+      fechaNacimiento: new FormControl(''),
+      fotoPerfil: new FormControl()
+    });
+
+  obtenerFormRegister(): ClienteInterface {
+
+    // const credencial: CredencialInterface = {
+    //   email: this.formularioRegister.get('emailRegister')?.value,
+    //   password: this.formularioRegister.get('passwordRegister')?.value,
+    //   telefono: this.formularioRegister.get('telefono')?.value,
+    //   estado: true
+    // };
+
+    return {
+      nombre: this.capitalizarString(
+        this.formularioUpdate.get('nombre')?.value
+      ),
+      apellido: this.capitalizarString(
+        this.formularioUpdate.get('apellido')?.value
+      ),
+      fechaNacimiento: this.formularioUpdate.get('fechaNacimiento')?.value,
+      credencial: this.cliente.credencial,
+      rolUsuario: 'CLIENTE',
+    };
   }
 
   establecerDatosCliente(cliente: ClienteInterface) {
-    this.formularioRegister.patchValue({
-      nombre: this.auth.getNombreUsuario(),
+    this.formularioUpdate.patchValue({
+      nombre: cliente.nombre,
       apellido: cliente.apellido,
       fechaNacimiento: cliente.fechaNacimiento,
     });
   }
 
-  //validaciones campos formularios
+  //--------------------Validaciones campos formularios--------------------
   emailExiste: boolean = false;
   telefonoExiste: boolean = false;
 
@@ -162,12 +220,75 @@ export class ModificarClienteComponent implements OnInit {
     return (
       palabraFormatear.charAt(0).toUpperCase() +
       palabraFormatear.slice(1).toLowerCase()
-    ); // 0 es la primera letra de la palabra y el resto es el resto de la palabra
+    ); // Capitalizamos la primera letra y el resto la pasamos a minúsculas
   }
+
+
+  //--------------------Archivos--------------------
+  archivoSeleccionado:File | null = null;
+
+  verificarFotoPerfil(idUsuario: number | null): Observable<Boolean | null>{
+    //verifico si existe el id
+    if(idUsuario){
+      //verifico si se selecciono un archivo
+      if(this.archivoSeleccionado){
+        return this.postArchivoToBackend(idUsuario, this.archivoSeleccionado);
+      }
+      else if(this.quiereEliminarArchivo && this.fotoCliente){
+        return this.eliminarArchivoBackend(idUsuario);
+      }
+    }
+    return of(null)
+  }
+
+
+  postArchivoToBackend(idProfesional:number, archivoNuevo:File): Observable<Boolean>{
+
+    return this.archivosService.postArchivoUsuario(idProfesional,archivoNuevo,)
+    .pipe(catchError((error) => this.manejarErrores(error)));
+  }
+
+
+
+  seleccionarArchivo(archivoNuevo:File): void{
+
+    if(archivoNuevo.size > 0  && archivoNuevo != null){
+
+      this.archivoSeleccionado = archivoNuevo;
+      this.quiereEliminarArchivo = false;
+      this.formularioUpdate.patchValue({
+        fotoPerfil:this.archivoSeleccionado
+      })
+
+      this.fotoCliente = URL.createObjectURL(this.archivoSeleccionado);
+
+    }
+
+  }
+
+  private eliminarArchivoBackend(idProfesional:number):Observable<Boolean>{
+    return this.archivosService.eliminarArchivoUsuario(idProfesional)
+    .pipe(catchError((error) => this.manejarErrores(error)));
+  }
+
+  quiereEliminarArchivo:boolean = false
+
+  eliminarArchivo(event:Event):void{
+
+    this.fotoCliente = "img-default.png";
+    this.quiereEliminarArchivo = true;
+    this.archivoSeleccionado = null;
+    this.formularioUpdate.patchValue({
+      fotoPerfil:null
+    })
+  }
+
+  //--------------------Manejo de errores--------------------
+
   tieneErrorRegister(control: string, error: string) {
     return (
-      this.formularioRegister.controls[control].hasError(error) &&
-      this.formularioRegister.controls[control].touched
+      this.formularioUpdate.controls[control].hasError(error) &&
+      this.formularioUpdate.controls[control].touched
     );
   }
 
@@ -191,4 +312,35 @@ export class ModificarClienteComponent implements OnInit {
         return 'Error';
     }
   }
+
+  private manejarErrores(error: HttpErrorResponse) {
+    console.log(error.status);
+    switch (error.status) {
+      case codigoErrorHttp.ERROR_SERVIDOR:
+        alert('Error 500: Error del servidor');
+        break;
+      case 0:
+        alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
+      break;
+      case codigoErrorHttp.ERROR_REPETIDO:
+        const mensaje = error.error['mensaje'];
+        if (mensaje.includes("email")) {
+          this.formularioUpdate.get('email')?.setErrors({ emailExiste: true });
+        } else if (mensaje.includes("telefono")) {
+          this.formularioUpdate.get('telefono')?.setErrors({ telefonoExiste: true });
+        }
+      break;
+      case codigoErrorHttp.NO_ENCONTRADO:
+        console.log("Not found");
+      break;
+      default:
+        alert('Error inesperado. Intente más tarde.');
+      break;
+
+    }
+
+    return throwError(() => error);
+
+  }
+
 }
