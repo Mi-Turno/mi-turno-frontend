@@ -20,11 +20,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Rubros } from '../../../../shared/models/rubrosEnum';
 import { AuthService } from '../../../../core/guards/auth/service/auth.service';
 import { MetodosDePago } from '../../../../shared/models/metodosDePago';
+import { ModalComponent } from "../../../../shared/components/modal/modal.component";
+import { GeneradorQRComponent } from "../../../../shared/components/generador-qr/generador-qr.component";
 
 @Component({
   selector: 'app-configuracion-local',
   standalone: true,
-  imports: [MatSlideToggleModule, BotonComponent, MatIconModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatOptionModule, MatSelectModule, CommonModule],
+  imports: [MatSlideToggleModule, BotonComponent, MatIconModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatOptionModule, MatSelectModule, CommonModule, ModalComponent, GeneradorQRComponent],
   templateUrl: './configuracion-local.component.html',
   styleUrl: './configuracion-local.component.css'
 })
@@ -36,7 +38,7 @@ export class ConfiguracionLocalComponent implements OnInit {
   negocio: NegocioInterface | null = null;
   placeholders = PLACEHOLDERS;
   iconos = ICONOS;
-
+  QRactivo: boolean = false;
   //- - - - - - -- - - - --   Toggles de configuraciones - - -- - - - - - - - - - -- - -
   toggleActivoMP: boolean = false;
   toggleActivoDebito: boolean = false;
@@ -49,6 +51,7 @@ export class ConfiguracionLocalComponent implements OnInit {
   negocioService: NegocioServiceService = inject(NegocioServiceService);
   route: ActivatedRoute = inject(ActivatedRoute);
   authService: AuthService = inject(AuthService);
+  urlNegocioQr: string = 'http://localhost:4200/negocios/'+this.authService.getNombreUsuario()!+'/pedir-turno'; // URL dinámica para el QR //TODO: Cambiar por la URL de producción
 
   ngOnInit(): void {
     // Accede al parámetro desde la ruta padre
@@ -252,6 +255,17 @@ export class ConfiguracionLocalComponent implements OnInit {
     } else {
       this.formularioModificarNegocio.markAllAsTouched();
     }
+  }
+
+  //Metodo para generar QR de negocio para pedir un turno directamente
+  generarQRPedirTurno() {
+    if(this.QRactivo){
+      this.QRactivo = false;
+    }else{
+      this.QRactivo = true;
+
+    }
+    console.log(this.QRactivo);
   }
 
 
