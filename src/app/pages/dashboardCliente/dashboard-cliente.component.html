@@ -21,10 +21,6 @@
 
   <app-tabla-turno-cliente *ngIf="historialLevantado" [modo]="'historial'" [listadoNegocios]="listadoNegocios"></app-tabla-turno-cliente>
 
-  <!--<router-outlet *ngIf="historialLevantado"></router-outlet>-->
-
-  <!-- <app-tabla-turnos [listadoNegocios]="listadoNegocios"></app-tabla-turnos>-->
-  <!--Aqui va la tabla con turnos reservados unicamente con opcion de cancelar-->
   <ng-container *ngIf="modalLevantado">
     <app-modal [modal]="'modalSeleccionarNegocio'" (cerrarModal)="cerrarModal()">
       <ng-container modal-header>

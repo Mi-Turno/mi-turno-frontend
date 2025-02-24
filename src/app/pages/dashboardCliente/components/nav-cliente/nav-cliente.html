@@ -14,9 +14,16 @@
   <mat-icon [className]="'claseIcono'" (click)="abrirModalCierre()" >{{iconos.logout}}</mat-icon>
   <app-modal-pregunta [pregunta]="'¿Desea salir de Mi Turno?'" [tituloPregunta]="'Salir'"  [botonNegativo]="'No'" [botonPositivo]="'Si'"  (respuesta)="manejarRespuesta($event)"></app-modal-pregunta>
 
+  <div (click)="abrirModal()">
+  @if(!imagenUsuario){
+     <mat-icon class="icono-perfil" >{{iconos.perfil}}</mat-icon>
+    }
+  @else{
+    <img [src]="imagenUsuario" alt="imagen de usuario">
+    }
+  </div>
+  
   <!-- Borrar cuando lo necesites fabri de mi corazon  -->
-  <mat-icon class="icono-perfil" (click)="abrirModal()">{{iconos.perfil}}</mat-icon>
-
 
   <!-- <li (click)="abrirModal()">
     @if (!imagenUsuario) {

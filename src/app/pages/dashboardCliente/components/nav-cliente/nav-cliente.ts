@@ -52,8 +52,8 @@ export class NavPedirTurnoComponent {
 
   auth:AuthService = inject(AuthService);
   nombreCliente:string = this.auth.getNombreUsuario()!;
-  clearLocalStorage(){
 
+  clearLocalStorage(){
    this.auth.logOut();
   }
   abrirModal() {

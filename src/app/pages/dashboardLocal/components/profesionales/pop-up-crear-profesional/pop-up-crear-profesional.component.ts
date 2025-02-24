@@ -128,7 +128,7 @@ putUsuarioToBackend(idProfesional: number, idNegocio: number): Observable<Usuari
 confirmarUsuario() {
   if (this.formularioRegister.valid) {
 
-    let usuarioObservable;
+    let usuarioObservable: Observable<UsuarioInterface>;
 
     if (this.cardSeleccionada?.idUsuario) {
       // Si el usuario ya existe, actualizarlo con PUT
@@ -180,7 +180,6 @@ verificarFotoPerfil(idUsuario: number | null): Observable<Boolean | null>{
 
 
 archivoSeleccionado:File | null = null;
-seleccionoUnArchivo:boolean = true;
 postArchivoToBackend(idProfesional:number, archivoNuevo:File): Observable<Boolean>{
 
   return this.archivosService.postArchivoUsuario(idProfesional,archivoNuevo,)
