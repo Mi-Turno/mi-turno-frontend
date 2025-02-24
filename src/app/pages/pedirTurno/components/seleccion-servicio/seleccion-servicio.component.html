@@ -4,6 +4,7 @@
 
   @for (card of arregloServicios; track $index) {
     <app-card
+    [ruta]="card.fotoServicio"
     [titulo]="card.nombre"
     [texto]="card.duracion + ' minutos'"
     [textoSecundario]="'$'+card.precio"

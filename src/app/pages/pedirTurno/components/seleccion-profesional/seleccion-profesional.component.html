@@ -4,6 +4,7 @@
 
   @for (card of arregloProfesionales; track $index) {
     <app-card
+    [ruta]="card.fotoPerfil"
     [titulo]="card.nombre"
     [texto]="card.apellido"
     [textoBoton]="'Seleccionar'"
