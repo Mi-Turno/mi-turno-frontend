@@ -33,7 +33,7 @@ export class UsuarioService {
   public reenviarCodigoDeVerificacion(emailAReenviar: string):Observable<object>{
     const nuevo: VerificarUsuarioInterface = {
       email: emailAReenviar,
-      codigoVerificacion: ""
+      codigo: ""
     }
     return this.http.post<object>(`${this.urlAuth}/reenviar`,nuevo);
   }

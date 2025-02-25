@@ -50,7 +50,7 @@ export class VerificacionMailComponent {
 
     return {
       email: username,
-      codigoVerificacion: codigoVerificacion
+      codigo: codigoVerificacion
     } as VerificarUsuarioInterface;
   }
 
