@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, 
 import { MatIconModule } from '@angular/material/icon';
 import { ClienteInterface } from '../../../core/interfaces/cliente-interface';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ClienteService } from '../../../core/services/clienteService/cliente.service';
 import { ROLES } from '../../../shared/models/rolesUsuario.constants';
 import { ICONOS } from '../../../shared/models/iconos.constants';
@@ -23,7 +23,7 @@ import { NgClass } from '@angular/common';
   standalone: true,
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, ReactiveFormsModule, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, MatDatepickerModule],
+  imports: [NgClass, ReactiveFormsModule, RouterOutlet,MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, MatDatepickerModule],
   templateUrl: './toggle.component.html',
   styleUrl: './toggle.component.css',
 })
@@ -256,6 +256,19 @@ export class ToggleComponent {
       this.formularioLogin.markAllAsTouched();
     }
   }
+
+irCambiarPassword(){
+  this.router.navigateByUrl('login/olvide-password');
+}
+
+
+rutaBasica(){
+  if(this.router.url == "/login"){
+    return true;
+  }
+  return false;
+}
+
 
 
   //validaciones campos formularios

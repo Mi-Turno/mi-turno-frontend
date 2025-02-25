@@ -4,14 +4,16 @@
   <div class="wave"></div>
 </div>
 
-<main>
-  <!-- Cuando isLogin es true, le saca active, cuando es false le pone active -->
-  <div class="contenedor" id="contenedor" [ngClass]="{'active': !isLogin()}">
-    <div class="form-container sign-up">
-      <form [formGroup]="formularioRegister">
-        <h4>Registrarse</h4>
+
+@if(rutaBasica()){
+  <main>
+    <!-- Cuando isLogin es true, le saca active, cuando es false le pone active -->
+    <div class="contenedor" id="contenedor" [ngClass]="{'active': !isLogin()}">
+      <div class="form-container sign-up">
+        <form [formGroup]="formularioRegister">
+          <h4>Registrarse</h4>
         <div class="social-icons">
-          <a href="#" class="icon">
+          <!-- <a href="#" class="icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 488 512"
@@ -22,7 +24,7 @@
                 d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
               />
             </svg>
-          </a>
+          </a> -->
         </div>
 
         <div [className]="'lineaHorizontal'">
@@ -170,12 +172,13 @@
           Registrarse
         </button>
       </form>
+
     </div>
     <div class="form-container sign-in">
       <form [formGroup]="formularioLogin">
         <h4>Iniciar Sesion</h4>
         <div class="social-icons">
-          <a href="#" class="icon">
+          <!-- <a href="#" class="icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 488 512"
@@ -186,7 +189,7 @@
                 d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
               />
             </svg>
-          </a>
+          </a> -->
         </div>
 
         <div [className]="'lineaHorizontal'">
@@ -237,10 +240,16 @@
           }
         </mat-form-field>
 
-        <a class="olvidasteContra" href="">¿Olvidaste tu contraseña?</a>
+
+
+        
+        <a class="olvidasteContra"  (click)="irCambiarPassword()">¿Olvidaste tu contraseña?</a>
         <button [className]="'botonEnviar'" type="submit" (click)="onLogin()">
           Ingresar
         </button>
+
+
+
       </form>
     </div>
     <div class="toggle-container">
@@ -266,6 +275,8 @@
             Iniciar sesion
           </button>
         </div>
+
+
         <div class="toggle-panel toggle-right">
           <h1>¿No tenes cuenta?</h1>
           <p>Digitaliza tu agenda, maximiza tu tiempo</p>
@@ -282,3 +293,10 @@
     </div>
   </div>
 </main>
+}
+
+@if(!rutaBasica()){
+  <div class="contenedor-router" >
+    <router-outlet></router-outlet>
+  </div>
+}

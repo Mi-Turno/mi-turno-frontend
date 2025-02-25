@@ -18,6 +18,9 @@ import { ConfiguracionLocalComponent } from './pages/dashboardLocal/components/c
 import { ReservarTurnoLocalComponent } from './pages/dashboardLocal/components/reservar-turno-local/reservar-turno-local.component';
 import { NegociosClienteComponent } from './pages/dashboardCliente/components/negocios-cliente/negocios-cliente.component';
 import { PrincipalClienteComponent } from './pages/dashboardCliente/components/principal-cliente/principal-cliente.component';
+import { CambiarPasswordComponent } from './pages/cambiarPassw/cambiar-password.component';
+import { CambiarPasswordMailComponent } from './pages/cambiarPassw/components/cambiar-password-mail/cambiar-password-mail.component';
+import { CambiarPasswordPasswordComponent } from './pages/cambiarPassw/components/cambiar-password-password/cambiar-password-password.component';
 
 
 
@@ -27,7 +30,11 @@ export const routes: Routes = [{
   component:LandingPageComponent
 },{
   path:"login",
-  component:ToggleComponent
+  component:ToggleComponent,
+  children : [
+    {path: 'olvide-password', component:CambiarPasswordMailComponent},
+    {path: 'nueva-password', component:CambiarPasswordPasswordComponent}
+  ]
 },
 {
   path:"register",

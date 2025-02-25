@@ -1,7 +1,9 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { AuthInterceptor } from '../auth.interceptor';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +12,11 @@ export class AuthService {
 
   estoyLogueado: boolean = false;
 
+  private urlBase:string = 'http://localhost:8080/auth';
+  private http:HttpClient = inject(HttpClient);
+
   constructor(private route: Router) {
     this.estoyLogueado = !!localStorage.getItem('token'); // Si existe el token, estoy logueado
-
   }
 
   logIn(token: string): void {
@@ -36,7 +40,6 @@ export class AuthService {
     }
 
   }
-
 
   logOut(): void {
     localStorage.clear();
@@ -107,4 +110,11 @@ export class AuthService {
     }
     return null;
   }
+
+
+  postGenerarTokenContrasenia(email: string): Observable<any> {
+    const params = new HttpParams().set('emailUsuario', email);
+    return this.http.post(`${this.urlBase}/generar-token-olvidaste-contrasenia`, {}, { params });
+  }
+
 }
