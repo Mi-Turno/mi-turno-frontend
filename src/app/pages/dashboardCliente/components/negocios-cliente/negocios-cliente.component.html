@@ -1,0 +1,70 @@
+<div class="contenedor">
+	<div class="titulo-negocios">
+		<p>Negocios</p>
+	</div>
+  <div class="contenedor-filtros">
+
+	<div class="titulo-filtros">
+		<p>Filtros</p>
+	</div>
+	
+	<div class="campos-filtros">
+
+		<mat-form-field [className]="'input-form'" appearance="outline">
+			<mat-label>Nombre del negocio</mat-label>
+			<input
+			matInput
+			[placeholder]="placeholders.nombre"
+			/>
+			<mat-icon matSuffix>{{ iconos.person }}</mat-icon>
+			
+		</mat-form-field>
+		<mat-form-field [className]="'input-form'" appearance="outline">
+			<mat-label>Rubro</mat-label>
+			<mat-select >
+				<mat-option>Ninguno Seleccionado</mat-option>
+				<mat-option *ngFor="let rubro of rubros" [value]="rubro">
+					{{ rubro }}
+				</mat-option>
+			</mat-select>
+			<mat-icon matSuffix>{{ iconos.person }}</mat-icon>
+		</mat-form-field>
+		
+		<app-boton [textoDentroBoton]="'Buscar'" [class]="'botonBuscarNegocio'"></app-boton>
+	</div>
+
+  </div>
+
+  <div class="contenedor-negocios">
+
+
+
+	<div class="tarjetas-negocios">
+
+		@if (listadoNegocios.length > 0) {
+			@for (negocio of listadoNegocios; track $index) {
+		  
+			  @if (negocio.idUsuario !== undefined) {
+
+				<div [className]="'card'">
+					<img src="..." [className]="'img-card'" src="img-default.png" alt="negocio">
+					<div [className]="'cuerpo-cards'">
+					  <h5 [className]="'titulo-cards'">{{negocio.nombre}}</h5>
+					  <p [className]="'texto-card'">{{negocio.rubro}}</p>
+					  <app-boton   [textoDentroBoton]="'Pedir turno'" [class]="'botonPedirTurnoNegocio'" [routerLink]="'/negocios/'+negocio.nombre+'/pedir-turno'"></app-boton>
+					</div>
+				  </div>
+			  }
+			}
+		  }
+		  @else {
+			<p>No hay negocios disponibles</p>
+		  }
+	</div>
+
+
+
+
+
+  </div>
+</div>

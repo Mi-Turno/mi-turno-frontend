@@ -1,0 +1,21 @@
+<div class="backgroundContainer">
+  <div class="wave"></div>
+  <div class="wave"></div>
+  <div class="wave"></div>
+</div>
+
+<div class="contenedor-principal">
+  <div class="navContainer" #navContainer>
+    <app-nav-pedir-turno
+      (botonCerrar)="cerrarHistorial($event)"
+      (botonHistorial)="manejarBotonHistorial($event)"
+    ></app-nav-pedir-turno>
+  </div>
+
+  <div class="contenedor-secundario">
+	@if(isRutaBasica()){
+		<app-dashboard-cliente></app-dashboard-cliente>
+	}
+    <router-outlet></router-outlet>
+  </div>
+</div>
