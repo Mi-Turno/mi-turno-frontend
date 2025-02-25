@@ -1,31 +1,41 @@
 <div class="estiloGeneralContainer">
 
   <!-- Contenido del padre -->
-  @if(!historialLevantado){
+  
+  @if(isRutaBasica()){
 
     <ng-container>
       <app-widget-bienvenida
       [nombreCliente]="clienteActual.nombre"
       [apellidoCliente]="clienteActual.apellido"
       (clickBoton)="abrirModal()">
-      </app-widget-bienvenida>
+    </app-widget-bienvenida>
+    
+    <app-tabla-turno-cliente
+    [modo]="'dashboard'"
+    [listadoNegocios]="listadoNegocios">
+  </app-tabla-turno-cliente>
+</ng-container>
 
-      <app-tabla-turno-cliente
-      [modo]="'dashboard'"
-      [listadoNegocios]="listadoNegocios">
-      </app-tabla-turno-cliente>
-    </ng-container>
+}
+<router-outlet></router-outlet>
 
+<!-- Logica para ver el historial -->
+
+<!-- @if(!historialLevantado){
   }@else{
     <app-tabla-turno-cliente
     [modo]="'historial'"
     [listadoNegocios]="listadoNegocios">
     </app-tabla-turno-cliente>
 
-  }
+  } -->
 
 </div>
-@if (modalLevantado) {
+
+
+
+<!-- @if (modalLevantado) {
   <ng-container >
     <app-modal [modal]="'modalSeleccionarNegocio'" (cerrarModal)="cerrarModal()">
       <ng-container modal-header>
@@ -36,4 +46,4 @@
       </ng-container>
     </app-modal>
   </ng-container>
-}
+} -->

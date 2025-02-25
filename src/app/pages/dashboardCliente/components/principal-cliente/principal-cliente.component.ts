@@ -89,4 +89,13 @@ export class PrincipalClienteComponent {
   cerrarModal() {
     this.modalLevantado = false;
   }
+  
+  isRutaBasica()
+  {
+    let rta = false;
+    if(this.router.url == "/dashboard-cliente") {
+      rta = true;
+    }
+    return rta;
+  }
 }
