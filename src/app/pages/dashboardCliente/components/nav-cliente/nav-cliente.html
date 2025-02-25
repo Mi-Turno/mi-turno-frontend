@@ -1,48 +1,61 @@
-<nav class= "contenedor">
+<nav class="contenedor">
   <div class="contenedor-logo">
-
     <a [routerLink]="'/dashboard-cliente'" (click)="cerrarHistorial()">
-      <img class="logo-mi-turno" [src]="imagenIcono" alt="icono mi turno">
+      <img class="logo-mi-turno" [src]="imagenIcono" alt="icono mi turno" />
     </a>
   </div>
 
+  <div class="contenedor-botones">
+    <app-boton
+      [className]="'boton'"
+      [class]="claseBoton"
+      [textoDentroBoton]="'Negocios'"
+      (click)="irANegocios()"
+    ></app-boton>
 
-<div class = "contenedor-botones">
+    <app-boton
+      [className]="'boton'"
+      [routerLink]="'/dashboard-cliente'"
+      [class]="claseBoton"
+      (click)="onHistorialClick()"
+      [textoDentroBoton]="textoHistorialLevantado"
+    ></app-boton>
 
-  <app-boton class="boton" [class]="claseBoton" [textoDentroBoton]="'Negocios'" (click) = "irANegocios()"></app-boton>
-  <app-boton class="boton" [routerLink]="'/dashboard-cliente'" [class]="claseBoton" (click)="onHistorialClick()" [textoDentroBoton]="textoHistorialLevantado"></app-boton>
-  <mat-icon [className]="'claseIcono'" (click)="abrirModalCierre()" >{{iconos.logout}}</mat-icon>
-  <app-modal-pregunta [pregunta]="'¿Desea salir de Mi Turno?'" [tituloPregunta]="'Salir'"  [botonNegativo]="'No'" [botonPositivo]="'Si'"  (respuesta)="manejarRespuesta($event)"></app-modal-pregunta>
+    <mat-icon [className]="'claseIcono'" (click)="abrirModalPreguntarCierre()"
+      >{{iconos.logout}}</mat-icon
+    >
 
-  <div (click)="abrirModal()">
-  @if(!imagenUsuario){
-     <mat-icon class="icono-perfil" >{{iconos.perfil}}</mat-icon>
-    }
-  @else{
-    <img [src]="imagenUsuario" alt="imagen de usuario">
-    }
+    <app-modal-pregunta
+      [pregunta]="'¿Desea salir de Mi Turno?'"
+      [tituloPregunta]="'Salir'"
+      [botonNegativo]="'No'"
+      [botonPositivo]="'Si'"
+      (respuesta)="manejarRespuesta($event)"
+    ></app-modal-pregunta>
+
+    <div [className]="'contenedor-foto-perfil'" (click)="abrirModal()">
+      @if(!clienteActual.fotoPerfil || clienteActual.fotoPerfil ==='img-default.png'){
+      <mat-icon [className]="'icono-perfil'">{{iconos.perfil}}</mat-icon>
+      } @else{
+      <img [src]="clienteActual.fotoPerfil" alt="imagen de usuario" />
+      }
+    </div>
   </div>
-  
-  <!-- Borrar cuando lo necesites fabri de mi corazon  -->
-
-  <!-- <li (click)="abrirModal()">
-    @if (!imagenUsuario) {
-      <mat-icon class="iconoPerfil">{{iconos.perfil}}</mat-icon>
-    }@else {
-      <img [src]="imagenUsuario" alt="imagen de usuario">
-    }
-  </li> -->
-</div>
-
 </nav>
 
 @if (modalLevantado) {
-  <app-modal [modal]="'modalConfiguracionCliente'" (cerrarModal)="cerrarModal()">
-    <ng-container modal-header>
-      <h5 [className]="'tituloModal'">Modificar perfil de {{nombreCliente}}</h5>
-    </ng-container>
-    <ng-container modal-content>
-      <app-modificar-cliente></app-modificar-cliente>
-    </ng-container>
-  </app-modal>
+<app-modal [modal]="'modalConfiguracionCliente'" (cerrarModal)="cerrarModal()">
+  <ng-container modal-header>
+    <h5 [className]="'tituloModal'">
+      Modificar perfil de {{clienteActual.nombre}}
+    </h5>
+  </ng-container>
+  <ng-container modal-content>
+    <app-modificar-cliente
+      (emitirCerrarModal)="cerrarModal()"
+      [cliente]="clienteActual"
+      [fotoCliente]="clienteActual.fotoPerfil"
+    ></app-modificar-cliente>
+  </ng-container>
+</app-modal>
 }

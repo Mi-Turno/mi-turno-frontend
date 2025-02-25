@@ -2,7 +2,7 @@
 .contenedor{
   max-height: 80px;
   width: 100%;
-  background-color: var(--color-background) ; 
+  background-color: var(--color-background) ;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -23,12 +23,43 @@
   margin-left: 25px ;
 }
 
+.contenedor-foto-perfil{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-.icono-perfil{
-  font-size: 60px;
-  height: auto;
-  width: auto;
+  width: 80px;
+  height: 80px;
 }
+
+.contenedor-foto-perfil img {
+  width: 100%; /* Ajusta el tamaño de la imagen */
+  height: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.contenedor-foto-perfil img:hover{
+  cursor: pointer;
+  transition: transform 0.2s;
+  transform: scale(1.1);
+}
+
+.contenedor-foto-perfil mat-icon{
+  font-size: 80px;
+  border-radius: 50%;
+  color: #333;
+}
+
+.contenedor-foto-perfil mat-icon:hover{
+  cursor: pointer;
+  color: black;
+  transition: color 0.2s;
+}
+
+
 
 .boton{
   margin: 0 15px;
@@ -37,10 +68,13 @@
 
 .claseIcono{
   font-size: 48px;
-margin: 10px;
+  margin: 10px;
   color: var(--color-eliminar1);
 }
 
 .claseIcono:hover{
+  transition: transform 0.2s;
+  transform: scale(1.1);
+  cursor: pointer;
   color: var(--color-eliminar1-hover);
 }

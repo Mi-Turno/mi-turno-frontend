@@ -1,21 +1,39 @@
-<div class="backgroundContainer">
-  <div class="wave"></div>
-  <div class="wave"></div>
-  <div class="wave"></div>
-</div>
+<div class="estiloGeneralContainer">
 
-<div class="contenedor-principal">
-  <div class="navContainer" #navContainer>
-    <app-nav-pedir-turno
-      (botonCerrar)="cerrarHistorial($event)"
-      (botonHistorial)="manejarBotonHistorial($event)"
-    ></app-nav-pedir-turno>
-  </div>
+  <!-- Contenido del padre -->
+  @if(!historialLevantado){
 
-  <div class="contenedor-secundario">
-	@if(isRutaBasica()){
-		<app-dashboard-cliente></app-dashboard-cliente>
-	}
-    <router-outlet></router-outlet>
-  </div>
+    <ng-container>
+      <app-widget-bienvenida
+      [nombreCliente]="clienteActual.nombre"
+      [apellidoCliente]="clienteActual.apellido"
+      (clickBoton)="abrirModal()">
+      </app-widget-bienvenida>
+
+      <app-tabla-turno-cliente
+      [modo]="'dashboard'"
+      [listadoNegocios]="listadoNegocios">
+      </app-tabla-turno-cliente>
+    </ng-container>
+
+  }@else{
+    <app-tabla-turno-cliente
+    [modo]="'historial'"
+    [listadoNegocios]="listadoNegocios">
+    </app-tabla-turno-cliente>
+
+  }
+
 </div>
+@if (modalLevantado) {
+  <ng-container >
+    <app-modal [modal]="'modalSeleccionarNegocio'" (cerrarModal)="cerrarModal()">
+      <ng-container modal-header>
+        <h5 class="tituloModal">Selecciona un negocio</h5>
+      </ng-container>
+      <ng-container modal-content>
+        <app-elegir-negocio [listadoNegocios]="listadoNegocios"></app-elegir-negocio>
+      </ng-container>
+    </app-modal>
+  </ng-container>
+}
