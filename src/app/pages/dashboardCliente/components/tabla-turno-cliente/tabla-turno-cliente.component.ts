@@ -74,13 +74,13 @@ export class TablaTurnoClienteComponent {
     'negocio',
     'fecha',
     'hora',
-    'cliente',
     'profesional',
     'servicio',
     'precio',
     'metodoPago',
     'cancelar'
   ];
+
   negocio: string | String = '';
 
   ngOnInit(): void {

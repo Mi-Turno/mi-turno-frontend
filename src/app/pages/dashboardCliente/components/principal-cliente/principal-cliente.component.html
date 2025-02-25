@@ -11,10 +11,21 @@
       (clickBoton)="abrirModal()">
     </app-widget-bienvenida>
     
+    @if(!historialLevantado){
+
+      <app-tabla-turno-cliente
+      [modo]="'dashboard'"
+      [listadoNegocios]="listadoNegocios">
+    </app-tabla-turno-cliente>
+  }@else {
     <app-tabla-turno-cliente
-    [modo]="'dashboard'"
+    [modo]="'historial'"
     [listadoNegocios]="listadoNegocios">
   </app-tabla-turno-cliente>
+
+  }
+    
+
 </ng-container>
 
 }
@@ -34,16 +45,3 @@
 </div>
 
 
-
-<!-- @if (modalLevantado) {
-  <ng-container >
-    <app-modal [modal]="'modalSeleccionarNegocio'" (cerrarModal)="cerrarModal()">
-      <ng-container modal-header>
-        <h5 class="tituloModal">Selecciona un negocio</h5>
-      </ng-container>
-      <ng-container modal-content>
-        <app-elegir-negocio [listadoNegocios]="listadoNegocios"></app-elegir-negocio>
-      </ng-container>
-    </app-modal>
-  </ng-container>
-} -->

@@ -53,11 +53,6 @@
         <td mat-cell *matCellDef="let row" class="custom-cell">{{row.hora}}</td>
       </ng-container>
 
-      <!-- Cliente Column -->
-      <ng-container matColumnDef="cliente" >
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="custom-header">Cliente</th>
-        <td mat-cell *matCellDef="let row" class="custom-cell">{{row.cliente}}</td>
-      </ng-container>
 
       <!-- Profesional Column -->
       <ng-container matColumnDef="profesional" >
@@ -109,7 +104,7 @@
 
       <mat-paginator #paginator [length]="dataSource.data.length" 
         [pageIndex]="0"
-        [pageSize]="15"
+        [pageSize]="5"
         aria-label="Select page">
       </mat-paginator>
     </div>

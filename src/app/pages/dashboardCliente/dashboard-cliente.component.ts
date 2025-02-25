@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
 import { WidgetBienvenidaComponent } from './components/widget-bienvenida/widget-bienvenida.component';
 
 import { ModalComponent } from "../../shared/components/modal/modal.component";
-import { ElegirNegocioComponent } from "./components/elegir-negocio/elegir-negocio.component";
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../core/guards/auth/service/auth.service';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';

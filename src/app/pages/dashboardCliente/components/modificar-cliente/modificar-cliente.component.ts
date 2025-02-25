@@ -147,7 +147,11 @@ export class ModificarClienteComponent implements OnInit {
               
 
               this.cerrarPopUp();
-              window.location.reload()
+
+              setTimeout(() => {
+                window.location.reload()
+
+              }, 1000)
             },
             error: (error) => {
              console.error("Error en el proceso de guardar al cliente:", error);

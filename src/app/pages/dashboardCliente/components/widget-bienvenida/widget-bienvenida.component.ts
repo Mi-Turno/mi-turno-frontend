@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FechaYHoraComponent } from '../../../../shared/components/fecha-y-hora/fecha-y-hora.component';
+import { Router } from '@angular/router';
 
 
 
@@ -17,4 +18,8 @@ export class WidgetBienvenidaComponent {
 
   @Output() clickBoton = new EventEmitter<void>();
 
+router:Router = inject(Router);
+  navegarANegocio(){
+    this.router.navigate(['/dashboard-cliente/negocios']); // Ruta absoluta
+  }
 }

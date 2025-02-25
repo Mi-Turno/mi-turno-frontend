@@ -4,7 +4,6 @@ import { NavClienteComponent } from '../nav-cliente/nav-cliente';
 import { DashboardClienteComponent } from '../../dashboard-cliente.component';
 import { TablaTurnoClienteComponent } from '../tabla-turno-cliente/tabla-turno-cliente.component';
 import { WidgetBienvenidaComponent } from '../widget-bienvenida/widget-bienvenida.component';
-import { ElegirNegocioComponent } from '../elegir-negocio/elegir-negocio.component';
 import { forkJoin } from 'rxjs';
 import { NegocioInterface } from '../../../../core/interfaces/negocio-interface';
 import { TurnoInterface } from '../../../../core/interfaces/turno-interface';
@@ -21,8 +20,6 @@ import { ModalComponent } from '../../../../shared/components/modal/modal.compon
     RouterModule,
     TablaTurnoClienteComponent,
     WidgetBienvenidaComponent,
-    ElegirNegocioComponent,
-    ModalComponent,
   ],
   templateUrl: './principal-cliente.component.html',
   styleUrl: './principal-cliente.component.css',
