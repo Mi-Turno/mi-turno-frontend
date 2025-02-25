@@ -39,7 +39,7 @@ export const routes: Routes = [{
 },
 {
   path:"dashboard-cliente",
-  component:PrincipalClienteComponent,
+  component:DashboardClienteComponent,
   canActivate: [authGuardFn,()=>rolGuardFn(ROLES.cliente)],
   children : [
     {path: 'negocios', component:NegociosClienteComponent },

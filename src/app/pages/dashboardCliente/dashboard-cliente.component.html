@@ -1,26 +1,15 @@
-
-
-<div class="estiloGeneralContainer">
-
-  <!-- Contenido del padre -->
-  <ng-container *ngIf="!historialLevantado">
-    <app-widget-bienvenida [nombreCliente]="clienteActual.nombre" [apellidoCliente]="clienteActual.apellido"
-      (clickBoton)="abrirModal()">
-    </app-widget-bienvenida>
-    <app-tabla-turno-cliente [modo]="'dashboard'" [listadoNegocios]="listadoNegocios"></app-tabla-turno-cliente>
-  </ng-container>
-
-  <app-tabla-turno-cliente *ngIf="historialLevantado" [modo]="'historial'" [listadoNegocios]="listadoNegocios"></app-tabla-turno-cliente>
-
-  <ng-container *ngIf="modalLevantado">
-    <app-modal [modal]="'modalSeleccionarNegocio'" (cerrarModal)="cerrarModal()">
-      <ng-container modal-header>
-        <h5 class="tituloModal">Selecciona un negocio</h5>
-      </ng-container>
-      <ng-container modal-content>
-        <app-elegir-negocio [listadoNegocios]="listadoNegocios"></app-elegir-negocio>
-      </ng-container>
-    </app-modal>
-  </ng-container>
-
+<div class="backgroundContainer">
+  <div class="wave"></div>
+  <div class="wave"></div>
+  <div class="wave"></div>
 </div>
+
+<app-nav-pedir-turno
+  (botonCerrar)="cerrarHistorial($event)"
+  (botonHistorial)="manejarBotonHistorial($event)"
+></app-nav-pedir-turno>
+
+<app-principal-cliente
+  [historialLevantado]="historialLevantado"
+>
+</app-principal-cliente>

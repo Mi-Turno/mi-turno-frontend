@@ -12,14 +12,14 @@ import { MetodoPagoComponent } from './components/metodo-pago/metodo-pago.compon
 import { NavPasosComponent } from './components/nav-pasos/nav-pasos.component';
 import { SeleccionProfesionalComponent } from './components/seleccion-profesional/seleccion-profesional.component';
 import { SeleccionServicioComponent } from './components/seleccion-servicio/seleccion-servicio.component';
-import { NavPedirTurnoComponent } from '../dashboardCliente/components/nav-cliente/nav-cliente';
+import { NavClienteComponent } from '../dashboardCliente/components/nav-cliente/nav-cliente';
 
 
 
 @Component({
   selector: 'app-pedir-turno',
   standalone: true,
-  imports: [CommonModule, NavPedirTurnoComponent, NavPasosComponent, ConfirmacionComponent, MetodoPagoComponent, SeleccionServicioComponent, SeleccionProfesionalComponent, CalendarioHorarioProfesionalComponent],
+  imports: [CommonModule, NavClienteComponent, NavPasosComponent, ConfirmacionComponent, MetodoPagoComponent, SeleccionServicioComponent, SeleccionProfesionalComponent, CalendarioHorarioProfesionalComponent],
   templateUrl: './pedir-turno.component.html',
   styleUrl: './pedir-turno.component.css'
 })
@@ -39,7 +39,7 @@ export class PedirTurnoComponent implements OnInit{
   idCliente: number = -1; // ID del cliente que pide el turno
 
   ngOnInit(): void {
-    
+
     //todo, sacarlo del jwt
     this.idCliente= Number(localStorage.getItem('idUsuario'));
 

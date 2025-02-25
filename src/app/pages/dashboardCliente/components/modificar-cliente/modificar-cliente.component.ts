@@ -65,61 +65,54 @@ export class ModificarClienteComponent implements OnInit {
   roles = ROLES;
   placeholders = PLACEHOLDERS;
   idCliente = 0;
-  cliente: ClienteInterface = {} as ClienteInterface;
 
   //Input output
-  @Input() fotoCliente: File | string = "img-default.png";
+  @Input() cliente: ClienteInterface = {} as ClienteInterface;
+  @Input() fotoCliente?: File | string = "img-default.png";
+  @Output() emitirCerrarModal = new EventEmitter<void>();
 
   //init
   ngOnInit(): void {
+
+    if(!this.fotoCliente){
+      this.fotoCliente = "img-default.png";
+    }
+
+
+    this.establecerDatosCliente(this.cliente);
     this.setIdCliente();
-    this.obtenerCliente();
+    // this.obtenerCliente();
   }
 
   setIdCliente() {
-    let idAux = this.auth.getIdUsuario();
-    if (idAux != null){
-      this.idCliente = idAux;
+    let auxId = this.cliente.idUsuario
+    if (auxId) {
+      this.idCliente = auxId;
     }
   }
 
-  obtenerCliente() {
-    this.clienteService.getClienteById(this.idCliente).subscribe({
-      next: (clienteResponse: ClienteInterface) => {
 
-        this.cliente = clienteResponse;
-        this.establecerDatosCliente(clienteResponse);
 
-      },
-      error: (error: any) => {
-        throw new Error('Error al obtener el cliente');
-      },
-    });
-  }
+  // obtenerCliente() {
+  //   this.clienteService.getClienteById(this.idCliente).subscribe({
+  //     next: (clienteResponse: ClienteInterface) => {
 
-  @Output() emitirCerrarModal = new EventEmitter<void>();
+  //       this.cliente = clienteResponse;
+
+
+  //     },
+  //     error: (error: any) => {
+  //       throw new Error('Error al obtener el cliente');
+  //     },
+  //   });
+  // }
+
+
   cerrarPopUp() {
     this.emitirCerrarModal.emit();
   }
 
   //-----------------------------------MODIFICAR-----------------------------------
-
-  // filtrarDatos(cliente: Partial<ClienteInterface>): Partial<ClienteInterface> {
-    //   return {
-  //     ...(cliente.credencial?.email && {
-    //       // Utilizamos spreed operator junto al && para que luego sobreescribimos el email que se encuentra en credencial y no chillen las interfaces por falta de recursos
-  //       credencial: {
-  //         ...cliente.credencial,
-  //         email: cliente.credencial.email,
-  //       },
-  //     }),
-  //     ...(cliente.nombre && {
-    //       nombre: cliente.nombre,
-    //       apellido: cliente.apellido,
-    //       fechaNacimiento: cliente.fechaNacimiento,
-    //     }),
-    //   };
-    // }
 
   manejarEventoCheckBoxCorreos(event: MatCheckboxChange) {
     if (event.checked) {
@@ -151,8 +144,10 @@ export class ModificarClienteComponent implements OnInit {
             })
           ).subscribe({
             next: () => {
+              
 
               this.cerrarPopUp();
+              window.location.reload()
             },
             error: (error) => {
              console.error("Error en el proceso de guardar al cliente:", error);
@@ -167,7 +162,7 @@ export class ModificarClienteComponent implements OnInit {
 
 
   actualizarClienteBackend(): Observable<ClienteInterface>{
-    const clienteModificado = this.obtenerFormRegister()
+    const clienteModificado = this.obtenerFormUpdate()
     return this.clienteService.patchCliente(clienteModificado, this.idCliente)
     .pipe(catchError((error) => this.manejarErrores(error)));
   }
@@ -182,12 +177,12 @@ export class ModificarClienteComponent implements OnInit {
       fotoPerfil: new FormControl()
     });
 
-  obtenerFormRegister(): ClienteInterface {
+  obtenerFormUpdate(): ClienteInterface {
 
     // const credencial: CredencialInterface = {
-    //   email: this.formularioRegister.get('emailRegister')?.value,
-    //   password: this.formularioRegister.get('passwordRegister')?.value,
-    //   telefono: this.formularioRegister.get('telefono')?.value,
+    //   email: this.formularioUpdate.get('emailRegister')?.value,
+    //   password: this.formularioUpdate.get('passwordRegister')?.value,
+    //   telefono: this.formularioUpdate.get('telefono')?.value,
     //   estado: true
     // };
 
@@ -226,6 +221,7 @@ export class ModificarClienteComponent implements OnInit {
 
   //--------------------Archivos--------------------
   archivoSeleccionado:File | null = null;
+  quiereEliminarArchivo:boolean = false
 
   verificarFotoPerfil(idUsuario: number | null): Observable<Boolean | null>{
     //verifico si existe el id
@@ -271,7 +267,6 @@ export class ModificarClienteComponent implements OnInit {
     .pipe(catchError((error) => this.manejarErrores(error)));
   }
 
-  quiereEliminarArchivo:boolean = false
 
   eliminarArchivo(event:Event):void{
 
