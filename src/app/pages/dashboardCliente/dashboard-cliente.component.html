@@ -1,15 +1,6 @@
-<div class="backgroundContainer">
-  <div class="wave"></div>
-  <div class="wave"></div>
-  <div class="wave"></div>
-</div>
+
 
 <div class="estiloGeneralContainer">
-
-  <div class="navContainer" #navContainer>
-    <app-nav-pedir-turno (botonCerrar)="cerrarHistorial($event)"
-      (botonHistorial)="manejarBotonHistorial($event)"></app-nav-pedir-turno>
-  </div>
 
   <!-- Contenido del padre -->
   <ng-container *ngIf="!historialLevantado">

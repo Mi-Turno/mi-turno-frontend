@@ -16,6 +16,8 @@ import { TablaClientesComponent } from './shared/components/tabla-clientes/tabla
 import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno.component';
 import { ConfiguracionLocalComponent } from './pages/dashboardLocal/components/configuracion-local/configuracion-local.component';
 import { ReservarTurnoLocalComponent } from './pages/dashboardLocal/components/reservar-turno-local/reservar-turno-local.component';
+import { NegociosClienteComponent } from './pages/dashboardCliente/components/negocios-cliente/negocios-cliente.component';
+import { PrincipalClienteComponent } from './pages/dashboardCliente/components/principal-cliente/principal-cliente.component';
 
 
 
@@ -37,8 +39,12 @@ export const routes: Routes = [{
 },
 {
   path:"dashboard-cliente",
-  component:DashboardClienteComponent,
+  component:PrincipalClienteComponent,
   canActivate: [authGuardFn,()=>rolGuardFn(ROLES.cliente)],
+  children : [
+    {path: 'negocios', component:NegociosClienteComponent },
+    {path: 'cliente', component: DashboardClienteComponent}
+  ]
 
 },
 {
@@ -61,7 +67,8 @@ export const routes: Routes = [{
 {
   path:"negocios/:nombreNegocio/pedir-turno",
   component:PedirTurnoComponent,
-  canActivate: [authGuardFn,()=>rolGuardFn(ROLES.cliente)],
+  canActivate: [authGuardFn,()=>rolGuardFn(ROLES.cliente)]
+  ,
 },
 {
   path:"admin/:idAdmin",

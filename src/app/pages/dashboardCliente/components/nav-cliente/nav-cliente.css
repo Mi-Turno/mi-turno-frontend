@@ -1,17 +1,12 @@
-nav{
-  display: flex;
-  justify-content: space-between;
-  max-height: 80px;
-  background-color: var(--color-background);
-}
 
 .contenedor{
   max-height: 80px;
   width: 100%;
-  background-color: var(--color-background);
+  background-color: var(--color-background) ; 
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 30px;
 }
 
 .contenedor-botones{

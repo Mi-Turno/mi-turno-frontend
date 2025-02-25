@@ -2,11 +2,12 @@ import { Component, EventEmitter, inject, Input, Output, ViewChild } from "@angu
 import { ModalPreguntaComponent } from "../../../../shared/components/modal-pregunta/modal-pregunta.component";
 import { BotonComponent } from "../../../../shared/components/boton/boton.component";
 import { MatIcon } from "@angular/material/icon";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { ModalComponent } from "../../../../shared/components/modal/modal.component";
 import { ModificarClienteComponent } from "../modificar-cliente/modificar-cliente.component";
 import { ICONOS } from "../../../../shared/models/iconos.constants";
 import { AuthService } from "../../../../core/guards/auth/service/auth.service";
+import { InjectSetupWrapper } from "@angular/core/testing";
 
 
 
@@ -20,6 +21,8 @@ import { AuthService } from "../../../../core/guards/auth/service/auth.service";
 })
 export class NavPedirTurnoComponent {
   @ViewChild(ModalPreguntaComponent) modalPregunta!: ModalPreguntaComponent;
+
+  router:Router = inject(Router);
 
   iconos = ICONOS;
   modalLevantado:boolean = false;
@@ -64,6 +67,9 @@ export class NavPedirTurnoComponent {
     this.modalLevantado = false;
   }
 
+  irANegocios() {
+    this.router.navigate(['/dashboard-cliente/negocios']); // Ruta absoluta
+  }
 
   abrirModalCierre(){
     this.modalPregunta.openDialog();

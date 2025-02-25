@@ -9,7 +9,7 @@
 
 <div class = "contenedor-botones">
 
-  <app-boton class="boton" [class]="claseBoton" [textoDentroBoton]="'Negocios'" ></app-boton>
+  <app-boton class="boton" [class]="claseBoton" [textoDentroBoton]="'Negocios'" (click) = "irANegocios()"></app-boton>
   <app-boton class="boton" [routerLink]="'/dashboard-cliente'" [class]="claseBoton" (click)="onHistorialClick()" [textoDentroBoton]="textoHistorialLevantado"></app-boton>
   <mat-icon [className]="'claseIcono'" (click)="abrirModalCierre()" >{{iconos.logout}}</mat-icon>
   <app-modal-pregunta [pregunta]="'¿Desea salir de Mi Turno?'" [tituloPregunta]="'Salir'"  [botonNegativo]="'No'" [botonPositivo]="'Si'"  (respuesta)="manejarRespuesta($event)"></app-modal-pregunta>

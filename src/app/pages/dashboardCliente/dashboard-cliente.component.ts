@@ -23,7 +23,7 @@ import { NavPedirTurnoComponent } from './components/nav-cliente/nav-cliente';
 @Component({
   selector: 'app-dashboard-cliente',
   standalone: true,
-  imports: [RouterModule, CommonModule, WidgetBienvenidaComponent, ModalComponent, ElegirNegocioComponent, NavPedirTurnoComponent, TablaTurnoClienteComponent],
+  imports: [RouterModule, CommonModule, WidgetBienvenidaComponent, ModalComponent, ElegirNegocioComponent, TablaTurnoClienteComponent],
   templateUrl: './dashboard-cliente.component.html',
   styleUrl: './dashboard-cliente.component.css'
 })
