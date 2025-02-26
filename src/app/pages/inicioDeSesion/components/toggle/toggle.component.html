@@ -1,12 +1,4 @@
-<div [className]="'backgroundContainer'">
-  <div class="wave"></div>
-  <div class="wave"></div>
-  <div class="wave"></div>
-</div>
-
-
-@if(rutaBasica()){
-  <main>
+<main>
     <!-- Cuando isLogin es true, le saca active, cuando es false le pone active -->
     <div class="contenedor" id="contenedor" [ngClass]="{'active': !isLogin()}">
       <div class="form-container sign-up">
@@ -294,10 +286,5 @@
     </div>
   </div>
 </main>
-}
 
-@if(!rutaBasica()){
-  <div class="contenedor-router" >
-    <router-outlet></router-outlet>
-  </div>
-}
+

@@ -1,21 +1,21 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
-import { ClienteInterface } from '../../../core/interfaces/cliente-interface';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { ClienteService } from '../../../core/services/clienteService/cliente.service';
-import { ROLES } from '../../../shared/models/rolesUsuario.constants';
-import { ICONOS } from '../../../shared/models/iconos.constants';
-import { PLACEHOLDERS } from '../../../shared/models/placeholderInicioSesion.constants';
-import { UsuarioService } from '../../../core/services/usuarioService/usuario.service';
-import { CredencialInterface } from '../../../core/interfaces/credencial.interface';
-import { AuthService } from '../../../core/guards/auth/service/auth.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { Router, RouterOutlet} from '@angular/router';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { AuthService } from '../../../../core/guards/auth/service/auth.service';
+import { ClienteInterface } from '../../../../core/interfaces/cliente-interface';
+import { CredencialInterface } from '../../../../core/interfaces/credencial.interface';
+import { ClienteService } from '../../../../core/services/clienteService/cliente.service';
+import { UsuarioService } from '../../../../core/services/usuarioService/usuario.service';
+import { ICONOS } from '../../../../shared/models/iconos.constants';
+import { PLACEHOLDERS } from '../../../../shared/models/placeholderInicioSesion.constants';
+import { ROLES } from '../../../../shared/models/rolesUsuario.constants';
 import { NgClass } from '@angular/common';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 
 @Component({
@@ -23,7 +23,7 @@ import { NgClass } from '@angular/common';
   standalone: true,
   providers: [provideNativeDateAdapter()],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, ReactiveFormsModule, RouterOutlet,MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, MatDatepickerModule],
+  imports: [NgClass, ReactiveFormsModule, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, MatDatepickerModule],
   templateUrl: './toggle.component.html',
   styleUrl: './toggle.component.css',
 })
@@ -258,7 +258,7 @@ export class ToggleComponent {
   }
 
 irCambiarPassword(){
-  this.router.navigateByUrl('login/olvide-password');
+  this.router.navigateByUrl('/login/olvide-password');
 }
 
 

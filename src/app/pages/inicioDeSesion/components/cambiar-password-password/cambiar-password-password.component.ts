@@ -110,10 +110,13 @@ export class CambiarPasswordPasswordComponent implements OnInit {
       icon: 'success',
       allowOutsideClick: true,
       allowEscapeKey: false,
+    }).then((result)=>{
+
+      if(result.isConfirmed){
+
+        this.router.navigateByUrl("/login")
+      }
     });
-
-    this.router.navigateByUrl('/login');
-
   }
 
 

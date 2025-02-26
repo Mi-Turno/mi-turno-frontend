@@ -64,6 +64,9 @@ export class CambiarPasswordMailComponent {
       next: (response) => {
 
         this.mensajeDeSeguirPasos();
+
+
+
       },
       error: (error) => {
         const mensaje = error.error['mensaje'];
@@ -97,8 +100,13 @@ export class CambiarPasswordMailComponent {
       allowOutsideClick: false,
       allowEscapeKey: false,
       allowEnterKey: false,
+    }).then((result)=>{
+
+      if(result.isConfirmed){
+
+        this.router.navigateByUrl("/login")
+      }
     });
-    this.router.navigateByUrl('/login');
   }
 
   GestionarMailNoVerificado() {
