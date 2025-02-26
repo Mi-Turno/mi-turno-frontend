@@ -7,6 +7,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 30px;
+  user-select: none;
 }
 
 .contenedor-botones{
@@ -27,7 +28,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
+  user-select: none;
   width: 80px;
   height: 80px;
 }

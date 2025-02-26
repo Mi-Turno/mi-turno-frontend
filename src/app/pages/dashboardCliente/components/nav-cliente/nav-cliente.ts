@@ -38,6 +38,7 @@ export class NavClienteComponent implements OnInit {
 
   //Inputs y Outputs
 
+  @Input() modificarPerfilActivo: boolean = true;
   @Input() imagenIcono: string = '/imagenMarron-removebg.png';
   @Output() botonHistorial: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -119,7 +120,9 @@ export class NavClienteComponent implements OnInit {
   //--------------------Modal------------------------
 
   abrirModal() {
-    this.modalLevantado = true;
+    if(this.modificarPerfilActivo){
+      this.modalLevantado = true;
+    }
   }
 
   cerrarModal() {

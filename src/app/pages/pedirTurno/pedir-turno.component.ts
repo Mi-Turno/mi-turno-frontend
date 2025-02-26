@@ -32,7 +32,7 @@ export class PedirTurnoComponent implements OnInit{
 
   ruta: ActivatedRoute = inject(ActivatedRoute)
   servicioNegocio :NegocioServiceService= inject(NegocioServiceService)
-
+  activo = false;
   // Variables
   idNegocio: number = -1;
 

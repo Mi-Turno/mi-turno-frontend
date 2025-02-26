@@ -9,10 +9,9 @@
 }
 
 .claseQr img {
-  max-width: 90%;
-  max-height: 300px;
-  width: auto;
-  height: auto;
+  width: 350px;
+  height: 350px;
   margin-bottom: 20px;
   border-radius: 10px;
 }
+

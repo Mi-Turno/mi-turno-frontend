@@ -1,5 +1,5 @@
 import { UsuarioService } from './../../core/services/usuarioService/usuario.service';
-import { Component, inject, Signal, signal } from '@angular/core';
+import { Component, inject, OnInit, Signal, signal } from '@angular/core';
 import { BotonComponent } from "../../shared/components/boton/boton.component";
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VerificarUsuarioInterface } from '../../core/interfaces/verificar-usuario.interface';
