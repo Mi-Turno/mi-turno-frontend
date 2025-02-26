@@ -4,6 +4,8 @@ import { jwtDecode } from 'jwt-decode';
 import { AuthInterceptor } from '../auth.interceptor';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CambiarContrasenia } from '../../../interfaces/cambiar-contrasenia.interface';
+import { UsuarioInterface } from '../../../interfaces/usuario-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -116,5 +118,17 @@ export class AuthService {
     const params = new HttpParams().set('emailUsuario', email);
     return this.http.post(`${this.urlBase}/generar-token-olvidaste-contrasenia`, {}, { params });
   }
+
+  cambiarContrasenia(request: CambiarContrasenia): Observable<any> {
+    return this.http.patch<any>(`${this.urlBase}/cambiar-contrasenia`, request);
+  }
+  
+
+  
+    public getUsuarioPorEmail(email: string): Observable<UsuarioInterface>{
+      return this.http.get<UsuarioInterface>(`${this.urlBase}/email/${email}`)
+    }
+  
+  
 
 }

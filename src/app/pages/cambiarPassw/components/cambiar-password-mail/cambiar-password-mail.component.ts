@@ -14,6 +14,7 @@ import { NgClass } from '@angular/common';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../../../core/guards/auth/service/auth.service';
 import { ReservarTurnoLocalComponent } from '../../../dashboardLocal/components/reservar-turno-local/reservar-turno-local.component';
+import { UsuarioInterface } from '../../../../core/interfaces/usuario-interface';
 
 @Component({
   selector: 'app-cambiar-password-mail',
@@ -41,20 +42,36 @@ export class CambiarPasswordMailComponent {
   //validaciones campos formularios
 
   solicitarCambioPasssword() {
-    this.pedirMailValido();
+
+    // this.verificarMail()
+    this.pedirMailValido() 
+
   }
+
+  
+
+  verificarMail(){
+    this.authService.getUsuarioPorEmail(this.email).subscribe({
+      next:(response: UsuarioInterface) => {
+        if(response.credencial.email === this.email){
+          this.pedirMailValido();
+        }
+        console.log(response);
+      }
+    })
+  }
+
 
   pedirMailValido() {
     this.authService.postGenerarTokenContrasenia(this.email).subscribe({
       next: (response) => {
         this.mailValido = true;
         this.mensajeDeSeguirPasos();
-        console.log(response);
       },
       error: (err) => {
         this.mailValido = false;
         this.GestionarMailNoVerificado();
-        console.error(err);
+        localStorage.setItem('username', this.email)
       },
     });
   }
@@ -93,4 +110,8 @@ export class CambiarPasswordMailComponent {
     this.router.navigateByUrl('/verificacion-email');
   }
   
+  handleClickAtras() {
+    this.router.navigateByUrl("/login");
+  }
+
 }

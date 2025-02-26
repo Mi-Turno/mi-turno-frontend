@@ -58,7 +58,7 @@ export class NegociosClienteComponent implements OnInit {
     }
 
     this.listadoFiltro = this.listadoNegocios.filter((negocio) => {
-      const coincideNombre = !nombre || negocio.nombre.includes(nombre);
+      const coincideNombre = !nombre || negocio.nombre.toLocaleLowerCase().includes(nombre.toLocaleLowerCase());
       const coincideRubro = !rubro || negocio.rubro === rubro;
       return coincideNombre && coincideRubro;
     });

@@ -1,7 +1,7 @@
 
 <div [ngClass]="{'oscurecer': activarOscurecer}">
 
-  <app-nav-pedir-turno></app-nav-pedir-turno>
+  <app-nav-pedir-turno [modificarPerfilActivo]="activo"></app-nav-pedir-turno>
 
   <app-nav-pasos [pasoActual]="pasoActual" (cambiarPaso)="irAPaso($event)"></app-nav-pasos>
 

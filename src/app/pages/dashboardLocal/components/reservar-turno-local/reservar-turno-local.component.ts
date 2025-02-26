@@ -225,6 +225,7 @@ obtenerHorariosDelDiaConTurnos() {
 ObtenerTurnosDeLaFechaProfesional() {
   this.turnosNegocio!.forEach(turno => {
     if(turno.fechaInicio.toString() === this.fechaSeleccionadaTurno){
+      if(turno.estado !== estadoTurno.RESERVADO && turno.estado !== estadoTurno.EN_CURSO)
       this.arregloTurnosDeHoy.push(turno);
     }
   }) 
