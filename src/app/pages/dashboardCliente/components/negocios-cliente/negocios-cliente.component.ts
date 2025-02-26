@@ -27,28 +27,43 @@ export class NegociosClienteComponent implements OnInit {
   iconos = ICONOS;
 
   rubros: Rubros[] = Object.values(Rubros);
-negocioService: NegocioServiceService = inject(NegocioServiceService);
+  negocioService: NegocioServiceService = inject(NegocioServiceService);
 
-listadoNegocios:NegocioInterface[] =[];
+  listadoNegocios: NegocioInterface[] = [];
+  listadoFiltro: NegocioInterface[] = [];
 
+  ngOnInit(): void {
+    this.obtenerNegocios();
+  }
 
-ngOnInit(): void {
-  this.obtenerNegocios();
-}
+  obtenerNegocios() {
+    this.negocioService.getTodosLosNegocios().subscribe({
+      next: (negocios: NegocioInterface[]) => {
+        this.listadoNegocios = [...negocios];
+        this.listadoFiltro = [...negocios];
+        //console.log('Negocios cargados:', negocios);
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
 
-obtenerNegocios(){
-  this.negocioService.getTodosLosNegocios().subscribe({
-    next: (negocios: NegocioInterface[]) => {
-      this.listadoNegocios = [...negocios];
-      console.log(negocios);
-       // Forzar detección de cambios
-    },
-    error: (error) => {
-      console.error(error);
+  filtrarNegocio(nombre: string, rubro: string) {
+
+    // Si los campos estan vacios dejo la lista default
+    if ((!nombre || nombre.trim() === ''|| nombre.length === 0) && (!rubro || rubro === undefined)) {
+      this.listadoFiltro = [...this.listadoNegocios];
+      return;
     }
-  });
+
+    this.listadoFiltro = this.listadoNegocios.filter((negocio) => {
+      const coincideNombre = !nombre || negocio.nombre.includes(nombre);
+      const coincideRubro = !rubro || negocio.rubro === rubro;
+      return coincideNombre && coincideRubro;
+    });
+
+    //console.log('filtro:', this.listadoFiltro);
+  }
 }
 
-
-
-}

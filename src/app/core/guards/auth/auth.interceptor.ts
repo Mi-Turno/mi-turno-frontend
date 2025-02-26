@@ -1,11 +1,13 @@
-import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from "@angular/common/http";
+import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from "@angular/common/http";
 import { inject } from "@angular/core";
-import { Observable } from "rxjs";
+import { catchError, Observable } from "rxjs";
 import { AuthService } from "./service/auth.service";
+import { Router } from "@angular/router";
 
 
 export const AuthInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
   const authService = inject(AuthService);
+  const router = inject(Router); // Inyecta el Router
   const token = authService.getToken(); // Obtengo el token desde el AuthService
 
   const urlIgnoradas = ['/login', '/register', '/auth/verificar', '/auth/reenviar']; // URLs que no requieren token
@@ -28,6 +30,15 @@ export const AuthInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
     clonedRequest = req.clone({ setHeaders: headers });
   }
 
-  return next(clonedRequest);
+  return next(clonedRequest).pipe(
+    catchError((error: HttpErrorResponse) => {
+      //Si es 401, redirigimos al login ya que es no autorizado
+      if (error.status === 401) {
+        authService.logOut();
+        router.navigate(['/login']);
+      }
+      throw error;
+    })
+  );
 };
 
