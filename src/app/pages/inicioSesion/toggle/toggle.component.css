@@ -56,13 +56,23 @@ main {
 .contenedor a {
   color: #333;
   font-size: 13px;
-  text-decoration: none;
   margin: 15px 0 10px;
 }
 
 
 h4{
   margin: 0;
+}
+
+.olvidasteContra{
+  font-size: 12px;
+  color: #333;
+  cursor: pointer;
+}
+
+.olvidasteContra:hover{
+  color: black;
+  text-decoration: underline;
 }
 
 .contenedor .botonEnviar {
@@ -78,7 +88,7 @@ h4{
   margin-top: 10px;
   cursor: pointer;
   margin-bottom: 1rem;
-  
+
 }
 
 .contenedor .botonEnviar:hover{

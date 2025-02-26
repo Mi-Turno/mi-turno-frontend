@@ -40,7 +40,7 @@ export class CambiarPasswordPasswordComponent implements OnInit {
   fb: FormBuilder = inject(FormBuilder);
   router:Router = inject(Router);
   authService: AuthService = inject(AuthService);
-  
+
   //Variables
   token: string = '';
 
@@ -74,13 +74,14 @@ export class CambiarPasswordPasswordComponent implements OnInit {
   }
 
   verificarContrasenia() {
-    if (
-      this.formularioRegister.get('passwordRegister')?.value ===
-      this.formularioRegister.get('passwordRepetida')?.value
-    ) {
-      this.patchContrasenia();
-    } else {
+    //si son distintas las contrasenias
+    if ( this.formularioRegister.get('passwordRegister')?.value
+    !== this.formularioRegister.get('passwordRepetida')?.value) {
+      return;
     }
+
+    this.patchContrasenia();
+
   }
 
   patchContrasenia() {
@@ -89,12 +90,11 @@ export class CambiarPasswordPasswordComponent implements OnInit {
       token :this.token,
       password : this.formularioRegister.get('passwordRegister')?.value
     }
-    console.log(this.token)
-    console.log(this.formularioRegister.get('passwordRegister')?.value);
-     
+
     this.authService.cambiarContrasenia(request).subscribe({
       next:(response) => {
-        this.mensajeContraseniaCambaidaConExito();
+        this.mensajeContraseniaCambiadaConExito();
+
       }, error:(err) => {
         console.error(err);
       }
@@ -103,16 +103,17 @@ export class CambiarPasswordPasswordComponent implements OnInit {
 
 
 
-  mensajeContraseniaCambaidaConExito(){
-        Swal.fire({
-          title: 'Contrasña modificada con exito!',
-          text: 'Ya puedes cerrar esta pestaña!',
-          icon: 'success',
-          showConfirmButton: true,
-          allowOutsideClick: false,
-          allowEscapeKey: false,
-          allowEnterKey: false,
-        });
+  mensajeContraseniaCambiadaConExito(){
+    Swal.fire({
+      title: 'Contraseña modificada con exito!',
+      text: 'Ya puedes cerrar esta pestaña!',
+      icon: 'success',
+      allowOutsideClick: true,
+      allowEscapeKey: false,
+    });
+
+    this.router.navigateByUrl('/login');
+
   }
 
 
@@ -129,7 +130,7 @@ export class CambiarPasswordPasswordComponent implements OnInit {
   }
 
   handleClickAtras() {
-    this.router.navigateByUrl("/login/olvide-password");
+    this.router.navigateByUrl("/login");
   }
 
 
@@ -154,26 +155,12 @@ export class CambiarPasswordPasswordComponent implements OnInit {
   //se puede modularizar en un servicio
   mostrarMensajeError(error: string) {
     switch (error) {
-      case 'fechaInvalida':
-        return 'Fecha de nacimiento inválida';
       case 'required':
         return 'Campo requerido';
-      case 'email':
-        return 'Email invalido';
-      case 'emailExiste':
-        return 'Email ya registrado';
-      case 'telefonoExiste':
-        return 'Nro Telefono ya registrado';
-      case 'minlength':
-        return 'Mínimo 8 caracteres';
-      case 'maxlength':
-        return 'Máximo 15 caracteres';
       case 'pattern':
         return 'Debe contener al menos una letra y un número';
       case 'passwordsDiferentes':
         return 'Las contraseñas no coinciden';
-      case 'emailOContraseniaIncorrectos':
-        return 'Email o Contraseña incorrectos';
       default:
         return 'Error';
     }
