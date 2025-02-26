@@ -8,7 +8,7 @@ import { ICONOS } from '../../../../shared/models/iconos.constants';
 import { BotonComponent } from '../../../../shared/components/boton/boton.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { NgClass } from '@angular/common';
 import Swal from 'sweetalert2';
@@ -37,57 +37,59 @@ export class CambiarPasswordMailComponent {
 
   //Variables
   mailValido: boolean = false;
-  email: string = '';
+  emailIngresado:string = "";
+  fb: FormBuilder = inject(FormBuilder)//Forms reactives
 
+  formularioEmail: FormGroup = this.fb.nonNullable.group({
+    email: new FormControl('',[Validators.required,Validators.email]),
+  })
   //validaciones campos formularios
 
   solicitarCambioPasssword() {
 
-    this.verificarMail()
-    //this.pedirMailValido()
+    if(this.formularioEmail.valid){
+      this.emailIngresado = this.formularioEmail.get('email')?.value;
 
+
+
+      this.enviarMailCambioPasswordToBackend(this.emailIngresado);
+    }
+    else{
+      this.formularioEmail.markAllAsTouched();
+    }
   }
 
-
-
-  verificarMail(){
-    this.authService.getUsuarioPorEmail(this.email).subscribe({
-      next:(response: UsuarioInterface) => {
-        console.log(response);
-        if(response.credencial.email === this.email){
-          this.pedirMailValido();
-        }
-      },error:(err) => {
-        if(err.status === 404){
-          Swal.fire({
-            title: 'Error',
-            text: 'El email ingresado no se encuentra registrado',
-            icon: 'error',
-            showConfirmButton: true,
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-          });
-
-        }
-      console.log(err);
-      }
-    })
-  }
-
-
-  pedirMailValido() {
-    this.authService.postGenerarTokenContrasenia(this.email).subscribe({
+  enviarMailCambioPasswordToBackend(email:string) {
+    this.authService.postGenerarTokenContrasenia(email).subscribe({
       next: (response) => {
-        this.mailValido = true;
+
         this.mensajeDeSeguirPasos();
+
+
+
       },
-      error: (err) => {
-        this.mailValido = false;
-        this.GestionarMailNoVerificado();
-        localStorage.setItem('username', this.email)
+      error: (error) => {
+        const mensaje = error.error['mensaje'];
+
+        if(mensaje.includes('Email no fue encontrado en el sistema')){
+
+          this.formularioEmail.get('email')?.setErrors({ emailNoExiste: true });
+
+        }else if(mensaje.includes('El correo del usuario no esta verificado')){
+
+          this.formularioEmail.get('email')?.setErrors({ emailNoVerificado: true });
+          this.GestionarMailNoVerificado();
+          localStorage.setItem('username', this.emailIngresado)
+        }
+
+
+
+
       },
     });
   }
+
+
 
   mensajeDeSeguirPasos() {
     Swal.fire({
@@ -97,6 +99,13 @@ export class CambiarPasswordMailComponent {
       showConfirmButton: true,
       allowOutsideClick: false,
       allowEscapeKey: false,
+      allowEnterKey: false,
+    }).then((result)=>{
+
+      if(result.isConfirmed){
+
+        this.router.navigateByUrl("/login")
+      }
     });
   }
 
@@ -126,4 +135,25 @@ export class CambiarPasswordMailComponent {
     this.router.navigateByUrl("/login");
   }
 
+  //error
+
+  //validaciones campos formularios
+  tieneErrorLogin(control: string, error: string) {
+    return (this.formularioEmail.get(control) as FormControl).hasError(error) && (this.formularioEmail.get(control) as FormControl).touched;
+  }
+
+  mostrarMensajeError(error: string) {
+    switch (error) {
+      case 'emailNoVerificado':
+        return 'Email no verificado';
+      case 'required':
+        return 'Campo requerido';
+      case 'email':
+        return 'Correo invalido';
+      case 'emailNoExiste':
+        return 'Correo no existe';
+      default:
+        return 'Error';
+    }
+  }
 }

@@ -115,20 +115,13 @@ export class AuthService {
 
 
   postGenerarTokenContrasenia(email: string): Observable<any> {
-    const params = new HttpParams().set('emailUsuario', email);
-    return this.http.post(`${this.urlBase}/generar-token-olvidaste-contrasenia`, {}, { params });
+    return this.http.post(`${this.urlBase}/generar-token-olvidaste-contrasenia`,email);
   }
 
   cambiarContrasenia(request: CambiarContrasenia): Observable<any> {
     return this.http.patch<any>(`${this.urlBase}/cambiar-contrasenia`, request);
   }
-  
 
-  
-    public getUsuarioPorEmail(email: string): Observable<UsuarioInterface>{
-      return this.http.get<UsuarioInterface>(`${this.urlBase}/email/${email}`)
-    }
-  
-  
+
 
 }

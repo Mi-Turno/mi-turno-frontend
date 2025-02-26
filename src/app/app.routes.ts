@@ -3,7 +3,6 @@ import { ProfesionalesMainComponent } from './pages/dashboardLocal/components/pr
 import { ServicioMainComponent } from './pages/dashboardLocal/components/servicios/servicio-main/servicio-main.component';
 import { DashboardClienteComponent } from './pages/dashboardCliente/dashboard-cliente.component';
 import { ROLES } from './shared/models/rolesUsuario.constants';
-import { ToggleComponent } from './pages/inicioSesion/toggle/toggle.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { RegistrarNegocioComponent } from './pages/dashboardAdmin/components/registrar-negocio/registrar-negocio.component';
 import { DashboardAdminPageComponent } from './pages/dashboardAdmin/dashboard-admin-page.component';
@@ -17,10 +16,10 @@ import { PedirTurnoComponent } from './pages/pedirTurno/pedir-turno.component';
 import { ConfiguracionLocalComponent } from './pages/dashboardLocal/components/configuracion-local/configuracion-local.component';
 import { ReservarTurnoLocalComponent } from './pages/dashboardLocal/components/reservar-turno-local/reservar-turno-local.component';
 import { NegociosClienteComponent } from './pages/dashboardCliente/components/negocios-cliente/negocios-cliente.component';
-import { PrincipalClienteComponent } from './pages/dashboardCliente/components/principal-cliente/principal-cliente.component';
-import { CambiarPasswordComponent } from './pages/cambiarPassw/cambiar-password.component';
-import { CambiarPasswordMailComponent } from './pages/cambiarPassw/components/cambiar-password-mail/cambiar-password-mail.component';
-import { CambiarPasswordPasswordComponent } from './pages/cambiarPassw/components/cambiar-password-password/cambiar-password-password.component';
+import { InicioDeSesionComponent } from './pages/inicioDeSesion/inicio-de-sesion.component';
+import { CambiarPasswordMailComponent } from './pages/inicioDeSesion/components/cambiar-password-mail/cambiar-password-mail.component';
+import { CambiarPasswordPasswordComponent } from './pages/inicioDeSesion/components/cambiar-password-password/cambiar-password-password.component';
+import { ToggleComponent } from './pages/inicioDeSesion/components/toggle/toggle.component';
 
 
 
@@ -30,15 +29,16 @@ export const routes: Routes = [{
   component:LandingPageComponent
 },{
   path:"login",
-  component:ToggleComponent,
+  component:InicioDeSesionComponent,
   children : [
+    {path: '', component:ToggleComponent},
     {path: 'olvide-password', component:CambiarPasswordMailComponent},
     {path: 'nueva-password', component:CambiarPasswordPasswordComponent}
   ]
 },
 {
   path:"register",
-  component:ToggleComponent
+  component:InicioDeSesionComponent
 },
 {
   path:"verificacion-email",
