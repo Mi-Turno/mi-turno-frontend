@@ -43,20 +43,33 @@ export class CambiarPasswordMailComponent {
 
   solicitarCambioPasssword() {
 
-    // this.verificarMail()
-    this.pedirMailValido() 
+    this.verificarMail()
+    //this.pedirMailValido()
 
   }
 
-  
+
 
   verificarMail(){
     this.authService.getUsuarioPorEmail(this.email).subscribe({
       next:(response: UsuarioInterface) => {
+        console.log(response);
         if(response.credencial.email === this.email){
           this.pedirMailValido();
         }
-        console.log(response);
+      },error:(err) => {
+        if(err.status === 404){
+          Swal.fire({
+            title: 'Error',
+            text: 'El email ingresado no se encuentra registrado',
+            icon: 'error',
+            showConfirmButton: true,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+          });
+
+        }
+      console.log(err);
       }
     })
   }
@@ -84,7 +97,6 @@ export class CambiarPasswordMailComponent {
       showConfirmButton: true,
       allowOutsideClick: false,
       allowEscapeKey: false,
-      allowEnterKey: false,
     });
   }
 
@@ -109,7 +121,7 @@ export class CambiarPasswordMailComponent {
   RedirigirAVerificarMail() {
     this.router.navigateByUrl('/verificacion-email');
   }
-  
+
   handleClickAtras() {
     this.router.navigateByUrl("/login");
   }

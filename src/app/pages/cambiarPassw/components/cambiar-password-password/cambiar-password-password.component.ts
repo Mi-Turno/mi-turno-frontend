@@ -40,7 +40,7 @@ export class CambiarPasswordPasswordComponent implements OnInit {
   fb: FormBuilder = inject(FormBuilder);
   router:Router = inject(Router);
   authService: AuthService = inject(AuthService);
-  
+
   //Variables
   token: string = '';
 
@@ -91,7 +91,7 @@ export class CambiarPasswordPasswordComponent implements OnInit {
     }
     console.log(this.token)
     console.log(this.formularioRegister.get('passwordRegister')?.value);
-     
+
     this.authService.cambiarContrasenia(request).subscribe({
       next:(response) => {
         this.mensajeContraseniaCambaidaConExito();
@@ -108,10 +108,9 @@ export class CambiarPasswordPasswordComponent implements OnInit {
           title: 'Contrasña modificada con exito!',
           text: 'Ya puedes cerrar esta pestaña!',
           icon: 'success',
-          showConfirmButton: true,
+          showConfirmButton: false,
           allowOutsideClick: false,
           allowEscapeKey: false,
-          allowEnterKey: false,
         });
   }
 
