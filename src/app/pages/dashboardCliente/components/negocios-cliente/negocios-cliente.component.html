@@ -7,21 +7,22 @@
 	<div class="titulo-filtros">
 		<p>Filtros</p>
 	</div>
-	
+
 	<div class="campos-filtros">
 
 		<mat-form-field [className]="'input-form'" appearance="outline">
 			<mat-label>Nombre del negocio</mat-label>
 			<input
 			matInput
+      #nombreNegocio
 			[placeholder]="placeholders.nombre"
 			/>
 			<mat-icon matSuffix>{{ iconos.person }}</mat-icon>
-			
+
 		</mat-form-field>
 		<mat-form-field [className]="'input-form'" appearance="outline">
 			<mat-label>Rubro</mat-label>
-			<mat-select >
+			<mat-select #rubroNegocio>
 				<mat-option>Ninguno Seleccionado</mat-option>
 				<mat-option *ngFor="let rubro of rubros" [value]="rubro">
 					{{ rubro }}
@@ -29,8 +30,8 @@
 			</mat-select>
 			<mat-icon matSuffix>{{ iconos.person }}</mat-icon>
 		</mat-form-field>
-		
-		<app-boton [textoDentroBoton]="'Buscar'" [class]="'botonBuscarNegocio'"></app-boton>
+
+		<app-boton [textoDentroBoton]="'Buscar'" [class]="'botonBuscarNegocio'" (click)="filtrarNegocio(nombreNegocio.value, rubroNegocio.value)"></app-boton>
 	</div>
 
   </div>
@@ -41,9 +42,9 @@
 
 	<div class="tarjetas-negocios">
 
-		@if (listadoNegocios.length > 0) {
-			@for (negocio of listadoNegocios; track $index) {
-		  
+		@if (listadoFiltro.length > 0) {
+			@for (negocio of listadoFiltro; track $index) {
+
 			  @if (negocio.idUsuario !== undefined) {
 
 				<div [className]="'card'">
