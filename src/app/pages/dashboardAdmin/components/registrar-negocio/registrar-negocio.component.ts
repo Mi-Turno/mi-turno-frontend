@@ -17,7 +17,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatOptionModule } from "@angular/material/core";
 import { CommonModule } from "@angular/common";
 import { InputArchivoComponent } from "../../../../shared/components/input-archivo/input-archivo.component";
-import { catchError, Observable, of, throwError } from "rxjs";
+import { catchError, Observable, of, switchMap, throwError } from "rxjs";
 import { codigoErrorHttp } from "../../../../shared/models/httpError.constants";
 import { ArchivosServiceService } from "../../../../core/services/archivosService/archivos-service.service";
 
@@ -88,40 +88,41 @@ export class RegistrarNegocioComponent {
 
     if(this.formularioRegisterNegocio.valid){
       const negocio:NegocioInterface = this.obtenerNegocioForm();
-      this.negocioService.postNegocio(negocio).subscribe({
-        next:(response) =>{
+      let negocioObservable: Observable<NegocioInterface> = this.postNegocioToBackend(negocio);
 
-          //modal de negocio registrado correctamente
-          Swal.fire({
-            title: 'Negocio registrado correctamente!',
-            icon: 'success',
-            confirmButtonText: 'Ok'
-          })
+      negocioObservable.pipe(
+            switchMap((response: NegocioInterface) => {
+              if (response.idUsuario) {
+                return this.verificarFotoPerfil(response.idUsuario); // Retorna un Observable para encadenarlo
+              }
+              return of(null); // Si no hay idUsuario, se retorna un Observable vacío
+            })
+          ).subscribe({
+            next: () => {
+              //modal de negocio registrado correctamente
+              Swal.fire({
+                title: 'Negocio registrado correctamente!',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+              })
+
+              this.resetFormulario();
+            },
+            error: (error) => {
+              console.error("Error en el proceso de guardar al negocio:", error);
+            }
+          });
 
 
-          //limpiar formulario
-          this.formularioRegisterNegocio.reset();
-        },
-        error:(error:HttpErrorResponse) =>{
-          const mensaje = error.error['mensaje'];
-
-          if (mensaje.includes("email")) {
-            // Agrega el error personalizado al FormControl
-            this.formularioRegisterNegocio.get('emailRegister')?.setErrors({ emailExiste: true });
-          }
-          else if (mensaje.includes("telefono")) {
-            this.formularioRegisterNegocio.get('telefono')?.setErrors({ telefonoExiste: true });
-          }
-          else if (mensaje.includes["nombreNegocio"]) {
-            this.formularioRegisterNegocio.get('nombre')?.setErrors({ negocioExiste: true });
-          }
-          this.resetFormulario();
-        }
-      })
     }else{
       this.formularioRegisterNegocio.markAllAsTouched();
     }
 
+  }
+
+  postNegocioToBackend(negocio:NegocioInterface): Observable<NegocioInterface>{
+    return this.negocioService.postNegocio(negocio)
+    .pipe(catchError((error) => this.manejarErrores(error)));
   }
 
   resetFormulario(): void {
@@ -134,7 +135,7 @@ export class RegistrarNegocioComponent {
       horaTurno: { value: '' },
       fotoPerfil: { value: null}
     });
-
+    this.eliminarArchivo();
     // Opcional: Marcar el formulario como "pristine" y "untouched" para que no aparezcan errores
     this.formularioRegisterNegocio.markAsPristine();
     this.formularioRegisterNegocio.markAsUntouched();
@@ -173,7 +174,7 @@ seleccionarArchivo(archivoNuevo:File): void{
 
 }
 
-eliminarArchivo(event:Event):void{
+eliminarArchivo(event?:Event):void{
 
   this.fotoNegocio = "img-default.png";
   this.archivoSeleccionado = null;
@@ -184,7 +185,16 @@ eliminarArchivo(event:Event):void{
 }
 
 
-
+verificarFotoPerfil(idUsuario: number | null): Observable<Boolean | null>{
+  //verifico si existe el id
+  if(idUsuario){
+    //verifico si se selecciono un archivo
+    if(this.archivoSeleccionado){
+      return this.postArchivoToBackend(idUsuario, this.archivoSeleccionado);
+    }
+  }
+  return of(null)
+}
 
 
   //metodos para ocultar las contraseñas
@@ -241,11 +251,18 @@ setCustomValue(value: string) {
       break;
       case codigoErrorHttp.ERROR_REPETIDO:
         const mensaje = error.error['mensaje'];
+
         if (mensaje.includes("email")) {
-          this.formularioRegisterNegocio.get('email')?.setErrors({ emailExiste: true });
-        } else if (mensaje.includes("telefono")) {
+          // Agrega el error personalizado al FormControl
+          this.formularioRegisterNegocio.get('emailRegister')?.setErrors({ emailExiste: true });
+        }
+        else if (mensaje.includes("telefono")) {
           this.formularioRegisterNegocio.get('telefono')?.setErrors({ telefonoExiste: true });
         }
+        else if (mensaje.includes["nombreNegocio"]) {
+          this.formularioRegisterNegocio.get('nombre')?.setErrors({ negocioExiste: true });
+        }
+
       break;
       case codigoErrorHttp.NO_ENCONTRADO:
         console.log("Not found");

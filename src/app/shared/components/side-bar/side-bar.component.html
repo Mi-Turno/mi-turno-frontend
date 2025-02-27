@@ -1,33 +1,47 @@
-<nav class="sidebar">
-  <div class="seccion-logo">
-    <img [src]="urlLogo" alt="logo mi-miTurno" />
+<nav [className]="'sidebar'">
+
+  <div [className]="'seccion-logo'">
+    <img [src]="urlLogo" alt="logo miTurno" />
   </div>
-  <div class="seccion-img-perfil">
-    <img [src]="urlFotoPerfil" [alt]="altFotoPerfil" />
-    <p>{{nombreNegocio}}</p>
+
+  <div [className]="'seccion-img-perfil'">
+    <img [src]="fotoPerfilNegocio" [alt]="'Logo Local'" />
+    <p>{{ nombreNegocio }}</p>
   </div>
-  <div class="contenedor-etiquetas">
-  <ul>
-    <li *ngFor="let boton of botones">
-      <div [ngClass]="{'seleccionado': selecionado(boton.ruta)}">
-        <a class="claseEnlace" [routerLink]=" urlBaseNegocio + nombreNegocio + '/' + boton.ruta">
-          <mat-icon class="claseIcono">{{boton.icono}}</mat-icon>
-          {{boton.texto}}
+
+  <div [className]="'contenedor-etiquetas'">
+    <ul>
+      <li *ngFor="let boton of botones">
+        <div [ngClass]="{ seleccionado: seleccionado(boton.ruta) }">
+          <a
+            [className]="'claseEnlace'"
+            [routerLink]="urlBaseNegocio + nombreNegocio + '/' + boton.ruta"
+          >
+            <mat-icon class="claseIcono">{{ boton.icono }}</mat-icon>
+            {{ boton.texto }}
+          </a>
+        </div>
+      </li>
+    </ul>
+
+    <li>
+      <div [ngClass]="{ seleccionado: seleccionado(rutaSalir) }" [className]="'ultimo'">
+        <a [className]="'claseEnlace'" (click)="abrirModal()">
+
+          <app-modal-pregunta
+            [pregunta]="'¿Desea salir de Mi Turno?'"
+            [tituloPregunta]="'Salir'"
+            [botonNegativo]="'No'"
+            [botonPositivo]="'Si'"
+            (respuesta)="manejarRespuesta($event)"
+          ></app-modal-pregunta>
+
+          <mat-icon class="claseIcono salir">{{ iconos.logout }}</mat-icon>
+          Salir
         </a>
       </div>
     </li>
-  </ul>
-  <li>
 
-    <div [ngClass]="{'seleccionado': selecionado(rutaSalir)}" class="ultimo">
-       <a class="claseEnlace"  (click)="abrirModal()">
-       <app-modal-pregunta [pregunta]="'¿Desea salir de Mi Turno?'" [tituloPregunta]="'Salir'"  [botonNegativo]="'No'" [botonPositivo]="'Si'"  (respuesta)="manejarRespuesta($event)"></app-modal-pregunta>
-        <mat-icon class="claseIcono salir">{{iconos.logout}}</mat-icon>
-        Salir
-       </a>
-    </div>
-  </li>
   </div>
+
 </nav>
-
-

@@ -20,14 +20,17 @@
 .seccion-img-perfil img {
   max-width: 100%;
   height: auto;
-  object-fit:contain;
   display: block;
   margin: 0 auto;
+  width: 100%; /* Ajusta el tamaño de la imagen */
+  height: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .seccion-img-perfil  {
   text-align: center;
-  margin-bottom: 30px;
 }
 
 
@@ -36,7 +39,7 @@ ul{
   padding: 0;
   margin: 0;
   display: flex;
-flex-direction: column;
+  flex-direction: column;
 
 }
 
@@ -116,7 +119,7 @@ li div:hover .claseEnlace {
   display: flex;
   cursor: pointer;
   align-items: center;
-  margin-top: auto;
+
 }
 
 
@@ -124,5 +127,5 @@ li div:hover .claseEnlace {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 74%;
+  height: 65%;
 }

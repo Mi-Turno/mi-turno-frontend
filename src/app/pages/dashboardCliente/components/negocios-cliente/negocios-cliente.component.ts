@@ -13,6 +13,7 @@ import { Rubros } from '../../../../shared/models/rubrosEnum';
 import { RouterLink } from '@angular/router';
 import { NegocioInterface } from '../../../../core/interfaces/negocio-interface';
 import { NegocioServiceService } from '../../../../core/services/negocioService/negocio-service.service';
+import { ArchivosServiceService } from '../../../../core/services/archivosService/archivos-service.service';
 
 @Component({
   selector: 'app-negocios-cliente',
@@ -36,9 +37,31 @@ export class NegociosClienteComponent implements OnInit {
     this.obtenerNegocios();
   }
 
+  archivosService: ArchivosServiceService = inject(ArchivosServiceService);
+
   obtenerNegocios() {
     this.negocioService.getTodosLosNegocios().subscribe({
       next: (negocios: NegocioInterface[]) => {
+
+        negocios.map(unNegocio => {
+          if(unNegocio.idUsuario && unNegocio.fotoPerfil != null){
+            this.archivosService.getArchivoUsuario(unNegocio.idUsuario).subscribe({
+              next: (response) => {
+
+                let reader = new FileReader();
+                reader.readAsDataURL(response);
+                reader.onload = () => {
+                  unNegocio.fotoPerfil = reader.result as string;
+                }
+              },
+              error: (err) => {
+                unNegocio.fotoPerfil = "img-default.png";
+              },
+            })
+          }
+        })
+
+
         this.listadoNegocios = [...negocios];
         this.listadoFiltro = [...negocios];
         //console.log('Negocios cargados:', negocios);

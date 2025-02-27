@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { MatIcon } from "@angular/material/icon";
 import { Router, RouterModule } from "@angular/router";
 import { ICONOS } from '../../models/iconos.constants';
@@ -12,23 +12,33 @@ import { ModalPreguntaComponent } from "../modal-pregunta/modal-pregunta.compone
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.css'
 })
-export class SideBarComponent {
+export class SideBarComponent{
 
-  constructor(private router: Router) {}
+  //injections
 
-  urlLogo = "LogoConFrase.png";
-  urlFotoPerfil = "icono-removebg.png";
-  altFotoPerfil = "Nombre del local";
-  iconos = ICONOS;
+  //input y outputs
 
+  @Input() fotoPerfilNegocio = "icono-removebg.png";
   @Input() nombreNegocio = "";
   @Output() salir:EventEmitter<boolean>= new EventEmitter();
   @Input() botones: { texto: string; icono: string; ruta: string; }[]= [];
   @Input() urlBaseNegocio: string = '';
-@ViewChild(ModalPreguntaComponent) modalPregunta!: ModalPreguntaComponent;
+  @ViewChild(ModalPreguntaComponent) modalPregunta!: ModalPreguntaComponent;
 
+  //variables
+
+  urlLogo:string = "LogoConFrase.png";
+  iconos = ICONOS;
   cerrarSesionEstado:boolean = false;
-  rutaSalir = 'salir';
+  rutaSalir:string = 'salir';
+
+  //constructor
+
+  constructor(private router: Router) {}
+
+
+
+
 
   claseEnlace = "claseEnlace";
   claseIcono = "claseIcono";
@@ -45,7 +55,7 @@ export class SideBarComponent {
       this.cerrarSesion()
     }
   }
-  selecionado(ruta: string): boolean {
+  seleccionado(ruta: string): boolean {
     const nombreNegocioURL = encodeURIComponent(this.nombreNegocio.trim());
    return this.router.url.includes(`${this.urlBaseNegocio}${nombreNegocioURL}/${ruta}`);
   }

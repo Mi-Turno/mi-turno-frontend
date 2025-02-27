@@ -3,126 +3,151 @@
     <h4>Configuración</h4>
   </header>
 
-
-
   <div class="contenedor">
-
-
-
     <section class="contenedor-izquierdo">
-      <div class="img-container">
-        <img src="/img-default.png" class="imagen-negocio" alt="Imagen negocio" />
+      
+      <div [className]="'contenedor-imagen'">
+        <img [src]="fotoNegocio" [alt]="'foto del negocio'" />
 
+        <div [className]="'contenedor-funciones-imagen'">
+          @if (fotoNegocio != 'img-default.png') {
+          <div [className]="'icono-eliminar'" (click)="eliminarArchivo($event)">
+            <mat-icon>delete</mat-icon>
+          </div>
+          }
+
+          <app-input-archivo
+            [textoLabel]="'Subir foto'"
+            [tipoArchivo]="'image/*'"
+            (emitirArchivo)="seleccionarArchivo($event)"
+          ></app-input-archivo>
+        </div>
       </div>
 
-      <app-boton [textoDentroBoton]="'Generar QR para pedir un turno'" [type]="'submit'" (click)="generarQRPedirTurno()"
-        [class]="'botonPredeterminado'">
+      <app-boton
+        [textoDentroBoton]="'Generar QR para pedir un turno'"
+        [type]="'submit'"
+        (click)="generarQRPedirTurno()"
+        [class]="'botonPredeterminado'"
+      >
       </app-boton>
 
       <section class="contenedor-general-toggle">
-        <hr>
+        <hr />
         <h5 class="texto-metodos-pago">Metodos de pago</h5>
 
         <div class="contenedor-intermedio-toggle">
-
           <div class="toggle-container-izquierda">
-
             <div class="toggle-container">
-              <p> Mercado Pago</p>
-              <mat-slide-toggle (change)="cambiarEstadoToggleMP($event)" [checked]="toggleActivoMP"
-                color="primary"></mat-slide-toggle>
+              <p>Mercado Pago</p>
+              <mat-slide-toggle
+                (change)="cambiarEstadoToggleMP($event)"
+                [checked]="toggleActivoMP"
+                color="primary"
+              ></mat-slide-toggle>
             </div>
 
             <div class="toggle-container">
-              <p> Efectivo</p>
-              <mat-slide-toggle (change)="cambiarEstadoToggleEfectivo($event)" [checked]="toggleActivoEfectivo"
-                color="primary"></mat-slide-toggle>
+              <p>Efectivo</p>
+              <mat-slide-toggle
+                (change)="cambiarEstadoToggleEfectivo($event)"
+                [checked]="toggleActivoEfectivo"
+                color="primary"
+              ></mat-slide-toggle>
             </div>
 
             <div class="toggle-container">
-              <p> Credito</p>
-              <mat-slide-toggle (change)="cambiarEstadoToggleCredito($event)" [checked]="toggleActivoCredito"
-                color="primary"></mat-slide-toggle>
+              <p>Credito</p>
+              <mat-slide-toggle
+                (change)="cambiarEstadoToggleCredito($event)"
+                [checked]="toggleActivoCredito"
+                color="primary"
+              ></mat-slide-toggle>
             </div>
-
           </div>
 
           <div class="toggle-container-derecha">
             <div class="toggle-container">
-              <p> Debito</p>
-              <mat-slide-toggle (change)="cambiarEstadoToggleDebito($event)" [checked]="toggleActivoDebito"
-                color="primary"></mat-slide-toggle>
+              <p>Debito</p>
+              <mat-slide-toggle
+                (change)="cambiarEstadoToggleDebito($event)"
+                [checked]="toggleActivoDebito"
+                color="primary"
+              ></mat-slide-toggle>
             </div>
 
             <div class="toggle-container">
-              <p> Transferencia</p>
-              <mat-slide-toggle (change)="cambiarEstadoToggleTransferencia($event)"
-                [checked]="toggleActivoTransferencia" color="primary"></mat-slide-toggle>
+              <p>Transferencia</p>
+              <mat-slide-toggle
+                (change)="cambiarEstadoToggleTransferencia($event)"
+                [checked]="toggleActivoTransferencia"
+                color="primary"
+              ></mat-slide-toggle>
             </div>
 
             <div class="toggle-container">
-              <p> Otro</p>
-              <mat-slide-toggle (change)="cambiarEstadoToggleOtro($event)" [checked]="toggleActivoOtro"
-                color="primary"></mat-slide-toggle>
+              <p>Otro</p>
+              <mat-slide-toggle
+                (change)="cambiarEstadoToggleOtro($event)"
+                [checked]="toggleActivoOtro"
+                color="primary"
+              ></mat-slide-toggle>
             </div>
           </div>
         </div>
-
       </section>
-
-
     </section>
 
-
     <section class="contenedor-derecho">
-
-
-
-      <form [className]="'formularioNegocio'" [formGroup]="formularioModificarNegocio">
-
-
+      <form
+        [className]="'formularioNegocio'"
+        [formGroup]="formularioModificarNegocio"
+      >
         <div class="campos-sensibles">
-
-          <p class="textoAncho"> Nombre : {{negocio?.nombre}}</p>
-          <p class="textoAncho">Mail: {{negocio?.credencial?.email}}</p>
+          <p class="textoAncho">Nombre : {{ negocioActual?.nombre }}</p>
+          <p class="textoAncho">Mail: {{ negocioActual?.credencial?.email }}</p>
 
           <mat-form-field appearance="outline">
             <mat-label>Telefono</mat-label>
-            <input formControlName="telefono" matInput [placeholder]="placeholders.telefono" [type]="'tel'" />
+            <input
+              formControlName="telefono"
+              matInput
+              [placeholder]="placeholders.telefono"
+              [type]="'tel'"
+            />
             <mat-icon matSuffix>{{ iconos.call }}</mat-icon>
             @if (formularioModificarNegocioTieneError("telefono", "required")) {
             <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
-            }@else if (formularioModificarNegocioTieneError("telefono", "telefonoExiste")) {
+            }@else if (formularioModificarNegocioTieneError("telefono",
+            "telefonoExiste")) {
             <mat-error>{{ mostrarMensajeError("telefonoExiste") }}</mat-error>
             }
-
           </mat-form-field>
-
 
           <mat-form-field appearance="outline">
             <mat-label>Rubro</mat-label>
             <mat-select formControlName="rubrosControl" required>
               <mat-option>--</mat-option>
-              <mat-option *ngFor="let rubro of rubros" [value]="rubro">{{rubro}}</mat-option>
-
+              <mat-option *ngFor="let rubro of rubros" [value]="rubro">{{
+                rubro
+              }}</mat-option>
             </mat-select>
             <mat-icon matSuffix>{{ iconos.person }}</mat-icon>
 
-            @if (formularioModificarNegocioTieneError("rubrosControl", "required")) {
+            @if (formularioModificarNegocioTieneError("rubrosControl",
+            "required")) {
             <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
             }
           </mat-form-field>
-
-
         </div>
         <div class="campos-genericos">
-
-
-
-
           <mat-form-field appearance="outline">
             <mat-label>Calle</mat-label>
-            <input formControlName="calle" matInput [placeholder]="'Calle del negocio'" />
+            <input
+              formControlName="calle"
+              matInput
+              [placeholder]="'Calle del negocio'"
+            />
             <mat-icon matSuffix>signpost</mat-icon>
             @if (formularioModificarNegocioTieneError("calle", "required")) {
             <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
@@ -131,7 +156,11 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Altura</mat-label>
-            <input formControlName="altura" matInput [placeholder]="'Altura del negocio'" />
+            <input
+              formControlName="altura"
+              matInput
+              [placeholder]="'Altura del negocio'"
+            />
             <mat-icon matSuffix>123</mat-icon>
             @if (formularioModificarNegocioTieneError("altura", "required")) {
             <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
@@ -140,8 +169,12 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Detalle del negocio</mat-label>
-            <textarea [className]="'textareaDetalle'" formControlName="detalle" matInput
-              [placeholder]="'Apartamento Piso 1, etc.'"></textarea>
+            <textarea
+              [className]="'textareaDetalle'"
+              formControlName="detalle"
+              matInput
+              [placeholder]="'Apartamento Piso 1, etc.'"
+            ></textarea>
             <mat-icon matSuffix>location_city</mat-icon>
             @if (formularioModificarNegocioTieneError("detalle", "required")) {
             <mat-error>{{ mostrarMensajeError("required") }}</mat-error>
@@ -149,39 +182,35 @@
           </mat-form-field>
 
           <div class="boton-container">
-
-            <app-boton [textoDentroBoton]="'Guardar cambios'" [type]="'submit'" (click)="actualizarNegocioBack()"
-              [class]="'botonConfirmar'"></app-boton>
-
-
+            <app-boton
+              [textoDentroBoton]="'Guardar cambios'"
+              [type]="'submit'"
+              (click)="actualizarNegocioBack()"
+              [class]="'botonConfirmar'"
+            ></app-boton>
           </div>
 
           <!-- <a href="" class="cambiar-contra" (click)="cambiarContrasena()"> ¡Cambiar contraseña!</a> -->
         </div>
-
-
-
       </form>
-
-
-
     </section>
-
   </div>
   <div class="acciones">
-        <!-- todo: No borrar -->
+    <!-- todo: No borrar -->
   </div>
 </div>
 
-
 @if (QRactivo) {
-  <app-modal [modal]="'modalSeleccionarNegocio'" (cerrarModal)="generarQRPedirTurno()">
-    <ng-container modal-header>
-      <h5 class="tituloModal">QR Pedir un turno </h5>
-    </ng-container>
-    <ng-container modal-content>
-      <app-generador-qr [url]="this.urlNegocioQr"></app-generador-qr>
-    </ng-container>
-  </app-modal>
+<app-modal
+  [modal]="'modalSeleccionarNegocio'"
+  (cerrarModal)="generarQRPedirTurno()"
+>
+  <ng-container modal-header>
+    <h5 class="tituloModal">QR Pedir un turno</h5>
+  </ng-container>
+  <ng-container modal-content>
+    <app-generador-qr [url]="this.urlNegocioQr"></app-generador-qr>
+  </ng-container>
+</app-modal>
 
-  }
+}
