@@ -49,20 +49,20 @@ export class SeleccionServicioComponent implements OnInit{
   }
 
   setImagenesServicio(servicios: ServicioInterface[]){
-    servicios.map(servicio => {
-      if(servicio.fotoServicio && servicio.idNegocio && servicio.idServicio){
-
-        this.archivosService.getArchivoServicio(servicio.idServicio,servicio.idNegocio).subscribe({
+    servicios.map(unServicio => {
+      if(unServicio.fotoServicio && unServicio.idNegocio && unServicio.idServicio){
+        console.log(unServicio.fotoServicio);
+        this.archivosService.getArchivoServicio(unServicio.idServicio,unServicio.idNegocio).subscribe({
           next: (response) => {
 
             let reader = new FileReader();
             reader.readAsDataURL(response);
             reader.onload = () => {
-              servicio.fotoServicio = reader.result as string;
+              unServicio.fotoServicio = reader.result as string;
             }
           },
           error: (err) => {
-            servicio.fotoServicio = "img-default.png";
+            unServicio.fotoServicio = "img-default.png";
           },
         })
       }

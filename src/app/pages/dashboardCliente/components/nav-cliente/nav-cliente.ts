@@ -66,7 +66,7 @@ export class NavClienteComponent implements OnInit {
       next: (clienteResponse) => {
         if (
           clienteResponse.idUsuario &&
-          clienteResponse.fotoPerfil !== 'img-default.png'
+          clienteResponse.fotoPerfil
         ) {
           this.archivosService.getArchivoUsuario(clienteResponse.idUsuario).subscribe({
             next: (responseFoto) => {
@@ -84,7 +84,7 @@ export class NavClienteComponent implements OnInit {
             },
           });
         }
-        
+
         this.clienteActual = clienteResponse;
       },
       error: (err) => {

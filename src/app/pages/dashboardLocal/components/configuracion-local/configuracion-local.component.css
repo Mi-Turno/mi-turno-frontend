@@ -44,13 +44,47 @@ h4{
 }
 
 
-.imagen-negocio{
-  width: 250px;
-  height: 300px;
+.contenedor-imagen {
+  width: 350px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center;
+  align-items: center; */
+  background-color: #f5f5f5;
+  border-radius: 5px;
 }
 
-.img-container{
-  margin-bottom: 70px;
+.contenedor-imagen img {
+  width: 100%; /* Ajusta el tamaño de la imagen */
+  height: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.contenedor-funciones-imagen{
+  display: flex;
+  align-items: center;
+}
+.contenedor-funciones-imagen app-input-archivo{
+  width: 100%;
+}
+
+.icono-eliminar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  padding: 10px;
+}
+
+.icono-eliminar:hover{
+  background-color: var(--color-eliminar1);
+  cursor: pointer;
+  color: whitesmoke;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
 .toggle-container{

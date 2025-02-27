@@ -3,6 +3,6 @@ export interface ServicioInterface {
   idNegocio?:number;
   nombre:string;
   duracion?:number;
-  precio?:Number;
+  precio?:number;
   fotoServicio?:string | File;
 }

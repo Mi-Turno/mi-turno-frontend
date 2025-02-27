@@ -11,14 +11,9 @@ import { ProfesionalInterface } from '../../interfaces/profesional-interface';
 export class ServicioServiceService {
   private urlBase:string ='http://localhost:8080/negocios';//http://localhost:8080/negocios/{idNegocio}/servicio/{idServicio}
   private http:HttpClient = inject(HttpClient);
-  servicio:ServicioInterface ={
-    nombre:'',
-    duracion:0,
-    precio:0,
-    fotoServicio:''
-  };
-  
-  //me retorna todos los servicios//todo luego habria que filtrar por local etc...
+  servicio:ServicioInterface ={} as ServicioInterface;
+
+  //me retorna todos los servicios
   public getServiciosPorIdNegocio(idNegocio:number):Observable<ServicioInterface[]>{
       return this.http.get<ServicioInterface[]>(`${this.urlBase}/${idNegocio}/servicios`);
   }
@@ -32,7 +27,7 @@ export class ServicioServiceService {
 
   public getServiciosPorIdNegocioYEstado(idNegocio:number, estado:string):Observable<ServicioInterface[]>{
     return this.http.get<ServicioInterface[]>(`${this.urlBase}/${idNegocio}/servicios/estado/${estado}`);
-}
+  }
 
 
   public postCrearUnServicio(servicio:ServicioInterface,idNegocio:number): Observable<ServicioInterface>{
