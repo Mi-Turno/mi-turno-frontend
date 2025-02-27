@@ -3,9 +3,8 @@ import { InputComponent } from "../../../../shared/components/input/input.compon
 import { BotonComponent } from "../../../../shared/components/boton/boton.component";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EmailContactoInterface } from '../../../../core/interfaces/email-contacto-interface';
-import { EmailContactoService } from '../../../../core/services/emailContactoService/email-contacto.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { codigoErrorHttp } from '../../../../shared/models/httpError.constants';
+import { EmailService } from '../../../../core/services/emailService/email-service.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-contacto',
@@ -26,7 +25,7 @@ formularioContacto = new FormGroup ({
   mensaje: new FormControl('', [Validators.required, Validators.minLength(10)])
 })
 
-emailService: EmailContactoService= inject(EmailContactoService)
+emailService: EmailService= inject(EmailService)
 crearEmail(): EmailContactoInterface {
 return{
   nombre: this.formularioContacto.get('nombre')?.value || '',
@@ -39,24 +38,10 @@ return{
 
 enviarMail() {
   const email: EmailContactoInterface = this.crearEmail();
-  this.emailService.postEnviarEmail(email).subscribe({
+  this.emailService.postEnviarEmailContacto(email).subscribe({
     next: (response) => {
       this.bloquearContacto();
-    }, error: (error: HttpErrorResponse) => {
-      if (error.status === codigoErrorHttp.NO_ENCONTRADO) {
-        alert('Error 404: Email no encontrado');
-
-      } else if (error.status === codigoErrorHttp.ERROR_SERVIDOR) {
-        alert('Error 500: Error del servidor');
-
-      } else if (error.status === codigoErrorHttp.ERROR_CONTACTAR_SERVIDOR) {
-        alert('Error de conexión: No se pudo contactar con el servidor (ERR_CONNECTION_REFUSED)');
-      } else if (error.status === codigoErrorHttp.ERROR_REPETIDO) {
-        alert('Error 409: el Email ya existe en el sistema');
-      } else {
-        alert('Error al enviar el Email');
-      }
-}})
+    }})
 }
 
 
@@ -66,7 +51,13 @@ bloquearContacto() {
   this.formularioContacto.get('negocio')?.disable();
   this.formularioContacto.get('email')?.disable();
   this.formularioContacto.get('mensaje')?.disable();
-  alert("Mail envíado de forma correcta");
+  Swal.fire({
+    icon: 'success',
+    title: '¡Mail enviado de forma correcta!',
+    showConfirmButton: false,
+    timer: 1500
+  })
+  //alert("Mail envíado de forma correcta");
 }
 
 }
