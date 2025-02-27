@@ -82,6 +82,7 @@ export const routes: Routes = [{
   component:DashboardAdminPageComponent,
   canActivate: [authGuardFn,()=>rolGuardFn(ROLES.admin)],
   children : [
+    { path: '', redirectTo: 'negocio', pathMatch: 'full' },
    {path: 'inicio', component:DashboardAdminPageComponent},
    {path: 'negocio',component: RegistrarNegocioComponent},
    {path: 'usuarios',component: TablaClientesComponent},

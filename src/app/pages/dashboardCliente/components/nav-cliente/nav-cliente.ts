@@ -101,9 +101,9 @@ export class NavClienteComponent implements OnInit {
     this.botonHistorial.emit(this.historialVisible);
 
     if (this.historialVisible) {
-      this.textoHistorialLevantado = 'Volver al inicio';
-    } else {
       this.textoHistorialLevantado = 'Historial de Turnos';
+    } else {
+      this.textoHistorialLevantado = 'Turnos actuales ';
     }
   }
 

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cta',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './cta.component.html',
   styleUrl: './cta.component.css'
 })

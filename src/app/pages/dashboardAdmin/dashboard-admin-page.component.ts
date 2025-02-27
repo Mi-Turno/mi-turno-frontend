@@ -47,7 +47,7 @@ export class DashboardAdminPageComponent implements OnInit {
     // { texto: 'Inicio', icono: this.iconos.home, ruta: 'inicio' },
     { texto: 'Negocios', icono: this.iconos.badge, ruta: 'negocio' },
     { texto: 'Usuarios', icono: this.iconos.eventNote, ruta: 'usuarios' },
-    { texto: 'Configuración', icono: this.iconos.settings, ruta: 'configuracion' },
+    // { texto: 'Configuración', icono: this.iconos.settings, ruta: 'configuracion' },
   ]
 
 }
