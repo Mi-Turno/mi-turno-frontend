@@ -74,14 +74,21 @@ export class ModificarClienteComponent implements OnInit {
   //init
   ngOnInit(): void {
 
-    if(!this.fotoCliente){
-      this.fotoCliente = "img-default.png";
-    }
-
-
     this.establecerDatosCliente(this.cliente);
+
+   this.setFotoCliente();
+
     this.setIdCliente();
     // this.obtenerCliente();
+  }
+
+  setFotoCliente(){
+
+    if(this.cliente.fotoPerfil){
+      this.fotoCliente = this.cliente.fotoPerfil;
+    }else{
+      this.fotoCliente = "img-default.png";
+    }
   }
 
   setIdCliente() {
@@ -89,6 +96,7 @@ export class ModificarClienteComponent implements OnInit {
     if (auxId) {
       this.idCliente = auxId;
     }
+
   }
 
 
@@ -144,7 +152,7 @@ export class ModificarClienteComponent implements OnInit {
             })
           ).subscribe({
             next: () => {
-              
+
 
               this.cerrarPopUp();
 

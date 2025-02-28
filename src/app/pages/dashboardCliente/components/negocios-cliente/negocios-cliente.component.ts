@@ -58,6 +58,8 @@ export class NegociosClienteComponent implements OnInit {
                 unNegocio.fotoPerfil = "img-default.png";
               },
             })
+          }else{
+            unNegocio.fotoPerfil = "img-default.png";
           }
         })
 

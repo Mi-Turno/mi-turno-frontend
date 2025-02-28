@@ -48,12 +48,7 @@
 
 				<div [className]="'card'">
 
-          @if(negocio.fotoPerfil !== "img-default.png"){
-            <img [className]="'img-card'" [src]="negocio.fotoPerfil" [alt]="negocio.nombre">
-          }@else {
-            <img [className]="'img-card'" [src]="'img-default.png'" [alt]="negocio.nombre">
-
-          }
+          <img [className]="'img-card'" [src]="negocio.fotoPerfil" [alt]="negocio.nombre">
 
 					<div [className]="'cuerpo-cards'">
 					  <h5 [className]="'titulo-cards'">{{negocio.nombre}}</h5>
