@@ -65,9 +65,9 @@ export class NavClienteComponent implements OnInit {
     this.servicioCliente.getClienteById(this.auth.getIdUsuario()!).subscribe({
       next: (clienteResponse) => {
         if (
-          clienteResponse.idUsuario &&
-          clienteResponse.fotoPerfil
+          clienteResponse.idUsuario
         ) {
+
           this.archivosService.getArchivoUsuario(clienteResponse.idUsuario).subscribe({
             next: (responseFoto) => {
               const reader = new FileReader();
