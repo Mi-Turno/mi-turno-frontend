@@ -140,7 +140,7 @@ export class ConfiguracionLocalComponent implements OnInit {
   eliminarArchivo(event?: Event): void {
     this.fotoNegocio = 'img-default.png';
     this.archivoSeleccionado = null;
-    this.quiereEliminarArchivo = false;
+    this.quiereEliminarArchivo = true;
     this.formularioModificarNegocio.patchValue({
       fotoPerfil: null,
     });
@@ -342,7 +342,7 @@ export class ConfiguracionLocalComponent implements OnInit {
               icon: 'success',
               confirmButtonText: 'Ok',
             }).then(()=>{
-              if(this.archivoSeleccionado){
+              if(this.archivoSeleccionado || this.quiereEliminarArchivo){
                 window.location.reload();
               }
             });
@@ -373,7 +373,6 @@ export class ConfiguracionLocalComponent implements OnInit {
     } else {
       this.QRactivo = true;
     }
-    console.log(this.QRactivo);
   }
 
   //- - - - - - - -- - -- - - - Metodos para ocualtr contraseña  -- - - - -- - - -
@@ -388,7 +387,7 @@ export class ConfiguracionLocalComponent implements OnInit {
   //todo: Sería ideal que este boton de mande
 
   cambiarContrasena() {
-    alert('Esto debería madarte a todo el fomrulario de cambiar contraseña');
+    alert('Esto debería madarte a todo el formulario de cambiar contraseña');
   }
 
   //- - - - - - - -- - - - - - - Manejo del combo box - - - - -- - - - -

@@ -4,7 +4,8 @@
     <img [src]="urlLogo" alt="logo miTurno" />
   </div>
 
-  <div [className]="'seccion-img-perfil'">
+
+  <div [ngClass]="fotoPerfilNegocio === 'icono-removebg.png' ? 'seccion-img-perfil': 'seccion-img-perfil-con-foto'">
     <img [src]="fotoPerfilNegocio" [alt]="'Logo Local'" />
     <p>{{ nombreNegocio }}</p>
   </div>
